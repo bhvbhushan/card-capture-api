@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+
+# Environment variables
+*.env
+variables.env
+
+# Service account
+service_account.json
+
+# Development/Debug files
+parser_debug.py
+vision_test.py
+list_models.py
+bbox_extraction.py
+pdf2jpeg.py
+run_ocr.py
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Debug and test files
+output_*.png
+output_*.jpg
+test_*.py
+*_simple.py
+variables.env.backup
+
+# Debug output directory
+debug_output/
+
+# Uploaded images
+uploads/images/
+uploads/trimmed/ 
