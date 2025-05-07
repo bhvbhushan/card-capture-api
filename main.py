@@ -27,6 +27,7 @@ import warnings
 from urllib3.exceptions import NotOpenSSLWarning
 import mimetypes
 import tempfile
+import stripe
 
 warnings.filterwarnings("ignore", category=NotOpenSSLWarning)
 
@@ -55,7 +56,8 @@ required_vars = {
     'GEMINI_API_KEY': os.getenv('GEMINI_API_KEY'),
     'GOOGLE_MAPS_API_KEY': os.getenv('GOOGLE_MAPS_API_KEY'),
     'GOOGLE_APPLICATION_CREDENTIALS': os.getenv('GOOGLE_APPLICATION_CREDENTIALS'),
-    'SUPABASE_ENV': os.getenv('SUPABASE_ENV')
+    'SUPABASE_ENV': os.getenv('SUPABASE_ENV'),
+    'STRIPE_SECRET_KEY': os.getenv('STRIPE_SECRET_KEY')
 }
 
 missing_vars = [var for var, value in required_vars.items() if not value]
@@ -141,6 +143,8 @@ try:
 except Exception as e: 
     print(f"❌ Error initializing Document AI client: {e}")
 
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+
 class MarkExportedPayload(BaseModel):
     document_ids: List[str]
 
@@ -182,15 +186,27 @@ class EventUpdatePayload(BaseModel):
 # === PROMPT TEMPLATE ===
 # <<< IMPORTANT: Paste the full prompt text from Step 2 into this variable >>>
 GEMINI_PROMPT_TEMPLATE = """
-**Persona:** You are an expert Human Data Reviewer specializing in validating and correcting handwritten student contact information cards based on images. Your goal is to maximize data accuracy using context, common sense, and pattern recognition, flagging only truly ambiguous or unusable **critical** fields for final human verification.
+**Persona:** You are an expert Human Data Reviewer specializing in validating and correcting handwritten student contact information cards based on images after initial OCR processing. Your goal is to maximize data accuracy using context, common sense, and pattern recognition, flagging only truly ambiguous or unusable **critical** fields for final human verification.
 
-**Task:** Analyze the provided image of a student inquiry card. For each field present in the form, extract its value directly from the image and apply corrections using the rules below.
+**Task:** Analyze the provided image and the corresponding input JSON containing OCR-extracted fields. For each field key present in the input JSON, validate its `value` against the image. Apply corrections based on the image and the rules below.
 
-**Input Format:** A single high-resolution image of a student contact form. It may contain handwritten or printed information. You must extract all field names and values directly from the image.
+**Input Format:** The input JSON provides initial OCR data for each field:
+`{{ "field_name": {{ "value": "OCR Text", "vision_confidence": 0.xx }} }}`
+Ignore the input `vision_confidence`; you will determine your own `review_confidence`.
 
-**Output Format:** You MUST return ONLY a single, valid JSON object. Do NOT include ```json markers, explanations, comments, or any text outside the JSON structure. The JSON object must contain a key for *every* field you detect in the image. The value for each key MUST be an object with the following structure:
+**Output Format:** You MUST return ONLY a single, valid JSON object. Do NOT include ```json ``` markers, explanations, comments, or any text outside the JSON structure. The JSON object must contain a key for *every* field key present in the input JSON. The value for each key MUST be an object with the following structure:
 
-{all_fields_json}
+```json
+{{
+  "field_name": {{
+    "value": "<Corrected or original string value>",
+    "review_confidence": <Float between 0.0 and 1.0>,
+    "requires_human_review": <Boolean: true or false>,
+    "review_notes": "<String: Brief note ONLY if requires_human_review is true, otherwise empty string>"
+  }},
+  // ... other fields ...
+}}
+```
 
 **Correction & Validation Rules:**
 
@@ -203,22 +219,22 @@ GEMINI_PROMPT_TEMPLATE = """
       - Entry Term Rules:
         * Format should be "YYYY" (e.g., "2029")
         * Must be a valid year between 2000 and 2100
-        * If two digits are provided (e.g., "29"), assume it's the current century
-        * If year is clearly incorrect (e.g., "9999"), return blank
-        * If year is missing or illegible, return blank
+        * If two digits are provided (e.g., "24"), assume it's the current century
+        * If year is clearly incorrect (e.g., "9999"), return original with low confidence
+        * If year is missing or illegible, return original with low confidence
         * If year is ambiguous (e.g., "Could be 2024 or 2029, use context to determine which, the current year is 2025 so 2024 is likely not the intended graduation year, it would be 2029") etc.
         * Never flag for review - always return best guess
       - Graduation Year Rules:
         * Must be after entry term
-        * If missing or illegible, return blank
-        * If clearly incorrect (e.g., before entry term), return blank
+        * If missing or illegible, return original with low confidence
+        * If clearly incorrect (e.g., before entry term), return original with low confidence
         * Never flag for review - always return best guess
-    * **Names (`name`, `preferred_first_name`):** If `name` is illegible/garbled but `preferred_first_name` is clear and usable, use the `preferred_first_name` as the `value` for the `name` field, set confidence based on clarity of preferred name, set `requires_human_review: true`, and add note "Used preferred name". If *both* are illegible, treat `name` as unusable (see Flagging). `preferred_first_name` itself should **not be flagged for review** even if confidence is low.
-    * **Addresses (`address`, `city`, `state`, `zip_code`):** Look for standard address patterns. Reject and flag descriptions like "Near the 7/11". Use standard state abbreviations. Ensure Zip looks like 5 or 9 digits. If the core components are unusable/illegible, treat as unusable (see Flagging).
+    * **Names (`name`, `preferred_first_name`):** Correct obvious OCR errors. If `name` is illegible/garbled but `preferred_first_name` is clear and usable, use the `preferred_first_name` as the `value` for the `name` field, set confidence based on clarity of preferred name, set `requires_human_review: true`, and add note "Used preferred name". If *both* are illegible, treat `name` as unusable (see Flagging). `preferred_first_name` itself should **not be flagged for review** even if confidence is low.
+    * **Addresses (`address`, `city`, `state`, `zip_code`):** Look for standard address patterns. Reject and flag descriptions like "Near the 7/11". Correct minor OCR errors. Use standard state abbreviations. Ensure Zip looks like 5 or 9 digits. If the core components are unusable/illegible, treat as unusable (see Flagging).
     * **Majors (`major`):** Attempt to correct common misspellings/OCR errors based on typical fields of study. If completely unrecognizable, return best guess or original value with low confidence, but **do not flag for review**.
-    * **GPA (`gpa`):** Expect numbers. If unusual characters appear, return original blank, but **do not flag for review**.
-    * **Class Rank / Size (`class_rank`, `students_in_class`):** Expect numbers. If non-numeric or nonsensical values appear, return blank, but **do not flag for review**.
-    * **Permission to Text (`permission_to_text`):** Analyze check boxes or written text. If clearly marked "Yes" or equivalent affirmative, set value to "Yes" with high confidence (>=0.95). If clearly marked "No" OR left blank/unmarked, set value to "No" with high confidence (>=0.95). If ambiguous/illegible/unclear indication, set value to "No" with low confidence (<0.70) 
+    * **GPA (`gpa`):** Expect numbers or "NA". If unusual characters appear, return original value with low confidence, but **do not flag for review**.
+    * **Class Rank / Size (`class_rank`, `students_in_class`):** Expect numbers. If non-numeric or nonsensical values appear, return original value with low confidence, but **do not flag for review**.
+    * **Permission to Text (`permission_to_text`):** Analyze check boxes or written text. If clearly marked "Yes" or equivalent affirmative, set value to "Yes" with high confidence (>=0.95). If clearly marked "No" OR left blank/unmarked, set value to "No" with high confidence (>=0.95). If ambiguous/illegible/unclear indication, set value to "No" with low confidence (<0.70) and **flag for review** (see Flagging).
     * **Other Non-Critical (`high_school`, `student_type`):** Attempt corrections if possible based on image context. Return best guess or original value with appropriate confidence, but **do not flag for review** even if confidence is low.
 
 **Confidence Score (`review_confidence`):**
@@ -234,9 +250,15 @@ GEMINI_PROMPT_TEMPLATE = """
 * **Default:** Set to `false` for all other cases (e.g., high/moderate confidence on critical fields).
 * **Review Notes:** Provide a brief explanation in `review_notes` ONLY when `requires_human_review` is `true`. For non-critical fields, leave `review_notes` empty.
 
-**Final Instruction:** Return ONLY the complete, valid JSON object adhering to the specified output format. Do not include any other text.
+**Final Instruction:** Review ALL fields provided in the input JSON based on the image and rules. Return ONLY the complete, valid JSON object adhering to the specified output format. Do not include any other text.
+
+**Input Fields JSON to Review:**
+```json
+{all_fields_json}
+```
 
 **Respond ONLY with the JSON object.**
+
 """
 
 # === FastAPI App Setup ===
@@ -286,7 +308,7 @@ print(f"ℹ️ Using upload folder: {UPLOAD_FOLDER}")
 def get_gemini_review(all_fields: dict, image_path: str) -> dict:
     global GEMINI_PROMPT_TEMPLATE # Access the template defined above
     try:
-        genai.get_model("models/gemini-2.5-pro-preview-03-25")
+        model = genai.GenerativeModel("models/gemini-2.5-pro-preview-03-25")
     except Exception as model_e:
         print(f"❌ Gemini model 'gemini-2.5-pro-preview-03-25' not accessible: {model_e}")
         return {}
@@ -305,7 +327,6 @@ def get_gemini_review(all_fields: dict, image_path: str) -> dict:
         return {}
 
 
-    model = genai.GenerativeModel("gemini-2.5-pro-preview-03-25")
     response = None; cleaned_json_text = ""
     try:
         print(f"🧠 Sending request to Gemini for image: {os.path.basename(image_path)}")
@@ -659,25 +680,22 @@ async def run_gemini_review(document_id: str, extracted_fields_dict: dict, image
         
     print(f"⏳ Background Task: Starting Gemini review for document_id: {document_id}")
     try:
-        # Get the event_id and school_id from extracted_data with more robust error handling
+        # Get the event_id from extracted_data with more robust error handling
         try:
             extracted_response = supabase_client.table("extracted_data") \
-                .select("event_id, school_id") \
+                .select("*") \
                 .eq("document_id", document_id) \
-                .maybe_single() \
                 .execute()
+            
             if not extracted_response.data:
                 print(f"❌ No extracted data found for document_id: {document_id}")
-                event_id = None
-                school_id = None
-            else:
-                event_id = extracted_response.data.get("event_id")
-                school_id = extracted_response.data.get("school_id")
-            print(f"📝 Found event_id: {event_id} and school_id: {school_id} for document: {document_id}")
+                return
+                
+            event_id = extracted_response.data[0].get("event_id")
+            print(f"📝 Found event_id: {event_id} for document: {document_id}")
         except Exception as db_e:
             print(f"❌ Error fetching extracted data: {db_e}")
-            event_id = None
-            school_id = None
+            return
 
         gemini_reviewed_data = get_gemini_review(extracted_fields_dict, image_path)
         if not gemini_reviewed_data:
@@ -687,8 +705,7 @@ async def run_gemini_review(document_id: str, extracted_fields_dict: dict, image
                 "fields": extracted_fields_dict,
                 "review_status": "review_error",
                 "reviewed_at": datetime.now(timezone.utc).isoformat(),
-                "event_id": event_id,
-                "school_id": school_id
+                "event_id": event_id
             }
             try:
                 if supabase_client: 
@@ -734,8 +751,7 @@ async def run_gemini_review(document_id: str, extracted_fields_dict: dict, image
                 "fields": final_reviewed_fields,
                 "review_status": "needs_human_review" if any_field_needs_review else "reviewed",
                 "reviewed_at": datetime.now(timezone.utc).isoformat(),
-                "event_id": event_id,
-                "school_id": school_id
+                "event_id": event_id
             }
             
             supabase_client.table("reviewed_data").upsert(update_data, on_conflict="document_id").execute()
@@ -766,8 +782,7 @@ async def run_gemini_review(document_id: str, extracted_fields_dict: dict, image
                     "document_id": document_id, 
                     "review_status": "review_error", 
                     "fields": extracted_fields_dict,
-                    "event_id": event_id,
-                    "school_id": school_id
+                    "event_id": event_id
                 }, on_conflict="document_id").execute()
         except Exception as db_err: 
             print(f"❌ Failed to update review status to error for {document_id}: {db_err}")
@@ -837,6 +852,9 @@ async def upload_file(
     if not supabase_client:
         print("❌ Database client not available")
         return JSONResponse(status_code=503, content={"error": "Database client not available."})
+    if not docai_client:
+        print("❌ Document processing client not available")
+        return JSONResponse(status_code=503, content={"error": "Document processing client not available."})
     try:
         # 1. Save uploaded file to a temp location
         with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1] or '.png') as temp_file:
@@ -846,18 +864,10 @@ async def upload_file(
         # 2. Trim the image
         trimmed_path = ensure_trimmed_image(temp_path)
         print(f"✂️ Trimmed image saved to: {trimmed_path}")
-        # 2.5. Copy trimmed image to persistent location for Gemini
-        import shutil as _shutil, uuid as _uuid
-        persistent_trimmed_dir = TRIMMED_FOLDER
-        os.makedirs(persistent_trimmed_dir, exist_ok=True)
-        persistent_trimmed_filename = f"{_uuid.uuid4()}{os.path.splitext(trimmed_path)[1]}"
-        persistent_trimmed_path = os.path.join(persistent_trimmed_dir, persistent_trimmed_filename)
-        _shutil.copy2(trimmed_path, persistent_trimmed_path)
-        print(f"✅ Copied trimmed image to persistent location: {persistent_trimmed_path}")
         # 3. Upload trimmed image to Supabase Storage
         storage_path = await upload_to_supabase_storage_from_path(trimmed_path, user_id, file.filename)
         print(f"✅ Uploaded trimmed image to Supabase Storage: {storage_path}")
-        # 4. Delete temp files (but NOT persistent_trimmed_path)
+        # 4. Delete temp files
         try:
             os.remove(temp_path)
             if trimmed_path != temp_path:
@@ -886,12 +896,12 @@ async def upload_file(
             "event_id": event_id
         }
         supabase_client.table("processing_jobs").insert(job_data).execute()
-        # 6. Continue pipeline using persistent trimmed image path
+        # 6. Continue pipeline using trimmed image path
         document_id = str(uuid.uuid4())
         print(f"🆔 Generated Document ID: {document_id}")
         insert_data = {
             "document_id": document_id,
-            "fields": {},  # No fields, Gemini will extract from image
+            "fields": {},  # Will be filled after processing
             "image_path": storage_path,
             "event_id": event_id,
             "school_id": school_id
@@ -917,7 +927,6 @@ async def upload_file(
             "document_id": document_id,
             "storage_path": storage_path
         }
-        # 7. Do NOT call Gemini or schedule any background task here; let the worker handle it
         return JSONResponse(status_code=200, content=response_data)
     except Exception as e:
         print(f"❌ Error uploading or processing file: {e}")
@@ -925,12 +934,11 @@ async def upload_file(
         return JSONResponse(status_code=500, content={"error": "Failed to upload or process file."})
 
 @app.get("/cards", response_model=List[Dict[str, Any]])
-async def get_cards(event_id: Union[str, None] = None, include_archived: bool = False):
+async def get_cards(event_id: Union[str, None] = None):
     """
     Fetches card data from reviewed_data table.
     Optionally filters by event_id if provided.
-    By default filters out cards with deleted=true or review_status='archived'.
-    Set include_archived=true to include archived cards.
+    Filters out cards with deleted=true or review_status='archived'.
     """
     try:
         print(" Rcvd /cards request")
@@ -943,9 +951,9 @@ async def get_cards(event_id: Union[str, None] = None, include_archived: bool = 
         reviewed_response = reviewed_query.execute()
         reviewed_data = reviewed_response.data
         print(f" Found {len(reviewed_data)} reviewed records.")
-        # Filter out deleted cards, and archived cards unless include_archived is true
-        filtered_data = [card for card in reviewed_data if not card.get("deleted") and (include_archived or card.get("review_status") != "archived")]
-        print(f" Returning {len(filtered_data)} non-deleted records (include_archived={include_archived}).")
+        # Filter out deleted and archived cards
+        filtered_data = [card for card in reviewed_data if not card.get("deleted") and card.get("review_status") != "archived"]
+        print(f" Returning {len(filtered_data)} non-deleted, non-archived records.")
         return filtered_data
     except Exception as e:
         print(f"❌ Error in /cards endpoint: {e}")
@@ -1526,6 +1534,51 @@ async def update_user(user_id: str, update: UserUpdateRequest):
     except Exception as e:
         print(f"❌ Error updating user {user_id}: {e}")
         return JSONResponse(status_code=500, content={"error": str(e)})
+
+@app.post("/create-checkout-session")
+async def create_checkout_session(request: Request):
+    data = await request.json()
+    try:
+        session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[{
+                "price": data["price_id"],
+                "quantity": 1,
+            }],
+            mode="subscription",  # or "payment" for one-time
+            success_url=data["success_url"],
+            cancel_url=data["cancel_url"],
+            customer_email=data.get("customer_email"),
+        )
+        return {"url": session.url}
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.get("/schools/{school_id}")
+async def get_school(school_id: str, user=Depends(get_current_user)):
+    """
+    Fetches a school record by ID.
+    """
+    if not supabase_client:
+        return JSONResponse(status_code=503, content={"error": "Database client not available."})
+
+    try:
+        # Fetch the school record
+        response = supabase_client.table("schools") \
+            .select("*") \
+            .eq("id", school_id) \
+            .maybe_single() \
+            .execute()
+
+        if not response.data:
+            return JSONResponse(status_code=404, content={"error": "School not found."})
+
+        return {"school": response.data}
+
+    except Exception as e:
+        print(f"❌ Error fetching school: {e}")
+        traceback.print_exc()
+        return JSONResponse(status_code=500, content={"error": "Failed to fetch school."})
 
 if __name__ == "__main__":
     import uvicorn
