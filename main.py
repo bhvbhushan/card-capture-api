@@ -883,9 +883,9 @@ async def get_cards(event_id: Union[str, None] = None):
         reviewed_response = reviewed_query.execute()
         reviewed_data = reviewed_response.data
         print(f" Found {len(reviewed_data)} reviewed records.")
-        # Filter out deleted and archived cards
-        filtered_data = [card for card in reviewed_data if not card.get("deleted") and card.get("review_status") != "archived"]
-        print(f" Returning {len(filtered_data)} non-deleted, non-archived records.")
+        # Filter out deleted cards only (do not filter out archived)
+        filtered_data = [card for card in reviewed_data if not card.get("deleted")]
+        print(f" Returning {len(filtered_data)} non-deleted records.")
         return filtered_data
     except Exception as e:
         print(f"❌ Error in /cards endpoint: {e}")

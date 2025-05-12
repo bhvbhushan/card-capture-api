@@ -11,8 +11,8 @@ def get_cards_db(supabase_client, event_id: Union[str, None] = None) -> List[Dic
     reviewed_response = reviewed_query.execute()
     reviewed_data = reviewed_response.data
     print(f" Found {len(reviewed_data)} reviewed records.")
-    filtered_data = [card for card in reviewed_data if not card.get("deleted") and card.get("review_status") != "archived"]
-    print(f" Returning {len(filtered_data)} non-deleted, non-archived records.")
+    filtered_data = [card for card in reviewed_data if not card.get("deleted")]
+    print(f" Returning {len(filtered_data)} non-deleted records.")
     return filtered_data
 
 def archive_cards_db(supabase_client, document_ids: List[str]):
