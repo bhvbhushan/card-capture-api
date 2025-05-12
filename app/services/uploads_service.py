@@ -14,7 +14,8 @@ from app.repositories.uploads_repository import (
     select_upload_notification_db,
     select_extracted_data_image_db
 )
-from app.services.document_service import process_image
+# from app.services.document_service import process_image
+from app.services.document_service import parse_card_with_gemini
 from app.services.gemini_service import run_gemini_review
 
 async def upload_file_service(background_tasks, file, event_id, school_id, user):
@@ -69,6 +70,8 @@ async def upload_file_service(background_tasks, file, event_id, school_id, user)
             "school_id": school_id
         }
         try:
+            # extracted_fields = process_image(trimmed_path)
+            extracted_fields = parse_card_with_gemini(trimmed_path)
             insert_extracted_data_db(supabase_client, insert_data)
             print(f"✅ Saved initial data for {job_id} (document_id)")
         except Exception as db_error:

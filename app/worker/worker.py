@@ -4,11 +4,14 @@ import tempfile
 import traceback
 import json
 from datetime import datetime, timezone
-from app.services.document_service import process_image
-from app.services.gemini_service import run_gemini_review
+# from app.services.document_service import process_image
+from app.services.document_service import parse_card_with_gemini
+# from app.services.gemini_service import run_gemini_review
 from app.repositories.processing_jobs_repository import update_processing_job
 from app.core.clients import supabase_client
 from app.repositories.uploads_repository import insert_extracted_data_db
+from app.repositories.reviewed_data_repository import upsert_reviewed_data
+from app.repositories.upload_notifications_repository import insert_upload_notification
 
 BUCKET = "cards-uploads"
 MAX_RETRIES = 3
@@ -35,13 +38,37 @@ def process_job(job):
             tmp_file = tmp.name
         download_from_supabase(file_url, tmp_file)
         print(f"Downloaded to {tmp_file}")
-        extracted_fields = process_image(tmp_file)
+        # extracted_fields = process_image(tmp_file)
+        extracted_fields = parse_card_with_gemini(tmp_file)
         print(f"Extracted fields: {json.dumps(extracted_fields)[:200]}...")
         # Update extracted fields in extracted_data table before Gemini review
         supabase_client.table("extracted_data").update({"fields": extracted_fields}).eq("document_id", job_id).execute()
         print(f"Updated extracted data for document_id: {job_id}")
-        run_gemini_review(job_id, extracted_fields, tmp_file)
+        # run_gemini_review(job_id, extracted_fields, tmp_file)
+        # --- New: Upsert reviewed_data and send notification ---
         now = datetime.now(timezone.utc).isoformat()
+        reviewed_data = {
+            "document_id": job_id,
+            "fields": extracted_fields,
+            "school_id": school_id,
+            "user_id": user_id,
+            "event_id": event_id,
+            "image_path": job.get("image_path"),
+            "review_status": "reviewed",
+            "created_at": now,
+            "updated_at": now
+        }
+        upsert_reviewed_data(supabase_client, reviewed_data)
+        print(f"✅ Upserted reviewed_data for job {job_id}")
+        # notification_data = {
+        #     "document_id": job_id,
+        #     "event": "review_completed",
+        #     "status": "reviewed",
+        #     "timestamp": now
+        # }
+        # insert_upload_notification(supabase_client, notification_data)
+        # print(f"✅ Notification sent for review completed: {job_id}")
+        # --- End new ---
         update_processing_job(supabase_client, job_id, {
             "status": "complete",
             "updated_at": now,
