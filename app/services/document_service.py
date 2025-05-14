@@ -9,7 +9,7 @@ from app.core.clients import docai_client, docai_name, gmaps_client, mime_type
 import googlemaps
 import google.generativeai as genai
 from typing import Dict, Any, Optional
-from app.core.gemini_prompt import GEMINI_PROMPT_TEMPLATE
+from app.core.gemini_prompt import  GEMINI_EXTRACTION_PROMPT_TEMPLATE
 
 ALL_EXPECTED_FIELDS = [
     'name', 'preferred_first_name', 'date_of_birth', 'email', 'cell',
@@ -258,16 +258,16 @@ def validate_address_components(address: Optional[str], city: Optional[str], sta
 # --- Gemini Review ---
 def get_gemini_review(all_fields: dict, image_path: str) -> dict:
     try:
-        model = genai.GenerativeModel("models/gemini-2.5-pro-preview-03-25")
+        model = genai.GenerativeModel("models/gemini-1.5-pro-latest")
     except Exception as model_e:
         print(f"❌ Gemini model 'gemini-2.5-pro-preview-03-25' not accessible: {model_e}")
         return {}
     try:
-        prompt = GEMINI_PROMPT_TEMPLATE.format(
+        prompt = GEMINI_EXTRACTION_PROMPT_TEMPLATE.format(
             all_fields_json=json.dumps(all_fields, indent=2)
         )
     except KeyError as e:
-        print(f"❌ Error formatting prompt template: Missing '{{all_fields_json}}' placeholder in GEMINI_PROMPT_TEMPLATE. Check definition. Details: {e}")
+        print(f"❌ Error formatting prompt template: Missing '{{all_fields_json}}' placeholder in GEMINI_EXTRACTION_PROMPT_TEMPLATE. Check definition. Details: {e}")
         return {}
     except Exception as fmt_e:
         print(f"❌ Unexpected error formatting prompt template: {fmt_e}")
@@ -307,12 +307,7 @@ ALL_EXPECTED_FIELDS = [
     'student_type', 'entry_term', 'major', 'city_state'
 ]
 
-def parse_card_with_gemini(image_path: str, model_name: str = "gemini-2.5-pro-preview-03-25") -> Dict[str, Any]:
-    fields_list = "\n".join([
-        f'    "{field}": {{ "value": "", "confidence": 0.0, "requires_human_review": false, "review_notes": "" }},' for field in ALL_EXPECTED_FIELDS
-    ])
-    prompt = f"""
-You are an expert at extracting information from student contact cards.\nAnalyze this card image and extract all relevant information.\n\nReturn the data in the following JSON format without any markdown formatting or additional text:\n{{\n{fields_list}\n}}\n\nImportant:\n- Include ALL of the above fields in the output, even if the value is missing (set value to "" and confidence to 0.0).\n- For each field, use this structure:\n  {{\n    \"value\": \"extracted value or empty string\",\n    \"confidence\": 0.95,\n    \"requires_human_review\": false,\n    \"review_notes\": \"any notes about potential issues\"\n  }}\n- If a field is unclear or potentially incorrect, set requires_human_review to true.\n- If you're very confident (>0.9), add a note explaining why.\n- If you see any special cases or formatting issues, mention them in review_notes.\n- Keep the original formatting/capitalization of values.\n- Return ONLY the JSON with no additional text, explanation, or markdown formatting.\n"""
+def parse_card_with_gemini(image_path: str, model_name: str = "gemini-1.5-pro-latest") -> Dict[str, Any]:
     try:
         genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
         model = genai.GenerativeModel(model_name)
@@ -320,7 +315,8 @@ You are an expert at extracting information from student contact cards.\nAnalyze
             image_bytes = image_file.read()
         mime_type = "image/jpeg" if image_path.lower().endswith((".jpg", ".jpeg")) else "image/png"
         image_part = {"mime_type": mime_type, "data": image_bytes}
-        print(f"🧠 Sending request to Gemini using model: {model_name}...")
+        prompt = GEMINI_EXTRACTION_PROMPT_TEMPLATE
+        print(f"🧠 Sending request to Gemini using model: {model_name} with extraction prompt...")
         response = model.generate_content([prompt, image_part])
         print("\n🔍 Raw Gemini Response:")
         print("-" * 50)
@@ -328,10 +324,6 @@ You are an expert at extracting information from student contact cards.\nAnalyze
         print("-" * 50)
         cleaned_text = response.text.replace("```json", "").replace("```", "").strip()
         parsed_data = json.loads(cleaned_text)
-        # Ensure all expected fields are present
-        for field in ALL_EXPECTED_FIELDS:
-            if field not in parsed_data:
-                parsed_data[field] = {"value": "", "confidence": 0.0, "requires_human_review": False, "review_notes": ""}
         print("\n✅ Successfully parsed card data:")
         print(json.dumps(parsed_data, indent=2))
         return parsed_data
@@ -339,5 +331,4 @@ You are an expert at extracting information from student contact cards.\nAnalyze
         print(f"\n❌ Error parsing card: {str(e)}")
         import traceback
         traceback.print_exc()
-        # Return all fields blank if error
-        return {field: {"value": "", "confidence": 0.0, "requires_human_review": False, "review_notes": ""} for field in ALL_EXPECTED_FIELDS} 
+        return {}  # Return empty dict on error 
