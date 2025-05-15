@@ -5,6 +5,7 @@ import re
 import traceback
 from datetime import datetime, timezone
 from fastapi.responses import JSONResponse
+from app.config import GEMINI_MODEL
 from app.core.clients import docai_client, docai_name, gmaps_client, mime_type
 import googlemaps
 import google.generativeai as genai
@@ -258,9 +259,9 @@ def validate_address_components(address: Optional[str], city: Optional[str], sta
 # --- Gemini Review ---
 def get_gemini_review(all_fields: dict, image_path: str) -> dict:
     try:
-        model = genai.GenerativeModel("models/gemini-1.5-pro-latest")
+        model = genai.GenerativeModel(f"models/{GEMINI_MODEL}")
     except Exception as model_e:
-        print(f"❌ Gemini model 'gemini-2.5-pro-preview-03-25' not accessible: {model_e}")
+        print(f"❌ Gemini model '{GEMINI_MODEL}' not accessible: {model_e}")
         return {}
     try:
         prompt = GEMINI_EXTRACTION_PROMPT_TEMPLATE.format(
@@ -307,7 +308,7 @@ ALL_EXPECTED_FIELDS = [
     'student_type', 'entry_term', 'major', 'city_state'
 ]
 
-def parse_card_with_gemini(image_path: str, model_name: str = "gemini-1.5-pro-latest") -> Dict[str, Any]:
+def parse_card_with_gemini(image_path: str, model_name: str = GEMINI_MODEL) -> Dict[str, Any]:
     try:
         genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
         model = genai.GenerativeModel(model_name)

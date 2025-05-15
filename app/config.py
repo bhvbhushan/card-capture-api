@@ -53,3 +53,5 @@ ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000"
 ]
+
+GEMINI_MODEL = "gemini-2.5-pro-preview-03-25"
