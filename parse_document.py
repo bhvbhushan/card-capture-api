@@ -13,6 +13,8 @@ from supabase import create_client
 import googlemaps
 import base64
 
+from app.config import GEMINI_MODEL
+
 # === 🔧 CONFIG ===
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "service_account.json"
 project_id = "gen-lang-client-0493571343"
@@ -61,7 +63,7 @@ def get_gemini_corrections_with_image(low_conf_fields, full_context_fields, imag
       }}
     }}
     """
-    model = genai.GenerativeModel("gemini-2.5-pro-exp-03-25")
+    model = genai.GenerativeModel(GEMINI_MODEL)
 
     try:
         with open(image_path, "rb") as img_file:

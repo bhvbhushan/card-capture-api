@@ -4,11 +4,14 @@ import tempfile
 import traceback
 import json
 from datetime import datetime, timezone
-from app.services.document_service import process_image
-from app.services.gemini_service import run_gemini_review
+# from app.services.document_service import process_image
+from app.services.document_service import parse_card_with_gemini
+# from app.services.gemini_service import run_gemini_review
 from app.repositories.processing_jobs_repository import update_processing_job
 from app.core.clients import supabase_client
 from app.repositories.uploads_repository import insert_extracted_data_db
+from app.repositories.reviewed_data_repository import upsert_reviewed_data
+from app.repositories.upload_notifications_repository import insert_upload_notification
 
 BUCKET = "cards-uploads"
 MAX_RETRIES = 3
@@ -21,6 +24,85 @@ def download_from_supabase(storage_path, local_path):
     with open(local_path, "wb") as f:
         f.write(res)
     return local_path
+
+def sync_card_fields_preferences(supabase_client, user_id, school_id, extracted_fields):
+    """
+    Ensure the settings table for the given user_id and school_id has all actual_field_name values from extracted_fields in preferences.card_fields.
+    Adds missing fields with value True. Inserts row if not present.
+    The card_fields keys are the actual_field_name values from Gemini output.
+    """
+    # Collect all unique actual_field_name values from extracted_fields
+    actual_labels = set()
+    for field_data in extracted_fields.values():
+        if isinstance(field_data, dict):
+            label = field_data.get("actual_field_name")
+            if label:
+                actual_labels.add(label)
+    print(f"[Preferences Sync] Using actual_field_name labels from Gemini: {list(actual_labels)}")
+
+    settings_query = supabase_client.table("settings").select("id, preferences").eq("user_id", user_id).eq("school_id", school_id).maybe_single().execute()
+    settings_row = settings_query.data if settings_query and settings_query.data else None
+    preferences = {}
+    if settings_row:
+        print(f"[Preferences Sync] Found existing settings row: id={settings_row.get('id')}")
+        preferences = settings_row.get("preferences") or {}
+        print(f"[Preferences Sync] DB card_fields: {settings_row.get('preferences', {}).get('card_fields')}")
+        print(f"[Preferences Sync] New card_fields: {preferences.get('card_fields')}")
+    else:
+        print(f"[Preferences Sync] No settings row found. Will insert new row if needed.")
+    card_fields = preferences.get("card_fields") if preferences else None
+    new_labels = {label: True for label in actual_labels}
+    if not card_fields or not isinstance(card_fields, dict) or not card_fields:
+        print(f"[Preferences Sync] card_fields missing or invalid. Initializing with parsed labels: {list(new_labels.keys())}")
+        card_fields = dict(new_labels)  # ensure new object
+        preferences["card_fields"] = card_fields
+        print(f"[Preferences Sync] Forcing upsert of card_fields in DB.")
+        upsert_payload = {
+            "user_id": user_id,
+            "school_id": school_id,
+            "preferences": preferences
+        }
+        if settings_row:
+            upsert_payload["id"] = settings_row["id"]
+        supabase_client.table("settings").upsert(upsert_payload).execute()
+        # Fetch again to confirm
+        if settings_row:
+            updated_row = supabase_client.table("settings").select("id, preferences").eq("id", settings_row["id"]).maybe_single().execute()
+        else:
+            updated_row = supabase_client.table("settings").select("id, preferences").eq("user_id", user_id).eq("school_id", school_id).maybe_single().execute()
+        print(f"[Preferences Sync] After upsert, card_fields in DB: {updated_row.data.get('preferences', {}).get('card_fields') if updated_row and updated_row.data else None}")
+        return
+    updated = False
+    for label in new_labels:
+        if label not in card_fields:
+            print(f"[Preferences Sync] Adding missing field to card_fields: {label}")
+            card_fields[label] = True
+            updated = True
+    if not updated:
+        print(f"[Preferences Sync] No new fields to add to card_fields.")
+        card_fields = card_fields  # No change
+    preferences["card_fields"] = card_fields
+    if not settings_row:
+        print(f"[Preferences Sync] Inserting new settings row for user_id={user_id}, school_id={school_id}")
+        upsert_payload = {
+            "user_id": user_id,
+            "school_id": school_id,
+            "preferences": preferences
+        }
+        supabase_client.table("settings").upsert(upsert_payload).execute()
+        print(f"[Preferences Sync] Inserted new settings row for user_id={user_id}, school_id={school_id}")
+    elif updated:
+        print(f"[Preferences Sync] Updating settings preferences.card_fields for user_id={user_id}, school_id={school_id}")
+        upsert_payload = {
+            "user_id": user_id,
+            "school_id": school_id,
+            "preferences": preferences
+        }
+        upsert_payload["id"] = settings_row["id"]
+        supabase_client.table("settings").upsert(upsert_payload).execute()
+        print(f"[Preferences Sync] Updated settings preferences.card_fields for user_id={user_id}, school_id={school_id}")
+    else:
+        print(f"[Preferences Sync] card_fields already up to date. No update needed.")
 
 def process_job(job):
     job_id = job["id"]
@@ -35,13 +117,41 @@ def process_job(job):
             tmp_file = tmp.name
         download_from_supabase(file_url, tmp_file)
         print(f"Downloaded to {tmp_file}")
-        extracted_fields = process_image(tmp_file)
+        # extracted_fields = process_image(tmp_file)
+        extracted_fields = parse_card_with_gemini(tmp_file)
         print(f"Extracted fields: {json.dumps(extracted_fields)[:200]}...")
         # Update extracted fields in extracted_data table before Gemini review
         supabase_client.table("extracted_data").update({"fields": extracted_fields}).eq("document_id", job_id).execute()
         print(f"Updated extracted data for document_id: {job_id}")
-        run_gemini_review(job_id, extracted_fields, tmp_file)
+
+        # --- Preferences sync logic ---
+        sync_card_fields_preferences(supabase_client, user_id, school_id, extracted_fields)
+        # --- End preferences sync logic ---
+        # run_gemini_review(job_id, extracted_fields, tmp_file)
+        # --- New: Upsert reviewed_data and send notification ---
         now = datetime.now(timezone.utc).isoformat()
+        reviewed_data = {
+            "document_id": job_id,
+            "fields": extracted_fields,
+            "school_id": school_id,
+            "user_id": user_id,
+            "event_id": event_id,
+            "image_path": job.get("image_path"),
+            "review_status": "reviewed",
+            "created_at": now,
+            "updated_at": now
+        }
+        upsert_reviewed_data(supabase_client, reviewed_data)
+        print(f"✅ Upserted reviewed_data for job {job_id}")
+        # notification_data = {
+        #     "document_id": job_id,
+        #     "event": "review_completed",
+        #     "status": "reviewed",
+        #     "timestamp": now
+        # }
+        # insert_upload_notification(supabase_client, notification_data)
+        # print(f"✅ Notification sent for review completed: {job_id}")
+        # --- End new ---
         update_processing_job(supabase_client, job_id, {
             "status": "complete",
             "updated_at": now,

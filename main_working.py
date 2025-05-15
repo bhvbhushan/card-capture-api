@@ -94,7 +94,7 @@ You are reviewing OCR-parsed student contact card data. Your task is to validate
 Full field context:
 {json.dumps(all_fields, indent=2)}
 """
-    model = genai.GenerativeModel("gemini-1.5-pro-latest")
+    model = genai.GenerativeModel("gemini-2.5-preview-latest")
 
     try:
         with open(image_path, "rb") as f:
