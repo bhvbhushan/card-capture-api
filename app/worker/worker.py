@@ -57,14 +57,19 @@ def sync_card_fields_preferences(supabase_client, user_id, school_id, extracted_
         card_fields = dict(new_labels)  # ensure new object
         preferences["card_fields"] = card_fields
         print(f"[Preferences Sync] Forcing upsert of card_fields in DB.")
-        supabase_client.table("settings").upsert({
-            "id": settings_row["id"],
+        upsert_payload = {
             "user_id": user_id,
             "school_id": school_id,
             "preferences": preferences
-        }).execute()
+        }
+        if settings_row:
+            upsert_payload["id"] = settings_row["id"]
+        supabase_client.table("settings").upsert(upsert_payload).execute()
         # Fetch again to confirm
-        updated_row = supabase_client.table("settings").select("id, preferences").eq("id", settings_row["id"]).maybe_single().execute()
+        if settings_row:
+            updated_row = supabase_client.table("settings").select("id, preferences").eq("id", settings_row["id"]).maybe_single().execute()
+        else:
+            updated_row = supabase_client.table("settings").select("id, preferences").eq("user_id", user_id).eq("school_id", school_id).maybe_single().execute()
         print(f"[Preferences Sync] After upsert, card_fields in DB: {updated_row.data.get('preferences', {}).get('card_fields') if updated_row and updated_row.data else None}")
         return
     updated = False
@@ -79,19 +84,25 @@ def sync_card_fields_preferences(supabase_client, user_id, school_id, extracted_
     preferences["card_fields"] = card_fields
     if not settings_row:
         print(f"[Preferences Sync] Inserting new settings row for user_id={user_id}, school_id={school_id}")
-        supabase_client.table("settings").insert({
+        upsert_payload = {
             "user_id": user_id,
             "school_id": school_id,
             "preferences": preferences
-        }).execute()
+        }
+        supabase_client.table("settings").upsert(upsert_payload).execute()
         print(f"[Preferences Sync] Inserted new settings row for user_id={user_id}, school_id={school_id}")
+    elif updated:
+        print(f"[Preferences Sync] Updating settings preferences.card_fields for user_id={user_id}, school_id={school_id}")
+        upsert_payload = {
+            "user_id": user_id,
+            "school_id": school_id,
+            "preferences": preferences
+        }
+        upsert_payload["id"] = settings_row["id"]
+        supabase_client.table("settings").upsert(upsert_payload).execute()
+        print(f"[Preferences Sync] Updated settings preferences.card_fields for user_id={user_id}, school_id={school_id}")
     else:
-        if settings_row.get("preferences", {}).get("card_fields") != card_fields:
-            print(f"[Preferences Sync] Updating settings preferences.card_fields for user_id={user_id}, school_id={school_id}")
-            supabase_client.table("settings").update({"preferences": preferences}).eq("id", settings_row["id"]).execute()
-            print(f"[Preferences Sync] Updated settings preferences.card_fields for user_id={user_id}, school_id={school_id}")
-        else:
-            print(f"[Preferences Sync] card_fields already up to date. No update needed.")
+        print(f"[Preferences Sync] card_fields already up to date. No update needed.")
 
 def process_job(job):
     job_id = job["id"]

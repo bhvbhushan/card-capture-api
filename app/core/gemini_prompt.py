@@ -116,6 +116,14 @@ For all other fields, ALWAYS set requires_human_review: false, even if confidenc
 
 Review Notes: Only populate review_notes when requires_human_review = true, explaining briefly why the value needs human attention.
 
+actual_field_name: The Actual Field Name from the Image, make sure:
+- its in Title Case
+- Its properly formatted, for example: if it ends with a symbol, make sure its a valid symbol, else remove it, same for special characters
+- Identify relevance of a particular field, if it needs to be read in combination with other fields, For example, 
+  - Rank could be X out of Y, so be smart enough the capture exact information from this that Total Students Y and Student Rank X, even though the field name is just Rank and out of
+  - Another example could be date, split in month day and year field, so be smart enough to capture that information as a single field and give it a proper name as per the image and relevant context
+  - And so on.... Be smart enough to capture the field name as per the image and relevant context
+
 Correction Examples:
 Fix emails like student@gmal.com → student@gmail.com
 Format phones as xxx-xxx-xxxx
