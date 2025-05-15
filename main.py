@@ -29,7 +29,6 @@ import mimetypes
 import tempfile
 import stripe
 from app.core.gemini_prompt import GEMINI_PROMPT_TEMPLATE
-from app.services.bulk_upload_service import bulk_upload_service
 
 warnings.filterwarnings("ignore", category=NotOpenSSLWarning)
 
@@ -205,14 +204,6 @@ ALLOWED_ORIGINS = [
     "http://localhost:8085",
     "http://localhost:8086",
     "http://localhost:8087",
-    "http://127.0.0.1:8080",
-    "http://127.0.0.1:8081",
-    "http://127.0.0.1:8082",
-    "http://127.0.0.1:8083",
-    "http://127.0.0.1:8084",
-    "http://127.0.0.1:8085",
-    "http://127.0.0.1:8086",
-    "http://127.0.0.1:8087",
     "http://localhost:3000",
     "http://127.0.0.1:3000"
 ]
@@ -1517,16 +1508,9 @@ async def get_school(school_id: str, user=Depends(get_current_user)):
         traceback.print_exc()
         return JSONResponse(status_code=500, content={"error": "Failed to fetch school."})
 
-@app.post("/bulk-upload")
-async def bulk_upload(
-    background_tasks: BackgroundTasks,
-    file: UploadFile = File(...),
-    event_id: str = Form(None),
-    school_id: str = Form(...),
-    user=Depends(get_current_user)
-):
-    print(f"[DEBUG] /bulk-upload endpoint called for file: {file.filename}")
-    return await bulk_upload_service(background_tasks, file, event_id, school_id, user)
+# Ensure modular routers are included after CORS setup
+from app.api.routes import uploads
+app.include_router(uploads.router)
 
 if __name__ == "__main__":
     import uvicorn

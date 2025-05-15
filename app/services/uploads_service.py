@@ -17,6 +17,8 @@ from app.repositories.uploads_repository import (
 # from app.services.document_service import process_image
 from app.services.document_service import parse_card_with_gemini
 from app.services.gemini_service import run_gemini_review
+from trim_card import trim_card
+from PIL import Image
 
 async def upload_file_service(background_tasks, file, event_id, school_id, user):
     print(f"📤 Received upload request for file: {file.filename}")
@@ -132,4 +134,97 @@ async def get_image_service(document_id: str):
         print(f"❌ Error retrieving image for {document_id}: {e}")
         import traceback
         traceback.print_exc()
-        return JSONResponse(status_code=500, content={"error": "Failed to retrieve image."}) 
+        return JSONResponse(status_code=500, content={"error": "Failed to retrieve image."})
+
+async def bulk_upload_service(background_tasks, file, event_id, school_id, user):
+    user_id = user['id']
+    if not supabase_client:
+        return {"error": "Database client not available"}
+
+    # Save uploaded file to a temp location
+    import tempfile, os, uuid
+    with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1]) as temp_file:
+        temp_file.write(await file.read())
+        temp_file_path = temp_file.name
+
+    jobs_created = []
+    try:
+        # Check if file is a PDF
+        if file.filename.lower().endswith('.pdf'):
+            print(f"[DEBUG] Entering PDF processing block for file: {file.filename}")
+            with tempfile.TemporaryDirectory() as tmpdir:
+                # Split PDF into PNGs immediately after saving
+                png_paths = split_pdf_to_pngs(temp_file_path, tmpdir)
+                print(f"[DEBUG] split_pdf_to_pngs returned {len(png_paths)} images: {png_paths}")
+                if not png_paths:
+                    print(f"[ERROR] No PNGs were generated from PDF: {temp_file_path}")
+                    return {"error": "Failed to split PDF into images."}
+                for png_path in png_paths:
+                    # Trim the image
+                    trimmed_path = trim_card(png_path, png_path, pad=20)
+                    # Ensure image is RGB for compatibility
+                    with Image.open(trimmed_path) as img:
+                        if img.mode != "RGB":
+                            img = img.convert("RGB")
+                            img.save(trimmed_path)
+                    # Upload to Supabase storage
+                    storage_path = upload_to_supabase_storage_from_path(supabase_client, trimmed_path, user_id, os.path.basename(trimmed_path))
+                    image_path_for_db = storage_path.replace('cards-uploads/', '') if storage_path.startswith('cards-uploads/') else storage_path
+                    # Create processing job and extracted_data with the same ID
+                    job_id = str(uuid.uuid4())
+                    from datetime import datetime, timezone
+                    now = datetime.now(timezone.utc).isoformat()
+                    job_data = {
+                        "id": job_id,
+                        "user_id": user_id,
+                        "school_id": school_id,
+                        "file_url": storage_path,
+                        "image_path": image_path_for_db,
+                        "status": "queued",
+                        "result_json": None,
+                        "error_message": None,
+                        "created_at": now,
+                        "updated_at": now,
+                        "event_id": event_id
+                    }
+                    insert_processing_job_db(supabase_client, job_data)
+                    # Insert into extracted_data with the SAME job_id
+                    insert_data = {
+                        "document_id": job_id,
+                        "fields": {},
+                        "image_path": storage_path,
+                        "event_id": event_id,
+                        "school_id": school_id
+                    }
+                    insert_extracted_data_db(supabase_client, insert_data)
+                    jobs_created.append({"job_id": job_id, "document_id": job_id, "image": storage_path})
+        else:
+            return {"error": "File is not a PDF. Use the standard upload for images."}
+    finally:
+        # Cleanup temp file
+        if os.path.exists(temp_file_path):
+            os.remove(temp_file_path)
+    return {"status": "success", "jobs_created": jobs_created}
+
+def split_pdf_to_pngs(pdf_path, output_dir):
+    """
+    Splits a PDF into individual PNG images, one per page.
+    Args:
+        pdf_path (str): Path to the PDF file.
+        output_dir (str): Directory to save PNG images.
+    Returns:
+        List[str]: List of file paths to the generated PNG images.
+    """
+    from pdf2image import convert_from_path
+    import os
+    try:
+        images = convert_from_path(pdf_path)
+        png_paths = []
+        for i, image in enumerate(images):
+            png_path = os.path.join(output_dir, f"page_{i+1}.png")
+            image.save(png_path, 'PNG')
+            png_paths.append(png_path)
+        return png_paths
+    except Exception as e:
+        print(f"❌ Error splitting PDF {pdf_path}: {e}")
+        return [] 

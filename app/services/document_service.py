@@ -11,6 +11,9 @@ import googlemaps
 import google.generativeai as genai
 from typing import Dict, Any, Optional
 from app.core.gemini_prompt import  GEMINI_EXTRACTION_PROMPT_TEMPLATE
+from app.core.gemini_prompt import GEMINI_PROMPT_TEMPLATE
+import time
+import concurrent.futures
 
 ALL_EXPECTED_FIELDS = [
     'name', 'preferred_first_name', 'date_of_birth', 'email', 'cell',
@@ -260,8 +263,16 @@ def validate_address_components(address: Optional[str], city: Optional[str], sta
 def get_gemini_review(all_fields: dict, image_path: str) -> dict:
     try:
         model = genai.GenerativeModel(f"models/{GEMINI_MODEL}")
+        model = genai.GenerativeModel("gemini-1.5-pro-latest")
+        model.generation_config = {
+            "temperature": 0.1,
+            "top_p": 0.8,
+            "top_k": 40,
+            "max_output_tokens": 2048,
+        }
     except Exception as model_e:
         print(f"❌ Gemini model '{GEMINI_MODEL}' not accessible: {model_e}")
+        print(f"❌ Gemini model 'gemini-1.5-pro-latest' not accessible: {model_e}")
         return {}
     try:
         prompt = GEMINI_EXTRACTION_PROMPT_TEMPLATE.format(
@@ -333,3 +344,58 @@ def parse_card_with_gemini(image_path: str, model_name: str = GEMINI_MODEL) -> D
         import traceback
         traceback.print_exc()
         return {}  # Return empty dict on error 
+    max_retries = 3
+    retry_delay = 2  # seconds
+    timeout_seconds = 30
+    for attempt in range(max_retries):
+        try:
+            print(f"🧠 Sending request to Gemini for image: {os.path.basename(image_path)} (Attempt {attempt + 1}/{max_retries})")
+            with io.open(image_path, "rb") as f: image_bytes = f.read()
+            current_mime_type = mime_type
+            image_part = {"mime_type": current_mime_type, "data": image_bytes}
+            def call_gemini():
+                return model.generate_content([prompt, image_part])
+            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+                future = executor.submit(call_gemini)
+                try:
+                    response = future.result(timeout=timeout_seconds)
+                except concurrent.futures.TimeoutError:
+                    print(f"❌ Gemini API call timed out after {timeout_seconds} seconds.")
+                    raise Exception("Gemini API call timed out")
+            print(f"🧠 Gemini Raw Response Text:\n{response.text}\n--------------------")
+            cleaned_json_text = re.sub(r"```json\s*([\s\S]*?)\s*```", r"\1", response.text).strip()
+            print(f"🧠 Attempting to parse JSON:\n{cleaned_json_text}\n--------------------")
+            gemini_dict = json.loads(cleaned_json_text)
+            if isinstance(gemini_dict, dict): 
+                print("✅ Gemini review successful, JSON parsed.")
+                return gemini_dict
+            else: 
+                print(f"❌ Gemini response not a dictionary (type: {type(gemini_dict)}).")
+                if attempt < max_retries - 1:
+                    print(f"Retrying in {retry_delay} seconds...")
+                    time.sleep(retry_delay)
+                    continue
+                return {}
+        except json.JSONDecodeError as json_e:
+            print(f"❌ Error decoding Gemini JSON response: {json_e}")
+            print(f"--- Faulty Text Start ---\n{cleaned_json_text[:1000]}\n--- Faulty Text End ---")
+            if attempt < max_retries - 1:
+                print(f"Retrying in {retry_delay} seconds...")
+                time.sleep(retry_delay)
+                continue
+            traceback.print_exc()
+            return {}
+        except Exception as e:
+            print(f"❌ Error in get_gemini_review (API call or other): {e}")
+            if response:
+                if hasattr(response, 'prompt_feedback'): print(f"Prompt Feedback: {response.prompt_feedback}")
+                if hasattr(response, 'candidates') and response.candidates:
+                     if hasattr(response.candidates[0], 'finish_reason'): print(f"Finish Reason: {response.candidates[0].finish_reason}")
+                     if hasattr(response.candidates[0], 'safety_ratings'): print(f"Safety Ratings: {response.candidates[0].safety_ratings}")
+            if attempt < max_retries - 1:
+                print(f"Retrying in {retry_delay} seconds...")
+                time.sleep(retry_delay)
+                continue
+            traceback.print_exc()
+            return {}
+    return {} 
