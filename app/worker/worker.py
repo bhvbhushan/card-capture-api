@@ -4,8 +4,7 @@ import tempfile
 import traceback
 import json
 from datetime import datetime, timezone
-# from app.services.document_service import process_image
-from app.services.document_service import parse_card_with_gemini
+from app.services.document_service import parse_card_with_gemini, process_image
 # from app.services.gemini_service import run_gemini_review
 from app.repositories.processing_jobs_repository import update_processing_job
 from app.core.clients import supabase_client
@@ -117,22 +116,26 @@ def process_job(job):
             tmp_file = tmp.name
         download_from_supabase(file_url, tmp_file)
         print(f"Downloaded to {tmp_file}")
-        # extracted_fields = process_image(tmp_file)
-        extracted_fields = parse_card_with_gemini(tmp_file)
-        print(f"Extracted fields: {json.dumps(extracted_fields)[:200]}...")
-        # Update extracted fields in extracted_data table before Gemini review
-        supabase_client.table("extracted_data").update({"fields": extracted_fields}).eq("document_id", job_id).execute()
+        # Fetch docai_processor_id from schools table
+        school_row = supabase_client.table("schools").select("docai_processor_id").eq("id", school_id).maybe_single().execute()
+        docai_processor_id = school_row.data.get("docai_processor_id") if school_row and school_row.data else None
+        if not docai_processor_id:
+            raise Exception(f"No docai_processor_id found for school_id {school_id}")
+        # Run DocAI extraction with processor_id
+        docai_fields = process_image(tmp_file, docai_processor_id)
+        # Store DocAI fields in extracted_data table
+        supabase_client.table("extracted_data").update({"fields": docai_fields}).eq("document_id", job_id).execute()
         print(f"Updated extracted data for document_id: {job_id}")
-
+        # Run Gemini enhancement with DocAI fields
+        gemini_fields = parse_card_with_gemini(tmp_file, docai_fields)
+        print(f"Extracted fields: {json.dumps(gemini_fields)[:200]}...")
         # --- Preferences sync logic ---
-        sync_card_fields_preferences(supabase_client, user_id, school_id, extracted_fields)
+        sync_card_fields_preferences(supabase_client, user_id, school_id, gemini_fields)
         # --- End preferences sync logic ---
-        # run_gemini_review(job_id, extracted_fields, tmp_file)
-        # --- New: Upsert reviewed_data and send notification ---
         now = datetime.now(timezone.utc).isoformat()
         reviewed_data = {
             "document_id": job_id,
-            "fields": extracted_fields,
+            "fields": gemini_fields,
             "school_id": school_id,
             "user_id": user_id,
             "event_id": event_id,
@@ -143,15 +146,6 @@ def process_job(job):
         }
         upsert_reviewed_data(supabase_client, reviewed_data)
         print(f"✅ Upserted reviewed_data for job {job_id}")
-        # notification_data = {
-        #     "document_id": job_id,
-        #     "event": "review_completed",
-        #     "status": "reviewed",
-        #     "timestamp": now
-        # }
-        # insert_upload_notification(supabase_client, notification_data)
-        # print(f"✅ Notification sent for review completed: {job_id}")
-        # --- End new ---
         update_processing_job(supabase_client, job_id, {
             "status": "complete",
             "updated_at": now,

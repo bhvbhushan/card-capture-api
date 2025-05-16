@@ -26,21 +26,8 @@ def run_gemini_review(document_id: str, extracted_fields_dict: dict, image_path:
             return
         gemini_reviewed_data = get_gemini_review(extracted_fields_dict, image_path)
         if not gemini_reviewed_data:
-            print(f"⚠️ Gemini review failed or returned empty for {document_id}. Saving original data with error status.")
-            insert_data = {
-                "document_id": document_id,
-                "fields": extracted_fields_dict,
-                "review_status": "review_error",
-                "reviewed_at": datetime.now(timezone.utc).isoformat(),
-                "event_id": event_id,
-                "school_id": school_id
-            }
-            try:
-                upsert_reviewed_data(supabase_client, insert_data)
-                print(f"✅ Saved original data with 'review_error' status for {document_id}.")
-            except Exception as db_e:
-                print(f"❌ Supabase error saving error status for {document_id}: {db_e}")
-            return
+            print(f"⚠️ Gemini review failed or returned empty for {document_id}. Raising exception to trigger worker retry.")
+            raise Exception("Gemini review failed or returned empty.")
         print(f"✅ Background Task: Gemini review completed for {document_id}")
         final_reviewed_fields = {}
         any_field_needs_review = False
@@ -94,21 +81,4 @@ def run_gemini_review(document_id: str, extracted_fields_dict: dict, image_path:
     except Exception as e:
         print(f"❌ Background Task: Error during run_gemini_review for {document_id}: {e}")
         traceback.print_exc()
-        try:
-            # Fetch school_id and event_id for error upsert as well
-            try:
-                extracted_response = get_extracted_data_by_document_id(supabase_client, document_id)
-                event_id = extracted_response.get("event_id")
-                school_id = extracted_response.get("school_id")
-            except Exception:
-                event_id = None
-                school_id = None
-            upsert_reviewed_data(supabase_client, {
-                "document_id": document_id,
-                "review_status": "review_error",
-                "fields": extracted_fields_dict,
-                "event_id": event_id,
-                "school_id": school_id
-            })
-        except Exception as db_err:
-            print(f"❌ Failed to update review status to error for {document_id}: {db_err}") 
+        raise 

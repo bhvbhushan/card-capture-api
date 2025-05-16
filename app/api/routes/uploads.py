@@ -3,7 +3,8 @@ from fastapi.responses import JSONResponse, FileResponse
 from app.controllers.uploads_controller import (
     upload_file_controller,
     check_upload_status_controller,
-    get_image_controller
+    get_image_controller,
+    bulk_upload_controller
 )
 from app.core.auth import get_current_user
 
@@ -25,4 +26,14 @@ async def check_upload_status(document_id: str):
 
 @router.get("/images/{document_id}")
 async def get_image(document_id: str):
-    return await get_image_controller(document_id) 
+    return await get_image_controller(document_id)
+
+@router.post("/bulk-upload")
+async def bulk_upload(
+    background_tasks: BackgroundTasks,
+    file: UploadFile = File(...),
+    event_id: str = Form(None),
+    school_id: str = Form(...),
+    user=Depends(get_current_user)
+):
+    return await bulk_upload_controller(background_tasks, file, event_id, school_id, user) 

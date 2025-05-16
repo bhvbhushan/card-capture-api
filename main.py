@@ -204,14 +204,6 @@ ALLOWED_ORIGINS = [
     "http://localhost:8085",
     "http://localhost:8086",
     "http://localhost:8087",
-    "http://127.0.0.1:8080",
-    "http://127.0.0.1:8081",
-    "http://127.0.0.1:8082",
-    "http://127.0.0.1:8083",
-    "http://127.0.0.1:8084",
-    "http://127.0.0.1:8085",
-    "http://127.0.0.1:8086",
-    "http://127.0.0.1:8087",
     "http://localhost:3000",
     "http://127.0.0.1:3000"
 ]
@@ -240,9 +232,9 @@ print(f"ℹ️ Using upload folder: {UPLOAD_FOLDER}")
 def get_gemini_review(all_fields: dict, image_path: str) -> dict:
     global GEMINI_PROMPT_TEMPLATE # Access the template defined above
     try:
-        model = genai.GenerativeModel("models/gemini-2.5-pro-preview-03-25")
+        model = genai.GenerativeModel("gemini-1.5-pro-latest")
     except Exception as model_e:
-        print(f"❌ Gemini model 'gemini-2.5-pro-preview-03-25' not accessible: {model_e}")
+        print(f"❌ Gemini model 'gemini-1.5-pro-latest' not accessible: {model_e}")
         return {}
 
     # Format the prompt using the global template and current fields
@@ -788,6 +780,10 @@ async def upload_file(
         print("❌ Document processing client not available")
         return JSONResponse(status_code=503, content={"error": "Document processing client not available."})
     try:
+        # Check if the file is a PDF and reject it
+        if file.content_type == "application/pdf" or file.filename.lower().endswith('.pdf'):
+            print(f"⚠️ PDF detected in /upload endpoint. Rejecting and suggesting /bulk-upload.")
+            return JSONResponse(status_code=400, content={"error": "PDFs must be uploaded via the /bulk-upload endpoint."})
         # 1. Save uploaded file to a temp location
         with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1] or '.png') as temp_file:
             shutil.copyfileobj(file.file, temp_file)
@@ -1511,6 +1507,10 @@ async def get_school(school_id: str, user=Depends(get_current_user)):
         print(f"❌ Error fetching school: {e}")
         traceback.print_exc()
         return JSONResponse(status_code=500, content={"error": "Failed to fetch school."})
+
+# Ensure modular routers are included after CORS setup
+from app.api.routes import uploads
+app.include_router(uploads.router)
 
 if __name__ == "__main__":
     import uvicorn

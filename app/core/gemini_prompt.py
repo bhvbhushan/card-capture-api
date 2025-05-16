@@ -91,15 +91,16 @@ There is **no input JSON**. You must extract fields from scratch based on what i
 **Output Format:** Return a valid JSON object only (no other text). Each top-level key should be the field label (lowercase, snake_case), mapped to an object like this:
 
 ```json
-{
-  "field_name": {
+{{
+  "field_name": {{
     "value": "<String: Corrected or extracted value>",
     "actual_field_name": "<String: Actual field name from the image>",
     "review_confidence": <Float between 0.0 and 1.0>,
     "requires_human_review": <true | false>,
     "review_notes": "<String: If flagged, briefly explain. Else, leave empty.>"
-  }
-}
+  }}
+}}
+```
 
 Example keys: "name", "email", "cell", "address", "zip_code", "major", "preferred_first_name", "gender", "shirt_size", etc.
 
@@ -123,6 +124,11 @@ actual_field_name: The Actual Field Name from the Image, make sure:
   - Rank could be X out of Y, so be smart enough the capture exact information from this that Total Students Y and Student Rank X, even though the field name is just Rank and out of
   - Another example could be date, split in month day and year field, so be smart enough to capture that information as a single field and give it a proper name as per the image and relevant context
   - And so on.... Be smart enough to capture the field name as per the image and relevant context
+  
+  **Input Fields JSON to Review:**
+```json
+{all_fields_json}
+```
 
 Correction Examples:
 Fix emails like student@gmal.com → student@gmail.com
