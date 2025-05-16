@@ -232,9 +232,9 @@ print(f"ℹ️ Using upload folder: {UPLOAD_FOLDER}")
 def get_gemini_review(all_fields: dict, image_path: str) -> dict:
     global GEMINI_PROMPT_TEMPLATE # Access the template defined above
     try:
-        model = genai.GenerativeModel("models/gemini-2.5-pro-preview-03-25")
+        model = genai.GenerativeModel("gemini-1.5-pro-latest")
     except Exception as model_e:
-        print(f"❌ Gemini model 'gemini-2.5-pro-preview-03-25' not accessible: {model_e}")
+        print(f"❌ Gemini model 'gemini-1.5-pro-latest' not accessible: {model_e}")
         return {}
 
     # Format the prompt using the global template and current fields
