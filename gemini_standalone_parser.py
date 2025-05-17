@@ -41,7 +41,7 @@ Important:
 - Return ONLY the JSON with no additional text, explanation, or markdown formatting
 """
 
-def parse_card_with_gemini(image_path: str, model_name: str = "gemini-2.5-pro-preview-03-25") -> Optional[Dict[str, Any]]:
+def parse_card_with_gemini(image_path: str, model_name: str = " gemini-1.5-pro-latest") -> Optional[Dict[str, Any]]:
     """
     Parse a card image directly with Gemini, bypassing Document AI.
     
@@ -141,7 +141,7 @@ def main():
     parser.add_argument("image_path", help="Path to the card image to parse")
     parser.add_argument("--compare", help="Path to JSON file with Document AI results to compare with", default=None)
     parser.add_argument("--output", help="Path to save Gemini results as JSON", default=None)
-    parser.add_argument("--model", help="Gemini model to use", default="gemini-2.5-pro-preview-03-25")
+    parser.add_argument("--model", help="Gemini model to use", default=" gemini-1.5-pro-latest")
     
     args = parser.parse_args()
     

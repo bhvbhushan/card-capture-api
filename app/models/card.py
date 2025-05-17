@@ -8,4 +8,8 @@ class ArchiveCardsPayload(BaseModel):
     document_ids: List[str]
 
 class DeleteCardsPayload(BaseModel):
-    document_ids: List[str] 
+    document_ids: List[str]
+
+class MoveCardsPayload(BaseModel):
+    document_ids: List[str]
+    status: str = "reviewed" 

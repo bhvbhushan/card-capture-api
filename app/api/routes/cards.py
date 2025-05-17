@@ -4,9 +4,10 @@ from app.controllers.cards_controller import (
     get_cards_controller,
     archive_cards_controller,
     mark_as_exported_controller,
-    delete_cards_controller
+    delete_cards_controller,
+    move_cards_controller
 )
-from app.models.card import ArchiveCardsPayload, MarkExportedPayload, DeleteCardsPayload
+from app.models.card import ArchiveCardsPayload, MarkExportedPayload, DeleteCardsPayload, MoveCardsPayload
 
 router = APIRouter(tags=["Cards"])
 
@@ -24,4 +25,8 @@ async def mark_as_exported(payload: MarkExportedPayload):
 
 @router.post("/delete-cards")
 async def delete_cards(payload: DeleteCardsPayload):
-    return await delete_cards_controller(payload) 
+    return await delete_cards_controller(payload)
+
+@router.post("/move-cards")
+async def move_cards(payload: MoveCardsPayload):
+    return await move_cards_controller(payload) 

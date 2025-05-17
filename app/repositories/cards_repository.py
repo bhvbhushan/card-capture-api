@@ -47,4 +47,16 @@ def delete_cards_db(supabase_client, document_ids: List[str]):
         .delete() \
         .in_("document_id", document_ids) \
         .execute()
-    return reviewed_response, extracted_response 
+    return reviewed_response, extracted_response
+
+def move_cards_db(supabase_client, document_ids: List[str], status: str = "reviewed"):
+    timestamp = datetime.now(timezone.utc).isoformat()
+    update_payload = {
+        "review_status": status,
+        "reviewed_at": timestamp
+    }
+    result = supabase_client.table('reviewed_data') \
+        .update(update_payload) \
+        .in_("document_id", document_ids) \
+        .execute()
+    return result 

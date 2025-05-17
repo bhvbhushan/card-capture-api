@@ -54,4 +54,4 @@ ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000"
 ]
 
-GEMINI_MODEL = "gemini-2.5-flash-preview-04-17"
+GEMINI_MODEL = " gemini-1.5-pro-latest"

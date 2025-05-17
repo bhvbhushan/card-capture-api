@@ -29,6 +29,7 @@ import mimetypes
 import tempfile
 import stripe
 from app.core.gemini_prompt import GEMINI_PROMPT_TEMPLATE
+from app.api.routes.cards import router as cards_router
 
 warnings.filterwarnings("ignore", category=NotOpenSSLWarning)
 
@@ -1509,8 +1510,7 @@ async def get_school(school_id: str, user=Depends(get_current_user)):
         return JSONResponse(status_code=500, content={"error": "Failed to fetch school."})
 
 # Ensure modular routers are included after CORS setup
-from app.api.routes import uploads
-app.include_router(uploads.router)
+app.include_router(cards_router)
 
 if __name__ == "__main__":
     import uvicorn

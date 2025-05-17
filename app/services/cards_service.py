@@ -5,14 +5,16 @@ import traceback
 from app.models.card import (
     MarkExportedPayload,
     ArchiveCardsPayload,
-    DeleteCardsPayload
+    DeleteCardsPayload,
+    MoveCardsPayload
 )
 from app.core.clients import supabase_client
 from app.repositories.cards_repository import (
     get_cards_db,
     archive_cards_db,
     mark_as_exported_db,
-    delete_cards_db
+    delete_cards_db,
+    move_cards_db
 )
 
 async def get_cards_service(event_id: Union[str, None] = None) -> List[Dict[str, Any]]:
@@ -82,4 +84,23 @@ async def delete_cards_service(payload: DeleteCardsPayload):
     except Exception as e:
         print(f"❌ Error deleting cards: {e}")
         traceback.print_exc()
-        return JSONResponse(status_code=500, content={"error": "Failed to delete cards."}) 
+        return JSONResponse(status_code=500, content={"error": "Failed to delete cards."})
+
+async def move_cards_service(payload: MoveCardsPayload):
+    if not supabase_client:
+        print("❌ Database client not available")
+        return JSONResponse(status_code=503, content={"error": "Database client not available."})
+    try:
+        result = move_cards_db(supabase_client, payload.document_ids, payload.status)
+        print(f"✅ Successfully moved {len(payload.document_ids)} cards to status '{payload.status}'")
+        return JSONResponse(
+            status_code=200,
+            content={"message": f"Successfully moved {len(payload.document_ids)} cards to status '{payload.status}'"}
+        )
+    except Exception as e:
+        print(f"❌ Error moving cards: {e}")
+        traceback.print_exc()
+        return JSONResponse(
+            status_code=500,
+            content={"error": str(e)}
+        ) 
