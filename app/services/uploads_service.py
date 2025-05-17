@@ -19,6 +19,8 @@ from app.services.document_service import parse_card_with_gemini
 from app.services.gemini_service import run_gemini_review
 from trim_card import trim_card
 from PIL import Image
+import csv
+from sftp_utils import upload_to_slate
 
 async def upload_file_service(background_tasks, file, event_id, school_id, user):
     print(f"📤 Received upload request for file: {file.filename}")
@@ -227,4 +229,51 @@ def split_pdf_to_pngs(pdf_path, output_dir):
         return png_paths
     except Exception as e:
         print(f"❌ Error splitting PDF {pdf_path}: {e}")
-        return [] 
+        return []
+
+async def export_to_slate_service(payload: dict):
+    try:
+        school_id = payload.get("school_id")
+        rows = payload.get("rows")
+        if not school_id or not rows or not isinstance(rows, list):
+            return JSONResponse(status_code=400, content={"error": "Missing or invalid school_id or rows."})
+        # 1. Look up SFTP config
+        sftp_resp = supabase_client.table("sftp_configs").select("*").eq("school_id", school_id).maybe_single().execute()
+        sftp_config = sftp_resp.data if sftp_resp and sftp_resp.data else None
+        if not sftp_config or not sftp_config.get("enabled"):
+            return JSONResponse(status_code=400, content={"error": "No SFTP config found or integration is disabled."})
+        # 2. Generate CSV file from rows
+        import tempfile
+        import os
+        fieldnames = list(rows[0].keys()) if rows else []
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode="w", newline="") as tmp_csv:
+            writer = csv.DictWriter(tmp_csv, fieldnames=fieldnames)
+            writer.writeheader()
+            for row in rows:
+                writer.writerow(row)
+            csv_path = tmp_csv.name
+        # 3. Upload to SFTP
+        class ConfigObj:
+            pass
+        config_obj = ConfigObj()
+        config_obj.host = sftp_config["host"]
+        config_obj.port = sftp_config["port"]
+        config_obj.username = sftp_config["username"]
+        config_obj.password = sftp_config["password"]
+        config_obj.upload_path = sftp_config["remote_path"]
+        config_obj.key_path = None
+        try:
+            success = upload_to_slate(csv_path, config_obj)
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            os.remove(csv_path)
+            return JSONResponse(status_code=500, content={"error": f"SFTP upload failed: {str(e)}"})
+        os.remove(csv_path)
+        if not success:
+            return JSONResponse(status_code=500, content={"error": "SFTP upload failed."})
+        return JSONResponse(status_code=200, content={"status": "success"})
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return JSONResponse(status_code=500, content={"error": f"Internal error: {str(e)}"}) 

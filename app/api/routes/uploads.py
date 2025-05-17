@@ -4,7 +4,8 @@ from app.controllers.uploads_controller import (
     upload_file_controller,
     check_upload_status_controller,
     get_image_controller,
-    bulk_upload_controller
+    bulk_upload_controller,
+    export_to_slate_controller
 )
 from app.core.auth import get_current_user
 
@@ -36,4 +37,8 @@ async def bulk_upload(
     school_id: str = Form(...),
     user=Depends(get_current_user)
 ):
-    return await bulk_upload_controller(background_tasks, file, event_id, school_id, user) 
+    return await bulk_upload_controller(background_tasks, file, event_id, school_id, user)
+
+@router.post("/export-to-slate")
+async def export_to_slate(payload: dict):
+    return await export_to_slate_controller(payload) 
