@@ -9,6 +9,9 @@ from app.controllers.uploads_controller import (
 )
 from app.core.auth import get_current_user
 
+print("UPLOAD ROUTER FILE:", __file__)
+print("MODULE NAME:", __name__)
+
 router = APIRouter(tags=["Uploads"])
 
 @router.post("/upload")
