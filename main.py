@@ -19,9 +19,6 @@ import re
 import traceback
 from typing import Union, List, Dict, Any, Optional
 from pydantic import BaseModel
-import cv2
-import numpy as np
-from trim_card import trim_card
 from jose import jwt, JWTError
 import warnings
 from urllib3.exceptions import NotOpenSSLWarning
@@ -931,7 +928,7 @@ def ensure_trimmed_image(original_image_path: str) -> str:
     print(f"🔄 Processing image: {original_image_path}")
     try:
         # Process the image and get the path where it was saved
-        trimmed_path = trim_card(original_image_path, original_image_path, pad=20)
+        trimmed_path = ensure_trimmed_image(original_image_path)
         
         # Verify the trimmed image exists
         if not os.path.exists(trimmed_path):

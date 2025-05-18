@@ -55,3 +55,6 @@ ALLOWED_ORIGINS = [
 ]
 
 GEMINI_MODEL = " gemini-1.5-pro-latest"
+
+# Export for compatibility
+PROJECT_ID = GOOGLE_PROJECT_ID

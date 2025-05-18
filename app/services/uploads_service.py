@@ -17,7 +17,6 @@ from app.repositories.uploads_repository import (
 # from app.services.document_service import process_image
 from app.services.document_service import parse_card_with_gemini
 from app.services.gemini_service import run_gemini_review
-from trim_card import trim_card
 from PIL import Image
 import csv
 from sftp_utils import upload_to_slate
@@ -162,15 +161,8 @@ async def bulk_upload_service(background_tasks, file, event_id, school_id, user)
                     print(f"[ERROR] No PNGs were generated from PDF: {temp_file_path}")
                     return {"error": "Failed to split PDF into images."}
                 for png_path in png_paths:
-                    # Trim the image
-                    trimmed_path = trim_card(png_path, png_path, pad=20)
-                    # Ensure image is RGB for compatibility
-                    with Image.open(trimmed_path) as img:
-                        if img.mode != "RGB":
-                            img = img.convert("RGB")
-                            img.save(trimmed_path)
                     # Upload to Supabase storage
-                    storage_path = upload_to_supabase_storage_from_path(supabase_client, trimmed_path, user_id, os.path.basename(trimmed_path))
+                    storage_path = upload_to_supabase_storage_from_path(supabase_client, png_path, user_id, os.path.basename(png_path))
                     image_path_for_db = storage_path.replace('cards-uploads/', '') if storage_path.startswith('cards-uploads/') else storage_path
                     # Create processing job and extracted_data with the same ID
                     job_id = str(uuid.uuid4())
