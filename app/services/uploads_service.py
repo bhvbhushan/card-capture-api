@@ -20,6 +20,74 @@ from app.services.gemini_service import run_gemini_review
 from PIL import Image
 import csv
 from sftp_utils import upload_to_slate
+import io
+from google.cloud import documentai_v1 as documentai
+from app.config import PROJECT_ID, DOCAI_LOCATION, DOCAI_PROCESSOR_ID, TRIMMED_FOLDER
+
+def process_image_and_trim(input_path: str, processor_id: str, percent_expand: float = 0.5):
+    """
+    Calls DocAI on the image, extracts field values and bounding box coordinates, trims the image,
+    and returns (docai_json, trimmed_image_path).
+    """
+    # Set up Document AI client
+    client = documentai.DocumentProcessorServiceClient()
+    name = f"projects/{PROJECT_ID}/locations/{DOCAI_LOCATION}/processors/{processor_id}"
+    with open(input_path, "rb") as image_file:
+        image_content = image_file.read()
+    raw_document = documentai.RawDocument(content=image_content, mime_type="image/jpeg")
+    request = documentai.ProcessRequest(name=name, raw_document=raw_document)
+    result = client.process_document(request=request)
+    document = result.document
+    # Gather all bounding box vertices from entities
+    all_vertices = []
+    field_data = {}
+    for entity in getattr(document, "entities", []):
+        coords = []
+        if entity.page_anchor and entity.page_anchor.page_refs:
+            for page_ref in entity.page_anchor.page_refs:
+                page_index = page_ref.page
+                page = document.pages[page_index]
+                width = page.dimension.width
+                height = page.dimension.height
+                if page_ref.bounding_poly.normalized_vertices:
+                    for v in page_ref.bounding_poly.normalized_vertices:
+                        pixel_x = v.x * width
+                        pixel_y = v.y * height
+                        coords.append((pixel_x, pixel_y))
+                        all_vertices.append((pixel_x, pixel_y))
+                elif page_ref.bounding_poly.vertices:
+                    for v in page_ref.bounding_poly.vertices:
+                        coords.append((v.x, v.y))
+                        all_vertices.append((v.x, v.y))
+        field_data[entity.type_] = {
+            "value": entity.mention_text.strip(),
+            "confidence": entity.confidence,
+            "bounding_box": coords
+        }
+    if not all_vertices:
+        print("No bounding box vertices found for any entity. Returning original image.")
+        return field_data, input_path
+    xs, ys = zip(*all_vertices)
+    min_x, max_x = min(xs), max(xs)
+    min_y, max_y = min(ys), max(ys)
+    # Crop with percent expansion
+    img = Image.open(input_path)
+    box_width = max_x - min_x
+    box_height = max_y - min_y
+    expand_x = box_width * (percent_expand / 2)
+    expand_y = box_height * (percent_expand / 2)
+    left = max(int(min_x - expand_x), 0)
+    top = max(int(min_y - expand_y), 0)
+    right = min(int(max_x + expand_x), img.width)
+    bottom = min(int(max_y + expand_y), img.height)
+    cropped_img = img.crop((left, top, right, bottom))
+    filename = os.path.basename(input_path)
+    name, ext = os.path.splitext(filename)
+    output_path = os.path.join(TRIMMED_FOLDER, f"{name}_trimmed{ext}")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    cropped_img.save(output_path)
+    print(f"[DocAI] Cropped image saved to {output_path}")
+    return field_data, output_path
 
 async def upload_file_service(background_tasks, file, event_id, school_id, user):
     print(f"📤 Received upload request for file: {file.filename}")
@@ -35,7 +103,10 @@ async def upload_file_service(background_tasks, file, event_id, school_id, user)
             shutil.copyfileobj(file.file, temp_file)
             temp_path = temp_file.name
         print(f"📄 File saved temporarily to: {temp_path}")
-        trimmed_path = ensure_trimmed_image(temp_path)
+        # Fetch docai_processor_id from schools table (if needed)
+        processor_id = DOCAI_PROCESSOR_ID
+        # If you want to fetch per-school, add logic here
+        docai_json, trimmed_path = process_image_and_trim(temp_path, processor_id)
         print(f"✂️ Trimmed image saved to: {trimmed_path}")
         storage_path = upload_to_supabase_storage_from_path(supabase_client, trimmed_path, user_id, file.filename)
         print(f"✅ Uploaded trimmed image to Supabase Storage: {storage_path}")
@@ -57,29 +128,13 @@ async def upload_file_service(background_tasks, file, event_id, school_id, user)
             "file_url": storage_path,
             "image_path": image_path_for_db,
             "status": "queued",
-            "result_json": None,
+            "result_json": docai_json,
             "error_message": None,
             "created_at": now,
             "updated_at": now,
             "event_id": event_id
         }
         insert_processing_job_db(supabase_client, job_data)
-        # Insert empty extracted_data row with document_id = job_id (legacy 1:1 mapping)
-        insert_data = {
-            "document_id": job_id,
-            "fields": {},  # Will be filled after processing
-            "image_path": storage_path,
-            "event_id": event_id,
-            "school_id": school_id
-        }
-        try:
-            # extracted_fields = process_image(trimmed_path)
-            extracted_fields = parse_card_with_gemini(trimmed_path)
-            insert_extracted_data_db(supabase_client, insert_data)
-            print(f"✅ Saved initial data for {job_id} (document_id)")
-        except Exception as db_error:
-            print(f"⚠️ Database error inserting extracted_data: {db_error}")
-        # Schedule background processing (worker will handle extraction and review)
         response_data = {
             "status": "success",
             "message": "File uploaded and trimmed successfully. Processing will continue in the background.",
@@ -161,10 +216,13 @@ async def bulk_upload_service(background_tasks, file, event_id, school_id, user)
                     print(f"[ERROR] No PNGs were generated from PDF: {temp_file_path}")
                     return {"error": "Failed to split PDF into images."}
                 for png_path in png_paths:
+                    # Process with DocAI and trim
+                    processor_id = DOCAI_PROCESSOR_ID
+                    docai_json, trimmed_path = process_image_and_trim(png_path, processor_id)
                     # Upload to Supabase storage
-                    storage_path = upload_to_supabase_storage_from_path(supabase_client, png_path, user_id, os.path.basename(png_path))
+                    storage_path = upload_to_supabase_storage_from_path(supabase_client, trimmed_path, user_id, os.path.basename(trimmed_path))
                     image_path_for_db = storage_path.replace('cards-uploads/', '') if storage_path.startswith('cards-uploads/') else storage_path
-                    # Create processing job and extracted_data with the same ID
+                    # Create processing job with DocAI JSON
                     job_id = str(uuid.uuid4())
                     from datetime import datetime, timezone
                     now = datetime.now(timezone.utc).isoformat()
@@ -175,22 +233,13 @@ async def bulk_upload_service(background_tasks, file, event_id, school_id, user)
                         "file_url": storage_path,
                         "image_path": image_path_for_db,
                         "status": "queued",
-                        "result_json": None,
+                        "result_json": docai_json,
                         "error_message": None,
                         "created_at": now,
                         "updated_at": now,
                         "event_id": event_id
                     }
                     insert_processing_job_db(supabase_client, job_data)
-                    # Insert into extracted_data with the SAME job_id
-                    insert_data = {
-                        "document_id": job_id,
-                        "fields": {},
-                        "image_path": storage_path,
-                        "event_id": event_id,
-                        "school_id": school_id
-                    }
-                    insert_extracted_data_db(supabase_client, insert_data)
                     jobs_created.append({"job_id": job_id, "document_id": job_id, "image": storage_path})
         else:
             return {"error": "File is not a PDF. Use the standard upload for images."}

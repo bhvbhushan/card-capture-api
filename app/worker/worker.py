@@ -4,7 +4,7 @@ import tempfile
 import traceback
 import json
 from datetime import datetime, timezone
-from app.services.document_service import parse_card_with_gemini, process_image
+from app.services.document_service import parse_card_with_gemini
 # from app.services.gemini_service import run_gemini_review
 from app.repositories.processing_jobs_repository import update_processing_job
 from app.core.clients import supabase_client
@@ -116,16 +116,10 @@ def process_job(job):
             tmp_file = tmp.name
         download_from_supabase(file_url, tmp_file)
         print(f"Downloaded to {tmp_file}")
-        # Fetch docai_processor_id from schools table
-        school_row = supabase_client.table("schools").select("docai_processor_id").eq("id", school_id).maybe_single().execute()
-        docai_processor_id = school_row.data.get("docai_processor_id") if school_row and school_row.data else None
-        if not docai_processor_id:
-            raise Exception(f"No docai_processor_id found for school_id {school_id}")
-        # Run DocAI extraction with processor_id
-        docai_fields = process_image(tmp_file, docai_processor_id)
-        # Store DocAI fields in extracted_data table
-        supabase_client.table("extracted_data").update({"fields": docai_fields}).eq("document_id", job_id).execute()
-        print(f"Updated extracted data for document_id: {job_id}")
+        # Use DocAI fields from processing_jobs.result_json
+        docai_fields = job.get("result_json")
+        if not docai_fields:
+            raise Exception("No DocAI fields found in processing_jobs.result_json")
         # Run Gemini enhancement with DocAI fields
         gemini_fields = parse_card_with_gemini(tmp_file, docai_fields)
         print(f"Extracted fields: {json.dumps(gemini_fields)[:200]}...")

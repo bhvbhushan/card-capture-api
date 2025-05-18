@@ -264,7 +264,6 @@ def process_image(image_path: str, processor_id: str) -> Dict[str, Any]:
 # --- Gemini Review ---
 def get_gemini_review(all_fields: dict, image_path: str) -> dict:
     try:
-        model = genai.GenerativeModel(f"models/{GEMINI_MODEL}")
         model = genai.GenerativeModel("gemini-1.5-pro-latest")
         model.generation_config = {
             "temperature": 0.1,
@@ -326,10 +325,13 @@ def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_
     retry_delay = 2  # seconds
     timeout_seconds = 30
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-    model = genai.GenerativeModel(model_name)
+    model = genai.GenerativeModel("gemini-1.5-pro-latest")
+    print("[Gemini DEBUG] DocAI JSON being passed to Gemini:")
+    print(json.dumps(docai_fields, indent=2))
     prompt = GEMINI_EXTRACTION_PROMPT_TEMPLATE.format(
         all_fields_json=json.dumps(docai_fields, indent=2)
     )
+    response = None  # Ensure response is always defined
     for attempt in range(max_retries):
         try:
             print(f"🧠 Sending request to Gemini for image: {os.path.basename(image_path)} (Attempt {attempt + 1}/{max_retries})")
