@@ -59,6 +59,11 @@ async def save_manual_review(document_id: str, payload: Dict[str, Any] = Body(..
                                         .maybe_single() \
                                         .execute()
 
+        # Defensive: handle if fetch_response is None (e.g., 406 error from Supabase)
+        if not fetch_response or not hasattr(fetch_response, "data"):
+            print(f"  -> Error: Supabase query failed or returned no response for reviewed_data (document_id={document_id})")
+            return JSONResponse(status_code=500, content={"error": "Supabase query failed for reviewed_data. Check Accept headers and Supabase client configuration."})
+
         if not fetch_response.data:
             # If no reviewed data exists yet, get event_id and school_id from extracted_data
             extracted_response = supabase_client.table("extracted_data") \
@@ -66,11 +71,13 @@ async def save_manual_review(document_id: str, payload: Dict[str, Any] = Body(..
                 .eq("document_id", document_id) \
                 .maybe_single() \
                 .execute()
-            
+            # Defensive: handle if extracted_response is None
+            if not extracted_response or not hasattr(extracted_response, "data"):
+                print(f"  -> Error: Supabase query failed or returned no response for extracted_data (document_id={document_id})")
+                return JSONResponse(status_code=500, content={"error": "Supabase query failed for extracted_data. Check Accept headers and Supabase client configuration."})
             if not extracted_response.data:
                 print(f"  -> Error: No existing data found for {document_id}")
                 return JSONResponse(status_code=404, content={"error": "Record not found."})
-                
             event_id = extracted_response.data.get("event_id")
             school_id = extracted_response.data.get("school_id")
             current_fields_data = extracted_response.data.get("fields", {})
