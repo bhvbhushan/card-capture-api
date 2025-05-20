@@ -283,16 +283,69 @@ async def export_to_slate_service(payload: dict):
         sftp_config = sftp_resp.data if sftp_resp and sftp_resp.data else None
         if not sftp_config or not sftp_config.get("enabled"):
             return JSONResponse(status_code=400, content={"error": "No SFTP config found or integration is disabled."})
+        
         # 2. Generate CSV file from rows
         import tempfile
         import os
-        fieldnames = list(rows[0].keys()) if rows else []
+        from datetime import datetime, timezone
+        
+        # Define headers in the same order as the frontend
+        headers = [
+            "Event Name",
+            "Name",
+            "Preferred Name",
+            "Birthday",
+            "Email",
+            "Phone Number",
+            "Permission to Text",
+            "Address",
+            "City",
+            "State",
+            "Zip Code",
+            "High School",
+            "Class Rank",
+            "Students in Class",
+            "GPA",
+            "Student Type",
+            "Entry Term",
+            "Major"
+        ]
+        
+        # Define field mappings
+        field_mappings = {
+            "Event Name": lambda row: row.get("event_name", ""),
+            "Name": lambda row: row.get("fields", {}).get("name", {}).get("value", ""),
+            "Preferred Name": lambda row: row.get("fields", {}).get("preferred_first_name", {}).get("value", ""),
+            "Birthday": lambda row: row.get("fields", {}).get("date_of_birth", {}).get("value", ""),
+            "Email": lambda row: row.get("fields", {}).get("email", {}).get("value", ""),
+            "Phone Number": lambda row: row.get("fields", {}).get("cell", {}).get("value", ""),
+            "Permission to Text": lambda row: row.get("fields", {}).get("permission_to_text", {}).get("value", ""),
+            "Address": lambda row: row.get("fields", {}).get("address", {}).get("value", ""),
+            "City": lambda row: row.get("fields", {}).get("city", {}).get("value", ""),
+            "State": lambda row: row.get("fields", {}).get("state", {}).get("value", ""),
+            "Zip Code": lambda row: row.get("fields", {}).get("zip_code", {}).get("value", ""),
+            "High School": lambda row: row.get("fields", {}).get("high_school", {}).get("value", ""),
+            "Class Rank": lambda row: row.get("fields", {}).get("class_rank", {}).get("value", ""),
+            "Students in Class": lambda row: row.get("fields", {}).get("students_in_class", {}).get("value", ""),
+            "GPA": lambda row: row.get("fields", {}).get("gpa", {}).get("value", ""),
+            "Student Type": lambda row: row.get("fields", {}).get("student_type", {}).get("value", ""),
+            "Entry Term": lambda row: row.get("fields", {}).get("entry_term", {}).get("value", ""),
+            "Major": lambda row: row.get("fields", {}).get("major", {}).get("value", "")
+        }
+        
+        # Create CSV content
+        csv_content = []
+        csv_content.append(headers)  # Add headers
+        for row in rows:
+            csv_row = [field_mappings[header](row) for header in headers]
+            csv_content.append(csv_row)
+        
+        # Create temporary CSV file
         with tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode="w", newline="") as tmp_csv:
-            writer = csv.DictWriter(tmp_csv, fieldnames=fieldnames)
-            writer.writeheader()
-            for row in rows:
-                writer.writerow(row)
+            writer = csv.writer(tmp_csv)
+            writer.writerows(csv_content)
             csv_path = tmp_csv.name
+        
         # 3. Upload to SFTP
         class ConfigObj:
             pass
@@ -303,6 +356,7 @@ async def export_to_slate_service(payload: dict):
         config_obj.password = sftp_config["password"]
         config_obj.upload_path = sftp_config["remote_path"]
         config_obj.key_path = None
+        
         try:
             success = upload_to_slate(csv_path, config_obj)
         except Exception as e:
@@ -310,9 +364,31 @@ async def export_to_slate_service(payload: dict):
             traceback.print_exc()
             os.remove(csv_path)
             return JSONResponse(status_code=500, content={"error": f"SFTP upload failed: {str(e)}"})
+        
         os.remove(csv_path)
         if not success:
             return JSONResponse(status_code=500, content={"error": "SFTP upload failed."})
+        
+        # 4. Mark rows as exported
+        try:
+            # Extract document IDs from rows
+            document_ids = [row.get("id") for row in rows if row.get("id")]
+            if document_ids:
+                # Update the exported_at timestamp for these documents
+                timestamp = datetime.now(timezone.utc).isoformat()
+                update_payload = {
+                    "exported_at": timestamp
+                }
+                update_response = supabase_client.table("reviewed_data") \
+                    .update(update_payload) \
+                    .in_("document_id", document_ids) \
+                    .execute()
+                print(f"✅ Successfully marked {len(document_ids)} records as exported")
+        except Exception as e:
+            print(f"⚠️ Warning: Failed to mark records as exported: {str(e)}")
+            # Don't return error since the upload was successful
+            # Just log the warning and continue
+        
         return JSONResponse(status_code=200, content={"status": "success"})
     except Exception as e:
         import traceback

@@ -45,23 +45,17 @@ def upload_to_slate(csv_file_path: str, config: Optional[SFTPConfig] = None) -> 
         
         # Connect to SFTP server
         logger.info(f"Connecting to SFTP server: {config.host}")
-        if config.key_path and os.path.exists(config.key_path):
-            # Use key-based authentication if key is provided
-            private_key = paramiko.RSAKey.from_private_key_file(config.key_path)
-            ssh.connect(
-                hostname=config.host,
-                port=config.port,
-                username=config.username,
-                pkey=private_key
-            )
-        else:
-            # Use password authentication
-            ssh.connect(
-                hostname=config.host,
-                port=config.port,
-                username=config.username,
-                password=config.password
-            )
+        
+        # Use password authentication only
+        logger.info("Using password authentication...")
+        ssh.connect(
+            hostname=config.host,
+            port=config.port,
+            username=config.username,
+            password=config.password,
+            look_for_keys=False,  # Disable looking for keys
+            allow_agent=False     # Disable SSH agent
+        )
         
         # Open SFTP session
         sftp = ssh.open_sftp()
@@ -117,21 +111,15 @@ def test_connection(config: Optional[SFTPConfig] = None) -> bool:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         
-        if config.key_path and os.path.exists(config.key_path):
-            private_key = paramiko.RSAKey.from_private_key_file(config.key_path)
-            ssh.connect(
-                hostname=config.host,
-                port=config.port,
-                username=config.username,
-                pkey=private_key
-            )
-        else:
-            ssh.connect(
-                hostname=config.host,
-                port=config.port,
-                username=config.username,
-                password=config.password
-            )
+        # Use password authentication only
+        ssh.connect(
+            hostname=config.host,
+            port=config.port,
+            username=config.username,
+            password=config.password,
+            look_for_keys=False,  # Disable looking for keys
+            allow_agent=False     # Disable SSH agent
+        )
         
         sftp = ssh.open_sftp()
         sftp.listdir(config.upload_path)
