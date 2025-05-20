@@ -10,7 +10,6 @@ from app.core.clients import docai_client, project_id, location, gmaps_client, m
 import googlemaps
 import google.generativeai as genai
 from typing import Dict, Any, Optional
-from app.core.gemini_prompt import  GEMINI_EXTRACTION_PROMPT_TEMPLATE
 from app.core.gemini_prompt import GEMINI_PROMPT_TEMPLATE
 import time
 import concurrent.futures
@@ -144,7 +143,7 @@ def validate_address_components(address: Optional[str], city: Optional[str], sta
     }
 
 # --- Document AI Processing ---
-def process_image(image_path: str, processor_id: str) -> Dict[str, Any]:
+def process_image(image_path: str, processor_id: str, user_id: str = None, school_id: str = None) -> Dict[str, Any]:
     docai_name = f"projects/{project_id}/locations/{location}/processors/{processor_id}"
     if not docai_client or not docai_name:
         raise ValueError("Document AI client not available")
@@ -178,15 +177,43 @@ def process_image(image_path: str, processor_id: str) -> Dict[str, Any]:
             print(f"✅ Formatted {len(processed_dict)} fields found by Document AI.")
         else:
             print(f"⚠️ No entities found by Document AI.")
+
+        # Get settings for required flags if user_id and school_id are provided
+        card_fields = {}
+        if user_id and school_id:
+            try:
+                from app.core.clients import supabase_client
+                settings_query = supabase_client.table("settings").select("preferences").eq("user_id", user_id).eq("school_id", school_id).order('created_at', desc=True).limit(1).execute()
+                if settings_query and settings_query.data and len(settings_query.data) > 0:
+                    settings = settings_query.data[0]
+                    if settings and "preferences" in settings and "card_fields" in settings["preferences"]:
+                        card_fields = settings["preferences"]["card_fields"]
+                        print(f"✅ Retrieved settings for user {user_id}, school {school_id}")
+                        print(f"Settings: {json.dumps(card_fields, indent=2)}")
+                    else:
+                        print(f"⚠️ No card_fields in settings for user {user_id}, school {school_id}")
+                else:
+                    print(f"⚠️ No settings found for user {user_id}, school {school_id}")
+            except Exception as e:
+                print(f"⚠️ Error fetching settings: {e}")
+                card_fields = {}
+
         final_extracted_fields = {}
         for field_key in ALL_EXPECTED_FIELDS:
+            field_settings = card_fields.get(field_key, {})
             if field_key in processed_dict:
-                final_extracted_fields[field_key] = processed_dict[field_key]
+                final_extracted_fields[field_key] = {
+                    **processed_dict[field_key],
+                    "required": field_settings.get("required", False),
+                    "enabled": field_settings.get("enabled", True)
+                }
             else:
                 print(f"ℹ️ Field '{field_key}' not found by Document AI, adding as blank.")
                 final_extracted_fields[field_key] = {
                     "value": "",
-                    "vision_confidence": 0.0
+                    "vision_confidence": 0.0,
+                    "required": field_settings.get("required", False),
+                    "enabled": field_settings.get("enabled", True)
                 }
         try:
             address = final_extracted_fields.get('address', {}).get('value', '')
@@ -276,11 +303,11 @@ def get_gemini_review(all_fields: dict, image_path: str) -> dict:
         print(f"❌ Gemini model 'gemini-1.5-pro-latest' not accessible: {model_e}")
         return {}
     try:
-        prompt = GEMINI_EXTRACTION_PROMPT_TEMPLATE.format(
+        prompt = GEMINI_PROMPT_TEMPLATE.format(
             all_fields_json=json.dumps(all_fields, indent=2)
         )
     except KeyError as e:
-        print(f"❌ Error formatting prompt template: Missing '{{all_fields_json}}' placeholder in GEMINI_EXTRACTION_PROMPT_TEMPLATE. Check definition. Details: {e}")
+        print(f"❌ Error formatting prompt template: Missing '{{all_fields_json}}' placeholder in GEMINI_PROMPT_TEMPLATE. Check definition. Details: {e}")
         return {}
     except Exception as fmt_e:
         print(f"❌ Unexpected error formatting prompt template: {fmt_e}")
@@ -297,12 +324,30 @@ def get_gemini_review(all_fields: dict, image_path: str) -> dict:
         cleaned_json_text = re.sub(r"```json\s*([\s\S]*?)\s*```", r"\1", response.text).strip()
         print(f"🧠 Attempting to parse JSON:\n{cleaned_json_text}\n--------------------")
         gemini_dict = json.loads(cleaned_json_text)
-        if isinstance(gemini_dict, dict): print("✅ Gemini review successful, JSON parsed."); return gemini_dict
-        else: print(f"❌ Gemini response not a dictionary (type: {type(gemini_dict)})."); return {}
+        
+        # Preserve required flags and other metadata from original fields
+        for field_name, field_data in gemini_dict.items():
+            if field_name in all_fields:
+                original_field = all_fields[field_name]
+                if isinstance(field_data, dict):
+                    field_data.update({
+                        "required": original_field.get("required", False),
+                        "enabled": original_field.get("enabled", True),
+                        "confidence": original_field.get("confidence", 0.0),
+                        "bounding_box": original_field.get("bounding_box", [])
+                    })
+        
+        if isinstance(gemini_dict, dict): 
+            print("✅ Gemini review successful, JSON parsed.")
+            return gemini_dict
+        else: 
+            print(f"❌ Gemini response not a dictionary (type: {type(gemini_dict)}).")
+            return {}
     except json.JSONDecodeError as json_e:
         print(f"❌ Error decoding Gemini JSON response: {json_e}")
         print(f"--- Faulty Text Start ---\n{cleaned_json_text[:1000]}\n--- Faulty Text End ---")
-        traceback.print_exc(); return {}
+        traceback.print_exc()
+        return {}
     except Exception as e:
         print(f"❌ Error in get_gemini_review (API call or other): {e}")
         if response:
@@ -310,7 +355,8 @@ def get_gemini_review(all_fields: dict, image_path: str) -> dict:
             if hasattr(response, 'candidates') and response.candidates:
                  if hasattr(response.candidates[0], 'finish_reason'): print(f"Finish Reason: {response.candidates[0].finish_reason}")
                  if hasattr(response.candidates[0], 'safety_ratings'): print(f"Safety Ratings: {response.candidates[0].safety_ratings}")
-        traceback.print_exc(); return {}
+        traceback.print_exc()
+        return {}
 
 # Gemini-only extraction
 ALL_EXPECTED_FIELDS = [
@@ -326,61 +372,75 @@ def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_
     timeout_seconds = 30
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
     model = genai.GenerativeModel("gemini-1.5-pro-latest")
+    
+    # Debug logging for required flags
+    print("[Gemini DEBUG] Checking required flags in DocAI fields:")
+    for field_name, field_data in docai_fields.items():
+        print(f"  {field_name}: required={field_data.get('required', False)}")
+    
     print("[Gemini DEBUG] DocAI JSON being passed to Gemini:")
     print(json.dumps(docai_fields, indent=2))
-    prompt = GEMINI_EXTRACTION_PROMPT_TEMPLATE.format(
+    
+    # Use the updated prompt template that includes required flags
+    prompt = GEMINI_PROMPT_TEMPLATE.format(
         all_fields_json=json.dumps(docai_fields, indent=2)
     )
-    response = None  # Ensure response is always defined
+    
+    response = None
     for attempt in range(max_retries):
         try:
-            print(f"🧠 Sending request to Gemini for image: {os.path.basename(image_path)} (Attempt {attempt + 1}/{max_retries})")
-            with io.open(image_path, "rb") as f: image_bytes = f.read()
-            current_mime_type = mime_type
-            image_part = {"mime_type": current_mime_type, "data": image_bytes}
-            def call_gemini():
-                return model.generate_content([prompt, image_part])
-            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
-                future = executor.submit(call_gemini)
-                try:
-                    response = future.result(timeout=timeout_seconds)
-                except concurrent.futures.TimeoutError:
-                    print(f"❌ Gemini API call timed out after {timeout_seconds} seconds.")
-                    raise Exception("Gemini API call timed out")
-            print(f"🧠 Gemini Raw Response Text:\n{response.text}\n--------------------")
-            cleaned_json_text = re.sub(r"```json\s*([\s\S]*?)\s*```", r"\1", response.text).strip()
-            print(f"🧠 Attempting to parse JSON:\n{cleaned_json_text}\n--------------------")
-            gemini_dict = json.loads(cleaned_json_text)
-            if isinstance(gemini_dict, dict): 
-                print("✅ Gemini review successful, JSON parsed.")
-                return gemini_dict
-            else: 
-                print(f"❌ Gemini response not a dictionary (type: {type(gemini_dict)}).")
-                if attempt < max_retries - 1:
-                    print(f"Retrying in {retry_delay} seconds...")
-                    time.sleep(retry_delay)
-                    continue
-                return {}
-        except json.JSONDecodeError as json_e:
-            print(f"❌ Error decoding Gemini JSON response: {json_e}")
-            print(f"--- Faulty Text Start ---\n{cleaned_json_text[:1000]}\n--- Faulty Text End ---")
-            if attempt < max_retries - 1:
-                print(f"Retrying in {retry_delay} seconds...")
-                time.sleep(retry_delay)
-                continue
-            traceback.print_exc()
-            return {}
+            response = model.generate_content(prompt)
+            if response and response.text:
+                break
         except Exception as e:
-            print(f"❌ Error in get_gemini_review (API call or other): {e}")
-            if response:
-                if hasattr(response, 'prompt_feedback'): print(f"Prompt Feedback: {response.prompt_feedback}")
-                if hasattr(response, 'candidates') and response.candidates:
-                     if hasattr(response.candidates[0], 'finish_reason'): print(f"Finish Reason: {response.candidates[0].finish_reason}")
-                     if hasattr(response.candidates[0], 'safety_ratings'): print(f"Safety Ratings: {response.candidates[0].safety_ratings}")
+            print(f"Attempt {attempt + 1} failed: {str(e)}")
             if attempt < max_retries - 1:
-                print(f"Retrying in {retry_delay} seconds...")
                 time.sleep(retry_delay)
-                continue
-            traceback.print_exc()
-            return {}
-    return {} 
+            else:
+                raise e
+    
+    if not response or not response.text:
+        raise Exception("Failed to get response from Gemini")
+    
+    try:
+        # Clean the response text by removing markdown code block markers
+        cleaned_text = response.text.strip()
+        if cleaned_text.startswith("```json"):
+            cleaned_text = cleaned_text[7:]  # Remove ```json
+        if cleaned_text.endswith("```"):
+            cleaned_text = cleaned_text[:-3]  # Remove ```
+        cleaned_text = cleaned_text.strip()
+        
+        # Parse the cleaned response as JSON
+        gemini_fields = json.loads(cleaned_text)
+        
+        # Preserve required flags and other metadata from DocAI fields
+        for field_name, field_data in gemini_fields.items():
+            if field_name in docai_fields:
+                original_field = docai_fields[field_name]
+                # Preserve all the original field metadata
+                field_data.update({
+                    "required": original_field.get("required", False),
+                    "enabled": original_field.get("enabled", True),
+                    "confidence": original_field.get("confidence", 0.0),
+                    "bounding_box": original_field.get("bounding_box", [])
+                })
+                
+                # If field is required and empty, mark for review
+                if field_data.get("required", False) and not field_data.get("value"):
+                    field_data["requires_human_review"] = True
+                    field_data["review_notes"] = "Required field is empty"
+                # If field is required and has low confidence, mark for review
+                elif field_data.get("required", False) and field_data.get("confidence", 0.0) < 0.7:
+                    field_data["requires_human_review"] = True
+                    field_data["review_notes"] = "Required field has low confidence"
+        
+        print("[Gemini DEBUG] Processed fields with required flags:")
+        print(json.dumps(gemini_fields, indent=2))
+        
+        return gemini_fields
+    except json.JSONDecodeError as e:
+        print(f"Failed to parse Gemini response as JSON: {str(e)}")
+        print(f"Raw response: {response.text}")
+        print(f"Cleaned text: {cleaned_text}")
+        raise e 
