@@ -178,24 +178,20 @@ def process_image(image_path: str, processor_id: str, user_id: str = None, schoo
         else:
             print(f"⚠️ No entities found by Document AI.")
 
-        # Get settings for required flags if user_id and school_id are provided
+        # Get settings for required flags if school_id is provided
         card_fields = {}
-        if user_id and school_id:
+        if school_id:
             try:
                 from app.core.clients import supabase_client
-                settings_query = supabase_client.table("settings").select("preferences").eq("user_id", user_id).eq("school_id", school_id).order('created_at', desc=True).limit(1).execute()
-                if settings_query and settings_query.data and len(settings_query.data) > 0:
-                    settings = settings_query.data[0]
-                    if settings and "preferences" in settings and "card_fields" in settings["preferences"]:
-                        card_fields = settings["preferences"]["card_fields"]
-                        print(f"✅ Retrieved settings for user {user_id}, school {school_id}")
-                        print(f"Settings: {json.dumps(card_fields, indent=2)}")
-                    else:
-                        print(f"⚠️ No card_fields in settings for user {user_id}, school {school_id}")
+                school_query = supabase_client.table("schools").select("card_fields").eq("id", school_id).maybe_single().execute()
+                if school_query and school_query.data:
+                    card_fields = school_query.data.get("card_fields", {})
+                    print(f"✅ Retrieved school settings for school {school_id}")
+                    print(f"Settings: {json.dumps(card_fields, indent=2)}")
                 else:
-                    print(f"⚠️ No settings found for user {user_id}, school {school_id}")
+                    print(f"⚠️ No card_fields in school settings for school {school_id}")
             except Exception as e:
-                print(f"⚠️ Error fetching settings: {e}")
+                print(f"⚠️ Error fetching school settings: {e}")
                 card_fields = {}
 
         final_extracted_fields = {}
@@ -204,7 +200,7 @@ def process_image(image_path: str, processor_id: str, user_id: str = None, schoo
             if field_key in processed_dict:
                 final_extracted_fields[field_key] = {
                     **processed_dict[field_key],
-                    "required": field_settings.get("required", False),
+                    "required": field_settings.get("required", False),  # Default to False
                     "enabled": field_settings.get("enabled", True)
                 }
             else:
@@ -212,7 +208,7 @@ def process_image(image_path: str, processor_id: str, user_id: str = None, schoo
                 final_extracted_fields[field_key] = {
                     "value": "",
                     "vision_confidence": 0.0,
-                    "required": field_settings.get("required", False),
+                    "required": field_settings.get("required", False),  # Default to False
                     "enabled": field_settings.get("enabled", True)
                 }
         try:
@@ -420,7 +416,7 @@ def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_
                 original_field = docai_fields[field_name]
                 # Preserve all the original field metadata
                 field_data.update({
-                    "required": original_field.get("required", False),
+                    "required": original_field.get("required", False),  # Default to False
                     "enabled": original_field.get("enabled", True),
                     "confidence": original_field.get("confidence", 0.0),
                     "bounding_box": original_field.get("bounding_box", [])
