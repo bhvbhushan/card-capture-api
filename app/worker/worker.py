@@ -26,90 +26,55 @@ def download_from_supabase(storage_path, local_path):
 
 def sync_card_fields_preferences(supabase_client, user_id, school_id, docai_fields):
     """
-    Ensure the settings table for the given user_id and school_id has all fields from docai_fields in preferences.card_fields.
-    Adds missing fields with enabled=True and required=False. Inserts row if not present.
+    Ensure the schools table for the given school_id has all fields from docai_fields in card_fields.
+    Adds missing fields with enabled=True and required=False. Updates school record if not present.
     """
     # Collect all unique field names from docai_fields
     field_names = set(docai_fields.keys())
     print(f"[Preferences Sync] Using field names from DocAI: {list(field_names)}")
 
-    settings_query = supabase_client.table("settings").select("id, preferences").eq("user_id", user_id).eq("school_id", school_id).maybe_single().execute()
-    settings_row = settings_query.data if settings_query and settings_query.data else None
-    if settings_row:
-        print(f"[Preferences Sync] Found existing settings row: id={settings_row.get('id')}")
-        preferences = settings_row.get("preferences") or {}
-        print(f"[Preferences Sync] DB card_fields: {preferences.get('card_fields')}")
-        print(f"[Preferences Sync] New card_fields: {preferences.get('card_fields')}")
+    # First, get the current school settings
+    school_query = supabase_client.table("schools").select("id, card_fields").eq("id", school_id).maybe_single().execute()
+    school_row = school_query.data if school_query and school_query.data else None
+    
+    if school_row:
+        print(f"[Preferences Sync] Found existing school row: id={school_row.get('id')}")
+        card_fields = school_row.get("card_fields", {})
+        print(f"[Preferences Sync] Current card_fields: {json.dumps(card_fields, indent=2)}")
     else:
-        print(f"[Preferences Sync] No settings row found. Will insert new row if needed.")
-        preferences = {}
-    card_fields = preferences.get("card_fields") if preferences else None
+        print(f"[Preferences Sync] No school row found. Will insert new row.")
+        card_fields = {}
 
-    # When creating new settings, initialize all fields as enabled but not required
-    new_fields = {
-        field: {
-            "enabled": True,
-            "required": False  # Default to not required
-        } for field in field_names
-    }
-
-    if not card_fields or not isinstance(card_fields, dict) or not card_fields:
-        print(f"[Preferences Sync] card_fields missing or invalid. Initializing with DocAI fields: {list(new_fields.keys())}")
-        card_fields = dict(new_fields)  # ensure new object
-        preferences["card_fields"] = card_fields
-        print(f"[Preferences Sync] Forcing upsert of card_fields in DB.")
-        upsert_payload = {
-            "user_id": user_id,
-            "school_id": school_id,
-            "preferences": preferences
-        }
-        if settings_row:
-            upsert_payload["id"] = settings_row["id"]
-        supabase_client.table("settings").upsert(upsert_payload).execute()
-        # Fetch again to confirm
-        if settings_row:
-            updated_row = supabase_client.table("settings").select("id, preferences").eq("id", settings_row["id"]).maybe_single().execute()
+    # Update existing fields with required flags from settings
+    for field_name in field_names:
+        if field_name in card_fields:
+            # Preserve existing settings
+            field_settings = card_fields[field_name]
+            print(f"[Preferences Sync] Preserving settings for {field_name}: {json.dumps(field_settings)}")
         else:
-            updated_row = supabase_client.table("settings").select("id, preferences").eq("user_id", user_id).eq("school_id", school_id).maybe_single().execute()
-        print(f"[Preferences Sync] After upsert, card_fields in DB: {updated_row.data.get('preferences', {}).get('card_fields') if updated_row and updated_row.data else None}")
-        return
-
-    # Add any new fields to existing settings
-    updated = False
-    for field in new_fields:
-        if field not in card_fields:
-            print(f"[Preferences Sync] Adding missing field to card_fields: {field}")
-            card_fields[field] = {
+            # Initialize new fields with required=False by default
+            card_fields[field_name] = {
                 "enabled": True,
-                "required": False  # New fields start as not required
+                "required": False  # Default to False
             }
-            updated = True
+            print(f"[Preferences Sync] Initializing new field {field_name} with required=False")
 
-    if not updated:
-        print(f"[Preferences Sync] No new fields to add to card_fields.")
-        return
-
-    # Update settings if new fields were added
-    preferences["card_fields"] = card_fields
-    if not settings_row:
-        print(f"[Preferences Sync] Inserting new settings row for user_id={user_id}, school_id={school_id}")
-        upsert_payload = {
-            "user_id": user_id,
-            "school_id": school_id,
-            "preferences": preferences
-        }
-        supabase_client.table("settings").upsert(upsert_payload).execute()
-        print(f"[Preferences Sync] Inserted new settings row for user_id={user_id}, school_id={school_id}")
+    # Update school record with modified card_fields
+    update_payload = {
+        "id": school_id,
+        "card_fields": card_fields
+    }
+    
+    # Update the school record
+    print(f"[Preferences Sync] Updating school with card_fields: {json.dumps(card_fields, indent=2)}")
+    supabase_client.table("schools").update(update_payload).eq("id", school_id).execute()
+    
+    # Verify the update
+    updated_query = supabase_client.table("schools").select("card_fields").eq("id", school_id).maybe_single().execute()
+    if updated_query and updated_query.data:
+        print(f"[Preferences Sync] Verified updated school settings: {json.dumps(updated_query.data.get('card_fields', {}), indent=2)}")
     else:
-        print(f"[Preferences Sync] Updating settings preferences.card_fields for user_id={user_id}, school_id={school_id}")
-        upsert_payload = {
-            "user_id": user_id,
-            "school_id": school_id,
-            "preferences": preferences
-        }
-        upsert_payload["id"] = settings_row["id"]
-        supabase_client.table("settings").upsert(upsert_payload).execute()
-        print(f"[Preferences Sync] Updated settings preferences.card_fields for user_id={user_id}, school_id={school_id}")
+        print("[Preferences Sync] Failed to verify school settings update")
 
 def process_job(job):
     job_id = job["id"]
@@ -117,23 +82,66 @@ def process_job(job):
     user_id = job["user_id"]
     school_id = job["school_id"]
     event_id = job.get("event_id")
-    print(f"Processing job {job_id} for user {user_id}, file {file_url}")
+    print(f"Processing job {job_id} for user {user_id}, school {school_id}")
     tmp_file = None
     try:
         with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file_url)[1] or '.png') as tmp:
             tmp_file = tmp.name
         download_from_supabase(file_url, tmp_file)
         print(f"Downloaded to {tmp_file}")
+        
         # Use DocAI fields from processing_jobs.result_json
         docai_fields = job.get("result_json")
         if not docai_fields:
             raise Exception("No DocAI fields found in processing_jobs.result_json")
-        # Run Gemini enhancement with DocAI fields
-        gemini_fields = parse_card_with_gemini(tmp_file, docai_fields)
-        print(f"Extracted fields: {json.dumps(gemini_fields)[:200]}...")
-        # --- Preferences sync logic ---
+            
+        # Sync preferences before processing
         sync_card_fields_preferences(supabase_client, user_id, school_id, docai_fields)
-        # --- End preferences sync logic ---
+        
+        # Get the latest school settings to ensure we have the correct required flags
+        school_query = supabase_client.table("schools").select("card_fields").eq("id", school_id).maybe_single().execute()
+        if school_query and school_query.data:
+            card_fields = school_query.data.get("card_fields", {})
+            print("[Worker DEBUG] Retrieved school settings:")
+            print(json.dumps(card_fields, indent=2))
+            
+            # Update DocAI fields with required flags from school settings
+            for field_name, field_data in docai_fields.items():
+                if field_name in card_fields:
+                    field_settings = card_fields[field_name]
+                    field_data["required"] = field_settings.get("required", False)  # Default to False
+                    field_data["enabled"] = field_settings.get("enabled", True)
+                    print(f"[Worker DEBUG] Updated {field_name} with required={field_data['required']}")
+                else:
+                    print(f"[Worker DEBUG] No settings found for {field_name}, defaulting required=False")
+                    field_data["required"] = False
+                    field_data["enabled"] = True
+        
+        # Debug logging for DocAI fields
+        print("[Worker DEBUG] DocAI fields with required flags:")
+        print(json.dumps(docai_fields, indent=2))
+        
+        # Run Gemini enhancement with DocAI fields (now including required flags)
+        gemini_fields = parse_card_with_gemini(tmp_file, docai_fields)
+        
+        # Ensure required flags are preserved in the final output
+        for field_name, field_data in gemini_fields.items():
+            if field_name in docai_fields:
+                field_data["required"] = docai_fields[field_name].get("required", False)  # Default to False
+                field_data["enabled"] = docai_fields[field_name].get("enabled", True)
+                # If field is required and empty, mark for review
+                if field_data.get("required", False) and not field_data.get("value"):
+                    field_data["requires_human_review"] = True
+                    field_data["review_notes"] = "Required field is empty"
+                # If field is required and has low confidence, mark for review
+                elif field_data.get("required", False) and field_data.get("confidence", 0.0) < 0.7:
+                    field_data["requires_human_review"] = True
+                    field_data["review_notes"] = "Required field has low confidence"
+        
+        # Debug logging for Gemini response
+        print("[Worker DEBUG] Gemini response with required flags:")
+        print(json.dumps(gemini_fields, indent=2))
+        
         now = datetime.now(timezone.utc).isoformat()
         reviewed_data = {
             "document_id": job_id,
@@ -157,26 +165,14 @@ def process_job(job):
     except Exception as e:
         print(f"Error processing job {job_id}: {e}")
         traceback.print_exc()
-        retries = job.get("retries", 0) + 1
-        now = datetime.now(timezone.utc).isoformat()
-        if retries < MAX_RETRIES:
-            update_processing_job(supabase_client, job_id, {
-                "status": "queued",
-                "error_message": str(e),
-                "updated_at": now,
-                "retries": retries
-            })
-            print(f"Job {job_id} re-queued (retry {retries}).")
-        else:
-            update_processing_job(supabase_client, job_id, {
-                "status": "failed",
-                "error_message": str(e),
-                "updated_at": now
-            })
-            print(f"Job {job_id} failed after {MAX_RETRIES} retries.")
+        update_processing_job(supabase_client, job_id, {
+            "status": "error",
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "error_message": str(e)
+        })
     finally:
         if tmp_file and os.path.exists(tmp_file):
-            os.remove(tmp_file)
+            os.unlink(tmp_file)
 
 def main():
     print("Starting CardCapture processing worker...")
