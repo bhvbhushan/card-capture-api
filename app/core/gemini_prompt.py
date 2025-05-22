@@ -51,6 +51,35 @@ Ignore the input `vision_confidence`; you will determine your own `review_confid
    - "Required field value appears incorrect"
    - "Required field is ambiguous"
 
+**Field Formatting Rules:**
+
+1. **High School Field:**
+   - Always format as "XYZ High School"
+   - Convert variations like "XYZ Highschool" or "XYZ HS" to "XYZ High School"
+   - Example: "Lincoln HS" → "Lincoln High School"
+
+2. **N/A Values:**
+   - If any field contains "N/A", return an empty string ("") instead
+   - Do not preserve "N/A" in any field
+
+3. **Entry Term:**
+   - Standardize to format: "Fall YYYY" or "Spring YYYY"
+   - If only a year is provided (e.g., "2027"), default to "Fall 2027"
+   - If "Spring" is mentioned, use "Spring YYYY"
+   - Example: "2027" → "Fall 2027"
+   - Example: "Spring 2027" → "Spring 2027"
+
+4. **Birthday Format:**
+   - Always format as MM/DD/YYYY
+   - Example: "1/15/2005" → "01/15/2005"
+   - Example: "Jan 15 2005" → "01/15/2005"
+
+5. **Phone Numbers:**
+   - Format as xxx-xxx-xxxx
+   - Remove any parentheses, spaces, or other characters
+   - Example: "(512) 555-1234" → "512-555-1234"
+   - Example: "512.555.1234" → "512-555-1234"
+
 **Correction & Validation Rules:**
 
 1.  **Image is Ground Truth:** Base all corrections and confidence scores *strictly* on the provided image.
@@ -63,7 +92,7 @@ Ignore the input `vision_confidence`; you will determine your own `review_confid
   - (The value is empty OR `review_confidence` is < 0.70 OR the value appears incorrect)
 * **Non-Required Fields:** 
   - Do not flag for review
-* **Review Notes:** Provide a brief explanation in `review_notes` ONLY when `requires_human_review` is `true`
+* **Review Notes:** Provide a brief explanation in `review_notes` ONLY when `requires_human_review` is `true` to explain to the human why you think they need to review it, provide any context you can. 
 * **Field Status:** Always preserve the `required` and `enabled` flags from the input JSON
 
 **Final Instruction:** Review ALL fields provided in the input JSON based on the image and rules. Pay special attention to the `required` flag for each field. Return ONLY the complete, valid JSON object adhering to the specified output format. Do not include any other text.

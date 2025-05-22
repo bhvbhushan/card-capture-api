@@ -278,6 +278,7 @@ async def export_to_slate_service(payload: dict):
         rows = payload.get("rows")
         if not school_id or not rows or not isinstance(rows, list):
             return JSONResponse(status_code=400, content={"error": "Missing or invalid school_id or rows."})
+        
         # 1. Look up SFTP config
         sftp_resp = supabase_client.table("sftp_configs").select("*").eq("school_id", school_id).maybe_single().execute()
         sftp_config = sftp_resp.data if sftp_resp and sftp_resp.data else None
@@ -292,7 +293,8 @@ async def export_to_slate_service(payload: dict):
         # Define headers in the same order as the frontend
         headers = [
             "Event Name",
-            "Name",
+            "First Name",
+            "Last Name",
             "Preferred Name",
             "Birthday",
             "Email",
@@ -314,7 +316,8 @@ async def export_to_slate_service(payload: dict):
         # Define field mappings
         field_mappings = {
             "Event Name": lambda row: row.get("event_name", ""),
-            "Name": lambda row: row.get("fields", {}).get("name", {}).get("value", ""),
+            "First Name": lambda row: row.get("fields", {}).get("name", {}).get("value", "").split()[0] if row.get("fields", {}).get("name", {}).get("value") else "",
+            "Last Name": lambda row: " ".join(row.get("fields", {}).get("name", {}).get("value", "").split()[1:]) if row.get("fields", {}).get("name", {}).get("value") else "",
             "Preferred Name": lambda row: row.get("fields", {}).get("preferred_first_name", {}).get("value", ""),
             "Birthday": lambda row: row.get("fields", {}).get("date_of_birth", {}).get("value", ""),
             "Email": lambda row: row.get("fields", {}).get("email", {}).get("value", ""),
@@ -345,7 +348,17 @@ async def export_to_slate_service(payload: dict):
             writer = csv.writer(tmp_csv)
             writer.writerows(csv_content)
             csv_path = tmp_csv.name
+
+        # DEBUG MODE: Save CSV to downloads folder instead of sending to Slate
+        import shutil
+        from pathlib import Path
+        downloads_path = str(Path.home() / "Downloads")
+        debug_csv_path = os.path.join(downloads_path, f"slate_export_debug_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv")
+        shutil.copy2(csv_path, debug_csv_path)
+        print(f"DEBUG: CSV saved to {debug_csv_path}")
         
+        # Comment out SFTP upload for debugging
+        """
         # 3. Upload to SFTP
         class ConfigObj:
             pass
@@ -368,6 +381,7 @@ async def export_to_slate_service(payload: dict):
         os.remove(csv_path)
         if not success:
             return JSONResponse(status_code=500, content={"error": "SFTP upload failed."})
+        """
         
         # 4. Mark rows as exported
         try:
@@ -389,7 +403,7 @@ async def export_to_slate_service(payload: dict):
             # Don't return error since the upload was successful
             # Just log the warning and continue
         
-        return JSONResponse(status_code=200, content={"status": "success"})
+        return JSONResponse(status_code=200, content={"status": "success", "debug_path": debug_csv_path})
     except Exception as e:
         import traceback
         traceback.print_exc()
