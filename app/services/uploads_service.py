@@ -156,32 +156,22 @@ def process_image_and_trim(input_path: str, processor_id: str, percent_expand: f
 
 async def upload_file_service(background_tasks, file, event_id, school_id, user):
     print(f"📤 Received upload request for file: {file.filename}")
-    print(f"📤 File content type: {file.content_type}")
-    print(f"📤 File size: {file.size if hasattr(file, 'size') else 'unknown'}")
-    print(f"📤 Event ID: {event_id}")
     user_id = user['id']
     if not supabase_client:
-        print("❌ Database client not available")
-        return JSONResponse(status_code=503, content={"error": "Database client not available."})
+        return {"error": "Database client not available"}
+
+    # Save uploaded file to a temp location
+    import tempfile, os, uuid
+    with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1]) as temp_file:
+        temp_file.write(await file.read())
+        temp_file_path = temp_file.name
+
     try:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1] or '.png') as temp_file:
-            shutil.copyfileobj(file.file, temp_file)
-            temp_path = temp_file.name
-        print(f"📄 File saved temporarily to: {temp_path}")
-        # Fetch docai_processor_id from schools table (if needed)
-        processor_id = DOCAI_PROCESSOR_ID
-        # If you want to fetch per-school, add logic here
-        docai_json, trimmed_path = process_image_and_trim(temp_path, processor_id)
-        print(f"✂️ Trimmed image saved to: {trimmed_path}")
-        storage_path = upload_to_supabase_storage_from_path(supabase_client, trimmed_path, user_id, file.filename)
-        print(f"✅ Uploaded trimmed image to Supabase Storage: {storage_path}")
-        try:
-            os.remove(temp_path)
-            if trimmed_path != temp_path:
-                os.remove(trimmed_path)
-            print(f"🗑️ Temp files deleted.")
-        except Exception as cleanup_e:
-            print(f"⚠️ Error deleting temp files: {cleanup_e}")
+        # Upload to Supabase storage
+        storage_path = upload_to_supabase_storage_from_path(supabase_client, temp_file_path, user_id, file.filename)
+        print(f"✅ File uploaded to storage: {storage_path}")
+
+        # Create processing job
         job_id = str(uuid.uuid4())
         from datetime import datetime, timezone
         now = datetime.now(timezone.utc).isoformat()
@@ -193,7 +183,7 @@ async def upload_file_service(background_tasks, file, event_id, school_id, user)
             "file_url": storage_path,
             "image_path": image_path_for_db,
             "status": "queued",
-            "result_json": docai_json,
+            "result_json": None,  # Will be populated by worker
             "error_message": None,
             "created_at": now,
             "updated_at": now,
@@ -202,17 +192,20 @@ async def upload_file_service(background_tasks, file, event_id, school_id, user)
         insert_processing_job_db(supabase_client, job_data)
         response_data = {
             "status": "success",
-            "message": "File uploaded and trimmed successfully. Processing will continue in the background.",
+            "message": "File uploaded successfully. Processing will continue in the background.",
             "job_id": job_id,
             "document_id": job_id,
             "storage_path": storage_path
         }
         return JSONResponse(status_code=200, content=response_data)
     except Exception as e:
-        print(f"❌ Error uploading or processing file: {e}")
+        print(f"❌ Error uploading file: {e}")
         import traceback
         traceback.print_exc()
-        return JSONResponse(status_code=500, content={"error": "Failed to upload or process file."})
+        return JSONResponse(status_code=500, content={"error": "Failed to upload file."})
+    finally:
+        if os.path.exists(temp_file_path):
+            os.remove(temp_file_path)
 
 async def check_upload_status_service(document_id: str):
     if not supabase_client:
@@ -280,14 +273,13 @@ async def bulk_upload_service(background_tasks, file, event_id, school_id, user)
                 if not png_paths:
                     print(f"[ERROR] No PNGs were generated from PDF: {temp_file_path}")
                     return {"error": "Failed to split PDF into images."}
+                
                 for png_path in png_paths:
-                    # Process with DocAI and trim
-                    processor_id = DOCAI_PROCESSOR_ID
-                    docai_json, trimmed_path = process_image_and_trim(png_path, processor_id)
                     # Upload to Supabase storage
-                    storage_path = upload_to_supabase_storage_from_path(supabase_client, trimmed_path, user_id, os.path.basename(trimmed_path))
+                    storage_path = upload_to_supabase_storage_from_path(supabase_client, png_path, user_id, os.path.basename(png_path))
                     image_path_for_db = storage_path.replace('cards-uploads/', '') if storage_path.startswith('cards-uploads/') else storage_path
-                    # Create processing job with DocAI JSON
+                    
+                    # Create processing job
                     job_id = str(uuid.uuid4())
                     from datetime import datetime, timezone
                     now = datetime.now(timezone.utc).isoformat()
@@ -298,7 +290,7 @@ async def bulk_upload_service(background_tasks, file, event_id, school_id, user)
                         "file_url": storage_path,
                         "image_path": image_path_for_db,
                         "status": "queued",
-                        "result_json": docai_json,
+                        "result_json": None,  # Will be populated by worker
                         "error_message": None,
                         "created_at": now,
                         "updated_at": now,

@@ -5,12 +5,14 @@ import traceback
 import json
 from datetime import datetime, timezone
 from app.services.document_service import parse_card_with_gemini, validate_address_with_google
+from app.services.uploads_service import process_image_and_trim
 # from app.services.gemini_service import run_gemini_review
 from app.repositories.processing_jobs_repository import update_processing_job
 from app.core.clients import supabase_client
 from app.repositories.uploads_repository import insert_extracted_data_db
 from app.repositories.reviewed_data_repository import upsert_reviewed_data
 from app.repositories.upload_notifications_repository import insert_upload_notification
+from app.config import DOCAI_PROCESSOR_ID
 
 BUCKET = "cards-uploads"
 MAX_RETRIES = 3
@@ -110,16 +112,18 @@ def process_job(job):
         download_from_supabase(file_url, tmp_file)
         log_debug(f"Downloaded file to: {tmp_file}")
         
-        # Use DocAI fields from processing_jobs.result_json
-        docai_fields = job.get("result_json")
-        if not docai_fields:
-            raise Exception("No DocAI fields found in processing_jobs.result_json")
-            
-        log_debug("=== DOCAI FIELDS FROM JOB ===", docai_fields)
+        # Fetch school's DocAI processor ID
+        school_query = supabase_client.table("schools").select("docai_processor_id").eq("id", school_id).maybe_single().execute()
+        processor_id = school_query.data.get("docai_processor_id") if school_query and school_query.data else DOCAI_PROCESSOR_ID
+        log_debug(f"Using DocAI processor: {processor_id}")
+        
+        # Process with DocAI
+        docai_json, trimmed_path = process_image_and_trim(tmp_file, processor_id)
+        log_debug("=== DOCAI FIELDS FROM PROCESSING ===", docai_json)
         
         # Sync preferences before processing
         log_debug("=== SYNCING CARD FIELD PREFERENCES ===")
-        sync_card_fields_preferences(supabase_client, user_id, school_id, docai_fields)
+        sync_card_fields_preferences(supabase_client, user_id, school_id, docai_json)
         
         # Get the latest school settings
         log_debug("=== RETRIEVING SCHOOL SETTINGS ===")
@@ -130,7 +134,7 @@ def process_job(job):
             
             # Update DocAI fields with required flags
             log_debug("=== UPDATING FIELDS WITH REQUIRED FLAGS ===")
-            for field_name, field_data in docai_fields.items():
+            for field_name, field_data in docai_json.items():
                 if field_name in card_fields:
                     field_settings = card_fields[field_name]
                     field_data["required"] = field_settings.get("required", False)
@@ -145,42 +149,93 @@ def process_job(job):
                     field_data["enabled"] = True
         
         # Debug logging for DocAI fields after updates
-        log_debug("=== UPDATED DOCAI FIELDS ===", docai_fields)
+        log_debug("=== UPDATED DOCAI FIELDS ===", docai_json)
         
-        # Get city and state from zip code using Google Maps
-        if 'zip_code' in docai_fields and docai_fields['zip_code'].get('value'):
-            zip_code = docai_fields['zip_code']['value']
-            address = docai_fields.get('address', {}).get('value', '')
-            log_debug("=== VALIDATING ADDRESS ===", {
-                "Zip Code": zip_code,
-                "Address": address
-            })
-            validation_result = validate_address_with_google(address, zip_code)
-            if validation_result:
-                log_debug("Address validation result", validation_result)
-                # Add city and state from validation
-                docai_fields['city'] = {
-                    "value": validation_result['city'],
+        # Validate address components
+        address = docai_json.get('address', {}).get('value', '')
+        city = docai_json.get('city', {}).get('value', '')
+        state = docai_json.get('state', {}).get('value', '')
+        zip_code = docai_json.get('zip_code', {}).get('value', '')
+        
+        log_debug("=== VALIDATING ADDRESS ===", {
+            "Address": address,
+            "City": city,
+            "State": state,
+            "Zip Code": zip_code
+        })
+        
+        # Always attempt address validation
+        validation_result = validate_address_with_google(address, zip_code)
+        if validation_result:
+            log_debug("Address validation result", validation_result)
+            # Add city and state from validation
+            docai_json['city'] = {
+                "value": validation_result['city'],
+                "confidence": 0.95,
+                "source": "zip_validation"
+            }
+            docai_json['state'] = {
+                "value": validation_result['state'],
+                "confidence": 0.95,
+                "source": "zip_validation"
+            }
+            # Update address with validated street address, but preserve original if empty
+            if validation_result['street_address']:
+                docai_json['address'] = {
+                    "value": validation_result['street_address'],
                     "confidence": 0.95,
-                    "source": "zip_validation"
+                    "source": "address_validation"
                 }
-                docai_fields['state'] = {
-                    "value": validation_result['state'],
-                    "confidence": 0.95,
-                    "source": "zip_validation"
+                log_debug(f"Updated address to: {validation_result['street_address']}")
+            else:
+                # Keep original address if Google returns empty street address
+                docai_json['address'] = {
+                    "value": address,  # Original address
+                    "confidence": 0.7,  # Lower confidence since we couldn't validate it
+                    "source": "original",
+                    "requires_human_review": True,
+                    "review_notes": "Address could not be validated but city/state were found from zip"
                 }
-                log_debug(f"Added city: {validation_result['city']} and state: {validation_result['state']} from zip validation")
+                log_debug(f"Preserved original address: {address} (Google returned empty street address)")
+            log_debug(f"Added city: {validation_result['city']} and state: {validation_result['state']} from zip validation")
+        else:
+            # Mark address-related fields for review if validation fails
+            if not address:
+                docai_json['address'] = {
+                    "value": "",
+                    "confidence": 0.0,
+                    "requires_human_review": True,
+                    "review_notes": "Missing address",
+                    "source": "validation_failed"
+                }
+            if not city:
+                docai_json['city'] = {
+                    "value": "",
+                    "confidence": 0.0,
+                    "requires_human_review": True,
+                    "review_notes": "Missing city",
+                    "source": "validation_failed"
+                }
+            if not state:
+                docai_json['state'] = {
+                    "value": "",
+                    "confidence": 0.0,
+                    "requires_human_review": True,
+                    "review_notes": "Missing state",
+                    "source": "validation_failed"
+                }
+            log_debug("Address validation failed - marked fields for review")
         
         # Run Gemini enhancement
         log_debug("=== RUNNING GEMINI ENHANCEMENT ===")
-        gemini_fields = parse_card_with_gemini(tmp_file, docai_fields)
+        gemini_fields = parse_card_with_gemini(tmp_file, docai_json)
         
         # Ensure required flags are preserved
         log_debug("=== FINALIZING FIELD DATA ===")
         for field_name, field_data in gemini_fields.items():
-            if field_name in docai_fields:
-                field_data["required"] = docai_fields[field_name].get("required", False)
-                field_data["enabled"] = docai_fields[field_name].get("enabled", True)
+            if field_name in docai_json:
+                field_data["required"] = docai_json[field_name].get("required", False)
+                field_data["enabled"] = docai_json[field_name].get("enabled", True)
                 # If field is required and empty, mark for review
                 if field_data.get("required", False) and not field_data.get("value"):
                     field_data["requires_human_review"] = True
@@ -194,12 +249,34 @@ def process_job(job):
         
         # Check if any fields need review
         any_field_needs_review = False
-        for field_name, field_data in gemini_fields.items():
-            if isinstance(field_data, dict):
-                if field_data.get("requires_human_review", False):
-                    any_field_needs_review = True
-                    log_debug(f"Field {field_name} needs review", field_data)
-                    break
+        log_debug("=== REVIEW STATUS DETERMINATION ===")
+        
+        # First check for missing required fields
+        required_fields = [field_name for field_name, field_data in gemini_fields.items() 
+                         if isinstance(field_data, dict) and field_data.get("required", False)]
+        log_debug("Required fields", required_fields)
+        
+        for field_name in required_fields:
+            if field_name not in gemini_fields:
+                any_field_needs_review = True
+                log_debug(f"Field {field_name} is required but missing")
+                break
+            field_data = gemini_fields[field_name]
+            if not field_data.get("value"):
+                any_field_needs_review = True
+                field_data["requires_human_review"] = True
+                field_data["review_notes"] = "Required field is missing"
+                log_debug(f"Field {field_name} marked for review: Required field is missing")
+                break
+            if field_data.get("confidence", 0.0) < 0.7:
+                any_field_needs_review = True
+                field_data["requires_human_review"] = True
+                field_data["review_notes"] = "Required field has low confidence"
+                log_debug(f"Field {field_name} marked for review: Low confidence ({field_data.get('confidence', 0.0)})")
+                break
+
+        review_status = "needs_human_review" if any_field_needs_review else "reviewed"
+        log_debug(f"Final review status: {review_status}")
 
         now = datetime.now(timezone.utc).isoformat()
         reviewed_data = {
@@ -209,16 +286,16 @@ def process_job(job):
             "user_id": user_id,
             "event_id": event_id,
             "image_path": job.get("image_path"),
-            "review_status": "needs_human_review" if any_field_needs_review else "reviewed",
+            "review_status": review_status,
             "created_at": now,
             "updated_at": now
         }
         
-        log_debug("=== FINAL REVIEW STATUS ===", {
-            "Review Status": "needs_human_review" if any_field_needs_review else "reviewed",
-            "Reviewed Data": reviewed_data
-        })
-        
+        log_debug("=== SAVING REVIEWED DATA ===")
+        log_debug(f"Document ID: {job_id}")
+        log_debug(f"Review Status: {review_status}")
+        log_debug(f"Fields requiring review: {[f for f, d in gemini_fields.items() if isinstance(d, dict) and d.get('requires_human_review')]}")
+
         upsert_reviewed_data(supabase_client, reviewed_data)
         log_debug(f"✅ Upserted reviewed_data for job {job_id}")
         
@@ -246,9 +323,13 @@ def main():
     log_debug("Starting CardCapture processing worker...")
     while True:
         try:
+            log_debug("=== CHECKING FOR QUEUED JOBS ===")
             jobs = supabase_client.table("processing_jobs").select("*").eq("status", "queued").order("created_at").limit(1).execute()
+            log_debug(f"Found {len(jobs.data) if jobs.data else 0} queued jobs")
+            
             if jobs.data and len(jobs.data) > 0:
                 job = jobs.data[0]
+                log_debug(f"Processing job {job['id']}")
                 now = datetime.now(timezone.utc).isoformat()
                 update_processing_job(supabase_client, job["id"], {
                     "status": "processing",

@@ -123,16 +123,23 @@ def validate_address_components(address: Optional[str], city: Optional[str], sta
     review_notes = []
     if address:
         print(f"🔍 Validating full address: {address}")
-        location_context = f"{validated_data['city']}, {validated_data['state']} {validated_data['zip']}"
-        full_validation = validate_address_with_google(address, location_context)
+        # First try validating with just the zip code
+        full_validation = validate_address_with_google(address, zip_code)
+        if not full_validation or not full_validation["street_address"]:
+            # If that fails, try with city/state context
+            location_context = f"{validated_data['city']}, {validated_data['state']} {validated_data['zip']}"
+            print(f"⚠️ Primary validation failed, trying with context: {location_context}")
+            full_validation = validate_address_with_google(address, location_context)
+        
         if full_validation and full_validation["street_address"]:
             validated_data["street_address"] = full_validation["street_address"]
             print(f"✅ Full address validated: {full_validation['street_address']}")
         else:
             requires_review = True
             review_notes.append("Could not verify street address")
+            # Preserve the original address when Google Maps returns empty street address
             validated_data["street_address"] = address
-            print("⚠️ Could not verify street address")
+            print(f"⚠️ Could not verify street address, preserving original: {address}")
     else:
         requires_review = True
         review_notes.append("Missing street address")
@@ -285,7 +292,7 @@ def process_image(image_path: str, processor_id: str, user_id: str = None, schoo
                         "source": "zip_validation"
                     }
                 final_extracted_fields['address'] = {
-                    "value": address if validation_result['requires_review'] else validated_data['street_address'],
+                    "value": address if validation_result['requires_review'] or not validated_data['street_address'] else validated_data['street_address'],
                     "vision_confidence": validation_result['confidence'],
                     "requires_human_review": validation_result['requires_review'],
                     "review_notes": validation_result['review_notes'],
@@ -395,6 +402,44 @@ ALL_EXPECTED_FIELDS = [
     'student_type', 'entry_term', 'major', 'city_state'
 ]
 
+def validate_email(email: str) -> tuple[str, bool, str]:
+    """
+    Validates and fixes common email issues.
+    Returns: (fixed_email, is_valid, error_message)
+    """
+    if not email:
+        return "", False, "Email is empty"
+    
+    # Remove any whitespace
+    email = email.strip()
+    
+    # Check for @ symbol
+    if "@" not in email:
+        return email, False, "Missing @ symbol"
+    
+    # Split into local and domain parts
+    local_part, domain = email.split("@", 1)
+    
+    # Remove any spaces in local part
+    local_part = local_part.replace(" ", "")
+    
+    # Check for common TLD issues
+    if domain.endswith(".co"):
+        domain = domain[:-3] + ".com"
+    elif domain.endswith(".cm"):
+        domain = domain[:-3] + ".com"
+    elif domain.endswith(".om"):
+        domain = domain[:-2] + "com"
+    
+    # Reconstruct email
+    fixed_email = f"{local_part}@{domain}"
+    
+    # Basic validation
+    if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', fixed_email):
+        return fixed_email, False, "Invalid email format"
+    
+    return fixed_email, True, ""
+
 def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_name: str = GEMINI_MODEL) -> Dict[str, Any]:
     max_retries = 3
     retry_delay = 2  # seconds
@@ -409,12 +454,7 @@ def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_
         clean_name = field_name.strip('"')
         cleaned_fields[clean_name] = field_data
     
-    # Debug logging for required flags
-    print("[Gemini DEBUG] Checking required flags in DocAI fields:")
-    for field_name, field_data in cleaned_fields.items():
-        print(f"  {field_name}: required={field_data.get('required', False)}")
-    
-    print("[Gemini DEBUG] DocAI JSON being passed to Gemini:")
+    print("[Gemini DEBUG] Input fields before Gemini processing:")
     print(json.dumps(cleaned_fields, indent=2))
     
     # Use the updated prompt template that includes required flags
@@ -427,6 +467,8 @@ def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_
         try:
             response = model.generate_content(prompt)
             if response and response.text:
+                print(f"[Gemini DEBUG] Raw Gemini Response (Attempt {attempt + 1}):")
+                print(response.text)
                 break
         except Exception as e:
             print(f"Attempt {attempt + 1} failed: {str(e)}")
@@ -447,8 +489,49 @@ def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_
             cleaned_text = cleaned_text[:-3]  # Remove ```
         cleaned_text = cleaned_text.strip()
         
+        print("[Gemini DEBUG] Cleaned response text:")
+        print(cleaned_text)
+        
         # Parse the cleaned response as JSON
         gemini_fields = json.loads(cleaned_text)
+        
+        print("[Gemini DEBUG] Parsed Gemini fields:")
+        print(json.dumps(gemini_fields, indent=2))
+        
+        # Track field changes
+        field_changes = {}
+        for field_name, field_data in gemini_fields.items():
+            if field_name in cleaned_fields:
+                original_value = cleaned_fields[field_name].get("value", "")
+                new_value = field_data.get("value", "")
+                if original_value != new_value:
+                    field_changes[field_name] = {
+                        "original": original_value,
+                        "new": new_value
+                    }
+        
+        if field_changes:
+            print("[Gemini DEBUG] Fields changed by Gemini:")
+            print(json.dumps(field_changes, indent=2))
+        
+        # Validate and fix email if present
+        if "email" in gemini_fields:
+            email_data = gemini_fields["email"]
+            original_email = email_data.get("value", "")
+            fixed_email, is_valid, error_message = validate_email(original_email)
+            
+            if original_email != fixed_email:
+                print(f"[Email DEBUG] Fixed email: {original_email} -> {fixed_email}")
+                email_data["value"] = fixed_email
+                # Only mark for review if the fix didn't make it valid
+                if not is_valid:
+                    email_data["requires_human_review"] = True
+                    email_data["review_notes"] = f"Email validation: {error_message}"
+                else:
+                    # If the fix made it valid, ensure it's not marked for review
+                    email_data["requires_human_review"] = False
+                    email_data["review_notes"] = ""
+                    email_data["review_confidence"] = 0.99  # High confidence since we fixed it
         
         # Handle city_state field by splitting it into city and state
         if "city_state" in gemini_fields:
@@ -538,7 +621,7 @@ def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_
                     field_data["requires_human_review"] = True
                     field_data["review_notes"] = "Required field has low confidence"
         
-        print("[Gemini DEBUG] Processed fields with required flags:")
+        print("[Gemini DEBUG] Final processed fields:")
         print(json.dumps(gemini_fields, indent=2))
         
         return gemini_fields
