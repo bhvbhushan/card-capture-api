@@ -250,33 +250,48 @@ def process_job(job):
         # Check if any fields need review
         any_field_needs_review = False
         log_debug("=== REVIEW STATUS DETERMINATION ===")
-        
-        # First check for missing required fields
-        required_fields = [field_name for field_name, field_data in gemini_fields.items() 
-                         if isinstance(field_data, dict) and field_data.get("required", False)]
-        log_debug("Required fields", required_fields)
-        
-        for field_name in required_fields:
-            if field_name not in gemini_fields:
-                any_field_needs_review = True
-                log_debug(f"Field {field_name} is required but missing")
-                break
-            field_data = gemini_fields[field_name]
-            if not field_data.get("value"):
-                any_field_needs_review = True
-                field_data["requires_human_review"] = True
-                field_data["review_notes"] = "Required field is missing"
-                log_debug(f"Field {field_name} marked for review: Required field is missing")
-                break
-            if field_data.get("confidence", 0.0) < 0.7:
-                any_field_needs_review = True
-                field_data["requires_human_review"] = True
-                field_data["review_notes"] = "Required field has low confidence"
-                log_debug(f"Field {field_name} marked for review: Low confidence ({field_data.get('confidence', 0.0)})")
-                break
 
-        review_status = "needs_human_review" if any_field_needs_review else "reviewed"
-        log_debug(f"Final review status: {review_status}")
+        # First check for any fields marked for review
+        fields_needing_review = [f for f, d in gemini_fields.items() 
+                               if isinstance(d, dict) and d.get("requires_human_review")]
+        log_debug("Fields marked for review", fields_needing_review)
+
+        # If any fields are marked for review, set needs_review to true
+        if fields_needing_review:
+            any_field_needs_review = True
+            log_debug(f"Fields marked for review: {fields_needing_review}")
+        else:
+            # Only check required fields if no fields are explicitly marked for review
+            required_fields = [field_name for field_name, field_data in gemini_fields.items() 
+                             if isinstance(field_data, dict) and field_data.get("required", False)]
+            log_debug("Required fields", required_fields)
+
+            for field_name in required_fields:
+                if field_name not in gemini_fields:
+                    any_field_needs_review = True
+                    log_debug(f"Field {field_name} is required but missing")
+                    break
+                field_data = gemini_fields[field_name]
+                if not field_data.get("value"):
+                    any_field_needs_review = True
+                    field_data["requires_human_review"] = True
+                    field_data["review_notes"] = "Required field is missing"
+                    log_debug(f"Field {field_name} marked for review: Required field is missing")
+                    break
+                if field_data.get("confidence", 0.0) < 0.7:
+                    any_field_needs_review = True
+                    field_data["requires_human_review"] = True
+                    field_data["review_notes"] = "Required field has low confidence"
+                    log_debug(f"Field {field_name} marked for review: Low confidence ({field_data.get('confidence', 0.0)})")
+                    break
+
+        # Set the final review status
+        if any_field_needs_review:
+            review_status = "needs_human_review"
+            log_debug("Setting review status to needs_human_review")
+        else:
+            review_status = "reviewed"
+            log_debug("Setting review status to reviewed")
 
         now = datetime.now(timezone.utc).isoformat()
         reviewed_data = {

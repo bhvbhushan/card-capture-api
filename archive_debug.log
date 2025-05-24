@@ -2181,3 +2181,175 @@ data=[{'id': 'f190a3a0-a3a3-4646-a8ad-fb8136c78a0f', 'document_id': 'd1f8c194-ed
 }
 
 [2025-05-24T23:10:17.430362+00:00] === ARCHIVE CARDS CONTROLLER END ===
+
+[2025-05-24T23:29:29.715107+00:00] === ARCHIVE CARDS CONTROLLER START ===
+
+[2025-05-24T23:29:29.715713+00:00] Received payload
+{
+  "document_ids": [
+    "593b792f-cf51-43de-8499-3560398f005f"
+  ],
+  "status": "archived",
+  "review_status": "archived"
+}
+
+[2025-05-24T23:29:29.715886+00:00] === ARCHIVE CARDS SERVICE START ===
+
+[2025-05-24T23:29:29.715948+00:00] Received document IDs
+[
+  "593b792f-cf51-43de-8499-3560398f005f"
+]
+
+[2025-05-24T23:29:29.716192+00:00] Calling archive_cards_db...
+
+[2025-05-24T23:29:29.716249+00:00] === ARCHIVE CARDS DB START ===
+
+[2025-05-24T23:29:29.716302+00:00] Document IDs to archive
+[
+  "593b792f-cf51-43de-8499-3560398f005f"
+]
+
+[2025-05-24T23:29:29.716438+00:00] Checking existing records...
+
+[2025-05-24T23:29:29.956122+00:00] Record 593b792f-cf51-43de-8499-3560398f005f full state:
+{
+  "document_id": "593b792f-cf51-43de-8499-3560398f005f",
+  "review_status": "reviewed",
+  "status": null,
+  "deleted": null,
+  "reviewed_at": null
+}
+
+[2025-05-24T23:29:29.956332+00:00] Records to archive (excluding already archived)
+[
+  {
+    "document_id": "593b792f-cf51-43de-8499-3560398f005f",
+    "current_status": "reviewed"
+  }
+]
+
+[2025-05-24T23:29:29.956787+00:00] Update payload
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-24T23:29:29.956782+00:00"
+}
+
+[2025-05-24T23:29:30.143483+00:00] Record 593b792f-cf51-43de-8499-3560398f005f after archive:
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-24T23:29:29.956782+00:00"
+}
+
+[2025-05-24T23:29:30.143909+00:00] Archive operation result
+data=[{'id': 'a1baa285-8c27-405f-bff1-1ac1c1e40e74', 'document_id': '593b792f-cf51-43de-8499-3560398f005f', 'fields': {'cell': {'value': '325-338-7743', 'enabled': True, 'required': True, 'confidence': 0.999997079372406, 'bounding_box': [[255.99999614059925, 771.0000023245811], [719.0000027418137, 771.0000023245811], [719.0000027418137, 835.9999895095825], [255.99999614059925, 835.9999895095825]], 'review_notes': '', 'review_confidence': 0.99, 'requires_human_review': False}, 'city': {'value': 'Abilene', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': '', 'review_confidence': 0.95, 'requires_human_review': False}, 'name': {'value': 'Brielle Samuel', 'enabled': True, 'required': True, 'confidence': 0.9999886155128479, 'bounding_box': [[252.00000777840614, 250.0000074505806], [817.0000120997429, 250.0000074505806], [817.0000120997429, 325.0000096857548], [252.00000777840614, 325.0000096857548]], 'review_notes': '', 'review_confidence': 0.95, 'requires_human_review': False}, 'email': {'value': 'Samuelbri29@wyliebulldogs.org', 'enabled': True, 'required': True, 'confidence': 0.9999904036521912, 'bounding_box': [[277.00000628829, 597.0000207424164], [1161.0000371932983, 597.0000207424164], [1161.0000371932983, 670.0000002980232], [277.00000628829, 670.0000002980232]], 'review_notes': '', 'review_confidence': 0.95, 'requires_human_review': False}, 'state': {'value': 'TX', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': '', 'review_confidence': 0.95, 'requires_human_review': False}, 'address': {'value': 'Western Pines', 'enabled': True, 'required': False, 'confidence': 0.7, 'bounding_box': [], 'review_notes': 'Address could not be validated but city/state were found from zip', 'review_confidence': 0.9, 'requires_human_review': True}, 'zip_code': {'value': '79606', 'enabled': True, 'required': True, 'confidence': 0.9999876022338867, 'bounding_box': [[917.0000061392784, 1110.0000232458115], [1133.999978005886, 1110.0000232458115], [1133.999978005886, 1156.9999784231186], [917.0000061392784, 1156.9999784231186]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'entry_term': {'value': 'Fall 2024', 'enabled': True, 'required': False, 'confidence': 0.9999358057975769, 'bounding_box': [[890.9999772906303, 1571.9999760389328], [1168.9999759197235, 1571.9999760389328], [1168.9999759197235, 1642.0000076293945], [890.9999772906303, 1642.0000076293945]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'high_school': {'value': 'Wylie West Junior High School', 'enabled': True, 'required': False, 'confidence': 0.9999960064888, 'bounding_box': [[260.0000035017729, 1273.9999651908875], [1005.9999704360962, 1273.9999651908875], [1005.9999704360962, 1345.9999948740005], [260.0000035017729, 1345.9999948740005]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'student_type': {'value': 'Freshman', 'enabled': True, 'required': False, 'confidence': 0.998217761516571, 'bounding_box': [[304.0000084787607, 1611.0000371932983], [484.0000167489052, 1611.0000371932983], [484.0000167489052, 1637.000012397766], [304.0000084787607, 1637.000012397766]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'date_of_birth': {'value': '01/14/2011', 'enabled': True, 'required': False, 'confidence': 0.9999780058860779, 'bounding_box': [[932.0000052452087, 430.99998235702515], [1201.0000348091125, 430.99998235702515], [1201.0000348091125, 479.9999848008156], [932.0000052452087, 479.9999848008156]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'permission_to_text': {'value': 'Yes', 'enabled': True, 'required': False, 'confidence': 0.9999058842658997, 'bounding_box': [[948.9999890327454, 766.0000070929527], [1013.0000308156013, 766.0000070929527], [1013.0000308156013, 790.9999832510948], [948.9999890327454, 790.9999832510948]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'preferred_first_name': {'value': 'Brie', 'enabled': True, 'required': False, 'confidence': 0.999997079372406, 'bounding_box': [[273.99999126791954, 427.9999852180481], [430.0000123679638, 427.9999852180481], [430.0000123679638, 486.99997812509537], [273.99999126791954, 486.99997812509537]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}}, 'created_at': '2025-05-24T23:25:48.987749+00:00', 'reviewed_at': '2025-05-24T23:29:29.956782+00:00', 'exported_at': None, 'event_id': '7818909d-a3ff-4211-bf6e-c9b65952f758', 'updated_at': '2025-05-24T23:29:30.031973+00:00', 'review_status': 'archived', 'school_id': 'b1a2c3d4-e5f6-7890-1234-56789abcdef0', 'user_id': 'f8714b88-f5c7-404c-b4fa-2304e014a44b', 'image_path': 'f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-24/9a36df2f-f8e2-4946-b847-aca7478f4af3.png'}] count=None
+
+[2025-05-24T23:29:30.144613+00:00] === ARCHIVE CARDS DB END ===
+
+[2025-05-24T23:29:30.144719+00:00] Successfully archived 1 records
+
+[2025-05-24T23:29:30.144794+00:00] === ARCHIVE CARDS SERVICE END ===
+
+[2025-05-24T23:29:30.144903+00:00] Service layer result
+{
+  "message": "Successfully archived 1 records",
+  "archived_count": 1
+}
+
+[2025-05-24T23:29:30.144990+00:00] === ARCHIVE CARDS CONTROLLER END ===
+
+[2025-05-24T23:29:36.429842+00:00] === ARCHIVE CARDS CONTROLLER START ===
+
+[2025-05-24T23:29:36.430134+00:00] Received payload
+{
+  "document_ids": [
+    "7fba55cc-6767-4160-bd90-c65be0a82f37",
+    "f53dfd02-f8d7-4fd5-89dd-69e6da4a55aa"
+  ],
+  "status": "archived",
+  "review_status": "archived"
+}
+
+[2025-05-24T23:29:36.430242+00:00] === ARCHIVE CARDS SERVICE START ===
+
+[2025-05-24T23:29:36.430299+00:00] Received document IDs
+[
+  "7fba55cc-6767-4160-bd90-c65be0a82f37",
+  "f53dfd02-f8d7-4fd5-89dd-69e6da4a55aa"
+]
+
+[2025-05-24T23:29:36.430369+00:00] Calling archive_cards_db...
+
+[2025-05-24T23:29:36.430421+00:00] === ARCHIVE CARDS DB START ===
+
+[2025-05-24T23:29:36.430468+00:00] Document IDs to archive
+[
+  "7fba55cc-6767-4160-bd90-c65be0a82f37",
+  "f53dfd02-f8d7-4fd5-89dd-69e6da4a55aa"
+]
+
+[2025-05-24T23:29:36.430528+00:00] Checking existing records...
+
+[2025-05-24T23:29:36.506414+00:00] Record 7fba55cc-6767-4160-bd90-c65be0a82f37 full state:
+{
+  "document_id": "7fba55cc-6767-4160-bd90-c65be0a82f37",
+  "review_status": "reviewed",
+  "status": null,
+  "deleted": null,
+  "reviewed_at": null
+}
+
+[2025-05-24T23:29:36.506723+00:00] Record f53dfd02-f8d7-4fd5-89dd-69e6da4a55aa full state:
+{
+  "document_id": "f53dfd02-f8d7-4fd5-89dd-69e6da4a55aa",
+  "review_status": "reviewed",
+  "status": null,
+  "deleted": null,
+  "reviewed_at": null
+}
+
+[2025-05-24T23:29:36.506834+00:00] Records to archive (excluding already archived)
+[
+  {
+    "document_id": "7fba55cc-6767-4160-bd90-c65be0a82f37",
+    "current_status": "reviewed"
+  },
+  {
+    "document_id": "f53dfd02-f8d7-4fd5-89dd-69e6da4a55aa",
+    "current_status": "reviewed"
+  }
+]
+
+[2025-05-24T23:29:36.506950+00:00] Update payload
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-24T23:29:36.506940+00:00"
+}
+
+[2025-05-24T23:29:36.667285+00:00] Record 7fba55cc-6767-4160-bd90-c65be0a82f37 after archive:
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-24T23:29:36.50694+00:00"
+}
+
+[2025-05-24T23:29:36.667479+00:00] Record f53dfd02-f8d7-4fd5-89dd-69e6da4a55aa after archive:
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-24T23:29:36.50694+00:00"
+}
+
+[2025-05-24T23:29:36.667895+00:00] Archive operation result
+data=[{'id': 'bd8e771c-6783-4722-890c-47c7bc1bf351', 'document_id': '7fba55cc-6767-4160-bd90-c65be0a82f37', 'fields': {'cell': {'value': '325-338-7743', 'enabled': True, 'required': True, 'confidence': 0.999997079372406, 'bounding_box': [[255.99999614059925, 771.0000023245811], [719.0000027418137, 771.0000023245811], [719.0000027418137, 835.9999895095825], [255.99999614059925, 835.9999895095825]], 'review_notes': '', 'review_confidence': 0.99, 'requires_human_review': False}, 'city': {'value': 'Abilene', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': '', 'review_confidence': 0.95, 'requires_human_review': False}, 'name': {'value': 'Brielle Samulde', 'enabled': True, 'required': True, 'confidence': 0.9999886155128479, 'bounding_box': [[252.00000777840614, 250.0000074505806], [817.0000120997429, 250.0000074505806], [817.0000120997429, 325.0000096857548], [252.00000777840614, 325.0000096857548]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'email': {'value': 'Samulbri29@wyliebulldogs.org', 'enabled': True, 'required': True, 'confidence': 0.9999904036521912, 'bounding_box': [[277.00000628829, 597.0000207424164], [1161.0000371932983, 597.0000207424164], [1161.0000371932983, 670.0000002980232], [277.00000628829, 670.0000002980232]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'state': {'value': 'TX', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': '', 'review_confidence': 0.95, 'requires_human_review': False}, 'address': {'value': '', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': '', 'review_confidence': 0.1, 'requires_human_review': False}, 'zip_code': {'value': '79606', 'enabled': True, 'required': True, 'confidence': 0.9999876022338867, 'bounding_box': [[917.0000061392784, 1110.0000232458115], [1133.999978005886, 1110.0000232458115], [1133.999978005886, 1156.9999784231186], [917.0000061392784, 1156.9999784231186]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'entry_term': {'value': 'Fall 2024', 'enabled': True, 'required': False, 'confidence': 0.9999358057975769, 'bounding_box': [[890.9999772906303, 1571.9999760389328], [1168.9999759197235, 1571.9999760389328], [1168.9999759197235, 1642.0000076293945], [890.9999772906303, 1642.0000076293945]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'high_school': {'value': 'Wylie West Junior High School', 'enabled': True, 'required': False, 'confidence': 0.9999960064888, 'bounding_box': [[260.0000035017729, 1273.9999651908875], [1005.9999704360962, 1273.9999651908875], [1005.9999704360962, 1345.9999948740005], [260.0000035017729, 1345.9999948740005]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'student_type': {'value': 'Freshman', 'enabled': True, 'required': False, 'confidence': 0.998217761516571, 'bounding_box': [[304.0000084787607, 1611.0000371932983], [484.0000167489052, 1611.0000371932983], [484.0000167489052, 1637.000012397766], [304.0000084787607, 1637.000012397766]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'date_of_birth': {'value': '01/14/2011', 'enabled': True, 'required': False, 'confidence': 0.9999780058860779, 'bounding_box': [[932.0000052452087, 430.99998235702515], [1201.0000348091125, 430.99998235702515], [1201.0000348091125, 479.9999848008156], [932.0000052452087, 479.9999848008156]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'permission_to_text': {'value': 'Yes', 'enabled': True, 'required': False, 'confidence': 0.9999058842658997, 'bounding_box': [[948.9999890327454, 766.0000070929527], [1013.0000308156013, 766.0000070929527], [1013.0000308156013, 790.9999832510948], [948.9999890327454, 790.9999832510948]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'preferred_first_name': {'value': 'Brie', 'enabled': True, 'required': False, 'confidence': 0.999997079372406, 'bounding_box': [[273.99999126791954, 427.9999852180481], [430.0000123679638, 427.9999852180481], [430.0000123679638, 486.99997812509537], [273.99999126791954, 486.99997812509537]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}}, 'created_at': '2025-05-24T23:12:52.154112+00:00', 'reviewed_at': '2025-05-24T23:29:36.50694+00:00', 'exported_at': None, 'event_id': '7818909d-a3ff-4211-bf6e-c9b65952f758', 'updated_at': '2025-05-24T23:29:36.572417+00:00', 'review_status': 'archived', 'school_id': 'b1a2c3d4-e5f6-7890-1234-56789abcdef0', 'user_id': 'f8714b88-f5c7-404c-b4fa-2304e014a44b', 'image_path': 'f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-24/df4d5465-1930-4f58-8a7d-71542a5d4ae8.png'}, {'id': 'be45f6cc-bfca-450a-a754-2caab6283a04', 'document_id': 'f53dfd02-f8d7-4fd5-89dd-69e6da4a55aa', 'fields': {'cell': {'value': '325-338-7743', 'enabled': True, 'required': True, 'confidence': 0.9999918341636658, 'bounding_box': [[255.99999614059925, 771.0000023245811], [719.0000027418137, 771.0000023245811], [719.0000027418137, 835.9999895095825], [255.99999614059925, 835.9999895095825]], 'review_notes': '', 'review_confidence': 0.99, 'requires_human_review': False}, 'city': {'value': 'Abilene', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': '', 'review_confidence': 0.95, 'requires_human_review': False}, 'name': {'value': 'Brielle Samulde', 'enabled': True, 'required': True, 'confidence': 0.9999823570251465, 'bounding_box': [[252.00000777840614, 250.0000074505806], [817.0000120997429, 250.0000074505806], [817.0000120997429, 325.0000096857548], [252.00000777840614, 325.0000096857548]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'email': {'value': 'Samulbri29@wyliebulldogs.org', 'enabled': True, 'required': True, 'confidence': 0.9999856948852539, 'bounding_box': [[277.00000628829, 597.0000207424164], [1161.0000371932983, 597.0000207424164], [1161.0000371932983, 670.0000002980232], [277.00000628829, 670.0000002980232]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'state': {'value': 'TX', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': '', 'review_confidence': 0.95, 'requires_human_review': False}, 'address': {'value': 'Western Pines', 'enabled': True, 'required': False, 'confidence': 0.7, 'bounding_box': [], 'review_notes': '', 'review_confidence': 0.95, 'requires_human_review': False}, 'zip_code': {'value': '79606', 'enabled': True, 'required': True, 'confidence': 0.9999854564666748, 'bounding_box': [[917.0000061392784, 1110.0000232458115], [1133.999978005886, 1110.0000232458115], [1133.999978005886, 1156.9999784231186], [917.0000061392784, 1156.9999784231186]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'entry_term': {'value': 'Fall 2024', 'enabled': True, 'required': False, 'confidence': 0.9999687075614929, 'bounding_box': [[890.9999772906303, 1571.9999760389328], [1168.9999759197235, 1571.9999760389328], [1168.9999759197235, 1642.0000076293945], [890.9999772906303, 1642.0000076293945]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'high_school': {'value': 'Wylie West Junior High', 'enabled': True, 'required': False, 'confidence': 0.9999979138374329, 'bounding_box': [[260.0000035017729, 1273.9999651908875], [1005.9999704360962, 1273.9999651908875], [1005.9999704360962, 1345.9999948740005], [260.0000035017729, 1345.9999948740005]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'student_type': {'value': 'Freshman', 'enabled': True, 'required': False, 'confidence': 0.9961521029472351, 'bounding_box': [[304.0000084787607, 1611.0000371932983], [484.0000167489052, 1611.0000371932983], [484.0000167489052, 1637.000012397766], [304.0000084787607, 1637.000012397766]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'date_of_birth': {'value': '01/14/2011', 'enabled': True, 'required': False, 'confidence': 0.9999837279319763, 'bounding_box': [[932.0000052452087, 430.99998235702515], [1201.0000348091125, 430.99998235702515], [1201.0000348091125, 479.9999848008156], [932.0000052452087, 479.9999848008156]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'permission_to_text': {'value': 'Yes', 'enabled': True, 'required': False, 'confidence': 0.999799907207489, 'bounding_box': [[948.9999890327454, 766.0000070929527], [1013.0000308156013, 766.0000070929527], [1013.0000308156013, 790.9999832510948], [948.9999890327454, 790.9999832510948]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}, 'preferred_first_name': {'value': 'Brie', 'enabled': True, 'required': False, 'confidence': 0.9999939799308777, 'bounding_box': [[273.99999126791954, 427.9999852180481], [430.0000123679638, 427.9999852180481], [430.0000123679638, 486.99997812509537], [273.99999126791954, 486.99997812509537]], 'review_notes': '', 'review_confidence': 1.0, 'requires_human_review': False}}, 'created_at': '2025-05-24T23:17:35.091382+00:00', 'reviewed_at': '2025-05-24T23:29:36.50694+00:00', 'exported_at': None, 'event_id': '7818909d-a3ff-4211-bf6e-c9b65952f758', 'updated_at': '2025-05-24T23:29:36.572417+00:00', 'review_status': 'archived', 'school_id': 'b1a2c3d4-e5f6-7890-1234-56789abcdef0', 'user_id': 'f8714b88-f5c7-404c-b4fa-2304e014a44b', 'image_path': 'f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-24/63dd4802-ee54-4f5b-b3d7-985c7a0671c6.png'}] count=None
+
+[2025-05-24T23:29:36.668107+00:00] === ARCHIVE CARDS DB END ===
+
+[2025-05-24T23:29:36.668189+00:00] Successfully archived 2 records
+
+[2025-05-24T23:29:36.668225+00:00] === ARCHIVE CARDS SERVICE END ===
+
+[2025-05-24T23:29:36.668286+00:00] Service layer result
+{
+  "message": "Successfully archived 2 records",
+  "archived_count": 2
+}
+
+[2025-05-24T23:29:36.668328+00:00] === ARCHIVE CARDS CONTROLLER END ===

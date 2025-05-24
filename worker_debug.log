@@ -1658,3 +1658,1796 @@ Abil
 [2025-05-24T23:25:53.749084+00:00] === CHECKING FOR QUEUED JOBS ===
 
 [2025-05-24T23:25:53.836506+00:00] Found 0 queued jobs
+
+[2025-05-24T23:27:07.547826+00:00] Starting CardCapture processing worker...
+
+[2025-05-24T23:27:07.547940+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:27:07.780321+00:00] Found 0 queued jobs
+
+[2025-05-24T23:27:08.785640+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:27:08.872411+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:19.717993+00:00] Starting CardCapture processing worker...
+
+[2025-05-24T23:29:19.718181+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:19.946846+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:20.952065+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:21.098987+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:22.104160+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:22.174038+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:23.179352+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:23.325855+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:24.331111+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:24.400689+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:25.405980+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:25.473352+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:26.478705+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:26.546954+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:27.550091+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:27.618097+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:28.621220+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:28.685483+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:29.690699+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:29.825961+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:30.831400+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:31.026309+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:32.028328+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:32.153789+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:33.158823+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:33.246836+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:34.247380+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:34.313385+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:35.313846+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:35.384673+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:36.389872+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:36.457206+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:37.462472+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:37.526166+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:38.528387+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:38.601024+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:39.602965+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:39.672975+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:40.675270+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:40.744692+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:41.746603+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:41.817275+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:42.822526+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:42.894719+00:00] Found 0 queued jobs
+
+[2025-05-24T23:29:43.895241+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:29:43.956833+00:00] Found 1 queued jobs
+
+[2025-05-24T23:29:43.957071+00:00] Processing job 85a76e21-12ba-443f-8f00-d5b21438c96a
+
+[2025-05-24T23:29:44.095373+00:00] === PROCESSING JOB START ===
+
+[2025-05-24T23:29:44.095880+00:00] Job Details
+{
+  "Job ID": "85a76e21-12ba-443f-8f00-d5b21438c96a",
+  "User ID": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+  "School ID": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+  "Event ID": "7818909d-a3ff-4211-bf6e-c9b65952f758",
+  "File URL": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-24/98b4fcc2-82a9-4952-af26-42f65bdba175.png"
+}
+
+[2025-05-24T23:29:45.451853+00:00] Downloaded file to: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpqyp7foe1.png
+
+[2025-05-24T23:29:45.521161+00:00] Using DocAI processor: 894b9758c2215ed6
+
+[2025-05-24T23:29:45.521359+00:00] 
+=== INITIAL DOCAI PROCESSING START ===
+
+[2025-05-24T23:29:45.521732+00:00] Processing image: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpqyp7foe1.png
+
+[2025-05-24T23:29:45.589998+00:00] Using DocAI processor: projects/gen-lang-client-0493571343/locations/us/processors/894b9758c2215ed6
+
+[2025-05-24T23:29:45.591953+00:00] Sending request to DocAI...
+
+[2025-05-24T23:29:51.885797+00:00] === DOCAI RAW RESPONSE ===
+
+[2025-05-24T23:29:51.886357+00:00] Document text
+NAME
+INQUIRY CARD
+Brielle Samulde
+PREFERRED FIRST NAME
+DATE OF BIRTH
+Brie
+1-14-2011
+EMAIL
+Samulbri29@wyliebulldogs.org
+CELL
+325-338-7743
+ADDRESS
+Western Pumes
+PERMISSION TO TEXT
+Yes
+No
+CITY/STATE
+Abil
+
+[2025-05-24T23:29:51.887248+00:00] Document metadata
+{
+  "Number of pages": 1,
+  "Number of entities": 11
+}
+
+[2025-05-24T23:29:51.887380+00:00] === DETECTED ENTITIES ===
+
+[2025-05-24T23:29:51.888047+00:00] Entity: address
+{
+  "Type": "address",
+  "Mention Text": "Western Pumes",
+  "Confidence": 0.9986469745635986,
+  "Bounding Box Coordinates": [
+    [
+      257.99999982118607,
+      934.9999934434891
+    ],
+    [
+      717.9999724030495,
+      934.9999934434891
+    ],
+    [
+      717.9999724030495,
+      1001.0000288486481
+    ],
+    [
+      257.99999982118607,
+      1001.0000288486481
+    ]
+  ]
+}
+
+[2025-05-24T23:29:51.888383+00:00] Entity: cell
+{
+  "Type": "cell",
+  "Mention Text": "325-338-7743",
+  "Confidence": 0.999997079372406,
+  "Bounding Box Coordinates": [
+    [
+      255.99999614059925,
+      771.0000023245811
+    ],
+    [
+      719.0000027418137,
+      771.0000023245811
+    ],
+    [
+      719.0000027418137,
+      835.9999895095825
+    ],
+    [
+      255.99999614059925,
+      835.9999895095825
+    ]
+  ]
+}
+
+[2025-05-24T23:29:51.888806+00:00] Entity: date_of_birth
+{
+  "Type": "date_of_birth",
+  "Mention Text": "1-14-2011",
+  "Confidence": 0.9999780058860779,
+  "Bounding Box Coordinates": [
+    [
+      932.0000052452087,
+      430.99998235702515
+    ],
+    [
+      1201.0000348091125,
+      430.99998235702515
+    ],
+    [
+      1201.0000348091125,
+      479.9999848008156
+    ],
+    [
+      932.0000052452087,
+      479.9999848008156
+    ]
+  ]
+}
+
+[2025-05-24T23:29:51.889119+00:00] Entity: email
+{
+  "Type": "email",
+  "Mention Text": "Samulbri29@wyliebulldogs.org",
+  "Confidence": 0.9999904036521912,
+  "Bounding Box Coordinates": [
+    [
+      277.00000628829,
+      597.0000207424164
+    ],
+    [
+      1161.0000371932983,
+      597.0000207424164
+    ],
+    [
+      1161.0000371932983,
+      670.0000002980232
+    ],
+    [
+      277.00000628829,
+      670.0000002980232
+    ]
+  ]
+}
+
+[2025-05-24T23:29:51.889415+00:00] Entity: entry_term
+{
+  "Type": "entry_term",
+  "Mention Text": "Fall 2024",
+  "Confidence": 0.9999358057975769,
+  "Bounding Box Coordinates": [
+    [
+      890.9999772906303,
+      1571.9999760389328
+    ],
+    [
+      1168.9999759197235,
+      1571.9999760389328
+    ],
+    [
+      1168.9999759197235,
+      1642.0000076293945
+    ],
+    [
+      890.9999772906303,
+      1642.0000076293945
+    ]
+  ]
+}
+
+[2025-05-24T23:29:51.889715+00:00] Entity: high_school
+{
+  "Type": "high_school",
+  "Mention Text": "Wylie West Junior High",
+  "Confidence": 0.9999960064888,
+  "Bounding Box Coordinates": [
+    [
+      260.0000035017729,
+      1273.9999651908875
+    ],
+    [
+      1005.9999704360962,
+      1273.9999651908875
+    ],
+    [
+      1005.9999704360962,
+      1345.9999948740005
+    ],
+    [
+      260.0000035017729,
+      1345.9999948740005
+    ]
+  ]
+}
+
+[2025-05-24T23:29:51.890018+00:00] Entity: name
+{
+  "Type": "name",
+  "Mention Text": "Brielle Samulde",
+  "Confidence": 0.9999886155128479,
+  "Bounding Box Coordinates": [
+    [
+      252.00000777840614,
+      250.0000074505806
+    ],
+    [
+      817.0000120997429,
+      250.0000074505806
+    ],
+    [
+      817.0000120997429,
+      325.0000096857548
+    ],
+    [
+      252.00000777840614,
+      325.0000096857548
+    ]
+  ]
+}
+
+[2025-05-24T23:29:51.890309+00:00] Entity: permission_to_text
+{
+  "Type": "permission_to_text",
+  "Mention Text": "Yes",
+  "Confidence": 0.9999058842658997,
+  "Bounding Box Coordinates": [
+    [
+      948.9999890327454,
+      766.0000070929527
+    ],
+    [
+      1013.0000308156013,
+      766.0000070929527
+    ],
+    [
+      1013.0000308156013,
+      790.9999832510948
+    ],
+    [
+      948.9999890327454,
+      790.9999832510948
+    ]
+  ]
+}
+
+[2025-05-24T23:29:51.890598+00:00] Entity: preferred_first_name
+{
+  "Type": "preferred_first_name",
+  "Mention Text": "Brie",
+  "Confidence": 0.999997079372406,
+  "Bounding Box Coordinates": [
+    [
+      273.99999126791954,
+      427.9999852180481
+    ],
+    [
+      430.0000123679638,
+      427.9999852180481
+    ],
+    [
+      430.0000123679638,
+      486.99997812509537
+    ],
+    [
+      273.99999126791954,
+      486.99997812509537
+    ]
+  ]
+}
+
+[2025-05-24T23:29:51.891038+00:00] Entity: student_type
+{
+  "Type": "student_type",
+  "Mention Text": "Freshman",
+  "Confidence": 0.998217761516571,
+  "Bounding Box Coordinates": [
+    [
+      304.0000084787607,
+      1611.0000371932983
+    ],
+    [
+      484.0000167489052,
+      1611.0000371932983
+    ],
+    [
+      484.0000167489052,
+      1637.000012397766
+    ],
+    [
+      304.0000084787607,
+      1637.000012397766
+    ]
+  ]
+}
+
+[2025-05-24T23:29:51.891324+00:00] Entity: zip_code
+{
+  "Type": "zip_code",
+  "Mention Text": "79606",
+  "Confidence": 0.9999876022338867,
+  "Bounding Box Coordinates": [
+    [
+      917.0000061392784,
+      1110.0000232458115
+    ],
+    [
+      1133.999978005886,
+      1110.0000232458115
+    ],
+    [
+      1133.999978005886,
+      1156.9999784231186
+    ],
+    [
+      917.0000061392784,
+      1156.9999784231186
+    ]
+  ]
+}
+
+[2025-05-24T23:29:51.891436+00:00] === PROCESSED FIELD DATA ===
+{
+  "address": {
+    "value": "Western Pumes",
+    "confidence": 0.9986469745635986,
+    "bounding_box": [
+      [
+        257.99999982118607,
+        934.9999934434891
+      ],
+      [
+        717.9999724030495,
+        934.9999934434891
+      ],
+      [
+        717.9999724030495,
+        1001.0000288486481
+      ],
+      [
+        257.99999982118607,
+        1001.0000288486481
+      ]
+    ]
+  },
+  "cell": {
+    "value": "325-338-7743",
+    "confidence": 0.999997079372406,
+    "bounding_box": [
+      [
+        255.99999614059925,
+        771.0000023245811
+      ],
+      [
+        719.0000027418137,
+        771.0000023245811
+      ],
+      [
+        719.0000027418137,
+        835.9999895095825
+      ],
+      [
+        255.99999614059925,
+        835.9999895095825
+      ]
+    ]
+  },
+  "date_of_birth": {
+    "value": "1-14-2011",
+    "confidence": 0.9999780058860779,
+    "bounding_box": [
+      [
+        932.0000052452087,
+        430.99998235702515
+      ],
+      [
+        1201.0000348091125,
+        430.99998235702515
+      ],
+      [
+        1201.0000348091125,
+        479.9999848008156
+      ],
+      [
+        932.0000052452087,
+        479.9999848008156
+      ]
+    ]
+  },
+  "email": {
+    "value": "Samulbri29@wyliebulldogs.org",
+    "confidence": 0.9999904036521912,
+    "bounding_box": [
+      [
+        277.00000628829,
+        597.0000207424164
+      ],
+      [
+        1161.0000371932983,
+        597.0000207424164
+      ],
+      [
+        1161.0000371932983,
+        670.0000002980232
+      ],
+      [
+        277.00000628829,
+        670.0000002980232
+      ]
+    ]
+  },
+  "entry_term": {
+    "value": "Fall 2024",
+    "confidence": 0.9999358057975769,
+    "bounding_box": [
+      [
+        890.9999772906303,
+        1571.9999760389328
+      ],
+      [
+        1168.9999759197235,
+        1571.9999760389328
+      ],
+      [
+        1168.9999759197235,
+        1642.0000076293945
+      ],
+      [
+        890.9999772906303,
+        1642.0000076293945
+      ]
+    ]
+  },
+  "high_school": {
+    "value": "Wylie West Junior High",
+    "confidence": 0.9999960064888,
+    "bounding_box": [
+      [
+        260.0000035017729,
+        1273.9999651908875
+      ],
+      [
+        1005.9999704360962,
+        1273.9999651908875
+      ],
+      [
+        1005.9999704360962,
+        1345.9999948740005
+      ],
+      [
+        260.0000035017729,
+        1345.9999948740005
+      ]
+    ]
+  },
+  "name": {
+    "value": "Brielle Samulde",
+    "confidence": 0.9999886155128479,
+    "bounding_box": [
+      [
+        252.00000777840614,
+        250.0000074505806
+      ],
+      [
+        817.0000120997429,
+        250.0000074505806
+      ],
+      [
+        817.0000120997429,
+        325.0000096857548
+      ],
+      [
+        252.00000777840614,
+        325.0000096857548
+      ]
+    ]
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "confidence": 0.9999058842658997,
+    "bounding_box": [
+      [
+        948.9999890327454,
+        766.0000070929527
+      ],
+      [
+        1013.0000308156013,
+        766.0000070929527
+      ],
+      [
+        1013.0000308156013,
+        790.9999832510948
+      ],
+      [
+        948.9999890327454,
+        790.9999832510948
+      ]
+    ]
+  },
+  "preferred_first_name": {
+    "value": "Brie",
+    "confidence": 0.999997079372406,
+    "bounding_box": [
+      [
+        273.99999126791954,
+        427.9999852180481
+      ],
+      [
+        430.0000123679638,
+        427.9999852180481
+      ],
+      [
+        430.0000123679638,
+        486.99997812509537
+      ],
+      [
+        273.99999126791954,
+        486.99997812509537
+      ]
+    ]
+  },
+  "student_type": {
+    "value": "Freshman",
+    "confidence": 0.998217761516571,
+    "bounding_box": [
+      [
+        304.0000084787607,
+        1611.0000371932983
+      ],
+      [
+        484.0000167489052,
+        1611.0000371932983
+      ],
+      [
+        484.0000167489052,
+        1637.000012397766
+      ],
+      [
+        304.0000084787607,
+        1637.000012397766
+      ]
+    ]
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence": 0.9999876022338867,
+    "bounding_box": [
+      [
+        917.0000061392784,
+        1110.0000232458115
+      ],
+      [
+        1133.999978005886,
+        1110.0000232458115
+      ],
+      [
+        1133.999978005886,
+        1156.9999784231186
+      ],
+      [
+        917.0000061392784,
+        1156.9999784231186
+      ]
+    ]
+  }
+}
+
+[2025-05-24T23:29:51.906908+00:00] === IMAGE CROPPING INFO ===
+{
+  "Original dimensions": [
+    2550,
+    3300
+  ],
+  "Bounding box": "(252.00000777840614, 250.0000074505806) to (1201.0000348091125, 1642.0000076293945)"
+}
+
+[2025-05-24T23:29:51.907167+00:00] Expanded box coordinates
+{
+  "Left": 14,
+  "Top": 0,
+  "Right": 1438,
+  "Bottom": 1990
+}
+
+[2025-05-24T23:29:52.173303+00:00] === CROPPED IMAGE INFO ===
+{
+  "Saved to": "/Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpqyp7foe1_trimmed.png",
+  "Dimensions": [
+    1424,
+    1990
+  ]
+}
+
+[2025-05-24T23:29:52.173447+00:00] === INITIAL DOCAI PROCESSING END ===
+
+
+[2025-05-24T23:29:52.174789+00:00] === DOCAI FIELDS FROM PROCESSING ===
+{
+  "address": {
+    "value": "Western Pumes",
+    "confidence": 0.9986469745635986,
+    "bounding_box": [
+      [
+        257.99999982118607,
+        934.9999934434891
+      ],
+      [
+        717.9999724030495,
+        934.9999934434891
+      ],
+      [
+        717.9999724030495,
+        1001.0000288486481
+      ],
+      [
+        257.99999982118607,
+        1001.0000288486481
+      ]
+    ]
+  },
+  "cell": {
+    "value": "325-338-7743",
+    "confidence": 0.999997079372406,
+    "bounding_box": [
+      [
+        255.99999614059925,
+        771.0000023245811
+      ],
+      [
+        719.0000027418137,
+        771.0000023245811
+      ],
+      [
+        719.0000027418137,
+        835.9999895095825
+      ],
+      [
+        255.99999614059925,
+        835.9999895095825
+      ]
+    ]
+  },
+  "date_of_birth": {
+    "value": "1-14-2011",
+    "confidence": 0.9999780058860779,
+    "bounding_box": [
+      [
+        932.0000052452087,
+        430.99998235702515
+      ],
+      [
+        1201.0000348091125,
+        430.99998235702515
+      ],
+      [
+        1201.0000348091125,
+        479.9999848008156
+      ],
+      [
+        932.0000052452087,
+        479.9999848008156
+      ]
+    ]
+  },
+  "email": {
+    "value": "Samulbri29@wyliebulldogs.org",
+    "confidence": 0.9999904036521912,
+    "bounding_box": [
+      [
+        277.00000628829,
+        597.0000207424164
+      ],
+      [
+        1161.0000371932983,
+        597.0000207424164
+      ],
+      [
+        1161.0000371932983,
+        670.0000002980232
+      ],
+      [
+        277.00000628829,
+        670.0000002980232
+      ]
+    ]
+  },
+  "entry_term": {
+    "value": "Fall 2024",
+    "confidence": 0.9999358057975769,
+    "bounding_box": [
+      [
+        890.9999772906303,
+        1571.9999760389328
+      ],
+      [
+        1168.9999759197235,
+        1571.9999760389328
+      ],
+      [
+        1168.9999759197235,
+        1642.0000076293945
+      ],
+      [
+        890.9999772906303,
+        1642.0000076293945
+      ]
+    ]
+  },
+  "high_school": {
+    "value": "Wylie West Junior High",
+    "confidence": 0.9999960064888,
+    "bounding_box": [
+      [
+        260.0000035017729,
+        1273.9999651908875
+      ],
+      [
+        1005.9999704360962,
+        1273.9999651908875
+      ],
+      [
+        1005.9999704360962,
+        1345.9999948740005
+      ],
+      [
+        260.0000035017729,
+        1345.9999948740005
+      ]
+    ]
+  },
+  "name": {
+    "value": "Brielle Samulde",
+    "confidence": 0.9999886155128479,
+    "bounding_box": [
+      [
+        252.00000777840614,
+        250.0000074505806
+      ],
+      [
+        817.0000120997429,
+        250.0000074505806
+      ],
+      [
+        817.0000120997429,
+        325.0000096857548
+      ],
+      [
+        252.00000777840614,
+        325.0000096857548
+      ]
+    ]
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "confidence": 0.9999058842658997,
+    "bounding_box": [
+      [
+        948.9999890327454,
+        766.0000070929527
+      ],
+      [
+        1013.0000308156013,
+        766.0000070929527
+      ],
+      [
+        1013.0000308156013,
+        790.9999832510948
+      ],
+      [
+        948.9999890327454,
+        790.9999832510948
+      ]
+    ]
+  },
+  "preferred_first_name": {
+    "value": "Brie",
+    "confidence": 0.999997079372406,
+    "bounding_box": [
+      [
+        273.99999126791954,
+        427.9999852180481
+      ],
+      [
+        430.0000123679638,
+        427.9999852180481
+      ],
+      [
+        430.0000123679638,
+        486.99997812509537
+      ],
+      [
+        273.99999126791954,
+        486.99997812509537
+      ]
+    ]
+  },
+  "student_type": {
+    "value": "Freshman",
+    "confidence": 0.998217761516571,
+    "bounding_box": [
+      [
+        304.0000084787607,
+        1611.0000371932983
+      ],
+      [
+        484.0000167489052,
+        1611.0000371932983
+      ],
+      [
+        484.0000167489052,
+        1637.000012397766
+      ],
+      [
+        304.0000084787607,
+        1637.000012397766
+      ]
+    ]
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence": 0.9999876022338867,
+    "bounding_box": [
+      [
+        917.0000061392784,
+        1110.0000232458115
+      ],
+      [
+        1133.999978005886,
+        1110.0000232458115
+      ],
+      [
+        1133.999978005886,
+        1156.9999784231186
+      ],
+      [
+        917.0000061392784,
+        1156.9999784231186
+      ]
+    ]
+  }
+}
+
+[2025-05-24T23:29:52.175081+00:00] === SYNCING CARD FIELD PREFERENCES ===
+
+[2025-05-24T23:29:52.175189+00:00] Using field names from DocAI
+[
+  "preferred_first_name",
+  "date_of_birth",
+  "permission_to_text",
+  "address",
+  "entry_term",
+  "high_school",
+  "name",
+  "email",
+  "cell",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-24T23:29:52.321503+00:00] Found existing school row: id=b1a2c3d4-e5f6-7890-1234-56789abcdef0
+
+[2025-05-24T23:29:52.321755+00:00] Current card_fields
+{
+  "gpa": {
+    "enabled": true,
+    "required": false
+  },
+  "cell": {
+    "enabled": true,
+    "required": true
+  },
+  "city": {
+    "enabled": true,
+    "required": true
+  },
+  "name": {
+    "enabled": true,
+    "required": true
+  },
+  "email": {
+    "enabled": true,
+    "required": true
+  },
+  "major": {
+    "enabled": true,
+    "required": false
+  },
+  "state": {
+    "enabled": true,
+    "required": true
+  },
+  "address": {
+    "enabled": true,
+    "required": true
+  },
+  "zip_code": {
+    "enabled": true,
+    "required": true
+  },
+  "city_state": {
+    "enabled": true,
+    "required": false
+  },
+  "class_rank": {
+    "enabled": true,
+    "required": false
+  },
+  "entry_term": {
+    "enabled": true,
+    "required": false
+  },
+  "high_school": {
+    "enabled": true,
+    "required": false
+  },
+  "student_type": {
+    "enabled": true,
+    "required": false
+  },
+  "date_of_birth": {
+    "enabled": true,
+    "required": false
+  },
+  "students_in_class": {
+    "enabled": true,
+    "required": false
+  },
+  "permission_to_text": {
+    "enabled": true,
+    "required": false
+  },
+  "preferred_first_name": {
+    "enabled": true,
+    "required": false
+  }
+}
+
+[2025-05-24T23:29:52.322437+00:00] Preserving settings for preferred_first_name
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-24T23:29:52.322540+00:00] Preserving settings for date_of_birth
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-24T23:29:52.322638+00:00] Preserving settings for permission_to_text
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-24T23:29:52.322726+00:00] Preserving settings for address
+{
+  "enabled": true,
+  "required": true
+}
+
+[2025-05-24T23:29:52.322811+00:00] Preserving settings for entry_term
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-24T23:29:52.322896+00:00] Preserving settings for high_school
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-24T23:29:52.322992+00:00] Preserving settings for name
+{
+  "enabled": true,
+  "required": true
+}
+
+[2025-05-24T23:29:52.323074+00:00] Preserving settings for email
+{
+  "enabled": true,
+  "required": true
+}
+
+[2025-05-24T23:29:52.323159+00:00] Preserving settings for cell
+{
+  "enabled": true,
+  "required": true
+}
+
+[2025-05-24T23:29:52.323237+00:00] Preserving settings for student_type
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-24T23:29:52.323319+00:00] Preserving settings for zip_code
+{
+  "enabled": true,
+  "required": true
+}
+
+[2025-05-24T23:29:52.323506+00:00] Updating school with card_fields
+{
+  "gpa": {
+    "enabled": true,
+    "required": false
+  },
+  "cell": {
+    "enabled": true,
+    "required": true
+  },
+  "city": {
+    "enabled": true,
+    "required": true
+  },
+  "name": {
+    "enabled": true,
+    "required": true
+  },
+  "email": {
+    "enabled": true,
+    "required": true
+  },
+  "major": {
+    "enabled": true,
+    "required": false
+  },
+  "state": {
+    "enabled": true,
+    "required": true
+  },
+  "address": {
+    "enabled": true,
+    "required": true
+  },
+  "zip_code": {
+    "enabled": true,
+    "required": true
+  },
+  "city_state": {
+    "enabled": true,
+    "required": false
+  },
+  "class_rank": {
+    "enabled": true,
+    "required": false
+  },
+  "entry_term": {
+    "enabled": true,
+    "required": false
+  },
+  "high_school": {
+    "enabled": true,
+    "required": false
+  },
+  "student_type": {
+    "enabled": true,
+    "required": false
+  },
+  "date_of_birth": {
+    "enabled": true,
+    "required": false
+  },
+  "students_in_class": {
+    "enabled": true,
+    "required": false
+  },
+  "permission_to_text": {
+    "enabled": true,
+    "required": false
+  },
+  "preferred_first_name": {
+    "enabled": true,
+    "required": false
+  }
+}
+
+[2025-05-24T23:29:52.511948+00:00] Verified updated school settings
+{
+  "gpa": {
+    "enabled": true,
+    "required": false
+  },
+  "cell": {
+    "enabled": true,
+    "required": true
+  },
+  "city": {
+    "enabled": true,
+    "required": true
+  },
+  "name": {
+    "enabled": true,
+    "required": true
+  },
+  "email": {
+    "enabled": true,
+    "required": true
+  },
+  "major": {
+    "enabled": true,
+    "required": false
+  },
+  "state": {
+    "enabled": true,
+    "required": true
+  },
+  "address": {
+    "enabled": true,
+    "required": true
+  },
+  "zip_code": {
+    "enabled": true,
+    "required": true
+  },
+  "city_state": {
+    "enabled": true,
+    "required": false
+  },
+  "class_rank": {
+    "enabled": true,
+    "required": false
+  },
+  "entry_term": {
+    "enabled": true,
+    "required": false
+  },
+  "high_school": {
+    "enabled": true,
+    "required": false
+  },
+  "student_type": {
+    "enabled": true,
+    "required": false
+  },
+  "date_of_birth": {
+    "enabled": true,
+    "required": false
+  },
+  "students_in_class": {
+    "enabled": true,
+    "required": false
+  },
+  "permission_to_text": {
+    "enabled": true,
+    "required": false
+  },
+  "preferred_first_name": {
+    "enabled": true,
+    "required": false
+  }
+}
+
+[2025-05-24T23:29:52.512164+00:00] === RETRIEVING SCHOOL SETTINGS ===
+
+[2025-05-24T23:29:52.599880+00:00] School settings
+{
+  "gpa": {
+    "enabled": true,
+    "required": false
+  },
+  "cell": {
+    "enabled": true,
+    "required": true
+  },
+  "city": {
+    "enabled": true,
+    "required": true
+  },
+  "name": {
+    "enabled": true,
+    "required": true
+  },
+  "email": {
+    "enabled": true,
+    "required": true
+  },
+  "major": {
+    "enabled": true,
+    "required": false
+  },
+  "state": {
+    "enabled": true,
+    "required": true
+  },
+  "address": {
+    "enabled": true,
+    "required": true
+  },
+  "zip_code": {
+    "enabled": true,
+    "required": true
+  },
+  "city_state": {
+    "enabled": true,
+    "required": false
+  },
+  "class_rank": {
+    "enabled": true,
+    "required": false
+  },
+  "entry_term": {
+    "enabled": true,
+    "required": false
+  },
+  "high_school": {
+    "enabled": true,
+    "required": false
+  },
+  "student_type": {
+    "enabled": true,
+    "required": false
+  },
+  "date_of_birth": {
+    "enabled": true,
+    "required": false
+  },
+  "students_in_class": {
+    "enabled": true,
+    "required": false
+  },
+  "permission_to_text": {
+    "enabled": true,
+    "required": false
+  },
+  "preferred_first_name": {
+    "enabled": true,
+    "required": false
+  }
+}
+
+[2025-05-24T23:29:52.600142+00:00] === UPDATING FIELDS WITH REQUIRED FLAGS ===
+
+[2025-05-24T23:29:52.600631+00:00] Field: address
+{
+  "Required": true,
+  "Enabled": true
+}
+
+[2025-05-24T23:29:52.600699+00:00] Field: cell
+{
+  "Required": true,
+  "Enabled": true
+}
+
+[2025-05-24T23:29:52.600824+00:00] Field: date_of_birth
+{
+  "Required": false,
+  "Enabled": true
+}
+
+[2025-05-24T23:29:52.600896+00:00] Field: email
+{
+  "Required": true,
+  "Enabled": true
+}
+
+[2025-05-24T23:29:52.600964+00:00] Field: entry_term
+{
+  "Required": false,
+  "Enabled": true
+}
+
+[2025-05-24T23:29:52.601052+00:00] Field: high_school
+{
+  "Required": false,
+  "Enabled": true
+}
+
+[2025-05-24T23:29:52.601120+00:00] Field: name
+{
+  "Required": true,
+  "Enabled": true
+}
+
+[2025-05-24T23:29:52.601202+00:00] Field: permission_to_text
+{
+  "Required": false,
+  "Enabled": true
+}
+
+[2025-05-24T23:29:52.601289+00:00] Field: preferred_first_name
+{
+  "Required": false,
+  "Enabled": true
+}
+
+[2025-05-24T23:29:52.601355+00:00] Field: student_type
+{
+  "Required": false,
+  "Enabled": true
+}
+
+[2025-05-24T23:29:52.601440+00:00] Field: zip_code
+{
+  "Required": true,
+  "Enabled": true
+}
+
+[2025-05-24T23:29:52.601506+00:00] === UPDATED DOCAI FIELDS ===
+{
+  "address": {
+    "value": "Western Pumes",
+    "confidence": 0.9986469745635986,
+    "bounding_box": [
+      [
+        257.99999982118607,
+        934.9999934434891
+      ],
+      [
+        717.9999724030495,
+        934.9999934434891
+      ],
+      [
+        717.9999724030495,
+        1001.0000288486481
+      ],
+      [
+        257.99999982118607,
+        1001.0000288486481
+      ]
+    ],
+    "required": true,
+    "enabled": true
+  },
+  "cell": {
+    "value": "325-338-7743",
+    "confidence": 0.999997079372406,
+    "bounding_box": [
+      [
+        255.99999614059925,
+        771.0000023245811
+      ],
+      [
+        719.0000027418137,
+        771.0000023245811
+      ],
+      [
+        719.0000027418137,
+        835.9999895095825
+      ],
+      [
+        255.99999614059925,
+        835.9999895095825
+      ]
+    ],
+    "required": true,
+    "enabled": true
+  },
+  "date_of_birth": {
+    "value": "1-14-2011",
+    "confidence": 0.9999780058860779,
+    "bounding_box": [
+      [
+        932.0000052452087,
+        430.99998235702515
+      ],
+      [
+        1201.0000348091125,
+        430.99998235702515
+      ],
+      [
+        1201.0000348091125,
+        479.9999848008156
+      ],
+      [
+        932.0000052452087,
+        479.9999848008156
+      ]
+    ],
+    "required": false,
+    "enabled": true
+  },
+  "email": {
+    "value": "Samulbri29@wyliebulldogs.org",
+    "confidence": 0.9999904036521912,
+    "bounding_box": [
+      [
+        277.00000628829,
+        597.0000207424164
+      ],
+      [
+        1161.0000371932983,
+        597.0000207424164
+      ],
+      [
+        1161.0000371932983,
+        670.0000002980232
+      ],
+      [
+        277.00000628829,
+        670.0000002980232
+      ]
+    ],
+    "required": true,
+    "enabled": true
+  },
+  "entry_term": {
+    "value": "Fall 2024",
+    "confidence": 0.9999358057975769,
+    "bounding_box": [
+      [
+        890.9999772906303,
+        1571.9999760389328
+      ],
+      [
+        1168.9999759197235,
+        1571.9999760389328
+      ],
+      [
+        1168.9999759197235,
+        1642.0000076293945
+      ],
+      [
+        890.9999772906303,
+        1642.0000076293945
+      ]
+    ],
+    "required": false,
+    "enabled": true
+  },
+  "high_school": {
+    "value": "Wylie West Junior High",
+    "confidence": 0.9999960064888,
+    "bounding_box": [
+      [
+        260.0000035017729,
+        1273.9999651908875
+      ],
+      [
+        1005.9999704360962,
+        1273.9999651908875
+      ],
+      [
+        1005.9999704360962,
+        1345.9999948740005
+      ],
+      [
+        260.0000035017729,
+        1345.9999948740005
+      ]
+    ],
+    "required": false,
+    "enabled": true
+  },
+  "name": {
+    "value": "Brielle Samulde",
+    "confidence": 0.9999886155128479,
+    "bounding_box": [
+      [
+        252.00000777840614,
+        250.0000074505806
+      ],
+      [
+        817.0000120997429,
+        250.0000074505806
+      ],
+      [
+        817.0000120997429,
+        325.0000096857548
+      ],
+      [
+        252.00000777840614,
+        325.0000096857548
+      ]
+    ],
+    "required": true,
+    "enabled": true
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "confidence": 0.9999058842658997,
+    "bounding_box": [
+      [
+        948.9999890327454,
+        766.0000070929527
+      ],
+      [
+        1013.0000308156013,
+        766.0000070929527
+      ],
+      [
+        1013.0000308156013,
+        790.9999832510948
+      ],
+      [
+        948.9999890327454,
+        790.9999832510948
+      ]
+    ],
+    "required": false,
+    "enabled": true
+  },
+  "preferred_first_name": {
+    "value": "Brie",
+    "confidence": 0.999997079372406,
+    "bounding_box": [
+      [
+        273.99999126791954,
+        427.9999852180481
+      ],
+      [
+        430.0000123679638,
+        427.9999852180481
+      ],
+      [
+        430.0000123679638,
+        486.99997812509537
+      ],
+      [
+        273.99999126791954,
+        486.99997812509537
+      ]
+    ],
+    "required": false,
+    "enabled": true
+  },
+  "student_type": {
+    "value": "Freshman",
+    "confidence": 0.998217761516571,
+    "bounding_box": [
+      [
+        304.0000084787607,
+        1611.0000371932983
+      ],
+      [
+        484.0000167489052,
+        1611.0000371932983
+      ],
+      [
+        484.0000167489052,
+        1637.000012397766
+      ],
+      [
+        304.0000084787607,
+        1637.000012397766
+      ]
+    ],
+    "required": false,
+    "enabled": true
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence": 0.9999876022338867,
+    "bounding_box": [
+      [
+        917.0000061392784,
+        1110.0000232458115
+      ],
+      [
+        1133.999978005886,
+        1110.0000232458115
+      ],
+      [
+        1133.999978005886,
+        1156.9999784231186
+      ],
+      [
+        917.0000061392784,
+        1156.9999784231186
+      ]
+    ],
+    "required": true,
+    "enabled": true
+  }
+}
+
+[2025-05-24T23:29:52.601831+00:00] === VALIDATING ADDRESS ===
+{
+  "Address": "Western Pumes",
+  "City": "",
+  "State": "",
+  "Zip Code": "79606"
+}
+
+[2025-05-24T23:29:52.821663+00:00] Address validation result
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": false,
+  "queried_by_zip_only": true
+}
+
+[2025-05-24T23:29:52.821901+00:00] Preserved original address: Western Pumes (Google returned empty street address)
+
+[2025-05-24T23:29:52.822385+00:00] Added city: Abilene and state: TX from zip validation
+
+[2025-05-24T23:29:52.822476+00:00] === RUNNING GEMINI ENHANCEMENT ===
+
+[2025-05-24T23:30:02.983851+00:00] === FINALIZING FIELD DATA ===
+
+[2025-05-24T23:30:02.984092+00:00] === REVIEW STATUS DETERMINATION ===
+
+[2025-05-24T23:30:02.984214+00:00] Fields marked for review
+[
+  "address"
+]
+
+[2025-05-24T23:30:02.984343+00:00] Fields marked for review: ['address']
+
+[2025-05-24T23:30:02.984417+00:00] Setting review status to needs_human_review
+
+[2025-05-24T23:30:02.984692+00:00] === SAVING REVIEWED DATA ===
+
+[2025-05-24T23:30:02.984799+00:00] Document ID: 85a76e21-12ba-443f-8f00-d5b21438c96a
+
+[2025-05-24T23:30:02.984887+00:00] Review Status: needs_human_review
+
+[2025-05-24T23:30:02.984980+00:00] Fields requiring review: ['address']
+
+[2025-05-24T23:30:03.265241+00:00] ✅ Upserted reviewed_data for job 85a76e21-12ba-443f-8f00-d5b21438c96a
+
+[2025-05-24T23:30:03.328537+00:00] ✅ Job 85a76e21-12ba-443f-8f00-d5b21438c96a complete.
+
+[2025-05-24T23:30:03.328791+00:00] === PROCESSING JOB END ===
+
+
+[2025-05-24T23:30:03.329361+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:30:03.396772+00:00] Found 0 queued jobs
+
+[2025-05-24T23:30:04.401340+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:30:04.477650+00:00] Found 0 queued jobs
+
+[2025-05-24T23:30:05.482206+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:30:05.552314+00:00] Found 0 queued jobs
+
+[2025-05-24T23:30:06.552835+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:30:06.624608+00:00] Found 0 queued jobs
+
+[2025-05-24T23:30:07.629766+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:30:07.693777+00:00] Found 0 queued jobs
+
+[2025-05-24T23:30:08.699054+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:30:08.773794+00:00] Found 0 queued jobs
+
+[2025-05-24T23:30:09.774889+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:30:09.843136+00:00] Found 0 queued jobs
+
+[2025-05-24T23:30:10.843632+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:30:10.920647+00:00] Found 0 queued jobs
+
+[2025-05-24T23:30:11.923939+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:30:11.994599+00:00] Found 0 queued jobs
+
+[2025-05-24T23:30:12.999957+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:30:13.069492+00:00] Found 0 queued jobs
+
+[2025-05-24T23:30:14.074716+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:30:14.142486+00:00] Found 0 queued jobs
+
+[2025-05-24T23:30:15.144543+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:30:15.221208+00:00] Found 0 queued jobs
+
+[2025-05-24T23:30:16.224941+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:30:16.298990+00:00] Found 0 queued jobs
+
+[2025-05-24T23:30:17.304750+00:00] === CHECKING FOR QUEUED JOBS ===
+
+[2025-05-24T23:30:17.389325+00:00] Found 0 queued jobs
