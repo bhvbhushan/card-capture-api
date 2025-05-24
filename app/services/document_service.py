@@ -609,17 +609,22 @@ def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_
                     "required": original_field.get("required", False),  # Default to False
                     "enabled": original_field.get("enabled", True),
                     "confidence": original_field.get("confidence", 0.0),
-                    "bounding_box": original_field.get("bounding_box", [])
+                    "bounding_box": original_field.get("bounding_box", []),
+                    # Preserve review flags from DocAI
+                    "requires_human_review": original_field.get("requires_human_review", False),
+                    "review_notes": original_field.get("review_notes", "")
                 })
                 
-                # If field is required and empty, mark for review
-                if field_data.get("required", False) and not field_data.get("value"):
-                    field_data["requires_human_review"] = True
-                    field_data["review_notes"] = "Required field is empty"
-                # If field is required and has low confidence, mark for review
-                elif field_data.get("required", False) and field_data.get("confidence", 0.0) < 0.7:
-                    field_data["requires_human_review"] = True
-                    field_data["review_notes"] = "Required field has low confidence"
+                # Only mark for review if not already marked by DocAI
+                if not field_data.get("requires_human_review"):
+                    # If field is required and empty, mark for review
+                    if field_data.get("required", False) and not field_data.get("value"):
+                        field_data["requires_human_review"] = True
+                        field_data["review_notes"] = "Required field is empty"
+                    # If field is required and has low confidence, mark for review
+                    elif field_data.get("required", False) and field_data.get("confidence", 0.0) < 0.7:
+                        field_data["requires_human_review"] = True
+                        field_data["review_notes"] = "Required field has low confidence"
         
         print("[Gemini DEBUG] Final processed fields:")
         print(json.dumps(gemini_fields, indent=2))
