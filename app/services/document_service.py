@@ -184,26 +184,17 @@ def process_image(image_path: str, processor_id: str, user_id: str = None, schoo
             print(f"✅ Formatted {len(processed_dict)} fields found by Document AI.")
             print("Fields found:", json.dumps(processed_dict, indent=2))
 
-            # Handle city_state field if it exists
+            # Always split city_state if present and use as initial city/state
             if 'city_state' in processed_dict:
                 city_state_value = processed_dict['city_state']['value']
-                print(f"Found city_state field: {city_state_value}")
-                # Split on comma and clean up
                 parts = [part.strip() for part in city_state_value.split(",")]
                 if len(parts) >= 2:
-                    city = parts[0]
-                    state = parts[1]
-                    # Add separate city and state fields
-                    processed_dict['city'] = {
-                        "value": city,
-                        "vision_confidence": processed_dict['city_state']['vision_confidence']
-                    }
-                    processed_dict['state'] = {
-                        "value": state,
-                        "vision_confidence": processed_dict['city_state']['vision_confidence']
-                    }
-                    print(f"Split city_state into city: '{city}' and state: '{state}'")
-                # Remove the combined city_state field
+                    processed_dict['city'] = {"value": parts[0], "vision_confidence": processed_dict['city_state']['vision_confidence']}
+                    processed_dict['state'] = {"value": parts[1], "vision_confidence": processed_dict['city_state']['vision_confidence']}
+                elif len(parts) == 1:
+                    processed_dict['city'] = {"value": parts[0], "vision_confidence": processed_dict['city_state']['vision_confidence']}
+                    processed_dict['state'] = {"value": "", "vision_confidence": processed_dict['city_state']['vision_confidence']}
+                print(f"Split city_state into city: '{processed_dict['city']['value']}' and state: '{processed_dict['state']['value']}'")
                 del processed_dict['city_state']
         else:
             print(f"⚠️ No entities found by Document AI.")

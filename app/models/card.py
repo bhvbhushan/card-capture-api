@@ -6,6 +6,8 @@ class MarkExportedPayload(BaseModel):
 
 class ArchiveCardsPayload(BaseModel):
     document_ids: List[str]
+    status: str
+    review_status: str
 
 class DeleteCardsPayload(BaseModel):
     document_ids: List[str]

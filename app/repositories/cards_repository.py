@@ -18,6 +18,7 @@ def get_cards_db(supabase_client, event_id: Union[str, None] = None) -> List[Dic
 def archive_cards_db(supabase_client, document_ids: List[str]):
     timestamp = datetime.now(timezone.utc).isoformat()
     update_payload = {
+        "status": "archived",
         "review_status": "archived",
         "reviewed_at": timestamp
     }
