@@ -29,12 +29,11 @@ def archive_cards_db(supabase_client, document_ids: List[str]):
     # Log current status of each record
     for record in existing_records:
         log_archive_debug(f"Record {record['document_id']} current state:", {
-            "status": record.get("status"),
             "review_status": record.get("review_status")
         })
     
-    # Filter out records that are already fully archived (both status and review_status are "archived")
-    records_to_archive = [r for r in existing_records if r.get("status") != "archived" or r.get("review_status") != "archived"]
+    # Filter out records that are already archived
+    records_to_archive = [r for r in existing_records if r.get("review_status") != "archived"]
     log_archive_debug("Records to archive (excluding already archived)", records_to_archive)
     
     if not records_to_archive:
@@ -43,7 +42,6 @@ def archive_cards_db(supabase_client, document_ids: List[str]):
     
     timestamp = datetime.now(timezone.utc).isoformat()
     update_payload = {
-        "status": "archived",
         "review_status": "archived",
         "reviewed_at": timestamp
     }
@@ -59,7 +57,6 @@ def archive_cards_db(supabase_client, document_ids: List[str]):
         updated_query = supabase_client.table("reviewed_data").select("*").in_("document_id", [r["document_id"] for r in records_to_archive]).execute()
         for record in updated_query.data:
             log_archive_debug(f"Record {record['document_id']} after archive:", {
-                "status": record.get("status"),
                 "review_status": record.get("review_status")
             })
         
@@ -105,14 +102,12 @@ def move_cards_db(supabase_client, document_ids: List[str], status: str = "revie
     # Log current status of each record
     for record in existing_records:
         log_archive_debug(f"Record {record['document_id']} before move:", {
-            "status": record.get("status"),
             "review_status": record.get("review_status")
         })
     
     timestamp = datetime.now(timezone.utc).isoformat()
     update_payload = {
         "review_status": status,
-        "status": status,
         "reviewed_at": timestamp
     }
     log_archive_debug("Update payload", update_payload)
@@ -127,7 +122,6 @@ def move_cards_db(supabase_client, document_ids: List[str], status: str = "revie
         updated_query = supabase_client.table("reviewed_data").select("*").in_("document_id", document_ids).execute()
         for record in updated_query.data:
             log_archive_debug(f"Record {record['document_id']} after move:", {
-                "status": record.get("status"),
                 "review_status": record.get("review_status")
             })
         
