@@ -95,6 +95,11 @@ def process_job(job):
         if not docai_fields:
             raise Exception("No DocAI fields found in processing_jobs.result_json")
             
+        # Debug logging for raw DocAI response
+        print("\n=== Document AI Raw Response ===")
+        print(json.dumps(docai_fields, indent=2))
+        print("=== End Document AI Response ===\n")
+            
         # Sync preferences before processing
         sync_card_fields_preferences(supabase_client, user_id, school_id, docai_fields)
         

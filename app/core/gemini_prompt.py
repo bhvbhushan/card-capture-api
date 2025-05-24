@@ -53,28 +53,46 @@ Ignore the input `vision_confidence`; you will determine your own `review_confid
 
 **Field Formatting Rules:**
 
-1. **High School Field:**
+1. **Address Fields:**
+   - You MUST ALWAYS include city and state fields in your output, even if not present in the input
+   - If an address is provided, extract and validate city and state
+   - City should be the full city name (e.g., "Abilene" not "Abil")
+   - State should be the two-letter code (e.g., "TX" not "Texas")
+   - If city or state is missing but can be determined from the address, include them
+   - If city or state cannot be determined, include them with empty values and mark for review
+   - Example: "123 Main St, Abilene, TX 79606" should populate:
+     * address: "123 Main St"
+     * city: "Abilene"
+     * state: "TX"
+     * zip_code: "79606"
+   - Example: "123 Main St, 79606" should populate:
+     * address: "123 Main St"
+     * city: "" (empty, marked for review)
+     * state: "" (empty, marked for review)
+     * zip_code: "79606"
+
+2. **High School Field:**
    - Always format as "XYZ High School"
    - Convert variations like "XYZ Highschool" or "XYZ HS" to "XYZ High School"
    - Example: "Lincoln HS" → "Lincoln High School"
 
-2. **N/A Values:**
+3. **N/A Values:**
    - If any field contains "N/A", return an empty string ("") instead
    - Do not preserve "N/A" in any field
 
-3. **Entry Term:**
+4. **Entry Term:**
    - Standardize to format: "Fall YYYY" or "Spring YYYY"
    - If only a year is provided (e.g., "2027"), default to "Fall 2027"
    - If "Spring" is mentioned, use "Spring YYYY"
    - Example: "2027" → "Fall 2027"
    - Example: "Spring 2027" → "Spring 2027"
 
-4. **Birthday Format:**
+5. **Birthday Format:**
    - Always format as MM/DD/YYYY
    - Example: "1/15/2005" → "01/15/2005"
    - Example: "Jan 15 2005" → "01/15/2005"
 
-5. **Phone Numbers:**
+6. **Phone Numbers:**
    - Format as xxx-xxx-xxxx
    - Remove any parentheses, spaces, or other characters
    - Example: "(512) 555-1234" → "512-555-1234"
