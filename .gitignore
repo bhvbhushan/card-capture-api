@@ -43,3 +43,5 @@ uploads/images/
 uploads/trimmed/ 
 
 cc/
+
+worker_debug.log
