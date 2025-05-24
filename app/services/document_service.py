@@ -430,12 +430,22 @@ def validate_email(email: str) -> tuple[str, bool, str]:
         domain = domain[:-3] + ".com"
     elif domain.endswith(".om"):
         domain = domain[:-2] + "com"
+    elif domain.endswith(".c"):  # Add this case
+        domain = domain[:-2] + "com"
     
     # Reconstruct email
     fixed_email = f"{local_part}@{domain}"
     
     # Basic validation
     if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', fixed_email):
+        return fixed_email, False, "Invalid email format"
+    
+    # Additional validation for common issues
+    if len(domain.split(".")[-1]) < 2:  # TLD too short
+        return fixed_email, False, "Invalid domain format"
+    if " " in domain:  # Spaces in domain
+        return fixed_email, False, "Invalid domain format"
+    if len(local_part) < 1:  # Empty local part
         return fixed_email, False, "Invalid email format"
     
     return fixed_email, True, ""
@@ -523,15 +533,22 @@ def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_
             if original_email != fixed_email:
                 print(f"[Email DEBUG] Fixed email: {original_email} -> {fixed_email}")
                 email_data["value"] = fixed_email
-                # Only mark for review if the fix didn't make it valid
-                if not is_valid:
-                    email_data["requires_human_review"] = True
-                    email_data["review_notes"] = f"Email validation: {error_message}"
-                else:
-                    # If the fix made it valid, ensure it's not marked for review
-                    email_data["requires_human_review"] = False
-                    email_data["review_notes"] = ""
-                    email_data["review_confidence"] = 0.99  # High confidence since we fixed it
+            
+            # Always mark for review if the email is invalid or was fixed
+            if not is_valid:
+                email_data["requires_human_review"] = True
+                email_data["review_notes"] = f"Email validation: {error_message}"
+                email_data["confidence"] = 0.5  # Lower confidence for invalid emails
+            elif original_email != fixed_email:
+                # If we fixed it but it's valid, still mark for review but with higher confidence
+                email_data["requires_human_review"] = True
+                email_data["review_notes"] = "Email was auto-corrected, please verify"
+                email_data["confidence"] = 0.8  # Higher confidence for auto-corrected emails
+            else:
+                # If it was valid and unchanged, ensure it's not marked for review
+                email_data["requires_human_review"] = False
+                email_data["review_notes"] = ""
+                email_data["confidence"] = 0.99  # High confidence for valid emails
         
         # Handle city_state field by splitting it into city and state
         if "city_state" in gemini_fields:
