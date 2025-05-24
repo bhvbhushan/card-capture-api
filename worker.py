@@ -51,7 +51,14 @@ def process_job(job):
         # 3. Run Gemini review
         gemini_result = get_gemini_review(extracted_fields, tmp_file)
         print(f"Gemini result: {json.dumps(gemini_result)[:200]}...")
-        # 4. Update job as complete
+
+        # 4. Determine if any field needs review
+        any_field_needs_review = any(
+            field.get('requires_human_review', False)
+            for field in gemini_result.values() if isinstance(field, dict)
+        )
+
+        # 5. Update job as complete
         now = datetime.now(timezone.utc).isoformat()
         supabase_client.table("processing_jobs").update({
             "status": "complete",
@@ -60,7 +67,8 @@ def process_job(job):
             "error_message": None
         }).eq("id", job_id).execute()
         print(f"Job {job_id} complete.")
-        # 5. Upsert into reviewed_data for frontend
+
+        # 6. Upsert into reviewed_data for frontend (ONLY after review/validation)
         supabase_client.table("reviewed_data").upsert({
             "document_id": job_id,
             "fields": gemini_result,
@@ -68,7 +76,7 @@ def process_job(job):
             "user_id": user_id,
             "event_id": event_id,
             "image_path": job.get("image_path"),
-            "review_status": "reviewed",
+            "review_status": "needs_human_review" if any_field_needs_review else "reviewed",
             "created_at": now,
             "updated_at": now
         }, on_conflict="document_id").execute()

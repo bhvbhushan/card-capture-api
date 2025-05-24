@@ -179,7 +179,13 @@ def process_job(job):
             f.write("=== Gemini Processed Fields ===\n")
             f.write(json.dumps(gemini_fields, indent=2))
             f.write("\n=== End Gemini Fields ===\n\n")
-        
+
+        # Determine if any field needs review
+        any_field_needs_review = any(
+            field.get('requires_human_review', False)
+            for field in gemini_fields.values() if isinstance(field, dict)
+        )
+
         now = datetime.now(timezone.utc).isoformat()
         reviewed_data = {
             "document_id": job_id,
@@ -188,7 +194,7 @@ def process_job(job):
             "user_id": user_id,
             "event_id": event_id,
             "image_path": job.get("image_path"),
-            "review_status": "reviewed",
+            "review_status": "needs_human_review" if any_field_needs_review else "reviewed",
             "created_at": now,
             "updated_at": now
         }

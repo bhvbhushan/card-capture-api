@@ -2,7 +2,7 @@
 {
   "cell": {
     "value": "325-338-7743",
-    "confidence": 0.9999918341636658,
+    "confidence": 0.999997079372406,
     "bounding_box": [
       [
         255.99999614059925,
@@ -24,7 +24,7 @@
   },
   "name": {
     "value": "Brielle Samulde",
-    "confidence": 0.9999823570251465,
+    "confidence": 0.9999886155128479,
     "bounding_box": [
       [
         252.00000777840614,
@@ -46,7 +46,7 @@
   },
   "email": {
     "value": "Samulbri29@wyliebulldogs.org",
-    "confidence": 0.9999856948852539,
+    "confidence": 0.9999904036521912,
     "bounding_box": [
       [
         277.00000628829,
@@ -68,7 +68,7 @@
   },
   "address": {
     "value": "Western Pumes",
-    "confidence": 0.998552680015564,
+    "confidence": 0.9986469745635986,
     "bounding_box": [
       [
         257.99999982118607,
@@ -90,7 +90,7 @@
   },
   "zip_code": {
     "value": "79606",
-    "confidence": 0.9999854564666748,
+    "confidence": 0.9999876022338867,
     "bounding_box": [
       [
         917.0000061392784,
@@ -112,7 +112,7 @@
   },
   "entry_term": {
     "value": "Fall 2024",
-    "confidence": 0.9999687075614929,
+    "confidence": 0.9999358057975769,
     "bounding_box": [
       [
         890.9999772906303,
@@ -134,7 +134,7 @@
   },
   "high_school": {
     "value": "Wylie West Junior High",
-    "confidence": 0.9999979138374329,
+    "confidence": 0.9999960064888,
     "bounding_box": [
       [
         260.0000035017729,
@@ -156,7 +156,7 @@
   },
   "student_type": {
     "value": "Freshman",
-    "confidence": 0.9961521029472351,
+    "confidence": 0.998217761516571,
     "bounding_box": [
       [
         304.0000084787607,
@@ -178,7 +178,7 @@
   },
   "date_of_birth": {
     "value": "1-14-2011",
-    "confidence": 0.9999837279319763,
+    "confidence": 0.9999780058860779,
     "bounding_box": [
       [
         932.0000052452087,
@@ -200,7 +200,7 @@
   },
   "permission_to_text": {
     "value": "Yes",
-    "confidence": 0.999799907207489,
+    "confidence": 0.9999058842658997,
     "bounding_box": [
       [
         948.9999890327454,
@@ -222,7 +222,7 @@
   },
   "preferred_first_name": {
     "value": "Brie",
-    "confidence": 0.9999939799308777,
+    "confidence": 0.999997079372406,
     "bounding_box": [
       [
         273.99999126791954,
@@ -254,7 +254,7 @@
     "review_confidence": 1.0,
     "requires_human_review": false,
     "review_notes": "",
-    "confidence": 0.9999918341636658,
+    "confidence": 0.999997079372406,
     "bounding_box": [
       [
         255.99999614059925,
@@ -281,7 +281,7 @@
     "review_confidence": 1.0,
     "requires_human_review": false,
     "review_notes": "",
-    "confidence": 0.9999823570251465,
+    "confidence": 0.9999886155128479,
     "bounding_box": [
       [
         252.00000777840614,
@@ -308,7 +308,7 @@
     "review_confidence": 1.0,
     "requires_human_review": false,
     "review_notes": "",
-    "confidence": 0.9999856948852539,
+    "confidence": 0.9999904036521912,
     "bounding_box": [
       [
         277.00000628829,
@@ -329,13 +329,13 @@
     ]
   },
   "address": {
-    "value": "Western Prmes",
+    "value": "Western Pumes",
     "required": true,
     "enabled": true,
-    "review_confidence": 0.95,
+    "review_confidence": 0.7,
     "requires_human_review": true,
-    "review_notes": "Required field value appears incorrect. Check spelling - possibly \"Primes\".",
-    "confidence": 0.998552680015564,
+    "review_notes": "Required field value appears incorrect",
+    "confidence": 0.9986469745635986,
     "bounding_box": [
       [
         257.99999982118607,
@@ -362,7 +362,7 @@
     "review_confidence": 1.0,
     "requires_human_review": false,
     "review_notes": "",
-    "confidence": 0.9999854564666748,
+    "confidence": 0.9999876022338867,
     "bounding_box": [
       [
         917.0000061392784,
@@ -389,7 +389,7 @@
     "review_confidence": 1.0,
     "requires_human_review": false,
     "review_notes": "",
-    "confidence": 0.9999687075614929,
+    "confidence": 0.9999358057975769,
     "bounding_box": [
       [
         890.9999772906303,
@@ -416,7 +416,7 @@
     "review_confidence": 1.0,
     "requires_human_review": false,
     "review_notes": "",
-    "confidence": 0.9999979138374329,
+    "confidence": 0.9999960064888,
     "bounding_box": [
       [
         260.0000035017729,
@@ -443,7 +443,7 @@
     "review_confidence": 1.0,
     "requires_human_review": false,
     "review_notes": "",
-    "confidence": 0.9961521029472351,
+    "confidence": 0.998217761516571,
     "bounding_box": [
       [
         304.0000084787607,
@@ -470,7 +470,7 @@
     "review_confidence": 1.0,
     "requires_human_review": false,
     "review_notes": "",
-    "confidence": 0.9999837279319763,
+    "confidence": 0.9999780058860779,
     "bounding_box": [
       [
         932.0000052452087,
@@ -497,7 +497,7 @@
     "review_confidence": 1.0,
     "requires_human_review": false,
     "review_notes": "",
-    "confidence": 0.999799907207489,
+    "confidence": 0.9999058842658997,
     "bounding_box": [
       [
         948.9999890327454,
@@ -524,7 +524,7 @@
     "review_confidence": 1.0,
     "requires_human_review": false,
     "review_notes": "",
-    "confidence": 0.9999939799308777,
+    "confidence": 0.999997079372406,
     "bounding_box": [
       [
         273.99999126791954,
