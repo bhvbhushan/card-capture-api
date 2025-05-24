@@ -23,25 +23,62 @@ from sftp_utils import upload_to_slate
 import io
 from google.cloud import documentai_v1 as documentai
 from app.config import PROJECT_ID, DOCAI_LOCATION, DOCAI_PROCESSOR_ID, TRIMMED_FOLDER
+import json
+from datetime import datetime, timezone
 
 def process_image_and_trim(input_path: str, processor_id: str, percent_expand: float = 0.5):
     """
     Calls DocAI on the image, extracts field values and bounding box coordinates, trims the image,
     and returns (docai_json, trimmed_image_path).
     """
+    def log_debug(message, data=None):
+        """Write debug message and optional data to worker_debug.log"""
+        timestamp = datetime.now(timezone.utc).isoformat()
+        with open('worker_debug.log', 'a') as f:
+            f.write(f"\n[{timestamp}] {message}\n")
+            if data:
+                if isinstance(data, (dict, list)):
+                    f.write(json.dumps(data, indent=2))
+                else:
+                    f.write(str(data))
+                f.write("\n")
+
+    log_debug("\n=== INITIAL DOCAI PROCESSING START ===")
+    log_debug(f"Processing image: {input_path}")
+    
     # Set up Document AI client
     client = documentai.DocumentProcessorServiceClient()
     name = f"projects/{PROJECT_ID}/locations/{DOCAI_LOCATION}/processors/{processor_id}"
+    log_debug(f"Using DocAI processor: {name}")
+    
     with open(input_path, "rb") as image_file:
         image_content = image_file.read()
     raw_document = documentai.RawDocument(content=image_content, mime_type="image/jpeg")
     request = documentai.ProcessRequest(name=name, raw_document=raw_document)
+    
+    log_debug("Sending request to DocAI...")
     result = client.process_document(request=request)
     document = result.document
+    
+    log_debug("=== DOCAI RAW RESPONSE ===")
+    log_debug("Document text", document.text[:200])  # First 200 chars
+    log_debug("Document metadata", {
+        "Number of pages": len(document.pages),
+        "Number of entities": len(document.entities)
+    })
+    
     # Gather all bounding box vertices from entities
     all_vertices = []
     field_data = {}
+    
+    log_debug("=== DETECTED ENTITIES ===")
     for entity in getattr(document, "entities", []):
+        entity_data = {
+            "Type": entity.type_,
+            "Mention Text": entity.mention_text,
+            "Confidence": entity.confidence
+        }
+        
         coords = []
         if entity.page_anchor and entity.page_anchor.page_refs:
             for page_ref in entity.page_anchor.page_refs:
@@ -59,17 +96,31 @@ def process_image_and_trim(input_path: str, processor_id: str, percent_expand: f
                     for v in page_ref.bounding_poly.vertices:
                         coords.append((v.x, v.y))
                         all_vertices.append((v.x, v.y))
+        
+        entity_data["Bounding Box Coordinates"] = coords
+        log_debug(f"Entity: {entity.type_}", entity_data)
+        
         field_data[entity.type_] = {
             "value": entity.mention_text.strip(),
             "confidence": entity.confidence,
             "bounding_box": coords
         }
+    
+    log_debug("=== PROCESSED FIELD DATA ===", field_data)
+    
     if not all_vertices:
-        print("No bounding box vertices found for any entity. Returning original image.")
+        log_debug("⚠️ No bounding box vertices found for any entity. Returning original image.")
         return field_data, input_path
+        
     xs, ys = zip(*all_vertices)
     min_x, max_x = min(xs), max(xs)
     min_y, max_y = min(ys), max(ys)
+    
+    log_debug("=== IMAGE CROPPING INFO ===", {
+        "Original dimensions": Image.open(input_path).size,
+        "Bounding box": f"({min_x}, {min_y}) to ({max_x}, {max_y})"
+    })
+    
     # Crop with percent expansion
     img = Image.open(input_path)
     box_width = max_x - min_x
@@ -80,13 +131,27 @@ def process_image_and_trim(input_path: str, processor_id: str, percent_expand: f
     top = max(int(min_y - expand_y), 0)
     right = min(int(max_x + expand_x), img.width)
     bottom = min(int(max_y + expand_y), img.height)
+    
+    log_debug("Expanded box coordinates", {
+        "Left": left,
+        "Top": top,
+        "Right": right,
+        "Bottom": bottom
+    })
+    
     cropped_img = img.crop((left, top, right, bottom))
     filename = os.path.basename(input_path)
     name, ext = os.path.splitext(filename)
     output_path = os.path.join(TRIMMED_FOLDER, f"{name}_trimmed{ext}")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     cropped_img.save(output_path)
-    print(f"[DocAI] Cropped image saved to {output_path}")
+    
+    log_debug("=== CROPPED IMAGE INFO ===", {
+        "Saved to": output_path,
+        "Dimensions": cropped_img.size
+    })
+    log_debug("=== INITIAL DOCAI PROCESSING END ===\n")
+    
     return field_data, output_path
 
 async def upload_file_service(background_tasks, file, event_id, school_id, user):

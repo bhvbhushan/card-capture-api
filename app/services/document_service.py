@@ -450,54 +450,55 @@ def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_
         # Parse the cleaned response as JSON
         gemini_fields = json.loads(cleaned_text)
         
-        # Ensure city and state fields exist
-        if "city" not in gemini_fields:
-            gemini_fields["city"] = {
-                "value": "",
-                "required": True,
-                "enabled": True,
-                "review_confidence": 0.0,
-                "requires_human_review": True,
-                "review_notes": "City field not found in response",
-                "confidence": 0.0,
-                "bounding_box": [],
-                "source": "gemini_missing"
-            }
-        
-        if "state" not in gemini_fields:
-            gemini_fields["state"] = {
-                "value": "",
-                "required": True,
-                "enabled": True,
-                "review_confidence": 0.0,
-                "requires_human_review": True,
-                "review_notes": "State field not found in response",
-                "confidence": 0.0,
-                "bounding_box": [],
-                "source": "gemini_missing"
-            }
-        
         # Handle city_state field by splitting it into city and state
         if "city_state" in gemini_fields:
             city_state_value = gemini_fields["city_state"]["value"]
             if city_state_value:
-                # Split on comma and clean up
-                parts = [part.strip() for part in city_state_value.split(",")]
+                # Split on comma or period and clean up
+                parts = [part.strip() for part in re.split(r'[,.]', city_state_value)]
                 if len(parts) >= 2:
                     city = parts[0]
                     state = parts[1]
+                    
+                    # Clean up state value
+                    state = state.strip().upper()  # Convert to uppercase and remove whitespace
+                    # Remove any non-alphabetic characters
+                    state = ''.join(c for c in state if c.isalpha())
+                    
+                    # If state is invalid or empty, try to validate with Google Maps
+                    if len(state) != 2:
+                        # Try to get zip code from docai_fields
+                        zip_code = None
+                        if "zip_code" in docai_fields:
+                            zip_value = docai_fields["zip_code"].get("value", "")
+                            # Check if zip_value is actually a zip code (5 digits)
+                            if re.match(r'^\d{5}$', zip_value):
+                                zip_code = zip_value
+                        
+                        if zip_code:
+                            validation_result = validate_address_with_google("", zip_code)
+                            if validation_result:
+                                state = validation_result["state"]
+                                city = validation_result["city"]
+                                source = "zip_validation"
+                            else:
+                                source = "city_state_split"
+                        else:
+                            source = "city_state_split"
+                    else:
+                        source = "city_state_split"
                     
                     # Create city field
                     gemini_fields["city"] = {
                         "value": city,
                         "required": True,
                         "enabled": True,
-                        "review_confidence": gemini_fields["city_state"]["review_confidence"],
+                        "review_confidence": gemini_fields["city_state"].get("review_confidence", 0.0),
                         "requires_human_review": False,
                         "review_notes": "",
-                        "confidence": gemini_fields["city_state"]["confidence"],
-                        "bounding_box": gemini_fields["city_state"]["bounding_box"],
-                        "source": "city_state_split"
+                        "confidence": gemini_fields["city_state"].get("confidence", 0.0),
+                        "bounding_box": gemini_fields["city_state"].get("bounding_box", []),
+                        "source": source
                     }
                     
                     # Create state field
@@ -505,12 +506,12 @@ def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_
                         "value": state,
                         "required": True,
                         "enabled": True,
-                        "review_confidence": gemini_fields["city_state"]["review_confidence"],
+                        "review_confidence": gemini_fields["city_state"].get("review_confidence", 0.0),
                         "requires_human_review": False,
                         "review_notes": "",
-                        "confidence": gemini_fields["city_state"]["confidence"],
-                        "bounding_box": gemini_fields["city_state"]["bounding_box"],
-                        "source": "city_state_split"
+                        "confidence": gemini_fields["city_state"].get("confidence", 0.0),
+                        "bounding_box": gemini_fields["city_state"].get("bounding_box", []),
+                        "source": source
                     }
             
             # Remove the combined city_state field
