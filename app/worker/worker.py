@@ -4,7 +4,7 @@ import tempfile
 import traceback
 import json
 from datetime import datetime, timezone
-from app.services.document_service import parse_card_with_gemini
+from app.services.document_service import parse_card_with_gemini, validate_address_with_google
 # from app.services.gemini_service import run_gemini_review
 from app.repositories.processing_jobs_repository import update_processing_job
 from app.core.clients import supabase_client
@@ -99,6 +99,12 @@ def process_job(job):
         print("\n=== Document AI Raw Response ===")
         print(json.dumps(docai_fields, indent=2))
         print("=== End Document AI Response ===\n")
+
+        # Write logs to file
+        with open('worker_debug.log', 'w') as f:
+            f.write("=== Document AI Raw Response ===\n")
+            f.write(json.dumps(docai_fields, indent=2))
+            f.write("\n=== End Document AI Response ===\n\n")
             
         # Sync preferences before processing
         sync_card_fields_preferences(supabase_client, user_id, school_id, docai_fields)
@@ -126,6 +132,27 @@ def process_job(job):
         print("[Worker DEBUG] DocAI fields with required flags:")
         print(json.dumps(docai_fields, indent=2))
         
+        # Get city and state from zip code using Google Maps
+        if 'zip_code' in docai_fields and docai_fields['zip_code'].get('value'):
+            zip_code = docai_fields['zip_code']['value']
+            address = docai_fields.get('address', {}).get('value', '')
+            print(f"[Worker DEBUG] Validating address with zip code: {zip_code}")
+            validation_result = validate_address_with_google(address, zip_code)
+            if validation_result:
+                print(f"[Worker DEBUG] Address validation result: {json.dumps(validation_result, indent=2)}")
+                # Add city and state from validation
+                docai_fields['city'] = {
+                    "value": validation_result['city'],
+                    "confidence": 0.95,
+                    "source": "zip_validation"
+                }
+                docai_fields['state'] = {
+                    "value": validation_result['state'],
+                    "confidence": 0.95,
+                    "source": "zip_validation"
+                }
+                print(f"[Worker DEBUG] Added city: {validation_result['city']} and state: {validation_result['state']} from zip validation")
+        
         # Run Gemini enhancement with DocAI fields (now including required flags)
         gemini_fields = parse_card_with_gemini(tmp_file, docai_fields)
         
@@ -146,6 +173,12 @@ def process_job(job):
         # Debug logging for Gemini response
         print("[Worker DEBUG] Gemini response with required flags:")
         print(json.dumps(gemini_fields, indent=2))
+
+        # Add Gemini fields to log file
+        with open('worker_debug.log', 'a') as f:
+            f.write("=== Gemini Processed Fields ===\n")
+            f.write(json.dumps(gemini_fields, indent=2))
+            f.write("\n=== End Gemini Fields ===\n\n")
         
         now = datetime.now(timezone.utc).isoformat()
         reviewed_data = {

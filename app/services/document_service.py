@@ -52,6 +52,7 @@ def validate_address_with_google(address: str, zip_code: str) -> Optional[Dict[s
             return None
     if geocode_result:
         result = geocode_result[0]
+        print(f"✅ Raw Google Maps response: {json.dumps(result, indent=2)}")
         components = result.get('address_components', [])
         location_type = result.get('geometry', {}).get('location_type', 'UNKNOWN')
         partial_match_flag = result.get('partial_match', False)
@@ -112,6 +113,7 @@ def validate_address_components(address: Optional[str], city: Optional[str], sta
         print(f"🔍 Validating via zip code: {zip_code}")
         zip_validation = validate_address_with_google("", zip_code)
         if zip_validation:
+            print(f"✅ Zip validation response: {json.dumps(zip_validation, indent=2)}")
             validated_data["city"] = zip_validation["city"]
             validated_data["state"] = zip_validation["state"]
             validated_data["zip"] = zip_validation["zip"]
@@ -158,6 +160,11 @@ def process_image(image_path: str, processor_id: str, user_id: str = None, schoo
         request = documentai.ProcessRequest(name=docai_name, raw_document=raw_document)
         result = docai_client.process_document(request=request)
         document = result.document
+        # Write the full raw Document AI response to worker_debug.log
+        with open('worker_debug.log', 'w') as f:
+            f.write('=== RAW Document AI API Response (document object) ===\n')
+            f.write(str(document))
+            f.write('\n=== END RAW Document AI API Response ===\n\n')
         print(f"✅ Document AI OCR processing completed.")
         print("-" * 20, "Document AI Raw Response Start", "-" * 20)
         print("Detected Entities:")
@@ -175,6 +182,29 @@ def process_image(image_path: str, processor_id: str, user_id: str = None, schoo
                 docai_confidence = entity.confidence
                 processed_dict[key] = {"value": value, "vision_confidence": docai_confidence}
             print(f"✅ Formatted {len(processed_dict)} fields found by Document AI.")
+            print("Fields found:", json.dumps(processed_dict, indent=2))
+
+            # Handle city_state field if it exists
+            if 'city_state' in processed_dict:
+                city_state_value = processed_dict['city_state']['value']
+                print(f"Found city_state field: {city_state_value}")
+                # Split on comma and clean up
+                parts = [part.strip() for part in city_state_value.split(",")]
+                if len(parts) >= 2:
+                    city = parts[0]
+                    state = parts[1]
+                    # Add separate city and state fields
+                    processed_dict['city'] = {
+                        "value": city,
+                        "vision_confidence": processed_dict['city_state']['vision_confidence']
+                    }
+                    processed_dict['state'] = {
+                        "value": state,
+                        "vision_confidence": processed_dict['city_state']['vision_confidence']
+                    }
+                    print(f"Split city_state into city: '{city}' and state: '{state}'")
+                # Remove the combined city_state field
+                del processed_dict['city_state']
         else:
             print(f"⚠️ No entities found by Document AI.")
 
@@ -209,8 +239,17 @@ def process_image(image_path: str, processor_id: str, user_id: str = None, schoo
                     "value": "",
                     "vision_confidence": 0.0,
                     "required": field_settings.get("required", False),  # Default to False
-                    "enabled": field_settings.get("enabled", True)
+                    "enabled": field_settings.get("enabled", True),
+                    "requires_human_review": field_settings.get("required", False),  # Mark for review if required
+                    "review_notes": "Required field not found by Document AI" if field_settings.get("required", False) else "",
+                    "source": "docai_missing"
                 }
+                # Special handling for city and state fields
+                if field_key in ['city', 'state']:
+                    final_extracted_fields[field_key].update({
+                        "requires_human_review": True,  # Always require review for missing city/state
+                        "review_notes": f"Required {field_key} field not found by Document AI"
+                    })
         try:
             address = final_extracted_fields.get('address', {}).get('value', '')
             city = final_extracted_fields.get('city', {}).get('value', '')
@@ -230,25 +269,28 @@ def process_image(image_path: str, processor_id: str, user_id: str = None, schoo
             if validation_result:
                 print("✅ Address validation completed")
                 validated_data = validation_result['validated']
-                if validated_data['city']:
-                    final_extracted_fields['city'] = {
-                        "value": validated_data['city'],
-                        "vision_confidence": 0.95,
-                        "requires_human_review": False,
-                        "source": "zip_validation"
-                    }
-                if validated_data['state']:
-                    final_extracted_fields['state'] = {
-                        "value": validated_data['state'],
-                        "vision_confidence": 0.95,
-                        "requires_human_review": False,
-                        "source": "zip_validation"
-                    }
+                # Always include city and state fields, using validated data if available
+                final_extracted_fields['city'] = {
+                    "value": validated_data['city'] if validated_data['city'] else city,
+                    "vision_confidence": 0.95 if validated_data['city'] else 0.3,
+                    "requires_human_review": not validated_data['city'],
+                    "review_notes": "City not found in address validation" if not validated_data['city'] else "",
+                    "source": "zip_validation" if validated_data['city'] else "original"
+                }
+                final_extracted_fields['state'] = {
+                    "value": validated_data['state'] if validated_data['state'] else state,
+                    "vision_confidence": 0.95 if validated_data['state'] else 0.3,
+                    "requires_human_review": not validated_data['state'],
+                    "review_notes": "State not found in address validation" if not validated_data['state'] else "",
+                    "source": "zip_validation" if validated_data['state'] else "original"
+                }
+                # Always update zip code if validation provides one
                 if validated_data['zip']:
                     final_extracted_fields['zip_code'] = {
                         "value": validated_data['zip'],
                         "vision_confidence": 0.95,
                         "requires_human_review": False,
+                        "review_notes": "",
                         "source": "zip_validation"
                     }
                 final_extracted_fields['address'] = {
@@ -369,17 +411,24 @@ def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
     model = genai.GenerativeModel("gemini-1.5-pro-latest")
     
+    # Clean field names by removing quotes
+    cleaned_fields = {}
+    for field_name, field_data in docai_fields.items():
+        # Remove quotes from field name if present
+        clean_name = field_name.strip('"')
+        cleaned_fields[clean_name] = field_data
+    
     # Debug logging for required flags
     print("[Gemini DEBUG] Checking required flags in DocAI fields:")
-    for field_name, field_data in docai_fields.items():
+    for field_name, field_data in cleaned_fields.items():
         print(f"  {field_name}: required={field_data.get('required', False)}")
     
     print("[Gemini DEBUG] DocAI JSON being passed to Gemini:")
-    print(json.dumps(docai_fields, indent=2))
+    print(json.dumps(cleaned_fields, indent=2))
     
     # Use the updated prompt template that includes required flags
     prompt = GEMINI_PROMPT_TEMPLATE.format(
-        all_fields_json=json.dumps(docai_fields, indent=2)
+        all_fields_json=json.dumps(cleaned_fields, indent=2)
     )
     
     response = None
@@ -410,10 +459,76 @@ def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_
         # Parse the cleaned response as JSON
         gemini_fields = json.loads(cleaned_text)
         
+        # Ensure city and state fields exist
+        if "city" not in gemini_fields:
+            gemini_fields["city"] = {
+                "value": "",
+                "required": True,
+                "enabled": True,
+                "review_confidence": 0.0,
+                "requires_human_review": True,
+                "review_notes": "City field not found in response",
+                "confidence": 0.0,
+                "bounding_box": [],
+                "source": "gemini_missing"
+            }
+        
+        if "state" not in gemini_fields:
+            gemini_fields["state"] = {
+                "value": "",
+                "required": True,
+                "enabled": True,
+                "review_confidence": 0.0,
+                "requires_human_review": True,
+                "review_notes": "State field not found in response",
+                "confidence": 0.0,
+                "bounding_box": [],
+                "source": "gemini_missing"
+            }
+        
+        # Handle city_state field by splitting it into city and state
+        if "city_state" in gemini_fields:
+            city_state_value = gemini_fields["city_state"]["value"]
+            if city_state_value:
+                # Split on comma and clean up
+                parts = [part.strip() for part in city_state_value.split(",")]
+                if len(parts) >= 2:
+                    city = parts[0]
+                    state = parts[1]
+                    
+                    # Create city field
+                    gemini_fields["city"] = {
+                        "value": city,
+                        "required": True,
+                        "enabled": True,
+                        "review_confidence": gemini_fields["city_state"]["review_confidence"],
+                        "requires_human_review": False,
+                        "review_notes": "",
+                        "confidence": gemini_fields["city_state"]["confidence"],
+                        "bounding_box": gemini_fields["city_state"]["bounding_box"],
+                        "source": "city_state_split"
+                    }
+                    
+                    # Create state field
+                    gemini_fields["state"] = {
+                        "value": state,
+                        "required": True,
+                        "enabled": True,
+                        "review_confidence": gemini_fields["city_state"]["review_confidence"],
+                        "requires_human_review": False,
+                        "review_notes": "",
+                        "confidence": gemini_fields["city_state"]["confidence"],
+                        "bounding_box": gemini_fields["city_state"]["bounding_box"],
+                        "source": "city_state_split"
+                    }
+            
+            # Remove the combined city_state field
+            del gemini_fields["city_state"]
+        
         # Preserve required flags and other metadata from DocAI fields
         for field_name, field_data in gemini_fields.items():
-            if field_name in docai_fields:
-                original_field = docai_fields[field_name]
+            if field_name in cleaned_fields:
+                original_field = cleaned_fields[field_name]
                 # Preserve all the original field metadata
                 field_data.update({
                     "required": original_field.get("required", False),  # Default to False
