@@ -16,6 +16,7 @@ from app.repositories.cards_repository import (
     delete_cards_db,
     move_cards_db
 )
+from app.utils.archive_logging import log_archive_debug
 
 async def get_cards_service(event_id: Union[str, None] = None) -> List[Dict[str, Any]]:
     try:
@@ -31,24 +32,41 @@ async def get_cards_service(event_id: Union[str, None] = None) -> List[Dict[str,
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
-async def archive_cards_service(payload: ArchiveCardsPayload):
+async def archive_cards_service(document_ids: List[str]) -> Dict[str, Any]:
+    log_archive_debug("=== ARCHIVE CARDS SERVICE START ===")
+    log_archive_debug("Received document IDs", document_ids)
+    
     if not supabase_client:
-        print("❌ Database client not available")
-        return JSONResponse(status_code=503, content={"error": "Database client not available."})
+        error_msg = "Database client not available"
+        log_archive_debug(f"Error: {error_msg}")
+        return {"error": error_msg}
+    
+    if not document_ids:
+        error_msg = "No document IDs provided"
+        log_archive_debug(f"Error: {error_msg}")
+        return {"error": error_msg}
+    
     try:
-        result = archive_cards_db(supabase_client, payload.document_ids)
-        print(f"✅ Successfully archived {len(payload.document_ids)} cards")
-        return JSONResponse(
-            status_code=200,
-            content={"message": f"Successfully archived {len(payload.document_ids)} cards"}
-        )
+        log_archive_debug("Calling archive_cards_db...")
+        result = archive_cards_db(supabase_client, document_ids)
+        
+        if not result or not hasattr(result, 'data'):
+            log_archive_debug("No records were archived")
+            return {"message": "No records were archived", "archived_count": 0}
+        
+        archived_count = len(result.data)
+        log_archive_debug(f"Successfully archived {archived_count} records")
+        log_archive_debug("=== ARCHIVE CARDS SERVICE END ===")
+        
+        return {
+            "message": f"Successfully archived {archived_count} records",
+            "archived_count": archived_count
+        }
     except Exception as e:
-        print(f"❌ Error archiving cards: {e}")
-        traceback.print_exc()
-        return JSONResponse(
-            status_code=500,
-            content={"error": str(e)}
-        )
+        error_msg = f"Error archiving cards: {str(e)}"
+        log_archive_debug(f"Error: {error_msg}")
+        log_archive_debug("=== ARCHIVE CARDS SERVICE END WITH ERROR ===")
+        return {"error": error_msg}
 
 async def mark_as_exported_service(payload: MarkExportedPayload):
     if not supabase_client:
