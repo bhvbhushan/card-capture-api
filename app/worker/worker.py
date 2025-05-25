@@ -119,6 +119,8 @@ def process_job(job):
         
         # Process with DocAI
         docai_json, trimmed_path = process_image_and_trim(tmp_file, processor_id)
+        if not docai_json:
+            raise Exception("No DocAI fields returned from processing")
         log_debug("=== DOCAI FIELDS FROM PROCESSING ===", docai_json)
         
         # Sync preferences before processing
@@ -147,6 +149,22 @@ def process_job(job):
                     log_debug(f"Field: {field_name} (no settings found, using defaults)")
                     field_data["required"] = False
                     field_data["enabled"] = True
+            
+            # Check for missing required fields and add them as empty
+            log_debug("=== CHECKING FOR MISSING REQUIRED FIELDS ===")
+            for field_name, field_settings in card_fields.items():
+                if field_settings.get("required", False) and field_name not in docai_json:
+                    log_debug(f"Adding missing required field: {field_name}")
+                    docai_json[field_name] = {
+                        "value": "",
+                        "confidence": 0.0,
+                        "bounding_box": [],
+                        "required": True,
+                        "enabled": True,
+                        "requires_human_review": True,
+                        "review_notes": "Required field not detected by DocAI",
+                        "source": "missing_required"
+                    }
         
         # Debug logging for DocAI fields after updates
         log_debug("=== UPDATED DOCAI FIELDS ===", docai_json)
@@ -230,7 +248,7 @@ def process_job(job):
         log_debug("=== RUNNING GEMINI ENHANCEMENT ===")
         gemini_fields = parse_card_with_gemini(tmp_file, docai_json)
         
-        # Ensure required flags are preserved
+        # Ensure required flags are preserved and check for empty required fields
         log_debug("=== FINALIZING FIELD DATA ===")
         for field_name, field_data in gemini_fields.items():
             if field_name in docai_json:
@@ -317,7 +335,8 @@ def process_job(job):
         update_processing_job(supabase_client, job_id, {
             "status": "complete",
             "updated_at": now,
-            "error_message": None
+            "error_message": None,
+            "result_json": gemini_fields  # Add the result_json here
         })
         log_debug(f"✅ Job {job_id} complete.")
         log_debug("=== PROCESSING JOB END ===\n")

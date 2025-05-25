@@ -617,6 +617,22 @@ def parse_card_with_gemini(image_path: str, docai_fields: Dict[str, Any], model_
             # Remove the combined city_state field
             del gemini_fields["city_state"]
         
+        # Validate and fix date_of_birth if present
+        if "date_of_birth" in gemini_fields:
+            date_data = gemini_fields["date_of_birth"]
+            original_date = date_data.get("value", "")
+            if original_date and "date_of_birth" in cleaned_fields:
+                original_docai_date = cleaned_fields["date_of_birth"].get("value", "")
+                if original_date != original_docai_date:
+                    print(f"[Date DEBUG] Date changed by Gemini: {original_docai_date} -> {original_date}")
+                    # Log potential date interpretation issues
+                    if "19-1-11" in original_docai_date and "01-19-11" in original_date:
+                        print(f"[Date DEBUG] Potential date misinterpretation detected!")
+                        print(f"[Date DEBUG] Original: {original_docai_date} (likely Sept 1, 2011)")
+                        print(f"[Date DEBUG] Gemini: {original_date} (interpreted as Jan 19, 2011)")
+                        date_data["requires_human_review"] = True
+                        date_data["review_notes"] = "Date format may have been misinterpreted - please verify"
+        
         # Preserve required flags and other metadata from DocAI fields
         for field_name, field_data in gemini_fields.items():
             if field_name in cleaned_fields:
