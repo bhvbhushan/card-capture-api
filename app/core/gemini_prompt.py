@@ -98,6 +98,17 @@ Ignore the input `vision_confidence`; you will determine your own `review_confid
    - Example: "(512) 555-1234" → "512-555-1234"
    - Example: "512.555.1234" → "512-555-1234"
 
+7. **Permission to Text Field:**
+   - ONLY respond "Yes" when it is CLEARLY visible that a checkbox is checked/marked or "Yes" is explicitly written
+   - If no checkbox is checked, if the checkbox area is blank, or if it's ambiguous, respond "No"
+   - If you cannot clearly see a checked box or explicit "Yes", default to "No"
+   - Examples:
+     * Clearly checked checkbox → "Yes"
+     * Unchecked checkbox → "No"
+     * Blank checkbox area → "No"
+     * Ambiguous marking → "No"
+     * Cannot determine → "No"
+
 **Correction & Validation Rules:**
 
 1.  **Image is Ground Truth:** Base all corrections and confidence scores *strictly* on the provided image.

@@ -190,19 +190,34 @@ def process_job(job):
             docai_json['city'] = {
                 "value": validation_result['city'],
                 "confidence": 0.95,
-                "source": "zip_validation"
+                "source": "zip_validation",
+                "requires_human_review": False,  # Successfully validated from zip
+                "review_notes": ""
             }
             docai_json['state'] = {
                 "value": validation_result['state'],
                 "confidence": 0.95,
-                "source": "zip_validation"
+                "source": "zip_validation",
+                "requires_human_review": False,  # Successfully validated from zip
+                "review_notes": ""
             }
+            # Update zip code if validation provides one
+            if validation_result['zip']:
+                docai_json['zip_code'] = {
+                    "value": validation_result['zip'],
+                    "confidence": 0.95,
+                    "source": "zip_validation",
+                    "requires_human_review": False,
+                    "review_notes": ""
+                }
             # Update address with validated street address, but preserve original if empty
             if validation_result['street_address']:
                 docai_json['address'] = {
                     "value": validation_result['street_address'],
                     "confidence": 0.95,
-                    "source": "address_validation"
+                    "source": "address_validation",
+                    "requires_human_review": False,
+                    "review_notes": ""
                 }
                 log_debug(f"Updated address to: {validation_result['street_address']}")
             else:

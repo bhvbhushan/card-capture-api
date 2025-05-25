@@ -95,3 +95,100 @@ data=[{'id': 'd8826a50-721e-458b-b26d-538edbc6e770', 'document_id': '8e45a1dc-8e
 }
 
 [2025-05-25T01:32:28.167452+00:00] === ARCHIVE CARDS CONTROLLER END ===
+
+[2025-05-25T03:34:01.793976+00:00] === ARCHIVE CARDS CONTROLLER START ===
+
+[2025-05-25T03:34:01.796159+00:00] Received payload
+{
+  "document_ids": [
+    "92dbb086-7a8c-40bb-afa5-f418fa5b39b2",
+    "784a274a-2d4f-4886-8b09-4545a57e11a7"
+  ],
+  "status": "archived",
+  "review_status": "archived"
+}
+
+[2025-05-25T03:34:01.796371+00:00] === ARCHIVE CARDS SERVICE START ===
+
+[2025-05-25T03:34:01.796455+00:00] Received document IDs
+[
+  "92dbb086-7a8c-40bb-afa5-f418fa5b39b2",
+  "784a274a-2d4f-4886-8b09-4545a57e11a7"
+]
+
+[2025-05-25T03:34:01.796547+00:00] Calling archive_cards_db...
+
+[2025-05-25T03:34:01.796666+00:00] === ARCHIVE CARDS DB START ===
+
+[2025-05-25T03:34:01.796840+00:00] Document IDs to archive
+[
+  "92dbb086-7a8c-40bb-afa5-f418fa5b39b2",
+  "784a274a-2d4f-4886-8b09-4545a57e11a7"
+]
+
+[2025-05-25T03:34:01.797131+00:00] Checking existing records...
+
+[2025-05-25T03:34:01.957904+00:00] Record 92dbb086-7a8c-40bb-afa5-f418fa5b39b2 full state:
+{
+  "document_id": "92dbb086-7a8c-40bb-afa5-f418fa5b39b2",
+  "review_status": "reviewed",
+  "status": null,
+  "deleted": null,
+  "reviewed_at": "2025-05-25T03:32:11.458941+00:00"
+}
+
+[2025-05-25T03:34:01.958119+00:00] Record 784a274a-2d4f-4886-8b09-4545a57e11a7 full state:
+{
+  "document_id": "784a274a-2d4f-4886-8b09-4545a57e11a7",
+  "review_status": "reviewed",
+  "status": null,
+  "deleted": null,
+  "reviewed_at": "2025-05-25T03:32:27.067274+00:00"
+}
+
+[2025-05-25T03:34:01.958508+00:00] Records to archive (excluding already archived)
+[
+  {
+    "document_id": "92dbb086-7a8c-40bb-afa5-f418fa5b39b2",
+    "current_status": "reviewed"
+  },
+  {
+    "document_id": "784a274a-2d4f-4886-8b09-4545a57e11a7",
+    "current_status": "reviewed"
+  }
+]
+
+[2025-05-25T03:34:01.958610+00:00] Update payload
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-25T03:34:01.958607+00:00"
+}
+
+[2025-05-25T03:34:02.138210+00:00] Record 92dbb086-7a8c-40bb-afa5-f418fa5b39b2 after archive:
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-25T03:34:01.958607+00:00"
+}
+
+[2025-05-25T03:34:02.138681+00:00] Record 784a274a-2d4f-4886-8b09-4545a57e11a7 after archive:
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-25T03:34:01.958607+00:00"
+}
+
+[2025-05-25T03:34:02.139437+00:00] Archive operation result
+data=[{'id': '33a4fbaa-be96-45b5-bdc8-0eb23f971aab', 'document_id': '92dbb086-7a8c-40bb-afa5-f418fa5b39b2', 'fields': {'gpa': {'value': '', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 0, 'requires_human_review': False}, 'cell': {'value': '325-338-8183', 'source': 'human_review', 'enabled': True, 'required': True, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[262.99999952316284, 744.9999779462814], [725.0000327825546, 744.9999779462814], [725.0000327825546, 835.9999895095825], [262.99999952316284, 835.9999895095825]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'city': {'value': 'Abilene', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'name': {'value': 'Updated Test Name', 'source': 'human_review', 'enabled': True, 'required': True, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[315.99999256432056, 231.00000098347664], [760.0000306963921, 231.00000098347664], [760.0000306963921, 331.0000039637089], [315.99999256432056, 331.0000039637089]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'email': {'value': 'test@example.co', 'source': 'human_review', 'enabled': True, 'required': True, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[272.00000658631325, 570.9999963641167], [1235.0000023841858, 570.9999963641167], [1235.0000023841858, 672.9999974370003], [272.00000658631325, 672.9999974370003]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'major': {'value': 'MM', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[356.0000091791153, 1896.9999611377716], [636.9999848306179, 1896.9999611377716], [636.9999848306179, 2015.00004529953], [356.0000091791153, 2015.00004529953]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'state': {'value': 'TX', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'address': {'value': '6326 Live Oak Trail', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 0.95, 'requires_human_review': False}, 'zip_code': {'value': '79606', 'source': 'human_review', 'enabled': True, 'required': True, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[890.0000229477882, 1081.9999516010284], [1128.9999783039093, 1081.9999516010284], [1128.9999783039093, 1186.0000491142273], [890.0000229477882, 1186.0000491142273]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'class_rank': {'value': '', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 0, 'requires_human_review': False}, 'entry_term': {'value': 'Fall 2029', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[868.999993801117, 1555.9999912977219], [1281.999984383583, 1555.9999912977219], [1281.999984383583, 1664.9999856948853], [868.999993801117, 1664.9999856948853]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'high_school': {'value': '', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 0, 'requires_human_review': False}, 'student_type': {'value': 'Freshman', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[300.99999345839024, 1607.0000410079956], [472.99998700618744, 1607.0000410079956], [472.99998700618744, 1633.0000162124634], [300.99999345839024, 1633.0000162124634]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'date_of_birth': {'value': '12/06/2010', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[908.000037074089, 401.00001096725464], [1166.9999912381172, 401.00001096725464], [1166.9999912381172, 500.0000149011612], [908.000037074089, 500.0000149011612]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'students_in_class': {'value': '', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 0, 'requires_human_review': False}, 'permission_to_text': {'value': 'Yes', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[948.0000346899033, 764.0000090003014], [1010.0000157952309, 764.0000090003014], [1010.0000157952309, 787.9999861121178], [948.0000346899033, 787.9999861121178]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'preferred_first_name': {'value': 'Koen', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[292.9999977350235, 397.9999892413616], [510.99999994039536, 397.9999892413616], [510.99999994039536, 498.0000168085098], [292.9999977350235, 498.0000168085098]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}}, 'created_at': '2025-05-25T03:20:04.500339+00:00', 'reviewed_at': '2025-05-25T03:34:01.958607+00:00', 'exported_at': None, 'event_id': '7818909d-a3ff-4211-bf6e-c9b65952f758', 'updated_at': '2025-05-25T03:34:02.098465+00:00', 'review_status': 'archived', 'school_id': 'b1a2c3d4-e5f6-7890-1234-56789abcdef0', 'user_id': 'f8714b88-f5c7-404c-b4fa-2304e014a44b', 'image_path': 'f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-24/052de945-4ecb-44b5-abad-31a1cea60bd0.png'}, {'id': 'fc880cb9-1191-46f6-9172-b2675d8e921c', 'document_id': '784a274a-2d4f-4886-8b09-4545a57e11a7', 'fields': {'gpa': {'value': '', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 0, 'requires_human_review': False}, 'cell': {'value': '325-338-7743', 'source': 'human_review', 'enabled': True, 'required': True, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[255.99999614059925, 771.0000023245811], [719.0000027418137, 771.0000023245811], [719.0000027418137, 835.9999895095825], [255.99999614059925, 835.9999895095825]], 'review_notes': 'Manually reviewed', 'review_confidence': 0.99, 'requires_human_review': False}, 'city': {'value': 'Abilene', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 0.95, 'requires_human_review': False}, 'name': {'value': 'Brielle Samulde', 'source': 'human_review', 'enabled': True, 'required': True, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[252.00000777840614, 250.0000074505806], [817.0000120997429, 250.0000074505806], [817.0000120997429, 325.0000096857548], [252.00000777840614, 325.0000096857548]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'email': {'value': 'Samulbri29@wyliebulldogs.org', 'source': 'human_review', 'enabled': True, 'required': True, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[277.00000628829, 597.0000207424164], [1161.0000371932983, 597.0000207424164], [1161.0000371932983, 670.0000002980232], [277.00000628829, 670.0000002980232]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'major': {'value': '', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 0, 'requires_human_review': False}, 'state': {'value': 'TX', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 0.95, 'requires_human_review': False}, 'address': {'value': '1232 Western Plumes', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 0.95, 'requires_human_review': False}, 'zip_code': {'value': '79606', 'source': 'human_review', 'enabled': True, 'required': True, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[917.0000061392784, 1110.0000232458115], [1133.999978005886, 1110.0000232458115], [1133.999978005886, 1156.9999784231186], [917.0000061392784, 1156.9999784231186]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'class_rank': {'value': '', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 0, 'requires_human_review': False}, 'entry_term': {'value': 'Fall 2024', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[890.9999772906303, 1571.9999760389328], [1168.9999759197235, 1571.9999760389328], [1168.9999759197235, 1642.0000076293945], [890.9999772906303, 1642.0000076293945]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'high_school': {'value': 'Wylie West Junior High School', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[260.0000035017729, 1273.9999651908875], [1005.9999704360962, 1273.9999651908875], [1005.9999704360962, 1345.9999948740005], [260.0000035017729, 1345.9999948740005]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'student_type': {'value': 'Freshman', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[304.0000084787607, 1611.0000371932983], [484.0000167489052, 1611.0000371932983], [484.0000167489052, 1637.000012397766], [304.0000084787607, 1637.000012397766]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'date_of_birth': {'value': '01-14-2011', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[932.0000052452087, 430.99998235702515], [1201.0000348091125, 430.99998235702515], [1201.0000348091125, 479.9999848008156], [932.0000052452087, 479.9999848008156]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'students_in_class': {'value': '', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 0, 'requires_human_review': False}, 'permission_to_text': {'value': 'Yes', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[948.9999890327454, 766.0000070929527], [1013.0000308156013, 766.0000070929527], [1013.0000308156013, 790.9999832510948], [948.9999890327454, 790.9999832510948]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}, 'preferred_first_name': {'value': 'Brie', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[273.99999126791954, 427.9999852180481], [430.0000123679638, 427.9999852180481], [430.0000123679638, 486.99997812509537], [273.99999126791954, 486.99997812509537]], 'review_notes': 'Manually reviewed', 'review_confidence': 1, 'requires_human_review': False}}, 'created_at': '2025-05-25T03:32:04.423332+00:00', 'reviewed_at': '2025-05-25T03:34:01.958607+00:00', 'exported_at': None, 'event_id': '7818909d-a3ff-4211-bf6e-c9b65952f758', 'updated_at': '2025-05-25T03:34:02.098465+00:00', 'review_status': 'archived', 'school_id': 'b1a2c3d4-e5f6-7890-1234-56789abcdef0', 'user_id': 'f8714b88-f5c7-404c-b4fa-2304e014a44b', 'image_path': 'f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-24/63b1f303-6b15-44e2-8e71-de345ba44b73.png'}] count=None
+
+[2025-05-25T03:34:02.140076+00:00] === ARCHIVE CARDS DB END ===
+
+[2025-05-25T03:34:02.140184+00:00] Successfully archived 2 records
+
+[2025-05-25T03:34:02.140247+00:00] === ARCHIVE CARDS SERVICE END ===
+
+[2025-05-25T03:34:02.140372+00:00] Service layer result
+{
+  "message": "Successfully archived 2 records",
+  "archived_count": 2
+}
+
+[2025-05-25T03:34:02.140448+00:00] === ARCHIVE CARDS CONTROLLER END ===

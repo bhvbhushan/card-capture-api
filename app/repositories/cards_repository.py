@@ -83,11 +83,49 @@ def archive_cards_db(supabase_client, document_ids: List[str]):
         raise e
 
 def mark_as_exported_db(supabase_client, document_ids: List[str]):
+    print(f"📤 mark_as_exported_db: Starting export for {len(document_ids)} document IDs")
+    print(f"📤 Document IDs to export: {document_ids}")
+    
     timestamp = datetime.now(timezone.utc).isoformat()
-    return supabase_client.table('reviewed_data') \
-        .update({"exported_at": timestamp, "review_status": "exported"}) \
-        .in_("document_id", document_ids) \
-        .execute()
+    update_payload = {"exported_at": timestamp, "review_status": "exported"}
+    
+    print(f"📤 Update payload: {update_payload}")
+    
+    try:
+        # First, check the current status of these records
+        current_records = supabase_client.table('reviewed_data') \
+            .select("document_id, review_status, exported_at") \
+            .in_("document_id", document_ids) \
+            .execute()
+        
+        print(f"📤 Current records before update:")
+        for record in current_records.data:
+            print(f"   - {record['document_id']}: review_status={record.get('review_status')}, exported_at={record.get('exported_at')}")
+        
+        # Perform the update
+        result = supabase_client.table('reviewed_data') \
+            .update(update_payload) \
+            .in_("document_id", document_ids) \
+            .execute()
+        
+        print(f"📤 Update result: {result}")
+        print(f"📤 Updated {len(result.data) if result.data else 0} records")
+        
+        # Verify the update by checking the records again
+        updated_records = supabase_client.table('reviewed_data') \
+            .select("document_id, review_status, exported_at") \
+            .in_("document_id", document_ids) \
+            .execute()
+        
+        print(f"📤 Records after update:")
+        for record in updated_records.data:
+            print(f"   - {record['document_id']}: review_status={record.get('review_status')}, exported_at={record.get('exported_at')}")
+        
+        return result
+        
+    except Exception as e:
+        print(f"❌ Error in mark_as_exported_db: {e}")
+        raise e
 
 def delete_cards_db(supabase_client, document_ids: List[str]):
     timestamp = datetime.now(timezone.utc).isoformat()
