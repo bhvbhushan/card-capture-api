@@ -85,7 +85,7 @@ def archive_cards_db(supabase_client, document_ids: List[str]):
 def mark_as_exported_db(supabase_client, document_ids: List[str]):
     timestamp = datetime.now(timezone.utc).isoformat()
     return supabase_client.table('reviewed_data') \
-        .update({"exported_at": timestamp}) \
+        .update({"exported_at": timestamp, "review_status": "exported"}) \
         .in_("document_id", document_ids) \
         .execute()
 
