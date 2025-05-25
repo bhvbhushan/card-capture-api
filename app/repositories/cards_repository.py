@@ -12,7 +12,7 @@ def get_cards_db(supabase_client, event_id: Union[str, None] = None) -> List[Dic
     reviewed_response = reviewed_query.execute()
     reviewed_data = reviewed_response.data
     print(f" Found {len(reviewed_data)} reviewed records.")
-    filtered_data = [card for card in reviewed_data if not card.get("deleted")]
+    filtered_data = [card for card in reviewed_data if card.get("review_status") != "deleted"]
     print(f" Returning {len(filtered_data)} non-deleted records.")
     return filtered_data
 
@@ -91,14 +91,22 @@ def mark_as_exported_db(supabase_client, document_ids: List[str]):
 
 def delete_cards_db(supabase_client, document_ids: List[str]):
     timestamp = datetime.now(timezone.utc).isoformat()
+    # Use review_status to mark as deleted instead of a deleted column
     reviewed_response = supabase_client.table('reviewed_data') \
-        .update({"deleted": True, "deleted_at": timestamp}) \
+        .update({"review_status": "deleted", "reviewed_at": timestamp}) \
         .in_("document_id", document_ids) \
         .execute()
-    extracted_response = supabase_client.table('extracted_data') \
-        .update({"deleted": True, "deleted_at": timestamp}) \
-        .in_("document_id", document_ids) \
-        .execute()
+    
+    # Try to update extracted_data if it exists, but don't fail if it doesn't
+    try:
+        extracted_response = supabase_client.table('extracted_data') \
+            .update({"review_status": "deleted", "updated_at": timestamp}) \
+            .in_("document_id", document_ids) \
+            .execute()
+    except Exception as e:
+        print(f"Warning: Could not update extracted_data table: {e}")
+        extracted_response = None
+    
     return reviewed_response, extracted_response
 
 def move_cards_db(supabase_client, document_ids: List[str], status: str):

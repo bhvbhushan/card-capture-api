@@ -7,6 +7,7 @@ from app.controllers.cards_controller import (
     delete_cards_controller,
     move_cards_controller
 )
+from app.services.cards_service import mark_as_exported_service
 from app.models.card import ArchiveCardsPayload, MarkExportedPayload, DeleteCardsPayload, MoveCardsPayload
 from fastapi.responses import JSONResponse
 from app.core.clients import supabase_client
@@ -25,8 +26,75 @@ async def archive_cards(payload: ArchiveCardsPayload):
     return await archive_cards_controller(payload)
 
 @router.post("/mark-exported")
-async def mark_as_exported(payload: MarkExportedPayload):
-    return await mark_as_exported_controller(payload)
+async def mark_as_exported(payload: Dict[str, Any] = Body(...)):
+    """
+    Mark cards as exported - flexible payload handling
+    Accepts document IDs in various formats
+    """
+    print(f"📤 Raw payload received: {payload}")
+    
+    # Try to extract document_ids from various possible field names
+    document_ids = []
+    if isinstance(payload, dict):
+        # Try different possible field names
+        possible_fields = ['document_ids', 'documentIds', 'ids', 'selectedCards', 'cards', 'items']
+        for field in possible_fields:
+            if field in payload and payload[field]:
+                candidate = payload[field]
+                
+                # Check if it's an event object (has isTrusted property)
+                if isinstance(candidate, dict) and 'isTrusted' in candidate:
+                    print(f"❌ Detected event object in field '{field}': {candidate}")
+                    return JSONResponse(status_code=400, content={
+                        "error": f"Frontend error: Event object passed instead of document IDs. Field '{field}' contains: {candidate}"
+                    })
+                
+                # Check if it's a proper list of strings
+                if isinstance(candidate, list) and all(isinstance(item, str) for item in candidate):
+                    document_ids = candidate
+                    print(f"📤 Found document IDs in field '{field}': {document_ids}")
+                    break
+                else:
+                    print(f"⚠️ Field '{field}' contains invalid data type: {type(candidate)} - {candidate}")
+        
+        # If still empty, check if the payload itself is a list
+        if not document_ids and isinstance(payload, list):
+            document_ids = payload
+            print(f"📤 Payload is a list of document IDs: {document_ids}")
+    
+    print(f"📤 Final document IDs: {document_ids}")
+    print(f"📤 Number of document IDs: {len(document_ids) if document_ids else 0}")
+    
+    if not document_ids:
+        print("❌ No document_ids found in payload")
+        return JSONResponse(status_code=400, content={"error": "No document_ids provided in payload"})
+    
+    # Create a simple payload object for the service
+    class SimplePayload:
+        def __init__(self, document_ids):
+            self.document_ids = document_ids
+    
+    simple_payload = SimplePayload(document_ids)
+    return await mark_as_exported_service(simple_payload)
+
+@router.post("/debug-mark-exported")
+async def debug_mark_exported(payload: Dict[str, Any] = Body(...)):
+    """Debug endpoint to see what payload is being sent"""
+    print(f"🐛 DEBUG: Raw payload received: {payload}")
+    print(f"🐛 DEBUG: Payload type: {type(payload)}")
+    print(f"🐛 DEBUG: Payload keys: {list(payload.keys()) if isinstance(payload, dict) else 'Not a dict'}")
+    
+    # Try to extract document_ids in different formats
+    document_ids = None
+    if isinstance(payload, dict):
+        document_ids = payload.get('document_ids') or payload.get('documentIds') or payload.get('ids')
+    
+    print(f"🐛 DEBUG: Extracted document_ids: {document_ids}")
+    
+    return JSONResponse(status_code=200, content={
+        "received_payload": payload,
+        "extracted_document_ids": document_ids
+    })
 
 @router.post("/delete-cards")
 async def delete_cards(payload: DeleteCardsPayload):

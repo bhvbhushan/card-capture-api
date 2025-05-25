@@ -20,7 +20,18 @@ async def get_cards_controller(event_id: Union[str, None] = None):
     return await get_cards_service(event_id)
 
 async def mark_as_exported_controller(payload: MarkExportedPayload):
-    return await mark_as_exported_service(payload)
+    document_ids = payload.get_document_ids()
+    print(f"📤 Mark as exported controller received payload: {payload.dict()}")
+    print(f"📤 Document IDs: {document_ids}")
+    print(f"📤 Number of document IDs: {len(document_ids)}")
+    
+    # Create a simple payload object for the service
+    class SimplePayload:
+        def __init__(self, document_ids):
+            self.document_ids = document_ids
+    
+    simple_payload = SimplePayload(document_ids)
+    return await mark_as_exported_service(simple_payload)
 
 async def archive_cards_controller(payload):
     log_archive_debug("=== ARCHIVE CARDS CONTROLLER START ===")
