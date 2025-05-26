@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.routes import cards_router, auth_router, uploads_router, events_router, users_router, schools_router
+from app.api.routes import cards_router, auth_router, uploads_router, events_router, users_router, schools_router, stripe_router
 from app.config import ALLOWED_ORIGINS
 from app.core.error_handling import register_exception_handlers
 
@@ -23,4 +23,5 @@ app.include_router(auth_router)
 app.include_router(uploads_router)
 app.include_router(events_router)
 app.include_router(users_router)
-app.include_router(schools_router) 
+app.include_router(schools_router)
+app.include_router(stripe_router) 
