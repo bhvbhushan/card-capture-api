@@ -21,6 +21,7 @@ list_models.py
 bbox_extraction.py
 pdf2jpeg.py
 run_ocr.py
+worker_v2_debug.log
 
 # IDE
 .idea/
