@@ -333,12 +333,40 @@ async def export_to_slate_service(payload: dict):
         if not school_id or not rows or not isinstance(rows, list):
             return JSONResponse(status_code=400, content={"error": "Missing or invalid school_id or rows."})
         
-        # DEBUG MODE: Skip SFTP config check for testing
-        print(f"DEBUG: Processing Slate export for school_id: {school_id} with {len(rows)} rows")
+        print(f"🎯 SLATE EXPORT: Processing export for school_id: {school_id} with {len(rows)} rows")
+        
+        # 1. Get SFTP configuration from database
+        try:
+            # First try to get school-specific config
+            sftp_config_response = supabase_client.table("sftp_configs") \
+                .select("*") \
+                .eq("school_id", school_id) \
+                .single() \
+                .execute()
+            
+            if not sftp_config_response.data:
+                # If no school-specific config, try to get a default config (first row)
+                print(f"⚠️ SLATE EXPORT: No school-specific SFTP config found for school_id: {school_id}, trying default config")
+                sftp_config_response = supabase_client.table("sftp_configs") \
+                    .select("*") \
+                    .limit(1) \
+                    .execute()
+                
+                if not sftp_config_response.data:
+                    print(f"❌ SLATE EXPORT: No SFTP configuration found at all")
+                    return JSONResponse(status_code=400, content={"error": "No SFTP configuration found."})
+            
+            sftp_config = sftp_config_response.data[0] if isinstance(sftp_config_response.data, list) else sftp_config_response.data
+            print(f"✅ SLATE EXPORT: Found SFTP config - Host: {sftp_config.get('host')}, Username: {sftp_config.get('username')}")
+            
+        except Exception as e:
+            print(f"❌ SLATE EXPORT: Error fetching SFTP config: {str(e)}")
+            return JSONResponse(status_code=500, content={"error": "Failed to retrieve SFTP configuration."})
         
         # 2. Generate CSV file from rows
         import tempfile
         import os
+        import csv
         from datetime import datetime, timezone
         
         # Define headers in the same order as the frontend
@@ -394,21 +422,57 @@ async def export_to_slate_service(payload: dict):
             csv_row = [field_mappings[header](row) for header in headers]
             csv_content.append(csv_row)
         
+        # Generate filename with timestamp
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        csv_filename = f"card_export_{timestamp}.csv"
+        
         # Create temporary CSV file
         with tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode="w", newline="") as tmp_csv:
             writer = csv.writer(tmp_csv)
             writer.writerows(csv_content)
             csv_path = tmp_csv.name
 
-        # DEBUG MODE: Save CSV to downloads folder instead of sending to Slate
-        import shutil
-        from pathlib import Path
-        downloads_path = str(Path.home() / "Downloads")
-        debug_csv_path = os.path.join(downloads_path, f"slate_export_debug_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv")
-        shutil.copy2(csv_path, debug_csv_path)
-        print(f"DEBUG: CSV saved to {debug_csv_path}")
+        print(f"📄 SLATE EXPORT: Generated CSV file with {len(rows)} records: {csv_filename}")
+
+        # 3. Upload CSV to Slate via SFTP using database config
+        try:
+            import paramiko
+            
+            print(f"🔗 SLATE EXPORT: Connecting to SFTP server: {sftp_config['host']}")
+            
+            # Create SFTP connection using database config
+            ssh = paramiko.SSHClient()
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            
+            ssh.connect(
+                hostname=sftp_config['host'],
+                port=sftp_config.get('port', 22),
+                username=sftp_config['username'],
+                password=sftp_config['password'],
+                look_for_keys=False,
+                allow_agent=False
+            )
+            
+            sftp = ssh.open_sftp()
+            
+            # Upload the file
+            remote_path = f"{sftp_config.get('remote_path', '/')}/{csv_filename}"
+            sftp.put(csv_path, remote_path)
+            
+            print(f"📤 SLATE EXPORT: Successfully uploaded file to: {remote_path}")
+            
+            # Close connections
+            sftp.close()
+            ssh.close()
+            
+        except Exception as e:
+            print(f"❌ SLATE EXPORT: SFTP upload failed: {str(e)}")
+            # Clean up temp file
+            if os.path.exists(csv_path):
+                os.remove(csv_path)
+            return JSONResponse(status_code=500, content={"error": f"Failed to upload to Slate: {str(e)}"})
         
-        # 4. Mark rows as exported
+        # 4. Mark rows as exported in database
         try:
             # Extract document IDs from rows
             document_ids = [row.get("id") for row in rows if row.get("id")]
@@ -422,14 +486,34 @@ async def export_to_slate_service(payload: dict):
                     .update(update_payload) \
                     .in_("document_id", document_ids) \
                     .execute()
-                print(f"✅ Successfully marked {len(document_ids)} records as exported")
+                print(f"✅ SLATE EXPORT: Successfully marked {len(document_ids)} records as exported in database")
         except Exception as e:
-            print(f"⚠️ Warning: Failed to mark records as exported: {str(e)}")
+            print(f"⚠️ SLATE EXPORT: Warning - Failed to mark records as exported: {str(e)}")
             # Don't return error since the upload was successful
             # Just log the warning and continue
         
-        return JSONResponse(status_code=200, content={"status": "success", "debug_path": debug_csv_path})
+        # 5. Clean up temporary file
+        try:
+            if os.path.exists(csv_path):
+                os.remove(csv_path)
+                print(f"🧹 SLATE EXPORT: Cleaned up temporary file")
+        except Exception as e:
+            print(f"⚠️ SLATE EXPORT: Warning - Failed to clean up temp file: {str(e)}")
+        
+        # 6. Log successful export
+        print(f"🎉 SLATE EXPORT SUCCESS: Exported {len(rows)} records to Slate for school_id: {school_id}")
+        print(f"   - File uploaded: {csv_filename}")
+        print(f"   - Records marked as exported: {len(document_ids) if document_ids else 0}")
+        
+        return JSONResponse(status_code=200, content={
+            "status": "success", 
+            "message": f"Successfully exported {len(rows)} records to Slate",
+            "filename": csv_filename,
+            "records_exported": len(document_ids) if document_ids else 0
+        })
+        
     except Exception as e:
+        print(f"❌ SLATE EXPORT: Unexpected error: {str(e)}")
         import traceback
         traceback.print_exc()
         return JSONResponse(status_code=500, content={"error": f"Internal error: {str(e)}"}) 

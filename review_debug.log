@@ -1055,3 +1055,200 @@
     "address"
   ]
 }
+
+[2025-05-26T23:15:47.664401+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T23:15:47.664648+00:00] Formatted phone: (214) 207-2735 -> 214-207-2735
+
+[2025-05-26T23:15:47.664729+00:00] Field validation complete
+
+[2025-05-26T23:15:47.893446+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T23:15:47.893560+00:00] Field address explicitly marked for review
+{
+  "reason": "Address could not be validated"
+}
+
+[2025-05-26T23:15:47.893736+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T23:15:47.893821+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address"
+  ]
+}
+
+[2025-05-26T23:16:15.189673+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T23:16:15.189928+00:00] Formatted date: 10-21-2000 -> 10/21/2000
+
+[2025-05-26T23:16:15.189983+00:00] Field validation complete
+
+[2025-05-26T23:16:15.364792+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T23:16:15.364874+00:00] Card does not need review - all fields valid
+
+[2025-05-26T23:16:15.364928+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T23:16:42.503043+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T23:16:42.503296+00:00] Field validation complete
+
+[2025-05-26T23:16:42.668857+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T23:16:42.668945+00:00] Card does not need review - all fields valid
+
+[2025-05-26T23:16:42.669006+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T23:17:09.290517+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T23:17:09.290598+00:00] Field validation complete
+
+[2025-05-26T23:17:09.438490+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T23:17:09.438542+00:00] Card does not need review - all fields valid
+
+[2025-05-26T23:17:09.438575+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T23:17:34.452347+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T23:17:34.452769+00:00] Field validation complete
+
+[2025-05-26T23:17:34.591119+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T23:17:34.591165+00:00] Card does not need review - all fields valid
+
+[2025-05-26T23:17:34.591266+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T23:18:00.688334+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T23:18:00.688408+00:00] Field validation complete
+
+[2025-05-26T23:18:00.790065+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T23:18:00.790128+00:00] Card does not need review - all fields valid
+
+[2025-05-26T23:18:00.790169+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T23:18:27.709172+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T23:18:27.709332+00:00] Field validation complete
+
+[2025-05-26T23:18:27.814998+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T23:18:27.815047+00:00] Card does not need review - all fields valid
+
+[2025-05-26T23:18:27.815084+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T23:18:56.162688+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T23:18:56.162909+00:00] Formatted phone: (945) 240-9989 -> 945-240-9989
+
+[2025-05-26T23:18:56.162965+00:00] Field validation complete
+
+[2025-05-26T23:18:56.335765+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T23:18:56.335865+00:00] Card does not need review - all fields valid
+
+[2025-05-26T23:18:56.335926+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T23:19:21.314017+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T23:19:21.314441+00:00] Field validation complete
+
+[2025-05-26T23:19:21.434166+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T23:19:21.434229+00:00] Card does not need review - all fields valid
+
+[2025-05-26T23:19:21.434268+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T23:19:45.278199+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T23:19:45.278324+00:00] Field validation complete
+
+[2025-05-26T23:19:45.439292+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T23:19:45.439334+00:00] Field address explicitly marked for review
+{
+  "reason": "Address could not be validated"
+}
+
+[2025-05-26T23:19:45.439390+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T23:19:45.439424+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address"
+  ]
+}
+
+[2025-05-26T23:44:27.611445+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T23:44:27.611732+00:00] Formatted phone: (214) 207-2735 -> 214-207-2735
+
+[2025-05-26T23:44:27.611853+00:00] Field validation complete
+
+[2025-05-26T23:44:27.815221+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T23:44:27.815324+00:00] Field address explicitly marked for review
+{
+  "reason": "Address could not be validated"
+}
+
+[2025-05-26T23:44:27.815432+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T23:44:27.815499+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address"
+  ]
+}
+
+[2025-05-26T23:46:35.253314+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T23:46:35.253609+00:00] Field validation complete
+
+[2025-05-26T23:46:35.407909+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T23:46:35.408006+00:00] Card does not need review - all fields valid
+
+[2025-05-26T23:46:35.408101+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}

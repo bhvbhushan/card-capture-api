@@ -161,11 +161,15 @@ GEMINI_PROMPT_TEMPLATE = """
 - Use `certainty: "certain"` for clear marks, `uncertain` for unclear marks
 - **Notes examples:** "Checkbox is clearly marked" / "Hard to tell if checkbox is marked or just a smudge"
 
-**For Term/Semester Fields:**
-- Format as "Season YYYY" (e.g., "Fall 2024", "Spring 2025")
-- Default to "Fall YYYY" if only year provided
-- Standardize season names (Fall, Spring, Summer, Winter)
-- **Notes examples:** "Added 'Fall' since only year was written" / "Semester text is too faded to read"
+**For Term/Semester Fields (entry_term, enrollment_term, etc.):**
+- **REQUIRED FORMAT:** "Season YYYY" (e.g., "Fall 2024", "Spring 2025")
+- **If only year provided:** Always default to "Fall YYYY" (e.g., "2025" → "Fall 2025")
+- **If season + year:** Standardize season names (Fall, Spring, Summer, Winter)
+- **If neither Fall nor Spring specified:** Default to "Fall YYYY"
+- **Common variations to fix:** "fall 2025" → "Fall 2025", "FALL 2025" → "Fall 2025"
+- Use `edit_type: "format_correction"` when adding "Fall" to year-only entries
+- Use `certainty: "certain"` for obvious formatting corrections
+- **Notes examples:** "Added 'Fall' since only year was written" / "Standardized to 'Fall 2025' format" / "Semester text is too faded to read"
 
 **For Classification Fields (student type, status, etc.):**
 - Extract if explicitly labeled (Transfer, Freshman, International, etc.)

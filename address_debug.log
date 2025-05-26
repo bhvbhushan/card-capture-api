@@ -1088,3 +1088,385 @@
 [2025-05-26T21:43:22.755367+00:00] Address '6318 Day hill ar' could not be validated by Google Maps
 
 [2025-05-26T21:43:22.755469+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T23:15:47.664796+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T23:15:47.665006+00:00] Current address components
+{
+  "address": "10720 Pied Maple Drive",
+  "city": "",
+  "state": "",
+  "zip_code": "75249"
+}
+
+[2025-05-26T23:15:47.665069+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T23:15:47.891965+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Dallas",
+  "state": "TX",
+  "zip": "75249",
+  "formatted": "Dallas, TX 75249, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": true,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T23:15:47.892309+00:00] Enhancing city: '' -> 'Dallas'
+
+[2025-05-26T23:15:47.893013+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T23:15:47.893130+00:00] Address '10720 Pied Maple Drive' could not be validated by Google Maps
+
+[2025-05-26T23:15:47.893228+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T23:16:15.190072+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T23:16:15.190127+00:00] Current address components
+{
+  "address": "1254 Glen Ave",
+  "city": "",
+  "state": "",
+  "zip_code": "75115"
+}
+
+[2025-05-26T23:16:15.190184+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T23:16:15.363568+00:00] Google Maps validation successful
+{
+  "street_address": "1254 Glen Avenue",
+  "city": "DeSoto",
+  "state": "TX",
+  "zip": "75115-3202",
+  "formatted": "1254 Glen Ave, DeSoto, TX 75115, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T23:16:15.363943+00:00] Enhancing city: '' -> 'DeSoto'
+
+[2025-05-26T23:16:15.364499+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T23:16:15.364577+00:00] Enhancing zip: '75115' -> '75115-3202'
+
+[2025-05-26T23:16:15.364645+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T23:16:42.503409+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T23:16:42.503645+00:00] Current address components
+{
+  "address": "1343 White Tail Ridge",
+  "city": "",
+  "state": "",
+  "zip_code": "75104"
+}
+
+[2025-05-26T23:16:42.503718+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T23:16:42.667494+00:00] Google Maps validation successful
+{
+  "street_address": "1343 White Tail Ridge",
+  "city": "Cedar Hill",
+  "state": "TX",
+  "zip": "75104-1234",
+  "formatted": "1343 White Tail Ridge, Cedar Hill, TX 75104, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T23:16:42.667856+00:00] Enhancing city: '' -> 'Cedar Hill'
+
+[2025-05-26T23:16:42.668510+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T23:16:42.668614+00:00] Enhancing zip: '75104' -> '75104-1234'
+
+[2025-05-26T23:16:42.668700+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T23:17:09.290678+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T23:17:09.290718+00:00] Current address components
+{
+  "address": "1721 Creekview Drive",
+  "city": "",
+  "state": "",
+  "zip_code": "75154"
+}
+
+[2025-05-26T23:17:09.290758+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T23:17:09.437643+00:00] Google Maps validation successful
+{
+  "street_address": "1721 Creekview Drive",
+  "city": "Red Oak",
+  "state": "TX",
+  "zip": "75154-8627",
+  "formatted": "1721 Creekview Dr, Red Oak, TX 75154, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T23:17:09.437860+00:00] Enhancing city: '' -> 'Red Oak'
+
+[2025-05-26T23:17:09.438306+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T23:17:09.438368+00:00] Enhancing zip: '75154' -> '75154-8627'
+
+[2025-05-26T23:17:09.438412+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T23:17:34.452920+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T23:17:34.454513+00:00] Current address components
+{
+  "address": "1414 Watercourse Way",
+  "city": "",
+  "state": "",
+  "zip_code": "75104"
+}
+
+[2025-05-26T23:17:34.454590+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T23:17:34.590518+00:00] Google Maps validation successful
+{
+  "street_address": "1414 Watercourse Way",
+  "city": "Cedar Hill",
+  "state": "TX",
+  "zip": "75104-4027",
+  "formatted": "1414 Watercourse Way, Cedar Hill, TX 75104, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T23:17:34.590754+00:00] Enhancing city: '' -> 'Cedar Hill'
+
+[2025-05-26T23:17:34.590834+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T23:17:34.590954+00:00] Enhancing zip: '75104' -> '75104-4027'
+
+[2025-05-26T23:17:34.591028+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T23:18:00.688513+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T23:18:00.688706+00:00] Current address components
+{
+  "address": "707 Cobblestone Ct",
+  "city": "",
+  "state": "",
+  "zip_code": "75104"
+}
+
+[2025-05-26T23:18:00.688746+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T23:18:00.789071+00:00] Google Maps validation successful
+{
+  "street_address": "707 Cobblestone Court",
+  "city": "Cedar Hill",
+  "state": "TX",
+  "zip": "75104-5703",
+  "formatted": "707 Cobblestone Ct, Cedar Hill, TX 75104, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T23:18:00.789297+00:00] Enhancing city: '' -> 'Cedar Hill'
+
+[2025-05-26T23:18:00.789728+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T23:18:00.789871+00:00] Enhancing zip: '75104' -> '75104-5703'
+
+[2025-05-26T23:18:00.789941+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T23:18:27.709401+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T23:18:27.709507+00:00] Current address components
+{
+  "address": "213 Chamblin Dr",
+  "city": "",
+  "state": "",
+  "zip_code": "75104"
+}
+
+[2025-05-26T23:18:27.709555+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T23:18:27.814186+00:00] Google Maps validation successful
+{
+  "street_address": "213 Chamblin Drive",
+  "city": "Cedar Hill",
+  "state": "TX",
+  "zip": "75104-2365",
+  "formatted": "213 Chamblin Dr, Cedar Hill, TX 75104, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T23:18:27.814430+00:00] Enhancing city: '' -> 'Cedar Hill'
+
+[2025-05-26T23:18:27.814794+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T23:18:27.814832+00:00] Enhancing zip: '75104' -> '75104-2365'
+
+[2025-05-26T23:18:27.814876+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T23:18:56.163035+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T23:18:56.163267+00:00] Current address components
+{
+  "address": "703 ford dr",
+  "city": "",
+  "state": "",
+  "zip_code": "75104"
+}
+
+[2025-05-26T23:18:56.163371+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T23:18:56.334185+00:00] Google Maps validation successful
+{
+  "street_address": "703 Ford Drive",
+  "city": "Cedar Hill",
+  "state": "TX",
+  "zip": "75104-6843",
+  "formatted": "703 Ford Dr, Cedar Hill, TX 75104, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T23:18:56.334634+00:00] Enhancing city: '' -> 'Cedar Hill'
+
+[2025-05-26T23:18:56.335365+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T23:18:56.335483+00:00] Enhancing zip: '75104' -> '75104-6843'
+
+[2025-05-26T23:18:56.335586+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T23:19:21.314513+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T23:19:21.314663+00:00] Current address components
+{
+  "address": "141 Gainsway St",
+  "city": "",
+  "state": "",
+  "zip_code": "79606"
+}
+
+[2025-05-26T23:19:21.314704+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T23:19:21.433274+00:00] Google Maps validation successful
+{
+  "street_address": "141 Gainesway Drive",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "141 Gainesway Dr, Abilene, TX 79606, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T23:19:21.433503+00:00] Enhancing city: '' -> 'Abilene'
+
+[2025-05-26T23:19:21.433983+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T23:19:21.434057+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T23:19:45.278423+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T23:19:45.278497+00:00] Current address components
+{
+  "address": "Western Pumes",
+  "city": "",
+  "state": "",
+  "zip_code": "79606"
+}
+
+[2025-05-26T23:19:45.278561+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T23:19:45.438458+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": false,
+  "queried_by_zip_only": true
+}
+
+[2025-05-26T23:19:45.438650+00:00] Enhancing city: '' -> 'Abilene'
+
+[2025-05-26T23:19:45.439096+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T23:19:45.439149+00:00] Address 'Western Pumes' could not be validated by Google Maps
+
+[2025-05-26T23:19:45.439188+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T23:44:27.611918+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T23:44:27.612110+00:00] Current address components
+{
+  "address": "10720 Pied Maple Drive",
+  "city": "",
+  "state": "",
+  "zip_code": "75249"
+}
+
+[2025-05-26T23:44:27.612157+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T23:44:27.813544+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Dallas",
+  "state": "TX",
+  "zip": "75249",
+  "formatted": "Dallas, TX 75249, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": true,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T23:44:27.813939+00:00] Enhancing city: '' -> 'Dallas'
+
+[2025-05-26T23:44:27.814718+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T23:44:27.814807+00:00] Address '10720 Pied Maple Drive' could not be validated by Google Maps
+
+[2025-05-26T23:44:27.814903+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T23:46:35.253749+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T23:46:35.253958+00:00] Current address components
+{
+  "address": "1721 Creekview Drive",
+  "city": "",
+  "state": "",
+  "zip_code": "75154"
+}
+
+[2025-05-26T23:46:35.254004+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T23:46:35.406194+00:00] Google Maps validation successful
+{
+  "street_address": "1721 Creekview Drive",
+  "city": "Red Oak",
+  "state": "TX",
+  "zip": "75154-8627",
+  "formatted": "1721 Creekview Dr, Red Oak, TX 75154, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T23:46:35.406677+00:00] Enhancing city: '' -> 'Red Oak'
+
+[2025-05-26T23:46:35.407469+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T23:46:35.407602+00:00] Enhancing zip: '75154' -> '75154-8627'
+
+[2025-05-26T23:46:35.407705+00:00] === ADDRESS VALIDATION COMPLETE ===

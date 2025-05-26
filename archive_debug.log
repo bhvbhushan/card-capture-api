@@ -4287,3 +4287,115 @@ data=[{'id': '8bedca8a-00b6-4495-bbf2-7e5f75bd9835', 'document_id': 'e5325b4e-b6
 [2025-05-26T20:43:55.882053+00:00] Successfully archived 19 records
 
 [2025-05-26T20:43:55.882181+00:00] === ARCHIVE CARDS SERVICE END ===
+
+[2025-05-26T23:45:13.035396+00:00] === ARCHIVE CARDS SERVICE START ===
+
+[2025-05-26T23:45:13.037157+00:00] Received document IDs
+[
+  "501a93d3-2f06-42ea-885a-94a6c621bfe5"
+]
+
+[2025-05-26T23:45:13.037315+00:00] Calling archive_cards_db...
+
+[2025-05-26T23:45:13.037396+00:00] === ARCHIVE CARDS DB START ===
+
+[2025-05-26T23:45:13.037469+00:00] Document IDs to archive
+[
+  "501a93d3-2f06-42ea-885a-94a6c621bfe5"
+]
+
+[2025-05-26T23:45:13.037552+00:00] Checking existing records...
+
+[2025-05-26T23:45:13.192443+00:00] Record 501a93d3-2f06-42ea-885a-94a6c621bfe5 full state:
+{
+  "document_id": "501a93d3-2f06-42ea-885a-94a6c621bfe5",
+  "review_status": "exported",
+  "status": null,
+  "deleted": null,
+  "reviewed_at": "2025-05-26T23:23:55.943144+00:00"
+}
+
+[2025-05-26T23:45:13.192671+00:00] Records to archive (excluding already archived)
+[
+  {
+    "document_id": "501a93d3-2f06-42ea-885a-94a6c621bfe5",
+    "current_status": "exported"
+  }
+]
+
+[2025-05-26T23:45:13.193090+00:00] Update payload
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T23:45:13.193087+00:00"
+}
+
+[2025-05-26T23:45:13.343193+00:00] Record 501a93d3-2f06-42ea-885a-94a6c621bfe5 after archive:
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T23:45:13.193087+00:00"
+}
+
+[2025-05-26T23:45:13.343445+00:00] Archive operation result
+data=[{'id': 'fe1b38f1-ed3f-454e-92a3-35adac1aaf2a', 'document_id': '501a93d3-2f06-42ea-885a-94a6c621bfe5', 'fields': {'gpa': {'value': '3.000', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[596.9999998807907, 944.0000176429749], [755.9999853372574, 944.0000176429749], [755.9999853372574, 989.9999737739563], [596.9999998807907, 989.9999737739563]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '3.000'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'cell': {'value': '214-207-2735', 'source': 'human_review', 'enabled': True, 'required': True, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[160.00000312924385, 510.00000536441803], [535.9999984502792, 510.00000536441803], [535.9999984502792, 559.9999904632568], [160.00000312924385, 559.9999904632568]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '(214) 207-2735'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'city': {'value': 'Dallas', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 0.95, 'requires_human_review': False}, 'name': {'value': 'Dantrell Hunt', 'source': 'human_review', 'enabled': True, 'required': True, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[163.99999782443047, 164.00000751018524], [497.0000058412552, 164.00000751018524], [497.0000058412552, 225.99999755620956], [163.99999782443047, 225.99999755620956]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Dantrell Hunt'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'email': {'value': 'dantrellhunt883@gmail.com', 'source': 'human_review', 'enabled': True, 'required': True, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[171.9999998807907, 392.99998581409454], [803.0000180006027, 392.99998581409454], [803.0000180006027, 450.99999606609344], [171.9999998807907, 450.99999606609344]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'dantrellhunt883@gmail.com'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'major': {'value': 'Computer Science', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[167.00000017881393, 1159.999942779541], [590.0000154972076, 1159.999942779541], [590.0000154972076, 1224.0000128746033], [167.00000017881393, 1224.0000128746033]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': "Fixed typo in 'Computer Science'.", 'certainty': 'certain', 'edit_made': True, 'edit_type': 'typo_fix', 'text_clarity': 'clear', 'original_value': 'Computer Survence'}, 'review_confidence': 0.9025, 'requires_human_review': False}, 'state': {'value': 'TX', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [], 'review_notes': 'Manually reviewed', 'review_confidence': 0.95, 'requires_human_review': False}, 'address': {'value': '10266 Red Maple Drive', 'source': 'human_review', 'enabled': True, 'required': True, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[168.0000051856041, 629.9999892711639], [684.9999845027924, 629.9999892711639], [684.9999845027924, 675.000011920929], [168.0000051856041, 675.000011920929]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '10720 Pied Maple Drive'}, 'review_confidence': 0.3, 'requires_human_review': False}, 'zip_code': {'value': '75249', 'source': 'human_review', 'enabled': True, 'required': True, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[583.9999854564667, 739.000016450882], [743.9999759197235, 739.000016450882], [743.9999759197235, 783.9999735355377], [583.9999854564667, 783.9999735355377]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '75249'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'city_state': {'value': 'Dallas', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[160.00000312924385, 734.0000212192535], [322.99999594688416, 734.0000212192535], [322.99999594688416, 780.9999763965607], [160.00000312924385, 780.9999763965607]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Dallas'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'class_rank': {'value': '264', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[228.0000016093254, 938.0000233650208], [301.9999921321869, 938.0000233650208], [301.9999921321869, 972.9999899864197], [228.0000016093254, 972.9999899864197]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '264'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'entry_term': {'value': '2025', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[604.9999892711639, 1051.999980211258], [787.9999935626984, 1051.999980211258], [787.9999935626984, 1100], [604.9999892711639, 1100]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '2025'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'high_school': {'value': 'Cedar Hill High School', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[165.99999517202377, 842.9999828338623], [656.999996304512, 842.9999828338623], [656.999996304512, 903.9999902248383], [165.99999517202377, 903.9999902248383]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Cedar Hill High School'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'student_type': {'value': 'Freshman', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[201.99999809265137, 1068.0000305175781], [320.0000062584877, 1068.0000305175781], [320.0000062584877, 1095.0000047683716], [201.99999809265137, 1095.0000047683716]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': 'Freshman bubble is clearly filled.', 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Freshman'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'date_of_birth': {'value': '08/21/2007', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[584.9999904632568, 274.0000009536743], [832.0000112056732, 274.0000009536743], [832.0000112056732, 341.00000262260437], [584.9999904632568, 341.00000262260437]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '08/21/2007'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'students_in_class': {'value': '555', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[413.9999955892563, 947.0000147819519], [523.9999890327454, 947.0000147819519], [523.9999890327454, 992.9999709129333], [413.9999955892563, 992.9999709129333]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '555'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'permission_to_text': {'value': 'Yes', 'source': 'human_review', 'enabled': True, 'required': False, 'reviewed': True, 'confidence': 1.0, 'bounding_box': [[631.000018119812, 510.00000536441803], [675.999990105629, 510.00000536441803], [675.999990105629, 526.9999891519547], [631.000018119812, 526.9999891519547]], 'review_notes': 'Manually reviewed', 'quality_metadata': {'notes': 'Permission to text checkbox is clearly marked.', 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Yes'}, 'review_confidence': 0.95, 'requires_human_review': False}}, 'created_at': '2025-05-26T23:15:47.894156+00:00', 'reviewed_at': '2025-05-26T23:45:13.193087+00:00', 'exported_at': '2025-05-26T23:38:04.578297+00:00', 'event_id': '7818909d-a3ff-4211-bf6e-c9b65952f758', 'updated_at': '2025-05-26T23:45:13.291826+00:00', 'review_status': 'archived', 'school_id': 'b1a2c3d4-e5f6-7890-1234-56789abcdef0', 'user_id': 'f8714b88-f5c7-404c-b4fa-2304e014a44b', 'image_path': 'f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-26/43e5fcf1-3353-4cc3-9e5e-632d65621125.png'}] count=None
+
+[2025-05-26T23:45:13.343851+00:00] === ARCHIVE CARDS DB END ===
+
+[2025-05-26T23:45:13.343922+00:00] Successfully archived 1 records
+
+[2025-05-26T23:45:13.343971+00:00] === ARCHIVE CARDS SERVICE END ===
+
+[2025-05-26T23:46:13.182619+00:00] === ARCHIVE CARDS SERVICE START ===
+
+[2025-05-26T23:46:13.183825+00:00] Received document IDs
+[
+  "a4c20583-246c-473f-8546-8528198f553b"
+]
+
+[2025-05-26T23:46:13.183960+00:00] Calling archive_cards_db...
+
+[2025-05-26T23:46:13.184030+00:00] === ARCHIVE CARDS DB START ===
+
+[2025-05-26T23:46:13.184086+00:00] Document IDs to archive
+[
+  "a4c20583-246c-473f-8546-8528198f553b"
+]
+
+[2025-05-26T23:46:13.184195+00:00] Checking existing records...
+
+[2025-05-26T23:46:13.362305+00:00] Record a4c20583-246c-473f-8546-8528198f553b full state:
+{
+  "document_id": "a4c20583-246c-473f-8546-8528198f553b",
+  "review_status": "exported",
+  "status": null,
+  "deleted": null,
+  "reviewed_at": null
+}
+
+[2025-05-26T23:46:13.362559+00:00] Records to archive (excluding already archived)
+[
+  {
+    "document_id": "a4c20583-246c-473f-8546-8528198f553b",
+    "current_status": "exported"
+  }
+]
+
+[2025-05-26T23:46:13.362980+00:00] Update payload
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T23:46:13.362976+00:00"
+}
+
+[2025-05-26T23:46:13.541543+00:00] Record a4c20583-246c-473f-8546-8528198f553b after archive:
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T23:46:13.362976+00:00"
+}
+
+[2025-05-26T23:46:13.541774+00:00] Archive operation result
+data=[{'id': '3d36b8a9-5288-4b9e-8410-e9512c170292', 'document_id': 'a4c20583-246c-473f-8546-8528198f553b', 'fields': {'gpa': {'value': '5.3', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999916553497314, 'bounding_box': [[590.0000154972076, 948.0000138282776], [670.0000107288361, 948.0000138282776], [670.0000107288361, 994.9999690055847], [590.0000154972076, 994.9999690055847]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '5.3'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'cell': {'value': '469-978-0808', 'source': 'gemini', 'enabled': True, 'required': True, 'confidence': 0.9999996423721313, 'bounding_box': [[163.99999782443047, 518.9999967813492], [450.0000238418579, 518.9999967813492], [450.0000238418579, 563.9999866485596], [163.99999782443047, 563.9999866485596]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '469-978-0808'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'city': {'value': 'Red Oak', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'City validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'name': {'value': 'Risa Bell', 'source': 'gemini', 'enabled': True, 'required': True, 'confidence': 0.9999972581863403, 'bounding_box': [[171.9999998807907, 167.0000046491623], [397.9999914765358, 167.0000046491623], [397.9999914765358, 223.9999994635582], [171.9999998807907, 223.9999994635582]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Risa Bell'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'email': {'value': 'risa.bell1129@gmail.com', 'source': 'gemini', 'enabled': True, 'required': True, 'confidence': 0.7787436842918396, 'bounding_box': [[170.99999487400055, 401.00001096725464], [671.0000157356262, 401.00001096725464], [671.0000157356262, 450.99999606609344], [170.99999487400055, 450.99999606609344]], 'review_notes': '', 'quality_metadata': {'notes': "Removed the comma and added a period after 'risa' in the email.", 'certainty': 'certain', 'edit_made': True, 'edit_type': 'format_correction', 'text_clarity': 'clear', 'original_value': 'risa, bell1129@gmail.com'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'major': {'value': 'Business', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999984502792358, 'bounding_box': [[165.99999517202377, 1163.9999389648438], [356.9999888539314, 1163.9999389648438], [356.9999888539314, 1221.0000157356262], [165.99999517202377, 1221.0000157356262]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Business'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'state': {'value': 'TX', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'State validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'address': {'value': '1721 Creekview Drive', 'source': 'gemini', 'enabled': True, 'required': True, 'confidence': 0.999977707862854, 'bounding_box': [[160.00000312924385, 623.9999949932098], [604.9999892711639, 623.9999949932098], [604.9999892711639, 677.0000100135803], [160.00000312924385, 677.0000100135803]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '1721 Creekview Drive'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'zip_code': {'value': '75154-8627', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'Zip code enhanced from validation', 'review_confidence': 0.95, 'requires_human_review': False}, 'city_state': {'value': 'Glenn Heights', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999991655349731, 'bounding_box': [[163.00000548362732, 739.000016450882], [439.0000194311142, 739.000016450882], [439.0000194311142, 793.0000305175781], [163.00000548362732, 793.0000305175781]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Glenn Heights'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'class_rank': {'value': '2', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9998561143875122, 'bounding_box': [[201.00000575184822, 945.0000166893005], [241.99999570846558, 945.0000166893005], [241.99999570846558, 995.9999680519104], [201.00000575184822, 995.9999680519104]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '2'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'entry_term': {'value': '2027', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999958276748657, 'bounding_box': [[588.0000054836273, 1050.9999811649323], [737.9999965429306, 1050.9999811649323], [737.9999965429306, 1104.9999952316284], [588.0000054836273, 1104.9999952316284]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '2027'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'high_school': {'value': 'De Soto High School', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999966621398926, 'bounding_box': [[165.99999517202377, 846.999979019165], [534.9999934434891, 846.999979019165], [534.9999934434891, 903.9999902248383], [165.99999517202377, 903.9999902248383]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'De Soto High School'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'student_type': {'value': 'Transfer', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9270906448364258, 'bounding_box': [[198.9999957382679, 1074.0000247955322], [319.00000125169754, 1074.0000247955322], [319.00000125169754, 1090.0000095367432], [198.9999957382679, 1090.0000095367432]], 'review_notes': '', 'quality_metadata': {'notes': 'The bubble next to Transfer is clearly filled in.', 'certainty': 'certain', 'edit_made': True, 'edit_type': 'cross_validation_fix', 'text_clarity': 'clear', 'original_value': 'Freshman'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'date_of_birth': {'value': '11/29/2008', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999849200248718, 'bounding_box': [[581.9999754428864, 279.9999952316284], [782.0000141859055, 279.9999952316284], [782.0000141859055, 325.9999841451645], [581.9999754428864, 325.9999841451645]], 'review_notes': '', 'quality_metadata': {'notes': 'Added the full year 20 to the date of birth', 'certainty': 'certain', 'edit_made': True, 'edit_type': 'format_correction', 'text_clarity': 'clear', 'original_value': '11/29/08'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'students_in_class': {'value': '609', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999680519104004, 'bounding_box': [[412.00001090765, 948.0000138282776], [492.99998581409454, 948.0000138282776], [492.99998581409454, 997.0000326633453], [412.00001090765, 997.0000326633453]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '609'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'permission_to_text': {'value': 'Yes', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999805688858032, 'bounding_box': [[630.0000131130219, 512.0000034570694], [672.0000207424164, 512.0000034570694], [672.0000207424164, 528.999987244606], [630.0000131130219, 528.999987244606]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Yes'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'preferred_first_name': {'value': 'Risa', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999942183494568, 'bounding_box': [[170.0000025331974, 287.9999876022339], [275.0000089406967, 287.9999876022339], [275.0000089406967, 336.00000739097595], [170.0000025331974, 336.00000739097595]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Risa'}, 'review_confidence': 0.95, 'requires_human_review': False}}, 'created_at': '2025-05-26T23:17:09.438728+00:00', 'reviewed_at': '2025-05-26T23:46:13.362976+00:00', 'exported_at': '2025-05-26T23:38:04.578297+00:00', 'event_id': '7818909d-a3ff-4211-bf6e-c9b65952f758', 'updated_at': '2025-05-26T23:46:13.476802+00:00', 'review_status': 'archived', 'school_id': 'b1a2c3d4-e5f6-7890-1234-56789abcdef0', 'user_id': 'f8714b88-f5c7-404c-b4fa-2304e014a44b', 'image_path': 'f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-26/4bdb5011-3c28-48c4-86c2-a860db1bb019.png'}] count=None
+
+[2025-05-26T23:46:13.542217+00:00] === ARCHIVE CARDS DB END ===
+
+[2025-05-26T23:46:13.542302+00:00] Successfully archived 1 records
+
+[2025-05-26T23:46:13.542352+00:00] === ARCHIVE CARDS SERVICE END ===
