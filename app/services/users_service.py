@@ -4,9 +4,10 @@ from app.repositories.users_repository import (
     get_user_profile_by_id,
     list_users_db,
     invite_user_db,
-    update_user_db
+    update_user_db,
+    delete_user_db
 )
-from app.core.clients import supabase_client
+from app.core.clients import supabase_client, supabase_auth
 
 def get_current_user_service(user_id):
     print(f"🔍 Fetching user profile for user_id: {user_id}")
@@ -64,4 +65,29 @@ def update_user_service(user_id, update):
         return {"success": True}
     except Exception as e:
         print(f"❌ Error updating user {user_id}: {e}")
-        return JSONResponse(status_code=500, content={"error": str(e)}) 
+        return JSONResponse(status_code=500, content={"error": str(e)})
+
+def delete_user_service(user, user_id):
+    print(f"🔍 Delete user request - User object: {user}")
+    print(f"🔍 User role: {user.get('role')}")
+    print(f"🔍 User keys: {list(user.keys()) if user else 'None'}")
+    
+    if user.get("role") != "admin":
+        print("❌ Only admins can delete users.")
+        raise HTTPException(status_code=403, detail="Only admins can delete users.")
+    
+    # Prevent self-deletion
+    if user.get("id") == user_id or user.get("user_id") == user_id:
+        print("❌ Users cannot delete themselves.")
+        raise HTTPException(status_code=400, detail="You cannot delete your own account.")
+    
+    try:
+        print(f"🗑️ Attempting to delete user: {user_id}")
+        result = delete_user_db(supabase_auth, supabase_client, user_id)
+        print(f"✅ Successfully deleted user: {user_id}")
+        return {"success": True, "message": "User deleted successfully"}
+    except Exception as e:
+        print(f"❌ Error deleting user {user_id}: {str(e)}")
+        print(f"❌ Error type: {type(e)}")
+        print(f"❌ Error details: {e.__dict__ if hasattr(e, '__dict__') else 'No details available'}")
+        raise HTTPException(status_code=500, detail=f"Error deleting user: {str(e)}") 

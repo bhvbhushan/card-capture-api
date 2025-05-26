@@ -37,4 +37,13 @@ def update_user_db(supabase_client, user_id, update):
         "last_name": update.last_name,
         "role": update.role
     }).eq("id", user_id).execute()
-    return result 
+    return result
+
+def delete_user_db(supabase_auth, supabase_client, user_id):
+    # First delete from profiles table
+    profile_result = supabase_client.table("profiles").delete().eq("id", user_id).execute()
+    
+    # Then delete from auth
+    auth_result = supabase_auth.auth.admin.delete_user(user_id)
+    
+    return {"profile_deleted": profile_result, "auth_deleted": auth_result} 
