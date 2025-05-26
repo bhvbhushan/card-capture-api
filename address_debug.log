@@ -268,3 +268,639 @@
 [2025-05-26T18:06:58.520017+00:00] Address 'Western Pumes' could not be validated by Google Maps
 
 [2025-05-26T18:06:58.520061+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:12:29.443397+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:12:29.443684+00:00] Current address components
+{
+  "address": "Western Pumes",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": "79606"
+}
+
+[2025-05-26T18:12:29.443779+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:12:29.605192+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": false,
+  "queried_by_zip_only": true
+}
+
+[2025-05-26T18:12:29.605398+00:00] Enhancing city: 'Abilene' -> 'Abilene'
+
+[2025-05-26T18:12:29.605856+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:12:29.605909+00:00] Address 'Western Pumes' could not be validated by Google Maps
+
+[2025-05-26T18:12:29.606005+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:13:23.806725+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:13:23.806803+00:00] Current address components
+{
+  "address": "Shuline Dr",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": ""
+}
+
+[2025-05-26T18:13:23.806908+00:00] No valid zip code for validation
+
+[2025-05-26T18:13:23.806951+00:00] Marked zip_code for review: required but missing
+
+[2025-05-26T18:13:23.807075+00:00] Address 'Shuline Dr' matches invalid pattern: ^[A-Za-z\s]+$
+
+[2025-05-26T18:13:23.807116+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:13:52.917415+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:13:52.917470+00:00] Current address components
+{
+  "address": "7617 Tuscany Drive",
+  "city": "",
+  "state": "TX",
+  "zip_code": "79606"
+}
+
+[2025-05-26T18:13:52.917520+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:13:53.040203+00:00] Google Maps validation successful
+{
+  "street_address": "7617 Tuscany Drive",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606-6684",
+  "formatted": "7617 Tuscany Dr, Abilene, TX 79606, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:13:53.040521+00:00] Enhancing city: '' -> 'Abilene'
+
+[2025-05-26T18:13:53.041012+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:13:53.041142+00:00] Enhancing zip: '79606' -> '79606-6684'
+
+[2025-05-26T18:13:53.041231+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:14:21.050686+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:14:21.050769+00:00] Current address components
+{
+  "address": "5210 Catclaw Drive",
+  "city": "Abilene",
+  "state": "Texas",
+  "zip_code": "79606"
+}
+
+[2025-05-26T18:14:21.050844+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:14:21.202931+00:00] Google Maps validation successful
+{
+  "street_address": "5210 Catclaw Drive",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606-4181",
+  "formatted": "5210 Catclaw Dr, Abilene, TX 79606, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:14:21.203131+00:00] Enhancing city: 'Abilene' -> 'Abilene'
+
+[2025-05-26T18:14:21.203597+00:00] Enhancing state: 'Texas' -> 'TX'
+
+[2025-05-26T18:14:21.203682+00:00] Enhancing zip: '79606' -> '79606-4181'
+
+[2025-05-26T18:14:21.203762+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:14:49.504941+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:14:49.504993+00:00] Current address components
+{
+  "address": "Sierra Sunset",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": "79606"
+}
+
+[2025-05-26T18:14:49.505045+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:14:49.652307+00:00] Google Maps validation successful
+{
+  "street_address": "Sierra Sunset",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Sierra Sunset, Abilene, TX 79606, USA",
+  "location_type": "GEOMETRIC_CENTER",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:14:49.652746+00:00] Enhancing city: 'Abilene' -> 'Abilene'
+
+[2025-05-26T18:14:49.653418+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:14:49.653507+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:15:18.612244+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:15:18.612526+00:00] Current address components
+{
+  "address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": ""
+}
+
+[2025-05-26T18:15:18.612639+00:00] No valid zip code for validation
+
+[2025-05-26T18:15:18.612719+00:00] Marked address for review: required but missing
+
+[2025-05-26T18:15:18.612794+00:00] Marked zip_code for review: required but missing
+
+[2025-05-26T18:15:18.612864+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:25:24.076859+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:25:24.077057+00:00] Current address components
+{
+  "address": "Western Pumes",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": "79606"
+}
+
+[2025-05-26T18:25:24.077138+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:25:24.303872+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": false,
+  "queried_by_zip_only": true
+}
+
+[2025-05-26T18:25:24.305779+00:00] Enhancing city: 'Abilene' -> 'Abilene'
+
+[2025-05-26T18:25:24.305950+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:25:24.306077+00:00] Address 'Western Pumes' could not be validated by Google Maps
+
+[2025-05-26T18:25:24.306246+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:25:54.296627+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:25:54.296819+00:00] Current address components
+{
+  "address": "4009 Hill Country Dr.",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": "79606"
+}
+
+[2025-05-26T18:25:54.296884+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:25:54.409870+00:00] Google Maps validation successful
+{
+  "street_address": "4009 Hill Country Drive",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606-1172",
+  "formatted": "4009 Hill Country Dr, Abilene, TX 79606, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:25:54.410268+00:00] Enhancing city: 'Abilene' -> 'Abilene'
+
+[2025-05-26T18:25:54.411049+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:25:54.411156+00:00] Enhancing zip: '79606' -> '79606-1172'
+
+[2025-05-26T18:25:54.411312+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:26:23.175000+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:26:23.175257+00:00] Current address components
+{
+  "address": "36 Pebble Beach Street",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": "79606"
+}
+
+[2025-05-26T18:26:23.175356+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:26:23.299844+00:00] Google Maps validation successful
+{
+  "street_address": "36 Pebble Beach Street",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606-5039",
+  "formatted": "36 Pebble Beach St, Abilene, TX 79606, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:26:23.300278+00:00] Enhancing city: 'Abilene' -> 'Abilene'
+
+[2025-05-26T18:26:23.300429+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:26:23.300558+00:00] Enhancing zip: '79606' -> '79606-5039'
+
+[2025-05-26T18:26:23.300704+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:26:52.193377+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:26:52.193723+00:00] Current address components
+{
+  "address": "4110 Karendr",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": "79606"
+}
+
+[2025-05-26T18:26:52.193838+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:26:52.354898+00:00] Google Maps validation successful
+{
+  "street_address": "4110 Karen Drive",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606-5545",
+  "formatted": "4110 Karen Dr, Abilene, TX 79606, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:26:52.355075+00:00] Enhancing city: 'Abilene' -> 'Abilene'
+
+[2025-05-26T18:26:52.355175+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:26:52.355265+00:00] Enhancing zip: '79606' -> '79606-5545'
+
+[2025-05-26T18:26:52.355350+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:32:46.251884+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:32:46.252071+00:00] Current address components
+{
+  "address": "10720 Pied Maple Drive",
+  "city": "Dallas",
+  "state": "TX",
+  "zip_code": "75249"
+}
+
+[2025-05-26T18:32:46.252123+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:32:46.393466+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Dallas",
+  "state": "TX",
+  "zip": "75249",
+  "formatted": "Dallas, TX 75249, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": true,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:32:46.393764+00:00] Enhancing city: 'Dallas' -> 'Dallas'
+
+[2025-05-26T18:32:46.394331+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:32:46.394454+00:00] Address '10720 Pied Maple Drive' could not be validated by Google Maps
+
+[2025-05-26T18:32:46.396466+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:33:14.887508+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:33:14.887587+00:00] Current address components
+{
+  "address": "1254 Glen Ave",
+  "city": "Desoto",
+  "state": "TX",
+  "zip_code": "75115"
+}
+
+[2025-05-26T18:33:14.887645+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:33:15.020439+00:00] Google Maps validation successful
+{
+  "street_address": "1254 Glen Avenue",
+  "city": "DeSoto",
+  "state": "TX",
+  "zip": "75115-3202",
+  "formatted": "1254 Glen Ave, DeSoto, TX 75115, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:33:15.020588+00:00] Enhancing city: 'Desoto' -> 'DeSoto'
+
+[2025-05-26T18:33:15.020747+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:33:15.020813+00:00] Enhancing zip: '75115' -> '75115-3202'
+
+[2025-05-26T18:33:15.020876+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:33:42.607248+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:33:42.607304+00:00] Current address components
+{
+  "address": "1343 White Tail Ridge",
+  "city": "Cedar hill",
+  "state": "TX",
+  "zip_code": "75104"
+}
+
+[2025-05-26T18:33:42.607361+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:33:42.752884+00:00] Google Maps validation successful
+{
+  "street_address": "1343 White Tail Ridge",
+  "city": "Cedar Hill",
+  "state": "TX",
+  "zip": "75104-1234",
+  "formatted": "1343 White Tail Ridge, Cedar Hill, TX 75104, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:33:42.753057+00:00] Enhancing city: 'Cedar hill' -> 'Cedar Hill'
+
+[2025-05-26T18:33:42.753145+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:33:42.753200+00:00] Enhancing zip: '75104' -> '75104-1234'
+
+[2025-05-26T18:33:42.753248+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:34:10.226164+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:34:10.227903+00:00] Current address components
+{
+  "address": "1721 Creekview Drive",
+  "city": "Glenn Heights",
+  "state": "TX",
+  "zip_code": "75154"
+}
+
+[2025-05-26T18:34:10.227972+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:34:10.321104+00:00] Google Maps validation successful
+{
+  "street_address": "1721 Creekview Drive",
+  "city": "Red Oak",
+  "state": "TX",
+  "zip": "75154-8627",
+  "formatted": "1721 Creekview Dr, Red Oak, TX 75154, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:34:10.321478+00:00] Enhancing city: 'Glenn Heights' -> 'Red Oak'
+
+[2025-05-26T18:34:10.321800+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:34:10.322043+00:00] Enhancing zip: '75154' -> '75154-8627'
+
+[2025-05-26T18:34:10.322182+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:34:38.046542+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:34:38.046631+00:00] Current address components
+{
+  "address": "1414 Watercourse Way",
+  "city": "Cedar Hill",
+  "state": "TX",
+  "zip_code": "75104"
+}
+
+[2025-05-26T18:34:38.046704+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:34:38.188779+00:00] Google Maps validation successful
+{
+  "street_address": "1414 Watercourse Way",
+  "city": "Cedar Hill",
+  "state": "TX",
+  "zip": "75104-4027",
+  "formatted": "1414 Watercourse Way, Cedar Hill, TX 75104, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:34:38.189003+00:00] Enhancing city: 'Cedar Hill' -> 'Cedar Hill'
+
+[2025-05-26T18:34:38.189450+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:34:38.189509+00:00] Enhancing zip: '75104' -> '75104-4027'
+
+[2025-05-26T18:34:38.189603+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:35:06.799907+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:35:06.799967+00:00] Current address components
+{
+  "address": "707 Cobblestone Ct",
+  "city": "Cedar Hill",
+  "state": "TX",
+  "zip_code": "75104"
+}
+
+[2025-05-26T18:35:06.800090+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:35:06.948117+00:00] Google Maps validation successful
+{
+  "street_address": "707 Cobblestone Court",
+  "city": "Cedar Hill",
+  "state": "TX",
+  "zip": "75104-5703",
+  "formatted": "707 Cobblestone Ct, Cedar Hill, TX 75104, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:35:06.948704+00:00] Enhancing city: 'Cedar Hill' -> 'Cedar Hill'
+
+[2025-05-26T18:35:06.949487+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:35:06.949580+00:00] Enhancing zip: '75104' -> '75104-5703'
+
+[2025-05-26T18:35:06.949667+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:35:34.492746+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:35:34.492800+00:00] Current address components
+{
+  "address": "213 Chamblin Dr",
+  "city": "Cedar hill",
+  "state": "TX",
+  "zip_code": "75104"
+}
+
+[2025-05-26T18:35:34.492898+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:35:34.590553+00:00] Google Maps validation successful
+{
+  "street_address": "213 Chamblin Drive",
+  "city": "Cedar Hill",
+  "state": "TX",
+  "zip": "75104-2365",
+  "formatted": "213 Chamblin Dr, Cedar Hill, TX 75104, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:35:34.590771+00:00] Enhancing city: 'Cedar hill' -> 'Cedar Hill'
+
+[2025-05-26T18:35:34.590852+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:35:34.590916+00:00] Enhancing zip: '75104' -> '75104-2365'
+
+[2025-05-26T18:35:34.591079+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:36:02.646699+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:36:02.646753+00:00] Current address components
+{
+  "address": "703 ford dr",
+  "city": "Cedar Hill",
+  "state": "TX",
+  "zip_code": "75104"
+}
+
+[2025-05-26T18:36:02.646796+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:36:02.753074+00:00] Google Maps validation successful
+{
+  "street_address": "703 Ford Drive",
+  "city": "Cedar Hill",
+  "state": "TX",
+  "zip": "75104-6843",
+  "formatted": "703 Ford Dr, Cedar Hill, TX 75104, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:36:02.753315+00:00] Enhancing city: 'Cedar Hill' -> 'Cedar Hill'
+
+[2025-05-26T18:36:02.753789+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:36:02.753870+00:00] Enhancing zip: '75104' -> '75104-6843'
+
+[2025-05-26T18:36:02.753965+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:36:28.987929+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:36:28.988080+00:00] Current address components
+{
+  "address": "141 Gainsway St",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": "79606"
+}
+
+[2025-05-26T18:36:28.988155+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:36:29.127240+00:00] Google Maps validation successful
+{
+  "street_address": "141 Gainesway Drive",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "141 Gainesway Dr, Abilene, TX 79606, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:36:29.127414+00:00] Enhancing city: 'Abilene' -> 'Abilene'
+
+[2025-05-26T18:36:29.127609+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:36:29.127709+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:36:54.879562+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:36:54.879659+00:00] Current address components
+{
+  "address": "Western Pumes",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": "79606"
+}
+
+[2025-05-26T18:36:54.879746+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:36:54.989124+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": false,
+  "queried_by_zip_only": true
+}
+
+[2025-05-26T18:36:54.989644+00:00] Enhancing city: 'Abilene' -> 'Abilene'
+
+[2025-05-26T18:36:54.990516+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:36:54.991093+00:00] Address 'Western Pumes' could not be validated by Google Maps
+
+[2025-05-26T18:36:54.991194+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:46:39.479260+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:46:39.479360+00:00] Current address components
+{
+  "address": "1254 Glen Ave",
+  "city": "Desoto",
+  "state": "TX",
+  "zip_code": "75115"
+}
+
+[2025-05-26T18:46:39.479442+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:46:39.613081+00:00] Google Maps validation successful
+{
+  "street_address": "1254 Glen Avenue",
+  "city": "DeSoto",
+  "state": "TX",
+  "zip": "75115-3202",
+  "formatted": "1254 Glen Ave, DeSoto, TX 75115, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T18:46:39.613290+00:00] Enhancing zip: '75115' -> '75115-3202'
+
+[2025-05-26T18:46:39.613755+00:00] === ADDRESS VALIDATION COMPLETE ===

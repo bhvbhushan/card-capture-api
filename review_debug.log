@@ -500,3 +500,442 @@
     "address"
   ]
 }
+
+[2025-05-26T18:11:01.074682+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:11:01.075257+00:00] Field validation complete
+
+[2025-05-26T18:12:29.442259+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:12:29.443218+00:00] Field validation complete
+
+[2025-05-26T18:12:29.606172+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:12:29.606227+00:00] Field address explicitly marked for review
+{
+  "reason": "Address could not be validated"
+}
+
+[2025-05-26T18:12:29.606290+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T18:12:29.606335+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address"
+  ]
+}
+
+[2025-05-26T18:13:23.806556+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:13:23.806663+00:00] Field validation complete
+
+[2025-05-26T18:13:23.807185+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:13:23.807219+00:00] Field address explicitly marked for review
+{
+  "reason": "Address appears to be invalid or incomplete"
+}
+
+[2025-05-26T18:13:23.807265+00:00] Field zip_code explicitly marked for review
+{
+  "reason": "Required zip_code field could not be validated"
+}
+
+[2025-05-26T18:13:23.807315+00:00] Field email explicitly marked for review
+{
+  "reason": "Required field is empty"
+}
+
+[2025-05-26T18:13:23.807353+00:00] Card needs review - 3 fields flagged
+
+[2025-05-26T18:13:23.807382+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address",
+    "zip_code",
+    "email"
+  ]
+}
+
+[2025-05-26T18:13:52.917057+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:13:52.917341+00:00] Field validation complete
+
+[2025-05-26T18:13:53.041392+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:13:53.041466+00:00] Field cell explicitly marked for review
+{
+  "reason": "Required field is empty"
+}
+
+[2025-05-26T18:13:53.041548+00:00] Field date_of_birth explicitly marked for review
+{
+  "reason": "Gemini indicated uncertainty: Removed trailing slash. Unsure of year"
+}
+
+[2025-05-26T18:13:53.041628+00:00] Field email explicitly marked for review
+{
+  "reason": "Required field has low confidence (0.36)"
+}
+
+[2025-05-26T18:13:53.041700+00:00] Card needs review - 3 fields flagged
+
+[2025-05-26T18:13:53.041755+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "cell",
+    "date_of_birth",
+    "email"
+  ]
+}
+
+[2025-05-26T18:14:21.050409+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:14:21.050572+00:00] Field validation complete
+
+[2025-05-26T18:14:21.203883+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:14:21.203937+00:00] Field email explicitly marked for review
+{
+  "reason": "Gemini indicated uncertainty: Corrected formatting, unsure of jan29 vs. actual username."
+}
+
+[2025-05-26T18:14:21.203989+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T18:14:21.204064+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "email"
+  ]
+}
+
+[2025-05-26T18:14:49.504752+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:14:49.504867+00:00] Field validation complete
+
+[2025-05-26T18:14:49.653646+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:14:49.653727+00:00] Field email explicitly marked for review
+{
+  "reason": "Required field is empty"
+}
+
+[2025-05-26T18:14:49.653796+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T18:14:49.653841+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "email"
+  ]
+}
+
+[2025-05-26T18:15:18.611740+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:15:18.612112+00:00] Field validation complete
+
+[2025-05-26T18:15:18.612985+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:15:18.613042+00:00] Field cell explicitly marked for review
+{
+  "reason": "Required field has low confidence (0.69)"
+}
+
+[2025-05-26T18:15:18.613115+00:00] Field email explicitly marked for review
+{
+  "reason": "Gemini marked as uncertain: Email address is unclear and potentially contains extraneous information."
+}
+
+[2025-05-26T18:15:18.613190+00:00] Field city explicitly marked for review
+{
+  "reason": "Required field has low confidence (0.57)"
+}
+
+[2025-05-26T18:15:18.613254+00:00] Field state explicitly marked for review
+{
+  "reason": "Required field has low confidence (0.57)"
+}
+
+[2025-05-26T18:15:18.613372+00:00] Field address explicitly marked for review
+{
+  "reason": "Required address field could not be validated"
+}
+
+[2025-05-26T18:15:18.613436+00:00] Field zip_code explicitly marked for review
+{
+  "reason": "Required zip_code field could not be validated"
+}
+
+[2025-05-26T18:15:18.613499+00:00] Card needs review - 6 fields flagged
+
+[2025-05-26T18:15:18.613555+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "cell",
+    "email",
+    "city",
+    "state",
+    "address",
+    "zip_code"
+  ]
+}
+
+[2025-05-26T18:25:24.076330+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:25:24.076772+00:00] Field validation complete
+
+[2025-05-26T18:25:24.306521+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:25:24.306623+00:00] Field address explicitly marked for review
+{
+  "reason": "Address could not be validated"
+}
+
+[2025-05-26T18:25:24.306747+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T18:25:24.306867+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address"
+  ]
+}
+
+[2025-05-26T18:25:54.296203+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:25:54.296539+00:00] Field validation complete
+
+[2025-05-26T18:25:54.411556+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:25:54.411664+00:00] Field name explicitly marked for review
+{
+  "reason": "Corrected 'r' to 'Jr'."
+}
+
+[2025-05-26T18:25:54.411785+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T18:25:54.411871+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "name"
+  ]
+}
+
+[2025-05-26T18:26:23.174477+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:26:23.174819+00:00] Formatted phone: (325) 439-8946 -> 325-439-8946
+
+[2025-05-26T18:26:23.174900+00:00] Field validation complete
+
+[2025-05-26T18:26:23.300906+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:26:23.301015+00:00] Card does not need review - all fields valid
+
+[2025-05-26T18:26:23.301091+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T18:26:52.193091+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:26:52.193265+00:00] Field validation complete
+
+[2025-05-26T18:26:52.355486+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:26:52.355556+00:00] Field address explicitly marked for review
+{
+  "reason": "The last part of the address is unclear. It looks like it might be missing information."
+}
+
+[2025-05-26T18:26:52.355617+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T18:26:52.355686+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address"
+  ]
+}
+
+[2025-05-26T18:32:46.251339+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:32:46.251634+00:00] Formatted phone: (214) 207-2735 -> 214-207-2735
+
+[2025-05-26T18:32:46.251798+00:00] Field validation complete
+
+[2025-05-26T18:32:46.396607+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:32:46.396687+00:00] Field address explicitly marked for review
+{
+  "reason": "Address could not be validated"
+}
+
+[2025-05-26T18:32:46.396779+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T18:32:46.396839+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address"
+  ]
+}
+
+[2025-05-26T18:33:14.886990+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:33:14.887343+00:00] Formatted date: 10-21-2000 -> 10/21/2000
+
+[2025-05-26T18:33:14.887413+00:00] Field validation complete
+
+[2025-05-26T18:33:15.020970+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:33:15.021040+00:00] Card does not need review - all fields valid
+
+[2025-05-26T18:33:15.021084+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T18:33:42.607023+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:33:42.607142+00:00] Field validation complete
+
+[2025-05-26T18:33:42.753353+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:33:42.753472+00:00] Card does not need review - all fields valid
+
+[2025-05-26T18:33:42.753518+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T18:34:10.224185+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:34:10.226064+00:00] Field validation complete
+
+[2025-05-26T18:34:10.322702+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:34:10.322897+00:00] Card does not need review - all fields valid
+
+[2025-05-26T18:34:10.323158+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T18:34:38.046179+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:34:38.046409+00:00] Field validation complete
+
+[2025-05-26T18:34:38.189738+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:34:38.189797+00:00] Card does not need review - all fields valid
+
+[2025-05-26T18:34:38.189894+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T18:35:06.799665+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:35:06.799799+00:00] Field validation complete
+
+[2025-05-26T18:35:06.949831+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:35:06.949963+00:00] Card does not need review - all fields valid
+
+[2025-05-26T18:35:06.950043+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T18:35:34.492578+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:35:34.492667+00:00] Field validation complete
+
+[2025-05-26T18:35:34.591234+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:35:34.591312+00:00] Card does not need review - all fields valid
+
+[2025-05-26T18:35:34.591471+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T18:36:02.646425+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:36:02.646498+00:00] Formatted phone: (945) 240-9989 -> 945-240-9989
+
+[2025-05-26T18:36:02.646612+00:00] Field validation complete
+
+[2025-05-26T18:36:02.754093+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:36:02.754161+00:00] Card does not need review - all fields valid
+
+[2025-05-26T18:36:02.754228+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T18:36:28.987468+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:36:28.987830+00:00] Field validation complete
+
+[2025-05-26T18:36:29.127896+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:36:29.128023+00:00] Card does not need review - all fields valid
+
+[2025-05-26T18:36:29.128105+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T18:36:54.879232+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:36:54.879419+00:00] Field validation complete
+
+[2025-05-26T18:36:54.991392+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:36:54.991504+00:00] Field address explicitly marked for review
+{
+  "reason": "Address could not be validated"
+}
+
+[2025-05-26T18:36:54.991853+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T18:36:54.992097+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address"
+  ]
+}
+
+[2025-05-26T18:46:39.478501+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:46:39.479053+00:00] Formatted date: 10-21-2000 -> 10/21/2000
+
+[2025-05-26T18:46:39.479137+00:00] Field validation complete
+
+[2025-05-26T18:46:39.613904+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:46:39.613968+00:00] Card does not need review - all fields valid
+
+[2025-05-26T18:46:39.614063+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}

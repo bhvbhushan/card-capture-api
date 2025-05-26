@@ -103,7 +103,7 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any]) -
         # Return original fields with error flags
         for field_name, field_data in docai_fields.items():
             field_data["requires_human_review"] = True
-            field_data["review_notes"] = f"Gemini processing failed: {str(e)}"
+            field_data["review_notes"] = "This field needs manual review due to a processing issue"
             field_data["review_confidence"] = 0.1
         return docai_fields
 
@@ -197,7 +197,7 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
         # Return original fields with error flags
         for field_name, field_data in docai_fields.items():
             field_data["requires_human_review"] = True
-            field_data["review_notes"] = f"Failed to parse Gemini response: {str(e)}"
+            field_data["review_notes"] = "This field needs manual review due to a processing issue"
             field_data["review_confidence"] = 0.1
         return docai_fields
 
@@ -231,14 +231,15 @@ def calculate_confidence_from_quality(quality_info: Dict[str, Any]) -> float:
         "uncertain": 0.5
     }
     
-    # Edit type modifiers
+    # Edit type modifiers - updated to be more generous for obvious corrections
     edit_modifiers = {
-        "format_correction": 1.0,    # High confidence for obvious fixes
-        "ocr_correction": 0.95,      # Good confidence for clear OCR fixes
-        "typo_fix": 0.9,            # Good confidence for typo fixes
-        "missing_data": 0.75,        # Medium confidence for new data
-        "unclear_text": 0.3,        # Low confidence for unclear text
-        "none": 1.0                  # No penalty for no edits
+        "format_correction": 1.0,        # High confidence for obvious fixes
+        "ocr_correction": 0.95,          # Good confidence for clear OCR fixes
+        "typo_fix": 0.95,               # High confidence for obvious typo fixes (was 0.9)
+        "cross_validation_fix": 1.0,     # High confidence for fixes based on other fields
+        "missing_data": 0.75,            # Medium confidence for new data
+        "unclear_text": 0.3,            # Low confidence for unclear text
+        "none": 1.0                      # No penalty for no edits
     }
     
     # Calculate base score
@@ -249,6 +250,13 @@ def calculate_confidence_from_quality(quality_info: Dict[str, Any]) -> float:
     # Empty values get low confidence
     if not value or value.strip() == "":
         return 0.1
+    
+    # Special boost for obvious corrections with good text clarity
+    # If it's a typo_fix or format_correction with mostly_clear+ text, boost confidence
+    if edit_type in ["typo_fix", "format_correction", "cross_validation_fix"] and text_clarity in ["clear", "mostly_clear"]:
+        # For obvious corrections, treat "mostly_certain" as "certain"
+        if certainty == "mostly_certain":
+            certainty_mod = 1.0
     
     # Calculate final score
     final_score = base_score * certainty_mod * edit_mod
@@ -272,32 +280,42 @@ def determine_review_from_quality(quality_info: Dict[str, Any], field_data: Dict
     text_clarity = quality_info.get("text_clarity", "unclear")
     edit_type = quality_info.get("edit_type", "none")
     is_required = field_data.get("required", False)
-    notes = quality_info.get("notes", "")
+    gemini_notes = quality_info.get("notes", "")
     confidence_score = calculate_confidence_from_quality(quality_info)
     
     # Always review if marked as uncertain
     if certainty == "uncertain":
-        return True, f"Gemini marked as uncertain: {notes}"
+        if gemini_notes:
+            return True, gemini_notes
+        return True, "This field needs a closer look - the text wasn't clear enough to read confidently"
     
     # Always review unreadable text
     if text_clarity == "unreadable":
-        return True, "Text was unreadable"
+        if gemini_notes:
+            return True, gemini_notes
+        return True, "The text here is too unclear to read"
     
     # Always review unclear text edits
     if edit_type == "unclear_text":
-        return True, f"Text was unclear: {notes}"
+        if gemini_notes:
+            return True, gemini_notes
+        return True, "The handwriting here is difficult to make out clearly"
     
     # Review required fields that are empty
     if is_required and (not value or value.strip() == ""):
-        return True, "Required field is empty"
+        if gemini_notes:
+            return True, gemini_notes
+        return True, "This required field appears to be empty"
     
     # Review required fields with low confidence
     if is_required and confidence_score < 0.7:
-        return True, f"Required field has low confidence ({confidence_score:.2f})"
+        if gemini_notes:
+            return True, gemini_notes
+        return True, "This required field could use a second look to make sure it's accurate"
     
-    # Review if Gemini notes indicate uncertainty
-    if notes and any(word in notes.lower() for word in ["unclear", "unsure", "guess", "might", "possibly", "ambiguous"]):
-        return True, f"Gemini indicated uncertainty: {notes}"
+    # Review if Gemini notes indicate uncertainty (check for uncertainty keywords)
+    if gemini_notes and any(word in gemini_notes.lower() for word in ["unclear", "unsure", "hard to", "difficult", "might", "could be", "ambiguous", "faded", "messy"]):
+        return True, gemini_notes
     
     # Field looks good
     return False, "" 

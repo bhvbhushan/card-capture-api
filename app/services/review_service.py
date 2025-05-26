@@ -110,19 +110,6 @@ def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
                 field_data["value"] = ""
                 log_review_debug(f"Cleaned N/A value from {field_name}")
                 
-            # Validate email format
-            elif field_name == "email" and field_value:
-                cleaned_email = _validate_email_format(field_value)
-                # Only flag if there were actual corrections beyond case changes
-                if cleaned_email != field_value and cleaned_email.lower() != field_value.lower():
-                    field_data["value"] = cleaned_email
-                    field_data["requires_human_review"] = True
-                    field_data["review_notes"] = "Email format was auto-corrected"
-                    log_review_debug(f"Auto-corrected email: {field_value} -> {cleaned_email}")
-                else:
-                    # Just update the value without flagging for review
-                    field_data["value"] = cleaned_email
-                    
             # Validate phone format
             elif field_name == "cell" and field_value:
                 cleaned_phone = _validate_phone_format(field_value)
@@ -139,31 +126,6 @@ def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
     
     log_review_debug("Field validation complete")
     return fields
-
-def _validate_email_format(email: str) -> str:
-    """Validate and clean email format"""
-    import re
-    
-    original_email = email
-    
-    # Basic email cleaning
-    email = email.strip()
-    
-    # Remove common OCR errors (these are actual corrections)
-    email = email.replace(" ", "")
-    email = email.replace("@gmai1.com", "@gmail.com")
-    email = email.replace("@gmai.com", "@gmail.com")
-    email = email.replace("@gmial.com", "@gmail.com")
-    
-    # Convert to lowercase (this is NOT a correction that needs review)
-    email = email.lower()
-    
-    # Basic email validation
-    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    if re.match(email_pattern, email):
-        return email
-    else:
-        return email  # Return as-is if we can't fix it
 
 def _validate_phone_format(phone: str) -> str:
     """Validate and clean phone format"""
