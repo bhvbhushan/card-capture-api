@@ -54,7 +54,7 @@ ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     'http://localhost:5173',
     'http://127.0.0.1:5173',
-    'https://gen-lang-client-0493571343.web.app/'
+    'https://gen-lang-client-0493571343.web.app'
 ]
 
 GEMINI_MODEL = " gemini-1.5-pro-latest"
