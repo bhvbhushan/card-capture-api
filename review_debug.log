@@ -939,3 +939,77 @@
   "status": "reviewed",
   "fields_needing_review": []
 }
+
+[2025-05-26T19:05:10.961714+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T19:05:10.962273+00:00] Field validation complete
+
+[2025-05-26T19:05:11.167746+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T19:05:11.167811+00:00] Card does not need review - all fields valid
+
+[2025-05-26T19:05:11.167855+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}
+
+[2025-05-26T19:10:06.498241+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T19:10:06.498663+00:00] Formatted phone: (325) 439-8946 -> 325-439-8946
+
+[2025-05-26T19:10:06.498808+00:00] Field validation complete
+
+[2025-05-26T19:10:06.749782+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T19:10:06.749847+00:00] Field gpa explicitly marked for review
+{
+  "reason": "This required field appears to be empty"
+}
+
+[2025-05-26T19:10:06.749921+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T19:10:06.750014+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "gpa"
+  ]
+}
+
+[2025-05-26T19:11:35.270816+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T19:11:35.271096+00:00] Field validation complete
+
+[2025-05-26T19:11:35.443250+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T19:11:35.443332+00:00] Field gpa explicitly marked for review
+{
+  "reason": "This required field appears to be empty"
+}
+
+[2025-05-26T19:11:35.443510+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T19:11:35.443573+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "gpa"
+  ]
+}
+
+[2025-05-26T19:53:09.790612+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T19:53:09.791172+00:00] Formatted phone: (325) 439-8946 -> 325-439-8946
+
+[2025-05-26T19:53:09.791384+00:00] Field validation complete
+
+[2025-05-26T19:53:10.002501+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T19:53:10.002574+00:00] Card does not need review - all fields valid
+
+[2025-05-26T19:53:10.002614+00:00] Review determination complete
+{
+  "status": "reviewed",
+  "fields_needing_review": []
+}

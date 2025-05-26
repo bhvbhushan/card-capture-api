@@ -3849,3 +3849,532 @@
 [2025-05-26T18:46:15.292408+00:00] === DOCAI PROCESSING COMPLETE ===
 
 [2025-05-26T18:46:15.292463+00:00] Cropped image saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpvn3klqtr_trimmed.png
+
+[2025-05-26T19:04:43.066690+00:00] === DOCAI PROCESSING START ===
+
+[2025-05-26T19:04:43.067101+00:00] Processing image: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmp6e22kh7h.png
+
+[2025-05-26T19:04:43.067155+00:00] Using processor: 894b9758c2215ed6
+
+[2025-05-26T19:04:43.136180+00:00] Sending request to DocAI...
+
+[2025-05-26T19:04:50.450577+00:00] DocAI response received
+{
+  "text_length": 440,
+  "num_pages": 1,
+  "num_entities": 13
+}
+
+[2025-05-26T19:04:50.450783+00:00] === EXTRACTING ENTITIES ===
+
+[2025-05-26T19:04:50.450865+00:00] Entity: address
+{
+  "value": "Sierra Sunset 201",
+  "confidence": 0.9891315698623657
+}
+
+[2025-05-26T19:04:50.451141+00:00] Entity: cell
+{
+  "value": "325-428-7554",
+  "confidence": 0.9999904036521912
+}
+
+[2025-05-26T19:04:50.451295+00:00] Entity: city_state
+{
+  "value": "Abilene, TX",
+  "confidence": 0.9999907612800598
+}
+
+[2025-05-26T19:04:50.451464+00:00] Entity: date_of_birth
+{
+  "value": "1/23/2011",
+  "confidence": 0.999994695186615
+}
+
+[2025-05-26T19:04:50.451696+00:00] Entity: email
+{
+  "value": "Munozlil29@wylie bulldogs.or",
+  "confidence": 0.9993624091148376
+}
+
+[2025-05-26T19:04:50.451869+00:00] Entity: entry_term
+{
+  "value": "Fall 2029",
+  "confidence": 0.9999901652336121
+}
+
+[2025-05-26T19:04:50.452025+00:00] Entity: high_school
+{
+  "value": "Wyzwe west Junior High",
+  "confidence": 0.9999240040779114
+}
+
+[2025-05-26T19:04:50.452173+00:00] Entity: major
+{
+  "value": "Phsyology",
+  "confidence": 0.9999951720237732
+}
+
+[2025-05-26T19:04:50.452322+00:00] Entity: name
+{
+  "value": "Lilly Mu\u00f1or",
+  "confidence": 0.9999954104423523
+}
+
+[2025-05-26T19:04:50.452466+00:00] Entity: permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.999994695186615
+}
+
+[2025-05-26T19:04:50.452612+00:00] Entity: preferred_first_name
+{
+  "value": "Lilly",
+  "confidence": 0.9999951720237732
+}
+
+[2025-05-26T19:04:50.452758+00:00] Entity: student_type
+{
+  "value": "Freshman",
+  "confidence": 0.9995484352111816
+}
+
+[2025-05-26T19:04:50.452902+00:00] Entity: zip_code
+{
+  "value": "79606",
+  "confidence": 0.9999966621398926
+}
+
+[2025-05-26T19:04:50.453029+00:00] Extracted fields
+[
+  "address",
+  "cell",
+  "city_state",
+  "date_of_birth",
+  "email",
+  "entry_term",
+  "high_school",
+  "major",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T19:04:50.453076+00:00] Bounding box coordinates
+{
+  "min_x": 258.9999921619892,
+  "max_x": 1288.000014424324,
+  "min_y": 240.99999144673347,
+  "max_y": 1824.0000307559967
+}
+
+[2025-05-26T19:04:50.461519+00:00] Crop coordinates
+{
+  "left": 1,
+  "top": 0,
+  "right": 1545,
+  "bottom": 2219
+}
+
+[2025-05-26T19:04:50.762471+00:00] Image cropped and saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmp6e22kh7h_trimmed.png
+
+[2025-05-26T19:04:50.763164+00:00] === DOCAI PROCESSING COMPLETE ===
+
+[2025-05-26T19:04:50.763214+00:00] Cropped image saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmp6e22kh7h_trimmed.png
+
+[2025-05-26T19:09:38.458885+00:00] === DOCAI PROCESSING START ===
+
+[2025-05-26T19:09:38.459291+00:00] Processing image: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmp0nbp_2ij.png
+
+[2025-05-26T19:09:38.459356+00:00] Using processor: 894b9758c2215ed6
+
+[2025-05-26T19:09:38.545669+00:00] Sending request to DocAI...
+
+[2025-05-26T19:09:46.761528+00:00] DocAI response received
+{
+  "text_length": 452,
+  "num_pages": 1,
+  "num_entities": 13
+}
+
+[2025-05-26T19:09:46.761823+00:00] === EXTRACTING ENTITIES ===
+
+[2025-05-26T19:09:46.762396+00:00] Entity: address
+{
+  "value": "36 Pebble Beach street",
+  "confidence": 0.9999886751174927
+}
+
+[2025-05-26T19:09:46.762731+00:00] Entity: cell
+{
+  "value": "(325)439-8946",
+  "confidence": 0.999984860420227
+}
+
+[2025-05-26T19:09:46.762952+00:00] Entity: city_state
+{
+  "value": "Abilene",
+  "confidence": 0.9999935030937195
+}
+
+[2025-05-26T19:09:46.763165+00:00] Entity: date_of_birth
+{
+  "value": "08/24/2011",
+  "confidence": 0.9999938011169434
+}
+
+[2025-05-26T19:09:46.763527+00:00] Entity: email
+{
+  "value": "aaliyahcarson2@Gmail.com",
+  "confidence": 0.9999856352806091
+}
+
+[2025-05-26T19:09:46.763732+00:00] Entity: entry_term
+{
+  "value": "fall 2029",
+  "confidence": 0.9998798966407776
+}
+
+[2025-05-26T19:09:46.763934+00:00] Entity: high_school
+{
+  "value": "Wylie High School",
+  "confidence": 0.999998927116394
+}
+
+[2025-05-26T19:09:46.764141+00:00] Entity: major
+{
+  "value": "Teacher Degree",
+  "confidence": 0.9999959468841553
+}
+
+[2025-05-26T19:09:46.764339+00:00] Entity: name
+{
+  "value": "Aaliyah amari Ncabe-Davis",
+  "confidence": 0.999983549118042
+}
+
+[2025-05-26T19:09:46.764536+00:00] Entity: permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.9942540526390076
+}
+
+[2025-05-26T19:09:46.764730+00:00] Entity: preferred_first_name
+{
+  "value": "Liyah",
+  "confidence": 0.9999949336051941
+}
+
+[2025-05-26T19:09:46.764923+00:00] Entity: student_type
+{
+  "value": "Freshman",
+  "confidence": 0.9998429417610168
+}
+
+[2025-05-26T19:09:46.765116+00:00] Entity: zip_code
+{
+  "value": "79606",
+  "confidence": 0.9999966621398926
+}
+
+[2025-05-26T19:09:46.765289+00:00] Extracted fields
+[
+  "address",
+  "cell",
+  "city_state",
+  "date_of_birth",
+  "email",
+  "entry_term",
+  "high_school",
+  "major",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T19:09:46.765356+00:00] Bounding box coordinates
+{
+  "min_x": 240.00000469386578,
+  "max_x": 1277.0000606775284,
+  "min_y": 232.00000002980232,
+  "max_y": 1831.0000240802765
+}
+
+[2025-05-26T19:09:46.765786+00:00] Crop coordinates
+{
+  "left": 0,
+  "top": 0,
+  "right": 1536,
+  "bottom": 2230
+}
+
+[2025-05-26T19:09:47.063424+00:00] Image cropped and saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmp0nbp_2ij_trimmed.png
+
+[2025-05-26T19:09:47.064053+00:00] === DOCAI PROCESSING COMPLETE ===
+
+[2025-05-26T19:09:47.064104+00:00] Cropped image saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmp0nbp_2ij_trimmed.png
+
+[2025-05-26T19:11:09.435814+00:00] === DOCAI PROCESSING START ===
+
+[2025-05-26T19:11:09.436215+00:00] Processing image: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpl9jgut78.png
+
+[2025-05-26T19:11:09.436269+00:00] Using processor: 894b9758c2215ed6
+
+[2025-05-26T19:11:09.508902+00:00] Sending request to DocAI...
+
+[2025-05-26T19:11:16.754111+00:00] DocAI response received
+{
+  "text_length": 424,
+  "num_pages": 1,
+  "num_entities": 12
+}
+
+[2025-05-26T19:11:16.754686+00:00] === EXTRACTING ENTITIES ===
+
+[2025-05-26T19:11:16.755497+00:00] Entity: address
+{
+  "value": "5210 Catclaw Drive",
+  "confidence": 0.9999942779541016
+}
+
+[2025-05-26T19:11:16.755868+00:00] Entity: cell
+{
+  "value": "325-725-0776",
+  "confidence": 0.9999918341636658
+}
+
+[2025-05-26T19:11:16.756145+00:00] Entity: city_state
+{
+  "value": "Abilene/Texas 79606",
+  "confidence": 0.7553626894950867
+}
+
+[2025-05-26T19:11:16.756430+00:00] Entity: date_of_birth
+{
+  "value": "3/2/25",
+  "confidence": 0.9999904632568359
+}
+
+[2025-05-26T19:11:16.756986+00:00] Entity: email
+{
+  "value": "Patel jan 29@wylie bulldoggs.org",
+  "confidence": 0.9998850226402283
+}
+
+[2025-05-26T19:11:16.757290+00:00] Entity: high_school
+{
+  "value": "Wylie High School",
+  "confidence": 0.9999973773956299
+}
+
+[2025-05-26T19:11:16.757561+00:00] Entity: major
+{
+  "value": "Unsue",
+  "confidence": 0.9999228119850159
+}
+
+[2025-05-26T19:11:16.757826+00:00] Entity: name
+{
+  "value": "Janvi Patel",
+  "confidence": 0.9999996423721313
+}
+
+[2025-05-26T19:11:16.758083+00:00] Entity: permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.9999908208847046
+}
+
+[2025-05-26T19:11:16.758341+00:00] Entity: preferred_first_name
+{
+  "value": "Janvi",
+  "confidence": 1.0
+}
+
+[2025-05-26T19:11:16.758596+00:00] Entity: student_type
+{
+  "value": "Freshman",
+  "confidence": 0.9947702884674072
+}
+
+[2025-05-26T19:11:16.758854+00:00] Entity: zip_code
+{
+  "value": "79606",
+  "confidence": 0.999089241027832
+}
+
+[2025-05-26T19:11:16.759081+00:00] Extracted fields
+[
+  "address",
+  "cell",
+  "city_state",
+  "date_of_birth",
+  "email",
+  "high_school",
+  "major",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T19:11:16.759165+00:00] Bounding box coordinates
+{
+  "min_x": 235.99999733269215,
+  "max_x": 1216.999988257885,
+  "min_y": 251.00000649690628,
+  "max_y": 1837.0000183582306
+}
+
+[2025-05-26T19:11:16.759574+00:00] Crop coordinates
+{
+  "left": 0,
+  "top": 0,
+  "right": 1462,
+  "bottom": 2233
+}
+
+[2025-05-26T19:11:17.057374+00:00] Image cropped and saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpl9jgut78_trimmed.png
+
+[2025-05-26T19:11:17.058096+00:00] === DOCAI PROCESSING COMPLETE ===
+
+[2025-05-26T19:11:17.058142+00:00] Cropped image saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpl9jgut78_trimmed.png
+
+[2025-05-26T19:52:42.356140+00:00] === DOCAI PROCESSING START ===
+
+[2025-05-26T19:52:42.360618+00:00] Processing image: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpsampknrg.png
+
+[2025-05-26T19:52:42.361426+00:00] Using processor: 894b9758c2215ed6
+
+[2025-05-26T19:52:42.589919+00:00] Sending request to DocAI...
+
+[2025-05-26T19:52:50.031052+00:00] DocAI response received
+{
+  "text_length": 452,
+  "num_pages": 1,
+  "num_entities": 13
+}
+
+[2025-05-26T19:52:50.031271+00:00] === EXTRACTING ENTITIES ===
+
+[2025-05-26T19:52:50.031728+00:00] Entity: address
+{
+  "value": "36 Pebble Beach street",
+  "confidence": 0.9999971389770508
+}
+
+[2025-05-26T19:52:50.031962+00:00] Entity: cell
+{
+  "value": "(325)439-8946",
+  "confidence": 0.9999839067459106
+}
+
+[2025-05-26T19:52:50.032157+00:00] Entity: city_state
+{
+  "value": "Abilene",
+  "confidence": 0.9999977350234985
+}
+
+[2025-05-26T19:52:50.032330+00:00] Entity: date_of_birth
+{
+  "value": "08/24/2011",
+  "confidence": 0.9999949336051941
+}
+
+[2025-05-26T19:52:50.032493+00:00] Entity: email
+{
+  "value": "aaliyahcarson2@Gmail.com",
+  "confidence": 0.9999958276748657
+}
+
+[2025-05-26T19:52:50.032650+00:00] Entity: entry_term
+{
+  "value": "fall 2029",
+  "confidence": 0.9997683167457581
+}
+
+[2025-05-26T19:52:50.032809+00:00] Entity: high_school
+{
+  "value": "Wylie High School",
+  "confidence": 0.9999999403953552
+}
+
+[2025-05-26T19:52:50.032961+00:00] Entity: major
+{
+  "value": "Teacher Degree",
+  "confidence": 0.9999879598617554
+}
+
+[2025-05-26T19:52:50.033167+00:00] Entity: name
+{
+  "value": "Aaliyah amari Ncabe-Davis",
+  "confidence": 0.9999946355819702
+}
+
+[2025-05-26T19:52:50.033401+00:00] Entity: permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.9919897317886353
+}
+
+[2025-05-26T19:52:50.033566+00:00] Entity: preferred_first_name
+{
+  "value": "Liyah",
+  "confidence": 0.9999938011169434
+}
+
+[2025-05-26T19:52:50.033718+00:00] Entity: student_type
+{
+  "value": "Freshman",
+  "confidence": 0.9998864531517029
+}
+
+[2025-05-26T19:52:50.033877+00:00] Entity: zip_code
+{
+  "value": "79606",
+  "confidence": 0.9999948740005493
+}
+
+[2025-05-26T19:52:50.034012+00:00] Extracted fields
+[
+  "address",
+  "cell",
+  "city_state",
+  "date_of_birth",
+  "email",
+  "entry_term",
+  "high_school",
+  "major",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T19:52:50.035000+00:00] Bounding box coordinates
+{
+  "min_x": 240.00000469386578,
+  "max_x": 1277.0000606775284,
+  "min_y": 232.00000002980232,
+  "max_y": 1831.0000240802765
+}
+
+[2025-05-26T19:52:50.043702+00:00] Crop coordinates
+{
+  "left": 0,
+  "top": 0,
+  "right": 1536,
+  "bottom": 2230
+}
+
+[2025-05-26T19:52:50.346736+00:00] Image cropped and saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpsampknrg_trimmed.png
+
+[2025-05-26T19:52:50.347423+00:00] === DOCAI PROCESSING COMPLETE ===
+
+[2025-05-26T19:52:50.347465+00:00] Cropped image saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpsampknrg_trimmed.png

@@ -904,3 +904,125 @@
 [2025-05-26T18:46:39.613290+00:00] Enhancing zip: '75115' -> '75115-3202'
 
 [2025-05-26T18:46:39.613755+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T19:05:10.962402+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T19:05:10.962684+00:00] Current address components
+{
+  "address": "Sierra Sunset 2091",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": "79606"
+}
+
+[2025-05-26T19:05:10.962777+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T19:05:11.167076+00:00] Google Maps validation successful
+{
+  "street_address": "Sierra Sunset",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Sierra Sunset, Abilene, TX 79606, USA",
+  "location_type": "GEOMETRIC_CENTER",
+  "partial_match": true,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T19:05:11.167288+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T19:10:06.498951+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T19:10:06.499190+00:00] Current address components
+{
+  "address": "36 Pebble Beach Street",
+  "city": "",
+  "state": "",
+  "zip_code": "79606"
+}
+
+[2025-05-26T19:10:06.499274+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T19:10:06.748700+00:00] Google Maps validation successful
+{
+  "street_address": "36 Pebble Beach Street",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606-5039",
+  "formatted": "36 Pebble Beach St, Abilene, TX 79606, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T19:10:06.748957+00:00] Enhancing city: '' -> 'Abilene'
+
+[2025-05-26T19:10:06.749445+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T19:10:06.749537+00:00] Enhancing zip: '79606' -> '79606-5039'
+
+[2025-05-26T19:10:06.749625+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T19:11:35.271166+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T19:11:35.271338+00:00] Current address components
+{
+  "address": "5210 Catclaw Drive",
+  "city": "",
+  "state": "",
+  "zip_code": "79606"
+}
+
+[2025-05-26T19:11:35.271394+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T19:11:35.442155+00:00] Google Maps validation successful
+{
+  "street_address": "5210 Catclaw Drive",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606-4181",
+  "formatted": "5210 Catclaw Dr, Abilene, TX 79606, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T19:11:35.442496+00:00] Enhancing city: '' -> 'Abilene'
+
+[2025-05-26T19:11:35.442945+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T19:11:35.443048+00:00] Enhancing zip: '79606' -> '79606-4181'
+
+[2025-05-26T19:11:35.443121+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T19:53:09.791503+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T19:53:09.791704+00:00] Current address components
+{
+  "address": "36 Pebble Beach Street",
+  "city": "",
+  "state": "",
+  "zip_code": "79606"
+}
+
+[2025-05-26T19:53:09.791779+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T19:53:10.001053+00:00] Google Maps validation successful
+{
+  "street_address": "36 Pebble Beach Street",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606-5039",
+  "formatted": "36 Pebble Beach St, Abilene, TX 79606, USA",
+  "location_type": "ROOFTOP",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T19:53:10.002209+00:00] Enhancing city: '' -> 'Abilene'
+
+[2025-05-26T19:53:10.002278+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T19:53:10.002344+00:00] Enhancing zip: '79606' -> '79606-5039'
+
+[2025-05-26T19:53:10.002400+00:00] === ADDRESS VALIDATION COMPLETE ===

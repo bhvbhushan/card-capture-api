@@ -21141,3 +21141,2968 @@
 }
 
 [2025-05-26T18:46:39.478241+00:00] === GEMINI PROCESSING V2 COMPLETE ===
+
+[2025-05-26T19:04:51.181280+00:00] === GEMINI PROCESSING V2 START ===
+
+[2025-05-26T19:04:51.181521+00:00] Image path: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmp6e22kh7h_trimmed.png
+
+[2025-05-26T19:04:51.181564+00:00] Input DocAI fields
+{
+  "address": {
+    "value": "Sierra Sunset 201",
+    "required": true,
+    "enabled": true
+  },
+  "cell": {
+    "value": "325-428-7554",
+    "required": true,
+    "enabled": true
+  },
+  "city_state": {
+    "value": "Abilene, TX",
+    "required": false,
+    "enabled": true
+  },
+  "date_of_birth": {
+    "value": "1/23/2011",
+    "required": false,
+    "enabled": true
+  },
+  "email": {
+    "value": "Munozlil29@wylie bulldogs.or",
+    "required": true,
+    "enabled": true
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "required": false,
+    "enabled": true
+  },
+  "high_school": {
+    "value": "Wyzwe west Junior High",
+    "required": false,
+    "enabled": true
+  },
+  "major": {
+    "value": "Phsyology",
+    "required": false,
+    "enabled": false
+  },
+  "name": {
+    "value": "Lilly Mu\u00f1or",
+    "required": true,
+    "enabled": true
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "required": false,
+    "enabled": true
+  },
+  "preferred_first_name": {
+    "value": "Lilly",
+    "required": false,
+    "enabled": true
+  },
+  "student_type": {
+    "value": "Freshman",
+    "required": false,
+    "enabled": true
+  },
+  "zip_code": {
+    "value": "79606",
+    "required": true,
+    "enabled": true
+  },
+  "city": {
+    "value": "",
+    "required": true,
+    "enabled": true
+  },
+  "state": {
+    "value": "",
+    "required": true,
+    "enabled": true
+  }
+}
+
+[2025-05-26T19:04:51.181691+00:00] Gemini input prepared
+{
+  "address": {
+    "value": "Sierra Sunset 201",
+    "confidence": 0.9891315698623657,
+    "required": true,
+    "enabled": true
+  },
+  "cell": {
+    "value": "325-428-7554",
+    "confidence": 0.9999904036521912,
+    "required": true,
+    "enabled": true
+  },
+  "city_state": {
+    "value": "Abilene, TX",
+    "confidence": 0.9999907612800598,
+    "required": false,
+    "enabled": true
+  },
+  "date_of_birth": {
+    "value": "1/23/2011",
+    "confidence": 0.999994695186615,
+    "required": false,
+    "enabled": true
+  },
+  "email": {
+    "value": "Munozlil29@wylie bulldogs.or",
+    "confidence": 0.9993624091148376,
+    "required": true,
+    "enabled": true
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "confidence": 0.9999901652336121,
+    "required": false,
+    "enabled": true
+  },
+  "high_school": {
+    "value": "Wyzwe west Junior High",
+    "confidence": 0.9999240040779114,
+    "required": false,
+    "enabled": true
+  },
+  "name": {
+    "value": "Lilly Mu\u00f1or",
+    "confidence": 0.9999954104423523,
+    "required": true,
+    "enabled": true
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "confidence": 0.999994695186615,
+    "required": false,
+    "enabled": true
+  },
+  "preferred_first_name": {
+    "value": "Lilly",
+    "confidence": 0.9999951720237732,
+    "required": false,
+    "enabled": true
+  },
+  "student_type": {
+    "value": "Freshman",
+    "confidence": 0.9995484352111816,
+    "required": false,
+    "enabled": true
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence": 0.9999966621398926,
+    "required": true,
+    "enabled": true
+  },
+  "city": {
+    "value": "",
+    "confidence": 0.0,
+    "required": true,
+    "enabled": true
+  },
+  "state": {
+    "value": "",
+    "confidence": 0.0,
+    "required": true,
+    "enabled": true
+  }
+}
+
+[2025-05-26T19:04:51.182132+00:00] Uploading image to Gemini...
+
+[2025-05-26T19:04:54.264769+00:00] Sending request to Gemini...
+
+[2025-05-26T19:05:10.958709+00:00] Raw Gemini response
+```json
+{
+  "address": {
+    "value": "Sierra Sunset 2091",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "Sierra Sunset 201",
+    "text_clarity": "mostly_clear",
+    "certainty": "mostly_certain",
+    "notes": "Corrected house number based on visual inspection - looked like '201' but is '2091'."
+  },
+  "cell": {
+    "value": "325-428-7554",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "325-428-7554",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "city_state": {
+    "value": "Abilene, TX",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Abilene, TX",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "date_of_birth": {
+    "value": "01/23/2011",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "1/23/2011",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added leading zero to month for consistent formatting."
+  },
+  "email": {
+    "value": "Munozlil29@wyliebulldogs.org",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "Munozlil29@wylie bulldogs.or",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Fixed typo in email address, added missing 'g' to '.org' and removed the extra space between 'wylie' and 'bulldogs'"
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Fall 2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "high_school": {
+    "value": "Wylie West Junior High",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "Wyzwe west Junior High",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Corrected 'Wyzwe' to 'Wylie'."
+  },
+  "name": {
+    "value": "Lilly Muñor",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Lilly Mu\u00f1or",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "preferred_first_name": {
+    "value": "Lilly",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Lilly",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Freshman bubble is clearly selected"
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "city": {
+    "value": "Abilene",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Extracted city from 'city_state' field."
+  },
+  "state": {
+    "value": "TX",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Extracted state from 'city_state' field."
+  }
+}
+```
+
+[2025-05-26T19:05:10.959071+00:00] === PARSING GEMINI QUALITY RESPONSE ===
+
+[2025-05-26T19:05:10.959513+00:00] Cleaned response text
+{
+  "address": {
+    "value": "Sierra Sunset 2091",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "Sierra Sunset 201",
+    "text_clarity": "mostly_clear",
+    "certainty": "mostly_certain",
+    "notes": "Corrected house number based on visual inspection - looked like '201' but is '2091'."
+  },
+  "cell": {
+    "value": "325-428-7554",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "325-428-7554",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "city_state": {
+    "value": "Abilene, TX",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Abilene, TX",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "date_of_birth": {
+    "value": "01/23/2011",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "1/23/2011",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added leading zero to month for consistent formatting."
+  },
+  "email": {
+    "value": "Munozlil29@wyliebulldogs.org",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "Munozlil29@wylie bulldogs.or",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Fixed typo in email address, added missing 'g' to '.org' and removed the extra space between 'wylie' and 'bulldogs'"
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Fall 2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "high_school": {
+    "value": "Wylie West Junior High",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "Wyzwe west Junior High",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Corrected 'Wyzwe' to 'Wylie'."
+  },
+  "name": {
+    "value": "Lilly Muñor",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Lilly Mu\u00f1or",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "preferred_first_name": {
+    "value": "Lilly",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Lilly",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Freshman bubble is clearly selected"
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "city": {
+    "value": "Abilene",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Extracted city from 'city_state' field."
+  },
+  "state": {
+    "value": "TX",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Extracted state from 'city_state' field."
+  }
+}
+
+[2025-05-26T19:05:10.959678+00:00] Parsed Gemini data
+{
+  "address": {
+    "value": "Sierra Sunset 2091",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "Sierra Sunset 201",
+    "text_clarity": "mostly_clear",
+    "certainty": "mostly_certain",
+    "notes": "Corrected house number based on visual inspection - looked like '201' but is '2091'."
+  },
+  "cell": {
+    "value": "325-428-7554",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "325-428-7554",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "city_state": {
+    "value": "Abilene, TX",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Abilene, TX",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "date_of_birth": {
+    "value": "01/23/2011",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "1/23/2011",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added leading zero to month for consistent formatting."
+  },
+  "email": {
+    "value": "Munozlil29@wyliebulldogs.org",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "Munozlil29@wylie bulldogs.or",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Fixed typo in email address, added missing 'g' to '.org' and removed the extra space between 'wylie' and 'bulldogs'"
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Fall 2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "high_school": {
+    "value": "Wylie West Junior High",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "Wyzwe west Junior High",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Corrected 'Wyzwe' to 'Wylie'."
+  },
+  "name": {
+    "value": "Lilly Mu\u00f1or",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Lilly Mu\u00f1or",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "preferred_first_name": {
+    "value": "Lilly",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Lilly",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Freshman bubble is clearly selected"
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "city": {
+    "value": "Abilene",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Extracted city from 'city_state' field."
+  },
+  "state": {
+    "value": "TX",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Extracted state from 'city_state' field."
+  }
+}
+
+[2025-05-26T19:05:10.959909+00:00] Enhanced field address
+{
+  "value": "Sierra Sunset 2091",
+  "confidence": 0.72675,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:05:10.960008+00:00] Enhanced field cell
+{
+  "value": "325-428-7554",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:05:10.960092+00:00] Enhanced field city_state
+{
+  "value": "Abilene, TX",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:05:10.960176+00:00] Enhanced field date_of_birth
+{
+  "value": "01/23/2011",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:05:10.960266+00:00] Enhanced field email
+{
+  "value": "Munozlil29@wyliebulldogs.org",
+  "confidence": 0.85,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:05:10.960427+00:00] Enhanced field entry_term
+{
+  "value": "Fall 2029",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:05:10.960503+00:00] Enhanced field high_school
+{
+  "value": "Wylie West Junior High",
+  "confidence": 0.8075,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:05:10.960576+00:00] Enhanced field name
+{
+  "value": "Lilly Mu\u00f1or",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:05:10.960647+00:00] Enhanced field permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:05:10.960717+00:00] Enhanced field preferred_first_name
+{
+  "value": "Lilly",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:05:10.960798+00:00] Enhanced field student_type
+{
+  "value": "Freshman",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:05:10.960869+00:00] Enhanced field zip_code
+{
+  "value": "79606",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:05:10.960946+00:00] Enhanced field city
+{
+  "value": "Abilene",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:05:10.961019+00:00] Enhanced field state
+{
+  "value": "TX",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:05:10.961092+00:00] Enhanced fields created
+{
+  "address": {
+    "value": "Sierra Sunset 2091",
+    "confidence_score": 0.72675,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "cell": {
+    "value": "325-428-7554",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "city_state": {
+    "value": "Abilene, TX",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "date_of_birth": {
+    "value": "01/23/2011",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "email": {
+    "value": "Munozlil29@wyliebulldogs.org",
+    "confidence_score": 0.85,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "high_school": {
+    "value": "Wylie West Junior High",
+    "confidence_score": 0.8075,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "name": {
+    "value": "Lilly Mu\u00f1or",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "preferred_first_name": {
+    "value": "Lilly",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "city": {
+    "value": "Abilene",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": "Required field not detected by DocAI"
+  },
+  "state": {
+    "value": "TX",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": "Required field not detected by DocAI"
+  }
+}
+
+[2025-05-26T19:05:10.961239+00:00] === GEMINI PROCESSING V2 COMPLETE ===
+
+[2025-05-26T19:09:47.339388+00:00] === GEMINI PROCESSING V2 START ===
+
+[2025-05-26T19:09:47.339661+00:00] Image path: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmp0nbp_2ij_trimmed.png
+
+[2025-05-26T19:09:47.339717+00:00] Input DocAI fields
+{
+  "address": {
+    "value": "36 Pebble Beach street",
+    "required": false,
+    "enabled": true
+  },
+  "cell": {
+    "value": "(325)439-8946",
+    "required": false,
+    "enabled": true
+  },
+  "city_state": {
+    "value": "Abilene",
+    "required": false,
+    "enabled": true
+  },
+  "date_of_birth": {
+    "value": "08/24/2011",
+    "required": true,
+    "enabled": true
+  },
+  "email": {
+    "value": "aaliyahcarson2@Gmail.com",
+    "required": false,
+    "enabled": true
+  },
+  "entry_term": {
+    "value": "fall 2029",
+    "required": false,
+    "enabled": true
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "required": false,
+    "enabled": true
+  },
+  "major": {
+    "value": "Teacher Degree",
+    "required": true,
+    "enabled": true
+  },
+  "name": {
+    "value": "Aaliyah amari Ncabe-Davis",
+    "required": false,
+    "enabled": true
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "required": false,
+    "enabled": true
+  },
+  "preferred_first_name": {
+    "value": "Liyah",
+    "required": true,
+    "enabled": true
+  },
+  "student_type": {
+    "value": "Freshman",
+    "required": false,
+    "enabled": true
+  },
+  "zip_code": {
+    "value": "79606",
+    "required": false,
+    "enabled": true
+  },
+  "gpa": {
+    "value": "",
+    "required": true,
+    "enabled": true
+  }
+}
+
+[2025-05-26T19:09:47.340482+00:00] Gemini input prepared
+{
+  "address": {
+    "value": "36 Pebble Beach street",
+    "confidence": 0.9999886751174927,
+    "required": false,
+    "enabled": true
+  },
+  "cell": {
+    "value": "(325)439-8946",
+    "confidence": 0.999984860420227,
+    "required": false,
+    "enabled": true
+  },
+  "city_state": {
+    "value": "Abilene",
+    "confidence": 0.9999935030937195,
+    "required": false,
+    "enabled": true
+  },
+  "date_of_birth": {
+    "value": "08/24/2011",
+    "confidence": 0.9999938011169434,
+    "required": true,
+    "enabled": true
+  },
+  "email": {
+    "value": "aaliyahcarson2@Gmail.com",
+    "confidence": 0.9999856352806091,
+    "required": false,
+    "enabled": true
+  },
+  "entry_term": {
+    "value": "fall 2029",
+    "confidence": 0.9998798966407776,
+    "required": false,
+    "enabled": true
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "confidence": 0.999998927116394,
+    "required": false,
+    "enabled": true
+  },
+  "major": {
+    "value": "Teacher Degree",
+    "confidence": 0.9999959468841553,
+    "required": true,
+    "enabled": true
+  },
+  "name": {
+    "value": "Aaliyah amari Ncabe-Davis",
+    "confidence": 0.999983549118042,
+    "required": false,
+    "enabled": true
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "confidence": 0.9942540526390076,
+    "required": false,
+    "enabled": true
+  },
+  "preferred_first_name": {
+    "value": "Liyah",
+    "confidence": 0.9999949336051941,
+    "required": true,
+    "enabled": true
+  },
+  "student_type": {
+    "value": "Freshman",
+    "confidence": 0.9998429417610168,
+    "required": false,
+    "enabled": true
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence": 0.9999966621398926,
+    "required": false,
+    "enabled": true
+  },
+  "gpa": {
+    "value": "",
+    "confidence": 0.0,
+    "required": true,
+    "enabled": true
+  }
+}
+
+[2025-05-26T19:09:47.341171+00:00] Uploading image to Gemini...
+
+[2025-05-26T19:09:50.571613+00:00] Sending request to Gemini...
+
+[2025-05-26T19:10:06.492406+00:00] Raw Gemini response
+```json
+{
+  "address": {
+    "value": "36 Pebble Beach Street",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "36 Pebble Beach street",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'street' in address for consistency."
+  },
+  "cell": {
+    "value": "(325) 439-8946",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "(325)439-8946",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added space after area code in phone number for standard formatting."
+  },
+  "city_state": {
+    "value": "Abilene, TX",
+    "edit_made": true,
+    "edit_type": "missing_data",
+    "original_value": "Abilene",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Inferred state as TX based on zip code and high school location."
+  },
+  "date_of_birth": {
+    "value": "08/24/2011",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "08/24/2011",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "email": {
+    "value": "aaliyahcarson2@gmail.com",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "aaliyahcarson2@Gmail.com",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected email domain capitalization to gmail.com."
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "fall 2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'Fall' for term."
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Wylie High School",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "major": {
+    "value": "Teacher Degree",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Teacher Degree",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "name": {
+    "value": "Liyah amari Ncabe-Davis",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "Aaliyah amari Ncabe-Davis",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected first name to match preferred first name provided."
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "preferred_first_name": {
+    "value": "Liyah",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Liyah",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Freshman checkbox is clearly marked."
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "gpa": {
+    "value": "",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  }
+}
+```
+
+[2025-05-26T19:10:06.494257+00:00] === PARSING GEMINI QUALITY RESPONSE ===
+
+[2025-05-26T19:10:06.494356+00:00] Cleaned response text
+{
+  "address": {
+    "value": "36 Pebble Beach Street",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "36 Pebble Beach street",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'street' in address for consistency."
+  },
+  "cell": {
+    "value": "(325) 439-8946",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "(325)439-8946",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added space after area code in phone number for standard formatting."
+  },
+  "city_state": {
+    "value": "Abilene, TX",
+    "edit_made": true,
+    "edit_type": "missing_data",
+    "original_value": "Abilene",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Inferred state as TX based on zip code and high school location."
+  },
+  "date_of_birth": {
+    "value": "08/24/2011",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "08/24/2011",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "email": {
+    "value": "aaliyahcarson2@gmail.com",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "aaliyahcarson2@Gmail.com",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected email domain capitalization to gmail.com."
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "fall 2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'Fall' for term."
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Wylie High School",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "major": {
+    "value": "Teacher Degree",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Teacher Degree",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "name": {
+    "value": "Liyah amari Ncabe-Davis",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "Aaliyah amari Ncabe-Davis",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected first name to match preferred first name provided."
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "preferred_first_name": {
+    "value": "Liyah",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Liyah",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Freshman checkbox is clearly marked."
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "gpa": {
+    "value": "",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  }
+}
+
+[2025-05-26T19:10:06.494504+00:00] Parsed Gemini data
+{
+  "address": {
+    "value": "36 Pebble Beach Street",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "36 Pebble Beach street",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'street' in address for consistency."
+  },
+  "cell": {
+    "value": "(325) 439-8946",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "(325)439-8946",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added space after area code in phone number for standard formatting."
+  },
+  "city_state": {
+    "value": "Abilene, TX",
+    "edit_made": true,
+    "edit_type": "missing_data",
+    "original_value": "Abilene",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Inferred state as TX based on zip code and high school location."
+  },
+  "date_of_birth": {
+    "value": "08/24/2011",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "08/24/2011",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "email": {
+    "value": "aaliyahcarson2@gmail.com",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "aaliyahcarson2@Gmail.com",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected email domain capitalization to gmail.com."
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "fall 2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'Fall' for term."
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Wylie High School",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "major": {
+    "value": "Teacher Degree",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Teacher Degree",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "name": {
+    "value": "Liyah amari Ncabe-Davis",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "Aaliyah amari Ncabe-Davis",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected first name to match preferred first name provided."
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "preferred_first_name": {
+    "value": "Liyah",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Liyah",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Freshman checkbox is clearly marked."
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "gpa": {
+    "value": "",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  }
+}
+
+[2025-05-26T19:10:06.494791+00:00] Enhanced field address
+{
+  "value": "36 Pebble Beach Street",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:10:06.494902+00:00] Enhanced field cell
+{
+  "value": "(325) 439-8946",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:10:06.494997+00:00] Enhanced field city_state
+{
+  "value": "Abilene, TX",
+  "confidence": 0.7124999999999999,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:10:06.495086+00:00] Enhanced field date_of_birth
+{
+  "value": "08/24/2011",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:10:06.495175+00:00] Enhanced field email
+{
+  "value": "aaliyahcarson2@gmail.com",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:10:06.495500+00:00] Enhanced field entry_term
+{
+  "value": "Fall 2029",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:10:06.495657+00:00] Enhanced field high_school
+{
+  "value": "Wylie High School",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:10:06.495764+00:00] Enhanced field major
+{
+  "value": "Teacher Degree",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:10:06.495864+00:00] Enhanced field name
+{
+  "value": "Liyah amari Ncabe-Davis",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:10:06.495951+00:00] Enhanced field permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:10:06.496037+00:00] Enhanced field preferred_first_name
+{
+  "value": "Liyah",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:10:06.496126+00:00] Enhanced field student_type
+{
+  "value": "Freshman",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:10:06.496208+00:00] Enhanced field zip_code
+{
+  "value": "79606",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:10:06.496291+00:00] Enhanced field gpa
+{
+  "value": "",
+  "confidence": 0.1,
+  "needs_review": true,
+  "review_notes": "This required field appears to be empty"
+}
+
+[2025-05-26T19:10:06.496414+00:00] Enhanced fields created
+{
+  "address": {
+    "value": "36 Pebble Beach Street",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "cell": {
+    "value": "(325) 439-8946",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "city_state": {
+    "value": "Abilene, TX",
+    "confidence_score": 0.7124999999999999,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "date_of_birth": {
+    "value": "08/24/2011",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "email": {
+    "value": "aaliyahcarson2@gmail.com",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "major": {
+    "value": "Teacher Degree",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "name": {
+    "value": "Liyah amari Ncabe-Davis",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "preferred_first_name": {
+    "value": "Liyah",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "gpa": {
+    "value": "",
+    "confidence_score": 0.1,
+    "requires_review": true,
+    "review_notes": "This required field appears to be empty"
+  }
+}
+
+[2025-05-26T19:10:06.496582+00:00] === GEMINI PROCESSING V2 COMPLETE ===
+
+[2025-05-26T19:11:17.275761+00:00] === GEMINI PROCESSING V2 START ===
+
+[2025-05-26T19:11:17.275998+00:00] Image path: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpl9jgut78_trimmed.png
+
+[2025-05-26T19:11:17.276052+00:00] Input DocAI fields
+{
+  "address": {
+    "value": "5210 Catclaw Drive",
+    "required": false,
+    "enabled": true
+  },
+  "cell": {
+    "value": "325-725-0776",
+    "required": false,
+    "enabled": true
+  },
+  "city_state": {
+    "value": "Abilene/Texas 79606",
+    "required": false,
+    "enabled": true
+  },
+  "date_of_birth": {
+    "value": "3/2/25",
+    "required": true,
+    "enabled": true
+  },
+  "email": {
+    "value": "Patel jan 29@wylie bulldoggs.org",
+    "required": false,
+    "enabled": true
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "required": false,
+    "enabled": true
+  },
+  "major": {
+    "value": "Unsue",
+    "required": true,
+    "enabled": true
+  },
+  "name": {
+    "value": "Janvi Patel",
+    "required": false,
+    "enabled": true
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "required": false,
+    "enabled": true
+  },
+  "preferred_first_name": {
+    "value": "Janvi",
+    "required": true,
+    "enabled": true
+  },
+  "student_type": {
+    "value": "Freshman",
+    "required": false,
+    "enabled": true
+  },
+  "zip_code": {
+    "value": "79606",
+    "required": false,
+    "enabled": true
+  },
+  "gpa": {
+    "value": "",
+    "required": true,
+    "enabled": true
+  }
+}
+
+[2025-05-26T19:11:17.276234+00:00] Gemini input prepared
+{
+  "address": {
+    "value": "5210 Catclaw Drive",
+    "confidence": 0.9999942779541016,
+    "required": false,
+    "enabled": true
+  },
+  "cell": {
+    "value": "325-725-0776",
+    "confidence": 0.9999918341636658,
+    "required": false,
+    "enabled": true
+  },
+  "city_state": {
+    "value": "Abilene/Texas 79606",
+    "confidence": 0.7553626894950867,
+    "required": false,
+    "enabled": true
+  },
+  "date_of_birth": {
+    "value": "3/2/25",
+    "confidence": 0.9999904632568359,
+    "required": true,
+    "enabled": true
+  },
+  "email": {
+    "value": "Patel jan 29@wylie bulldoggs.org",
+    "confidence": 0.9998850226402283,
+    "required": false,
+    "enabled": true
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "confidence": 0.9999973773956299,
+    "required": false,
+    "enabled": true
+  },
+  "major": {
+    "value": "Unsue",
+    "confidence": 0.9999228119850159,
+    "required": true,
+    "enabled": true
+  },
+  "name": {
+    "value": "Janvi Patel",
+    "confidence": 0.9999996423721313,
+    "required": false,
+    "enabled": true
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "confidence": 0.9999908208847046,
+    "required": false,
+    "enabled": true
+  },
+  "preferred_first_name": {
+    "value": "Janvi",
+    "confidence": 1.0,
+    "required": true,
+    "enabled": true
+  },
+  "student_type": {
+    "value": "Freshman",
+    "confidence": 0.9947702884674072,
+    "required": false,
+    "enabled": true
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence": 0.999089241027832,
+    "required": false,
+    "enabled": true
+  },
+  "gpa": {
+    "value": "",
+    "confidence": 0.0,
+    "required": true,
+    "enabled": true
+  }
+}
+
+[2025-05-26T19:11:17.276602+00:00] Uploading image to Gemini...
+
+[2025-05-26T19:11:20.342931+00:00] Sending request to Gemini...
+
+[2025-05-26T19:11:35.268996+00:00] Raw Gemini response
+```json
+{
+  "address": {
+    "value": "5210 Catclaw Drive",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "5210 Catclaw Drive",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "cell": {
+    "value": "325-725-0776",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "325-725-0776",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "city_state": {
+    "value": "Abilene, Texas",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "Abilene/Texas 79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Split city and state, removed zip code which belongs in a different field."
+  },
+  "date_of_birth": {
+    "value": "03/02/2025",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "3/2/25",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added missing zeros and assumed the birth year to be 2025 given the context (student application to university)."
+  },
+  "email": {
+    "value": "pateljan29@wyliebulldogs.org",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "Patel jan 29@wylie bulldoggs.org",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Fixed typo and removed the unnecessary space and capitalized the first letter of surname."
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Wylie High School",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "major": {
+    "value": "Unsure",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Unsue",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "name": {
+    "value": "Janvi Patel",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Janvi Patel",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Checkbox for 'Yes' is clearly marked."
+  },
+  "preferred_first_name": {
+    "value": "Janvi",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Janvi",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Freshman checkbox is clearly marked on the form."
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "gpa": {
+    "value": "",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  }
+}
+```
+
+[2025-05-26T19:11:35.269415+00:00] === PARSING GEMINI QUALITY RESPONSE ===
+
+[2025-05-26T19:11:35.269481+00:00] Cleaned response text
+{
+  "address": {
+    "value": "5210 Catclaw Drive",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "5210 Catclaw Drive",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "cell": {
+    "value": "325-725-0776",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "325-725-0776",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "city_state": {
+    "value": "Abilene, Texas",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "Abilene/Texas 79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Split city and state, removed zip code which belongs in a different field."
+  },
+  "date_of_birth": {
+    "value": "03/02/2025",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "3/2/25",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added missing zeros and assumed the birth year to be 2025 given the context (student application to university)."
+  },
+  "email": {
+    "value": "pateljan29@wyliebulldogs.org",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "Patel jan 29@wylie bulldoggs.org",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Fixed typo and removed the unnecessary space and capitalized the first letter of surname."
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Wylie High School",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "major": {
+    "value": "Unsure",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Unsue",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "name": {
+    "value": "Janvi Patel",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Janvi Patel",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Checkbox for 'Yes' is clearly marked."
+  },
+  "preferred_first_name": {
+    "value": "Janvi",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Janvi",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Freshman checkbox is clearly marked on the form."
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "gpa": {
+    "value": "",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  }
+}
+
+[2025-05-26T19:11:35.269554+00:00] Parsed Gemini data
+{
+  "address": {
+    "value": "5210 Catclaw Drive",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "5210 Catclaw Drive",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "cell": {
+    "value": "325-725-0776",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "325-725-0776",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "city_state": {
+    "value": "Abilene, Texas",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "Abilene/Texas 79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Split city and state, removed zip code which belongs in a different field."
+  },
+  "date_of_birth": {
+    "value": "03/02/2025",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "3/2/25",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added missing zeros and assumed the birth year to be 2025 given the context (student application to university)."
+  },
+  "email": {
+    "value": "pateljan29@wyliebulldogs.org",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "Patel jan 29@wylie bulldoggs.org",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Fixed typo and removed the unnecessary space and capitalized the first letter of surname."
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Wylie High School",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "major": {
+    "value": "Unsure",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Unsue",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "name": {
+    "value": "Janvi Patel",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Janvi Patel",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Checkbox for 'Yes' is clearly marked."
+  },
+  "preferred_first_name": {
+    "value": "Janvi",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Janvi",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Freshman checkbox is clearly marked on the form."
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "gpa": {
+    "value": "",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  }
+}
+
+[2025-05-26T19:11:35.269685+00:00] Enhanced field address
+{
+  "value": "5210 Catclaw Drive",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:11:35.269749+00:00] Enhanced field cell
+{
+  "value": "325-725-0776",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:11:35.269828+00:00] Enhanced field city_state
+{
+  "value": "Abilene, Texas",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:11:35.269881+00:00] Enhanced field date_of_birth
+{
+  "value": "03/02/2025",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:11:35.269933+00:00] Enhanced field email
+{
+  "value": "pateljan29@wyliebulldogs.org",
+  "confidence": 0.85,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:11:35.269986+00:00] Enhanced field high_school
+{
+  "value": "Wylie High School",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:11:35.270045+00:00] Enhanced field major
+{
+  "value": "Unsure",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:11:35.270114+00:00] Enhanced field name
+{
+  "value": "Janvi Patel",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:11:35.270169+00:00] Enhanced field permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:11:35.270217+00:00] Enhanced field preferred_first_name
+{
+  "value": "Janvi",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:11:35.270265+00:00] Enhanced field student_type
+{
+  "value": "Freshman",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:11:35.270308+00:00] Enhanced field zip_code
+{
+  "value": "79606",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:11:35.270355+00:00] Enhanced field gpa
+{
+  "value": "",
+  "confidence": 0.1,
+  "needs_review": true,
+  "review_notes": "This required field appears to be empty"
+}
+
+[2025-05-26T19:11:35.270408+00:00] Enhanced fields created
+{
+  "address": {
+    "value": "5210 Catclaw Drive",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "cell": {
+    "value": "325-725-0776",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "city_state": {
+    "value": "Abilene, Texas",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "date_of_birth": {
+    "value": "03/02/2025",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "email": {
+    "value": "pateljan29@wyliebulldogs.org",
+    "confidence_score": 0.85,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "major": {
+    "value": "Unsure",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "name": {
+    "value": "Janvi Patel",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "preferred_first_name": {
+    "value": "Janvi",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "gpa": {
+    "value": "",
+    "confidence_score": 0.1,
+    "requires_review": true,
+    "review_notes": "This required field appears to be empty"
+  }
+}
+
+[2025-05-26T19:11:35.270494+00:00] === GEMINI PROCESSING V2 COMPLETE ===
+
+[2025-05-26T19:52:50.554006+00:00] === GEMINI PROCESSING V2 START ===
+
+[2025-05-26T19:52:50.554287+00:00] Image path: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpsampknrg_trimmed.png
+
+[2025-05-26T19:52:50.554335+00:00] Input DocAI fields
+{
+  "address": {
+    "value": "36 Pebble Beach street",
+    "required": true,
+    "enabled": true
+  },
+  "cell": {
+    "value": "(325)439-8946",
+    "required": true,
+    "enabled": true
+  },
+  "city_state": {
+    "value": "Abilene",
+    "required": false,
+    "enabled": true
+  },
+  "date_of_birth": {
+    "value": "08/24/2011",
+    "required": false,
+    "enabled": true
+  },
+  "email": {
+    "value": "aaliyahcarson2@Gmail.com",
+    "required": true,
+    "enabled": true
+  },
+  "entry_term": {
+    "value": "fall 2029",
+    "required": false,
+    "enabled": true
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "required": false,
+    "enabled": true
+  },
+  "major": {
+    "value": "Teacher Degree",
+    "required": false,
+    "enabled": true
+  },
+  "name": {
+    "value": "Aaliyah amari Ncabe-Davis",
+    "required": true,
+    "enabled": true
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "required": false,
+    "enabled": true
+  },
+  "preferred_first_name": {
+    "value": "Liyah",
+    "required": false,
+    "enabled": true
+  },
+  "student_type": {
+    "value": "Freshman",
+    "required": false,
+    "enabled": true
+  },
+  "zip_code": {
+    "value": "79606",
+    "required": true,
+    "enabled": true
+  }
+}
+
+[2025-05-26T19:52:50.554492+00:00] Gemini input prepared
+{
+  "address": {
+    "value": "36 Pebble Beach street",
+    "confidence": 0.9999971389770508,
+    "required": true,
+    "enabled": true
+  },
+  "cell": {
+    "value": "(325)439-8946",
+    "confidence": 0.9999839067459106,
+    "required": true,
+    "enabled": true
+  },
+  "city_state": {
+    "value": "Abilene",
+    "confidence": 0.9999977350234985,
+    "required": false,
+    "enabled": true
+  },
+  "date_of_birth": {
+    "value": "08/24/2011",
+    "confidence": 0.9999949336051941,
+    "required": false,
+    "enabled": true
+  },
+  "email": {
+    "value": "aaliyahcarson2@Gmail.com",
+    "confidence": 0.9999958276748657,
+    "required": true,
+    "enabled": true
+  },
+  "entry_term": {
+    "value": "fall 2029",
+    "confidence": 0.9997683167457581,
+    "required": false,
+    "enabled": true
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "confidence": 0.9999999403953552,
+    "required": false,
+    "enabled": true
+  },
+  "major": {
+    "value": "Teacher Degree",
+    "confidence": 0.9999879598617554,
+    "required": false,
+    "enabled": true
+  },
+  "name": {
+    "value": "Aaliyah amari Ncabe-Davis",
+    "confidence": 0.9999946355819702,
+    "required": true,
+    "enabled": true
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "confidence": 0.9919897317886353,
+    "required": false,
+    "enabled": true
+  },
+  "preferred_first_name": {
+    "value": "Liyah",
+    "confidence": 0.9999938011169434,
+    "required": false,
+    "enabled": true
+  },
+  "student_type": {
+    "value": "Freshman",
+    "confidence": 0.9998864531517029,
+    "required": false,
+    "enabled": true
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence": 0.9999948740005493,
+    "required": true,
+    "enabled": true
+  }
+}
+
+[2025-05-26T19:52:50.554709+00:00] Uploading image to Gemini...
+
+[2025-05-26T19:52:54.044297+00:00] Sending request to Gemini...
+
+[2025-05-26T19:53:09.786050+00:00] Raw Gemini response
+```json
+{
+  "address": {
+    "value": "36 Pebble Beach Street",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "36 Pebble Beach street",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'Street' in the address."
+  },
+  "cell": {
+    "value": "(325) 439-8946",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "(325)439-8946",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added a space after the area code in the phone number for better readability."
+  },
+  "city_state": {
+    "value": "Abilene, TX",
+    "edit_made": true,
+    "edit_type": "missing_data",
+    "original_value": "Abilene",
+    "text_clarity": "clear",
+    "certainty": "mostly_certain",
+    "notes": "Added state 'TX' based on the zip code provided.  Please verify if the state is correct."
+  },
+  "date_of_birth": {
+    "value": "08/24/2011",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "08/24/2011",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "email": {
+    "value": "aaliyahcarson2@gmail.com",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "aaliyahcarson2@Gmail.com",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected email domain capitalization from 'Gmail.com' to 'gmail.com'."
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "fall 2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'Fall' for consistency."
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Wylie High School",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "major": {
+    "value": "Teacher Degree",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Teacher Degree",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "name": {
+    "value": "Liyah amari Ncabe-Davis",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "Aaliyah amari Ncabe-Davis",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected first name to match preferred name field."
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "preferred_first_name": {
+    "value": "Liyah",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Liyah",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  }
+}
+```
+
+[2025-05-26T19:53:09.787845+00:00] === PARSING GEMINI QUALITY RESPONSE ===
+
+[2025-05-26T19:53:09.787981+00:00] Cleaned response text
+{
+  "address": {
+    "value": "36 Pebble Beach Street",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "36 Pebble Beach street",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'Street' in the address."
+  },
+  "cell": {
+    "value": "(325) 439-8946",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "(325)439-8946",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added a space after the area code in the phone number for better readability."
+  },
+  "city_state": {
+    "value": "Abilene, TX",
+    "edit_made": true,
+    "edit_type": "missing_data",
+    "original_value": "Abilene",
+    "text_clarity": "clear",
+    "certainty": "mostly_certain",
+    "notes": "Added state 'TX' based on the zip code provided.  Please verify if the state is correct."
+  },
+  "date_of_birth": {
+    "value": "08/24/2011",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "08/24/2011",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "email": {
+    "value": "aaliyahcarson2@gmail.com",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "aaliyahcarson2@Gmail.com",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected email domain capitalization from 'Gmail.com' to 'gmail.com'."
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "fall 2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'Fall' for consistency."
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Wylie High School",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "major": {
+    "value": "Teacher Degree",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Teacher Degree",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "name": {
+    "value": "Liyah amari Ncabe-Davis",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "Aaliyah amari Ncabe-Davis",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected first name to match preferred name field."
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "preferred_first_name": {
+    "value": "Liyah",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Liyah",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  }
+}
+
+[2025-05-26T19:53:09.788122+00:00] Parsed Gemini data
+{
+  "address": {
+    "value": "36 Pebble Beach Street",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "36 Pebble Beach street",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'Street' in the address."
+  },
+  "cell": {
+    "value": "(325) 439-8946",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "(325)439-8946",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added a space after the area code in the phone number for better readability."
+  },
+  "city_state": {
+    "value": "Abilene, TX",
+    "edit_made": true,
+    "edit_type": "missing_data",
+    "original_value": "Abilene",
+    "text_clarity": "clear",
+    "certainty": "mostly_certain",
+    "notes": "Added state 'TX' based on the zip code provided.  Please verify if the state is correct."
+  },
+  "date_of_birth": {
+    "value": "08/24/2011",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "08/24/2011",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "email": {
+    "value": "aaliyahcarson2@gmail.com",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "aaliyahcarson2@Gmail.com",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected email domain capitalization from 'Gmail.com' to 'gmail.com'."
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "fall 2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'Fall' for consistency."
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Wylie High School",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "major": {
+    "value": "Teacher Degree",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Teacher Degree",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "name": {
+    "value": "Liyah amari Ncabe-Davis",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "Aaliyah amari Ncabe-Davis",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected first name to match preferred name field."
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "preferred_first_name": {
+    "value": "Liyah",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Liyah",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": null
+  }
+}
+
+[2025-05-26T19:53:09.788398+00:00] Enhanced field address
+{
+  "value": "36 Pebble Beach Street",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:53:09.788521+00:00] Enhanced field cell
+{
+  "value": "(325) 439-8946",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:53:09.788631+00:00] Enhanced field city_state
+{
+  "value": "Abilene, TX",
+  "confidence": 0.64125,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:53:09.788733+00:00] Enhanced field date_of_birth
+{
+  "value": "08/24/2011",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:53:09.788832+00:00] Enhanced field email
+{
+  "value": "aaliyahcarson2@gmail.com",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:53:09.789043+00:00] Enhanced field entry_term
+{
+  "value": "Fall 2029",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:53:09.789135+00:00] Enhanced field high_school
+{
+  "value": "Wylie High School",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:53:09.789225+00:00] Enhanced field major
+{
+  "value": "Teacher Degree",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:53:09.789332+00:00] Enhanced field name
+{
+  "value": "Liyah amari Ncabe-Davis",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:53:09.789437+00:00] Enhanced field permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:53:09.789559+00:00] Enhanced field preferred_first_name
+{
+  "value": "Liyah",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:53:09.789658+00:00] Enhanced field student_type
+{
+  "value": "Freshman",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:53:09.789757+00:00] Enhanced field zip_code
+{
+  "value": "79606",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T19:53:09.789861+00:00] Enhanced fields created
+{
+  "address": {
+    "value": "36 Pebble Beach Street",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "cell": {
+    "value": "(325) 439-8946",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "city_state": {
+    "value": "Abilene, TX",
+    "confidence_score": 0.64125,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "date_of_birth": {
+    "value": "08/24/2011",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "email": {
+    "value": "aaliyahcarson2@gmail.com",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "major": {
+    "value": "Teacher Degree",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "name": {
+    "value": "Liyah amari Ncabe-Davis",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "preferred_first_name": {
+    "value": "Liyah",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  }
+}
+
+[2025-05-26T19:53:09.790081+00:00] === GEMINI PROCESSING V2 COMPLETE ===
