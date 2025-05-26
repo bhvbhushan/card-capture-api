@@ -1,0 +1,960 @@
+
+[2025-05-26T17:25:51.401933+00:00] === DOCAI PROCESSING START ===
+
+[2025-05-26T17:25:51.402110+00:00] Processing image: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmp8j80iyby.png
+
+[2025-05-26T17:25:51.402160+00:00] Using processor: 894b9758c2215ed6
+
+[2025-05-26T17:25:51.476098+00:00] Sending request to DocAI...
+
+[2025-05-26T17:25:59.709553+00:00] DocAI response received
+{
+  "text_length": 444,
+  "num_pages": 1,
+  "num_entities": 11
+}
+
+[2025-05-26T17:25:59.709841+00:00] === EXTRACTING ENTITIES ===
+
+[2025-05-26T17:25:59.710406+00:00] Entity: address
+{
+  "value": "Western Pumes",
+  "confidence": 0.9986469745635986
+}
+
+[2025-05-26T17:25:59.710700+00:00] Entity: cell
+{
+  "value": "325-338-7743",
+  "confidence": 0.999997079372406
+}
+
+[2025-05-26T17:25:59.710937+00:00] Entity: date_of_birth
+{
+  "value": "1-14-2011",
+  "confidence": 0.9999780058860779
+}
+
+[2025-05-26T17:25:59.711181+00:00] Entity: email
+{
+  "value": "Samulbri29@wyliebulldogs.org",
+  "confidence": 0.9999904036521912
+}
+
+[2025-05-26T17:25:59.711397+00:00] Entity: entry_term
+{
+  "value": "Fall 2024",
+  "confidence": 0.9999358057975769
+}
+
+[2025-05-26T17:25:59.711611+00:00] Entity: high_school
+{
+  "value": "Wylie West Junior High",
+  "confidence": 0.9999960064888
+}
+
+[2025-05-26T17:25:59.711825+00:00] Entity: name
+{
+  "value": "Brielle Samulde",
+  "confidence": 0.9999886155128479
+}
+
+[2025-05-26T17:25:59.712038+00:00] Entity: permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.9999058842658997
+}
+
+[2025-05-26T17:25:59.712253+00:00] Entity: preferred_first_name
+{
+  "value": "Brie",
+  "confidence": 0.999997079372406
+}
+
+[2025-05-26T17:25:59.712463+00:00] Entity: student_type
+{
+  "value": "Freshman",
+  "confidence": 0.998217761516571
+}
+
+[2025-05-26T17:25:59.712674+00:00] Entity: zip_code
+{
+  "value": "79606",
+  "confidence": 0.9999876022338867
+}
+
+[2025-05-26T17:25:59.712865+00:00] Extracted fields
+[
+  "address",
+  "cell",
+  "date_of_birth",
+  "email",
+  "entry_term",
+  "high_school",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T17:25:59.712936+00:00] Bounding box coordinates
+{
+  "min_x": 252.00000777840614,
+  "max_x": 1201.0000348091125,
+  "min_y": 250.0000074505806,
+  "max_y": 1642.0000076293945
+}
+
+[2025-05-26T17:25:59.721849+00:00] Crop coordinates
+{
+  "left": 14,
+  "top": 0,
+  "right": 1438,
+  "bottom": 1990
+}
+
+[2025-05-26T17:25:59.985727+00:00] Image cropped and saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmp8j80iyby_trimmed.png
+
+[2025-05-26T17:25:59.986347+00:00] === DOCAI PROCESSING COMPLETE ===
+
+[2025-05-26T17:25:59.986385+00:00] Cropped image saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmp8j80iyby_trimmed.png
+
+[2025-05-26T17:32:59.640113+00:00] === DOCAI PROCESSING START ===
+
+[2025-05-26T17:32:59.640530+00:00] Processing image: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmp7t0yiudy.png
+
+[2025-05-26T17:32:59.640590+00:00] Using processor: 894b9758c2215ed6
+
+[2025-05-26T17:32:59.710020+00:00] Sending request to DocAI...
+
+[2025-05-26T17:33:06.641546+00:00] DocAI response received
+{
+  "text_length": 444,
+  "num_pages": 1,
+  "num_entities": 11
+}
+
+[2025-05-26T17:33:06.641755+00:00] === EXTRACTING ENTITIES ===
+
+[2025-05-26T17:33:06.642213+00:00] Entity: address
+{
+  "value": "Western Pumes",
+  "confidence": 0.998552680015564
+}
+
+[2025-05-26T17:33:06.642451+00:00] Entity: cell
+{
+  "value": "325-338-7743",
+  "confidence": 0.9999918341636658
+}
+
+[2025-05-26T17:33:06.642634+00:00] Entity: date_of_birth
+{
+  "value": "1-14-2011",
+  "confidence": 0.9999837279319763
+}
+
+[2025-05-26T17:33:06.642806+00:00] Entity: email
+{
+  "value": "Samulbri29@wyliebulldogs.org",
+  "confidence": 0.9999856948852539
+}
+
+[2025-05-26T17:33:06.642972+00:00] Entity: entry_term
+{
+  "value": "Fall 2024",
+  "confidence": 0.9999687075614929
+}
+
+[2025-05-26T17:33:06.643177+00:00] Entity: high_school
+{
+  "value": "Wylie West Junior High",
+  "confidence": 0.9999979138374329
+}
+
+[2025-05-26T17:33:06.643386+00:00] Entity: name
+{
+  "value": "Brielle Samulde",
+  "confidence": 0.9999823570251465
+}
+
+[2025-05-26T17:33:06.643613+00:00] Entity: permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.999799907207489
+}
+
+[2025-05-26T17:33:06.643788+00:00] Entity: preferred_first_name
+{
+  "value": "Brie",
+  "confidence": 0.9999939799308777
+}
+
+[2025-05-26T17:33:06.643959+00:00] Entity: student_type
+{
+  "value": "Freshman",
+  "confidence": 0.9961521029472351
+}
+
+[2025-05-26T17:33:06.644123+00:00] Entity: zip_code
+{
+  "value": "79606",
+  "confidence": 0.9999854564666748
+}
+
+[2025-05-26T17:33:06.644269+00:00] Extracted fields
+[
+  "address",
+  "cell",
+  "date_of_birth",
+  "email",
+  "entry_term",
+  "high_school",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T17:33:06.644322+00:00] Bounding box coordinates
+{
+  "min_x": 252.00000777840614,
+  "max_x": 1201.0000348091125,
+  "min_y": 250.0000074505806,
+  "max_y": 1642.0000076293945
+}
+
+[2025-05-26T17:33:06.652555+00:00] Crop coordinates
+{
+  "left": 14,
+  "top": 0,
+  "right": 1438,
+  "bottom": 1990
+}
+
+[2025-05-26T17:33:06.910463+00:00] Image cropped and saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmp7t0yiudy_trimmed.png
+
+[2025-05-26T17:33:06.911135+00:00] === DOCAI PROCESSING COMPLETE ===
+
+[2025-05-26T17:33:06.911177+00:00] Cropped image saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmp7t0yiudy_trimmed.png
+
+[2025-05-26T17:37:18.621319+00:00] === DOCAI PROCESSING START ===
+
+[2025-05-26T17:37:18.621758+00:00] Processing image: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpmoe0mkt6.png
+
+[2025-05-26T17:37:18.621820+00:00] Using processor: 894b9758c2215ed6
+
+[2025-05-26T17:37:18.690685+00:00] Sending request to DocAI...
+
+[2025-05-26T17:37:25.160482+00:00] DocAI response received
+{
+  "text_length": 444,
+  "num_pages": 1,
+  "num_entities": 11
+}
+
+[2025-05-26T17:37:25.160951+00:00] === EXTRACTING ENTITIES ===
+
+[2025-05-26T17:37:25.161746+00:00] Entity: address
+{
+  "value": "Western Pumes",
+  "confidence": 0.9986469745635986
+}
+
+[2025-05-26T17:37:25.162151+00:00] Entity: cell
+{
+  "value": "325-338-7743",
+  "confidence": 0.999997079372406
+}
+
+[2025-05-26T17:37:25.162461+00:00] Entity: date_of_birth
+{
+  "value": "1-14-2011",
+  "confidence": 0.9999780058860779
+}
+
+[2025-05-26T17:37:25.162737+00:00] Entity: email
+{
+  "value": "Samulbri29@wyliebulldogs.org",
+  "confidence": 0.9999904036521912
+}
+
+[2025-05-26T17:37:25.163131+00:00] Entity: entry_term
+{
+  "value": "Fall 2024",
+  "confidence": 0.9999358057975769
+}
+
+[2025-05-26T17:37:25.163397+00:00] Entity: high_school
+{
+  "value": "Wylie West Junior High",
+  "confidence": 0.9999960064888
+}
+
+[2025-05-26T17:37:25.163652+00:00] Entity: name
+{
+  "value": "Brielle Samulde",
+  "confidence": 0.9999886155128479
+}
+
+[2025-05-26T17:37:25.163911+00:00] Entity: permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.9999058842658997
+}
+
+[2025-05-26T17:37:25.164165+00:00] Entity: preferred_first_name
+{
+  "value": "Brie",
+  "confidence": 0.999997079372406
+}
+
+[2025-05-26T17:37:25.164415+00:00] Entity: student_type
+{
+  "value": "Freshman",
+  "confidence": 0.998217761516571
+}
+
+[2025-05-26T17:37:25.164667+00:00] Entity: zip_code
+{
+  "value": "79606",
+  "confidence": 0.9999876022338867
+}
+
+[2025-05-26T17:37:25.164893+00:00] Extracted fields
+[
+  "address",
+  "cell",
+  "date_of_birth",
+  "email",
+  "entry_term",
+  "high_school",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T17:37:25.164975+00:00] Bounding box coordinates
+{
+  "min_x": 252.00000777840614,
+  "max_x": 1201.0000348091125,
+  "min_y": 250.0000074505806,
+  "max_y": 1642.0000076293945
+}
+
+[2025-05-26T17:37:25.176689+00:00] Crop coordinates
+{
+  "left": 14,
+  "top": 0,
+  "right": 1438,
+  "bottom": 1990
+}
+
+[2025-05-26T17:37:25.442602+00:00] Image cropped and saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpmoe0mkt6_trimmed.png
+
+[2025-05-26T17:37:25.443344+00:00] === DOCAI PROCESSING COMPLETE ===
+
+[2025-05-26T17:37:25.443390+00:00] Cropped image saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpmoe0mkt6_trimmed.png
+
+[2025-05-26T17:41:08.919210+00:00] === DOCAI PROCESSING START ===
+
+[2025-05-26T17:41:08.919623+00:00] Processing image: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpnn9jl_jz.png
+
+[2025-05-26T17:41:08.919672+00:00] Using processor: 894b9758c2215ed6
+
+[2025-05-26T17:41:08.990366+00:00] Sending request to DocAI...
+
+[2025-05-26T17:41:16.732725+00:00] DocAI response received
+{
+  "text_length": 444,
+  "num_pages": 1,
+  "num_entities": 11
+}
+
+[2025-05-26T17:41:16.732964+00:00] === EXTRACTING ENTITIES ===
+
+[2025-05-26T17:41:16.733461+00:00] Entity: address
+{
+  "value": "Western Pumes",
+  "confidence": 0.998552680015564
+}
+
+[2025-05-26T17:41:16.733691+00:00] Entity: cell
+{
+  "value": "325-338-7743",
+  "confidence": 0.9999918341636658
+}
+
+[2025-05-26T17:41:16.733875+00:00] Entity: date_of_birth
+{
+  "value": "1-14-2011",
+  "confidence": 0.9999837279319763
+}
+
+[2025-05-26T17:41:16.734044+00:00] Entity: email
+{
+  "value": "Samulbri29@wyliebulldogs.org",
+  "confidence": 0.9999856948852539
+}
+
+[2025-05-26T17:41:16.734209+00:00] Entity: entry_term
+{
+  "value": "Fall 2024",
+  "confidence": 0.9999687075614929
+}
+
+[2025-05-26T17:41:16.734364+00:00] Entity: high_school
+{
+  "value": "Wylie West Junior High",
+  "confidence": 0.9999979138374329
+}
+
+[2025-05-26T17:41:16.734526+00:00] Entity: name
+{
+  "value": "Brielle Samulde",
+  "confidence": 0.9999823570251465
+}
+
+[2025-05-26T17:41:16.734686+00:00] Entity: permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.999799907207489
+}
+
+[2025-05-26T17:41:16.734843+00:00] Entity: preferred_first_name
+{
+  "value": "Brie",
+  "confidence": 0.9999939799308777
+}
+
+[2025-05-26T17:41:16.735002+00:00] Entity: student_type
+{
+  "value": "Freshman",
+  "confidence": 0.9961521029472351
+}
+
+[2025-05-26T17:41:16.735158+00:00] Entity: zip_code
+{
+  "value": "79606",
+  "confidence": 0.9999854564666748
+}
+
+[2025-05-26T17:41:16.735305+00:00] Extracted fields
+[
+  "address",
+  "cell",
+  "date_of_birth",
+  "email",
+  "entry_term",
+  "high_school",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T17:41:16.735365+00:00] Bounding box coordinates
+{
+  "min_x": 252.00000777840614,
+  "max_x": 1201.0000348091125,
+  "min_y": 250.0000074505806,
+  "max_y": 1642.0000076293945
+}
+
+[2025-05-26T17:41:16.735528+00:00] Crop coordinates
+{
+  "left": 14,
+  "top": 0,
+  "right": 1438,
+  "bottom": 1990
+}
+
+[2025-05-26T17:41:16.992068+00:00] Image cropped and saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpnn9jl_jz_trimmed.png
+
+[2025-05-26T17:41:16.992699+00:00] === DOCAI PROCESSING COMPLETE ===
+
+[2025-05-26T17:41:16.992746+00:00] Cropped image saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpnn9jl_jz_trimmed.png
+
+[2025-05-26T17:43:58.731535+00:00] === DOCAI PROCESSING START ===
+
+[2025-05-26T17:43:58.732073+00:00] Processing image: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmptiiiy0mu.png
+
+[2025-05-26T17:43:58.732208+00:00] Using processor: 894b9758c2215ed6
+
+[2025-05-26T17:43:58.812381+00:00] Sending request to DocAI...
+
+[2025-05-26T17:44:06.324524+00:00] DocAI response received
+{
+  "text_length": 444,
+  "num_pages": 1,
+  "num_entities": 11
+}
+
+[2025-05-26T17:44:06.324729+00:00] === EXTRACTING ENTITIES ===
+
+[2025-05-26T17:44:06.324862+00:00] Entity: address
+{
+  "value": "Western Pumes",
+  "confidence": 0.998552680015564
+}
+
+[2025-05-26T17:44:06.325085+00:00] Entity: cell
+{
+  "value": "325-338-7743",
+  "confidence": 0.9999918341636658
+}
+
+[2025-05-26T17:44:06.325264+00:00] Entity: date_of_birth
+{
+  "value": "1-14-2011",
+  "confidence": 0.9999837279319763
+}
+
+[2025-05-26T17:44:06.325439+00:00] Entity: email
+{
+  "value": "Samulbri29@wyliebulldogs.org",
+  "confidence": 0.9999856948852539
+}
+
+[2025-05-26T17:44:06.325609+00:00] Entity: entry_term
+{
+  "value": "Fall 2024",
+  "confidence": 0.9999687075614929
+}
+
+[2025-05-26T17:44:06.325780+00:00] Entity: high_school
+{
+  "value": "Wylie West Junior High",
+  "confidence": 0.9999979138374329
+}
+
+[2025-05-26T17:44:06.325960+00:00] Entity: name
+{
+  "value": "Brielle Samulde",
+  "confidence": 0.9999823570251465
+}
+
+[2025-05-26T17:44:06.326323+00:00] Entity: permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.999799907207489
+}
+
+[2025-05-26T17:44:06.326482+00:00] Entity: preferred_first_name
+{
+  "value": "Brie",
+  "confidence": 0.9999939799308777
+}
+
+[2025-05-26T17:44:06.326635+00:00] Entity: student_type
+{
+  "value": "Freshman",
+  "confidence": 0.9961521029472351
+}
+
+[2025-05-26T17:44:06.326787+00:00] Entity: zip_code
+{
+  "value": "79606",
+  "confidence": 0.9999854564666748
+}
+
+[2025-05-26T17:44:06.327023+00:00] Extracted fields
+[
+  "address",
+  "cell",
+  "date_of_birth",
+  "email",
+  "entry_term",
+  "high_school",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T17:44:06.327119+00:00] Bounding box coordinates
+{
+  "min_x": 252.00000777840614,
+  "max_x": 1201.0000348091125,
+  "min_y": 250.0000074505806,
+  "max_y": 1642.0000076293945
+}
+
+[2025-05-26T17:44:06.335443+00:00] Crop coordinates
+{
+  "left": 14,
+  "top": 0,
+  "right": 1438,
+  "bottom": 1990
+}
+
+[2025-05-26T17:44:06.596703+00:00] Image cropped and saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmptiiiy0mu_trimmed.png
+
+[2025-05-26T17:44:06.597397+00:00] === DOCAI PROCESSING COMPLETE ===
+
+[2025-05-26T17:44:06.597505+00:00] Cropped image saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmptiiiy0mu_trimmed.png
+
+[2025-05-26T17:46:33.385748+00:00] === DOCAI PROCESSING START ===
+
+[2025-05-26T17:46:33.386168+00:00] Processing image: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmp4bes8295.png
+
+[2025-05-26T17:46:33.386236+00:00] Using processor: 894b9758c2215ed6
+
+[2025-05-26T17:46:33.455011+00:00] Sending request to DocAI...
+
+[2025-05-26T17:46:39.725187+00:00] DocAI response received
+{
+  "text_length": 444,
+  "num_pages": 1,
+  "num_entities": 11
+}
+
+[2025-05-26T17:46:39.725522+00:00] === EXTRACTING ENTITIES ===
+
+[2025-05-26T17:46:39.726012+00:00] Entity: address
+{
+  "value": "Western Pumes",
+  "confidence": 0.998552680015564
+}
+
+[2025-05-26T17:46:39.726215+00:00] Entity: cell
+{
+  "value": "325-338-7743",
+  "confidence": 0.9999918341636658
+}
+
+[2025-05-26T17:46:39.726396+00:00] Entity: date_of_birth
+{
+  "value": "1-14-2011",
+  "confidence": 0.9999837279319763
+}
+
+[2025-05-26T17:46:39.726567+00:00] Entity: email
+{
+  "value": "Samulbri29@wyliebulldogs.org",
+  "confidence": 0.9999856948852539
+}
+
+[2025-05-26T17:46:39.726735+00:00] Entity: entry_term
+{
+  "value": "Fall 2024",
+  "confidence": 0.9999687075614929
+}
+
+[2025-05-26T17:46:39.726902+00:00] Entity: high_school
+{
+  "value": "Wylie West Junior High",
+  "confidence": 0.9999979138374329
+}
+
+[2025-05-26T17:46:39.727073+00:00] Entity: name
+{
+  "value": "Brielle Samulde",
+  "confidence": 0.9999823570251465
+}
+
+[2025-05-26T17:46:39.727237+00:00] Entity: permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.999799907207489
+}
+
+[2025-05-26T17:46:39.727402+00:00] Entity: preferred_first_name
+{
+  "value": "Brie",
+  "confidence": 0.9999939799308777
+}
+
+[2025-05-26T17:46:39.727563+00:00] Entity: student_type
+{
+  "value": "Freshman",
+  "confidence": 0.9961521029472351
+}
+
+[2025-05-26T17:46:39.727724+00:00] Entity: zip_code
+{
+  "value": "79606",
+  "confidence": 0.9999854564666748
+}
+
+[2025-05-26T17:46:39.727872+00:00] Extracted fields
+[
+  "address",
+  "cell",
+  "date_of_birth",
+  "email",
+  "entry_term",
+  "high_school",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T17:46:39.727931+00:00] Bounding box coordinates
+{
+  "min_x": 252.00000777840614,
+  "max_x": 1201.0000348091125,
+  "min_y": 250.0000074505806,
+  "max_y": 1642.0000076293945
+}
+
+[2025-05-26T17:46:39.736576+00:00] Crop coordinates
+{
+  "left": 14,
+  "top": 0,
+  "right": 1438,
+  "bottom": 1990
+}
+
+[2025-05-26T17:46:39.996764+00:00] Image cropped and saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmp4bes8295_trimmed.png
+
+[2025-05-26T17:46:39.997389+00:00] === DOCAI PROCESSING COMPLETE ===
+
+[2025-05-26T17:46:39.997442+00:00] Cropped image saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmp4bes8295_trimmed.png
+
+[2025-05-26T17:59:51.400924+00:00] === DOCAI PROCESSING START ===
+
+[2025-05-26T17:59:51.401264+00:00] Processing image: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpojio59s7.png
+
+[2025-05-26T17:59:51.401376+00:00] Using processor: 894b9758c2215ed6
+
+[2025-05-26T17:59:51.495088+00:00] Sending request to DocAI...
+
+[2025-05-26T17:59:58.195207+00:00] DocAI response received
+{
+  "text_length": 444,
+  "num_pages": 1,
+  "num_entities": 11
+}
+
+[2025-05-26T17:59:58.195793+00:00] === EXTRACTING ENTITIES ===
+
+[2025-05-26T17:59:58.196758+00:00] Entity: address
+{
+  "value": "Western Pumes",
+  "confidence": 0.998552680015564
+}
+
+[2025-05-26T17:59:58.197225+00:00] Entity: cell
+{
+  "value": "325-338-7743",
+  "confidence": 0.9999918341636658
+}
+
+[2025-05-26T17:59:58.197530+00:00] Entity: date_of_birth
+{
+  "value": "1-14-2011",
+  "confidence": 0.9999837279319763
+}
+
+[2025-05-26T17:59:58.197810+00:00] Entity: email
+{
+  "value": "Samulbri29@wyliebulldogs.org",
+  "confidence": 0.9999856948852539
+}
+
+[2025-05-26T17:59:58.198085+00:00] Entity: entry_term
+{
+  "value": "Fall 2024",
+  "confidence": 0.9999687075614929
+}
+
+[2025-05-26T17:59:58.198354+00:00] Entity: high_school
+{
+  "value": "Wylie West Junior High",
+  "confidence": 0.9999979138374329
+}
+
+[2025-05-26T17:59:58.198618+00:00] Entity: name
+{
+  "value": "Brielle Samulde",
+  "confidence": 0.9999823570251465
+}
+
+[2025-05-26T17:59:58.198882+00:00] Entity: permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.999799907207489
+}
+
+[2025-05-26T17:59:58.199145+00:00] Entity: preferred_first_name
+{
+  "value": "Brie",
+  "confidence": 0.9999939799308777
+}
+
+[2025-05-26T17:59:58.199463+00:00] Entity: student_type
+{
+  "value": "Freshman",
+  "confidence": 0.9961521029472351
+}
+
+[2025-05-26T17:59:58.199753+00:00] Entity: zip_code
+{
+  "value": "79606",
+  "confidence": 0.9999854564666748
+}
+
+[2025-05-26T17:59:58.200007+00:00] Extracted fields
+[
+  "address",
+  "cell",
+  "date_of_birth",
+  "email",
+  "entry_term",
+  "high_school",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T17:59:58.200111+00:00] Bounding box coordinates
+{
+  "min_x": 252.00000777840614,
+  "max_x": 1201.0000348091125,
+  "min_y": 250.0000074505806,
+  "max_y": 1642.0000076293945
+}
+
+[2025-05-26T17:59:58.216914+00:00] Crop coordinates
+{
+  "left": 14,
+  "top": 0,
+  "right": 1438,
+  "bottom": 1990
+}
+
+[2025-05-26T17:59:58.483237+00:00] Image cropped and saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpojio59s7_trimmed.png
+
+[2025-05-26T17:59:58.483855+00:00] === DOCAI PROCESSING COMPLETE ===
+
+[2025-05-26T17:59:58.483900+00:00] Cropped image saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpojio59s7_trimmed.png
+
+[2025-05-26T18:06:35.333886+00:00] === DOCAI PROCESSING START ===
+
+[2025-05-26T18:06:35.334109+00:00] Processing image: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpr4xho0ch.png
+
+[2025-05-26T18:06:35.334214+00:00] Using processor: 894b9758c2215ed6
+
+[2025-05-26T18:06:35.420776+00:00] Sending request to DocAI...
+
+[2025-05-26T18:06:42.545799+00:00] DocAI response received
+{
+  "text_length": 444,
+  "num_pages": 1,
+  "num_entities": 11
+}
+
+[2025-05-26T18:06:42.546288+00:00] === EXTRACTING ENTITIES ===
+
+[2025-05-26T18:06:42.547092+00:00] Entity: address
+{
+  "value": "Western Pumes",
+  "confidence": 0.9986469745635986
+}
+
+[2025-05-26T18:06:42.547486+00:00] Entity: cell
+{
+  "value": "325-338-7743",
+  "confidence": 0.999997079372406
+}
+
+[2025-05-26T18:06:42.547780+00:00] Entity: date_of_birth
+{
+  "value": "1-14-2011",
+  "confidence": 0.9999780058860779
+}
+
+[2025-05-26T18:06:42.548050+00:00] Entity: email
+{
+  "value": "Samulbri29@wyliebulldogs.org",
+  "confidence": 0.9999904036521912
+}
+
+[2025-05-26T18:06:42.548317+00:00] Entity: entry_term
+{
+  "value": "Fall 2024",
+  "confidence": 0.9999358057975769
+}
+
+[2025-05-26T18:06:42.548575+00:00] Entity: high_school
+{
+  "value": "Wylie West Junior High",
+  "confidence": 0.9999960064888
+}
+
+[2025-05-26T18:06:42.548844+00:00] Entity: name
+{
+  "value": "Brielle Samulde",
+  "confidence": 0.9999886155128479
+}
+
+[2025-05-26T18:06:42.549213+00:00] Entity: permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.9999058842658997
+}
+
+[2025-05-26T18:06:42.549462+00:00] Entity: preferred_first_name
+{
+  "value": "Brie",
+  "confidence": 0.999997079372406
+}
+
+[2025-05-26T18:06:42.549699+00:00] Entity: student_type
+{
+  "value": "Freshman",
+  "confidence": 0.998217761516571
+}
+
+[2025-05-26T18:06:42.549940+00:00] Entity: zip_code
+{
+  "value": "79606",
+  "confidence": 0.9999876022338867
+}
+
+[2025-05-26T18:06:42.550260+00:00] Extracted fields
+[
+  "address",
+  "cell",
+  "date_of_birth",
+  "email",
+  "entry_term",
+  "high_school",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T18:06:42.550343+00:00] Bounding box coordinates
+{
+  "min_x": 252.00000777840614,
+  "max_x": 1201.0000348091125,
+  "min_y": 250.0000074505806,
+  "max_y": 1642.0000076293945
+}
+
+[2025-05-26T18:06:42.564352+00:00] Crop coordinates
+{
+  "left": 14,
+  "top": 0,
+  "right": 1438,
+  "bottom": 1990
+}
+
+[2025-05-26T18:06:42.831122+00:00] Image cropped and saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpr4xho0ch_trimmed.png
+
+[2025-05-26T18:06:42.831863+00:00] === DOCAI PROCESSING COMPLETE ===
+
+[2025-05-26T18:06:42.831913+00:00] Cropped image saved to: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpr4xho0ch_trimmed.png

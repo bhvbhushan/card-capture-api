@@ -14,9 +14,6 @@ from app.repositories.uploads_repository import (
     select_upload_notification_db,
     select_extracted_data_image_db
 )
-# from app.services.document_service import process_image
-from app.services.document_service import parse_card_with_gemini
-from app.services.gemini_service import run_gemini_review
 from PIL import Image
 import csv
 from sftp_utils import upload_to_slate

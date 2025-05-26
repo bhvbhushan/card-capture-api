@@ -1,0 +1,502 @@
+
+[2025-05-26T17:26:00.208717+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T17:26:00.209503+00:00] Formatted date: 1-14-2011 -> 01/14/2011
+
+[2025-05-26T17:26:00.210009+00:00] Auto-corrected email: Samulbri29@wyliebulldogs.org -> samulbri29@wyliebulldogs.org
+
+[2025-05-26T17:26:00.210126+00:00] Field validation complete
+
+[2025-05-26T17:26:00.815493+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T17:26:00.815540+00:00] Field address explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:26:00.815590+00:00] Field cell explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:26:00.815643+00:00] Field date_of_birth explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:26:00.815689+00:00] Field email explicitly marked for review
+{
+  "reason": "Email format was auto-corrected"
+}
+
+[2025-05-26T17:26:00.815757+00:00] Field entry_term explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:26:00.815803+00:00] Field high_school explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:26:00.815850+00:00] Field name explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:26:00.815913+00:00] Field permission_to_text explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:26:00.815961+00:00] Field preferred_first_name explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:26:00.816005+00:00] Field student_type explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:26:00.816047+00:00] Field zip_code explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:26:00.816112+00:00] Card needs review - 11 fields flagged
+
+[2025-05-26T17:26:00.816172+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address",
+    "cell",
+    "date_of_birth",
+    "email",
+    "entry_term",
+    "high_school",
+    "name",
+    "permission_to_text",
+    "preferred_first_name",
+    "student_type",
+    "zip_code"
+  ]
+}
+
+[2025-05-26T17:33:07.047527+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T17:33:07.047911+00:00] Formatted date: 1-14-2011 -> 01/14/2011
+
+[2025-05-26T17:33:07.048039+00:00] Auto-corrected email: Samulbri29@wyliebulldogs.org -> samulbri29@wyliebulldogs.org
+
+[2025-05-26T17:33:07.048073+00:00] Field validation complete
+
+[2025-05-26T17:33:07.303795+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T17:33:07.303889+00:00] Field address explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:33:07.303968+00:00] Field cell explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:33:07.304039+00:00] Field date_of_birth explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:33:07.304122+00:00] Field email explicitly marked for review
+{
+  "reason": "Email format was auto-corrected"
+}
+
+[2025-05-26T17:33:07.304189+00:00] Field entry_term explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:33:07.304262+00:00] Field high_school explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:33:07.304430+00:00] Field name explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:33:07.304501+00:00] Field permission_to_text explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:33:07.304570+00:00] Field preferred_first_name explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:33:07.304631+00:00] Field student_type explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:33:07.304694+00:00] Field zip_code explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:33:07.304759+00:00] Card needs review - 11 fields flagged
+
+[2025-05-26T17:33:07.304813+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address",
+    "cell",
+    "date_of_birth",
+    "email",
+    "entry_term",
+    "high_school",
+    "name",
+    "permission_to_text",
+    "preferred_first_name",
+    "student_type",
+    "zip_code"
+  ]
+}
+
+[2025-05-26T17:37:25.584311+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T17:37:25.584711+00:00] Formatted date: 1-14-2011 -> 01/14/2011
+
+[2025-05-26T17:37:25.584893+00:00] Auto-corrected email: Samulbri29@wyliebulldogs.org -> samulbri29@wyliebulldogs.org
+
+[2025-05-26T17:37:25.584946+00:00] Field validation complete
+
+[2025-05-26T17:37:25.763485+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T17:37:25.763538+00:00] Field address explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:37:25.763590+00:00] Field cell explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:37:25.763664+00:00] Field date_of_birth explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:37:25.763723+00:00] Field email explicitly marked for review
+{
+  "reason": "Email format was auto-corrected"
+}
+
+[2025-05-26T17:37:25.763795+00:00] Field entry_term explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:37:25.763872+00:00] Field high_school explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:37:25.763951+00:00] Field name explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:37:25.763997+00:00] Field permission_to_text explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:37:25.764069+00:00] Field preferred_first_name explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:37:25.764150+00:00] Field student_type explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:37:25.764193+00:00] Field zip_code explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:37:25.764240+00:00] Card needs review - 11 fields flagged
+
+[2025-05-26T17:37:25.764279+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address",
+    "cell",
+    "date_of_birth",
+    "email",
+    "entry_term",
+    "high_school",
+    "name",
+    "permission_to_text",
+    "preferred_first_name",
+    "student_type",
+    "zip_code"
+  ]
+}
+
+[2025-05-26T17:41:17.227549+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T17:41:17.229296+00:00] Formatted date: 1-14-2011 -> 01/14/2011
+
+[2025-05-26T17:41:17.229381+00:00] Auto-corrected email: Samulbri29@wyliebulldogs.org -> samulbri29@wyliebulldogs.org
+
+[2025-05-26T17:41:17.229434+00:00] Field validation complete
+
+[2025-05-26T17:41:17.438587+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T17:41:17.438658+00:00] Field address explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:41:17.438748+00:00] Field cell explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:41:17.438826+00:00] Field date_of_birth explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:41:17.438899+00:00] Field email explicitly marked for review
+{
+  "reason": "Email format was auto-corrected"
+}
+
+[2025-05-26T17:41:17.438971+00:00] Field entry_term explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:41:17.439043+00:00] Field high_school explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:41:17.439115+00:00] Field name explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:41:17.439186+00:00] Field permission_to_text explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:41:17.439264+00:00] Field preferred_first_name explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:41:17.439335+00:00] Field student_type explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:41:17.439406+00:00] Field zip_code explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:41:17.439580+00:00] Card needs review - 11 fields flagged
+
+[2025-05-26T17:41:17.439677+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address",
+    "cell",
+    "date_of_birth",
+    "email",
+    "entry_term",
+    "high_school",
+    "name",
+    "permission_to_text",
+    "preferred_first_name",
+    "student_type",
+    "zip_code"
+  ]
+}
+
+[2025-05-26T17:44:06.817791+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T17:44:06.818108+00:00] Formatted date: 1-14-2011 -> 01/14/2011
+
+[2025-05-26T17:44:06.818244+00:00] Auto-corrected email: Samulbri29@wyliebulldogs.org -> samulbri29@wyliebulldogs.org
+
+[2025-05-26T17:44:06.818282+00:00] Field validation complete
+
+[2025-05-26T17:44:06.986016+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T17:44:06.986111+00:00] Field address explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:44:06.986202+00:00] Field cell explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:44:06.986290+00:00] Field date_of_birth explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:44:06.986380+00:00] Field email explicitly marked for review
+{
+  "reason": "Email format was auto-corrected"
+}
+
+[2025-05-26T17:44:06.986468+00:00] Field entry_term explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:44:06.986616+00:00] Field high_school explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:44:06.986693+00:00] Field name explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:44:06.986765+00:00] Field permission_to_text explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:44:06.986838+00:00] Field preferred_first_name explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:44:06.986906+00:00] Field student_type explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:44:06.986975+00:00] Field zip_code explicitly marked for review
+{
+  "reason": "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'"
+}
+
+[2025-05-26T17:44:06.987049+00:00] Card needs review - 11 fields flagged
+
+[2025-05-26T17:44:06.987112+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address",
+    "cell",
+    "date_of_birth",
+    "email",
+    "entry_term",
+    "high_school",
+    "name",
+    "permission_to_text",
+    "preferred_first_name",
+    "student_type",
+    "zip_code"
+  ]
+}
+
+[2025-05-26T17:46:56.996691+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T17:46:56.997425+00:00] Auto-corrected email: Samulbri29@wyliebulldogs.org -> samulbri29@wyliebulldogs.org
+
+[2025-05-26T17:46:56.997508+00:00] Field validation complete
+
+[2025-05-26T17:46:57.151703+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T17:46:57.151759+00:00] Field email explicitly marked for review
+{
+  "reason": "Email format was auto-corrected"
+}
+
+[2025-05-26T17:46:57.151826+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T17:46:57.151932+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "email"
+  ]
+}
+
+[2025-05-26T18:00:14.306850+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:00:14.307500+00:00] Auto-corrected email: Samulbri29@wyliebulldogs.org -> samulbri29@wyliebulldogs.org
+
+[2025-05-26T18:00:14.307564+00:00] Field validation complete
+
+[2025-05-26T18:00:14.582565+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:00:14.582614+00:00] Field email explicitly marked for review
+{
+  "reason": "Email format was auto-corrected"
+}
+
+[2025-05-26T18:00:14.582672+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T18:00:14.582720+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "email"
+  ]
+}
+
+[2025-05-26T18:04:42.596616+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:04:42.597164+00:00] Field validation complete
+
+[2025-05-26T18:04:42.597230+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:04:42.597279+00:00] Auto-corrected email: test@gmai1.com -> test@gmail.com
+
+[2025-05-26T18:04:42.597320+00:00] Field validation complete
+
+[2025-05-26T18:06:58.360117+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T18:06:58.360969+00:00] Field validation complete
+
+[2025-05-26T18:06:58.520219+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T18:06:58.520276+00:00] Field address explicitly marked for review
+{
+  "reason": "Address could not be validated"
+}
+
+[2025-05-26T18:06:58.520392+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T18:06:58.520497+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address"
+  ]
+}

@@ -2306,3 +2306,395 @@ data=[{'id': 'eaf38565-333d-40f1-8b6f-abfbf18c6ab3', 'document_id': '2884b919-12
 [2025-05-26T16:27:12.447029+00:00] Successfully archived 31 records
 
 [2025-05-26T16:27:12.447059+00:00] === ARCHIVE CARDS SERVICE END ===
+
+[2025-05-26T17:32:50.736730+00:00] === ARCHIVE CARDS SERVICE START ===
+
+[2025-05-26T17:32:50.738347+00:00] Received document IDs
+[
+  "cb763042-9ff5-46a3-83c6-9102e9be4416"
+]
+
+[2025-05-26T17:32:50.738571+00:00] Calling archive_cards_db...
+
+[2025-05-26T17:32:50.738656+00:00] === ARCHIVE CARDS DB START ===
+
+[2025-05-26T17:32:50.738795+00:00] Document IDs to archive
+[
+  "cb763042-9ff5-46a3-83c6-9102e9be4416"
+]
+
+[2025-05-26T17:32:50.738915+00:00] Checking existing records...
+
+[2025-05-26T17:32:50.965947+00:00] Record cb763042-9ff5-46a3-83c6-9102e9be4416 full state:
+{
+  "document_id": "cb763042-9ff5-46a3-83c6-9102e9be4416",
+  "review_status": "needs_human_review",
+  "status": null,
+  "deleted": null,
+  "reviewed_at": null
+}
+
+[2025-05-26T17:32:50.966140+00:00] Records to archive (excluding already archived)
+[
+  {
+    "document_id": "cb763042-9ff5-46a3-83c6-9102e9be4416",
+    "current_status": "needs_human_review"
+  }
+]
+
+[2025-05-26T17:32:50.966203+00:00] Update payload
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T17:32:50.966201+00:00"
+}
+
+[2025-05-26T17:32:51.177434+00:00] Record cb763042-9ff5-46a3-83c6-9102e9be4416 after archive:
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T17:32:50.966201+00:00"
+}
+
+[2025-05-26T17:32:51.177911+00:00] Archive operation result
+data=[{'id': 'cf5a35a1-e976-45be-a2f8-d054210ac694', 'document_id': 'cb763042-9ff5-46a3-83c6-9102e9be4416', 'fields': {'cell': {'value': '325-338-7743', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.999997079372406, 'bounding_box': [[255.99999614059925, 771.0000023245811], [719.0000027418137, 771.0000023245811], [719.0000027418137, 835.9999895095825], [255.99999614059925, 835.9999895095825]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'city': {'value': 'Abilene', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'City validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'name': {'value': 'Brielle Samulde', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999886155128479, 'bounding_box': [[252.00000777840614, 250.0000074505806], [817.0000120997429, 250.0000074505806], [817.0000120997429, 325.0000096857548], [252.00000777840614, 325.0000096857548]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'email': {'value': 'samulbri29@wyliebulldogs.org', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999904036521912, 'bounding_box': [[277.00000628829, 597.0000207424164], [1161.0000371932983, 597.0000207424164], [1161.0000371932983, 670.0000002980232], [277.00000628829, 670.0000002980232]], 'review_notes': 'Email format was auto-corrected', 'review_confidence': 0.1, 'requires_human_review': True}, 'state': {'value': 'TX', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'State validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'address': {'value': 'Western Pumes', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9986469745635986, 'bounding_box': [[257.99999982118607, 934.9999934434891], [717.9999724030495, 934.9999934434891], [717.9999724030495, 1001.0000288486481], [257.99999982118607, 1001.0000288486481]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'zip_code': {'value': '79606', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999876022338867, 'bounding_box': [[917.0000061392784, 1110.0000232458115], [1133.999978005886, 1110.0000232458115], [1133.999978005886, 1156.9999784231186], [917.0000061392784, 1156.9999784231186]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'entry_term': {'value': 'Fall 2024', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999358057975769, 'bounding_box': [[890.9999772906303, 1571.9999760389328], [1168.9999759197235, 1571.9999760389328], [1168.9999759197235, 1642.0000076293945], [890.9999772906303, 1642.0000076293945]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'high_school': {'value': 'Wylie West Junior High', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999960064888, 'bounding_box': [[260.0000035017729, 1273.9999651908875], [1005.9999704360962, 1273.9999651908875], [1005.9999704360962, 1345.9999948740005], [260.0000035017729, 1345.9999948740005]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'student_type': {'value': 'Freshman', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.998217761516571, 'bounding_box': [[304.0000084787607, 1611.0000371932983], [484.0000167489052, 1611.0000371932983], [484.0000167489052, 1637.000012397766], [304.0000084787607, 1637.000012397766]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'date_of_birth': {'value': '01/14/2011', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999780058860779, 'bounding_box': [[932.0000052452087, 430.99998235702515], [1201.0000348091125, 430.99998235702515], [1201.0000348091125, 479.9999848008156], [932.0000052452087, 479.9999848008156]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'permission_to_text': {'value': 'Yes', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999058842658997, 'bounding_box': [[948.9999890327454, 766.0000070929527], [1013.0000308156013, 766.0000070929527], [1013.0000308156013, 790.9999832510948], [948.9999890327454, 790.9999832510948]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'preferred_first_name': {'value': 'Brie', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.999997079372406, 'bounding_box': [[273.99999126791954, 427.9999852180481], [430.0000123679638, 427.9999852180481], [430.0000123679638, 486.99997812509537], [273.99999126791954, 486.99997812509537]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}}, 'created_at': '2025-05-26T17:26:00.816362+00:00', 'reviewed_at': '2025-05-26T17:32:50.966201+00:00', 'exported_at': None, 'event_id': '7818909d-a3ff-4211-bf6e-c9b65952f758', 'updated_at': '2025-05-26T17:32:51.0542+00:00', 'review_status': 'archived', 'school_id': 'b1a2c3d4-e5f6-7890-1234-56789abcdef0', 'user_id': 'f8714b88-f5c7-404c-b4fa-2304e014a44b', 'image_path': 'f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-26/dbe7bc6c-cebf-49aa-8f0b-dad247325123.png'}] count=None
+
+[2025-05-26T17:32:51.178497+00:00] === ARCHIVE CARDS DB END ===
+
+[2025-05-26T17:32:51.178690+00:00] Successfully archived 1 records
+
+[2025-05-26T17:32:51.178808+00:00] === ARCHIVE CARDS SERVICE END ===
+
+[2025-05-26T17:37:08.180639+00:00] === ARCHIVE CARDS SERVICE START ===
+
+[2025-05-26T17:37:08.182145+00:00] Received document IDs
+[
+  "1f07a0c4-f3d2-4066-8701-040b35965243"
+]
+
+[2025-05-26T17:37:08.182250+00:00] Calling archive_cards_db...
+
+[2025-05-26T17:37:08.182320+00:00] === ARCHIVE CARDS DB START ===
+
+[2025-05-26T17:37:08.182375+00:00] Document IDs to archive
+[
+  "1f07a0c4-f3d2-4066-8701-040b35965243"
+]
+
+[2025-05-26T17:37:08.182426+00:00] Checking existing records...
+
+[2025-05-26T17:37:08.344265+00:00] Record 1f07a0c4-f3d2-4066-8701-040b35965243 full state:
+{
+  "document_id": "1f07a0c4-f3d2-4066-8701-040b35965243",
+  "review_status": "needs_human_review",
+  "status": null,
+  "deleted": null,
+  "reviewed_at": null
+}
+
+[2025-05-26T17:37:08.344578+00:00] Records to archive (excluding already archived)
+[
+  {
+    "document_id": "1f07a0c4-f3d2-4066-8701-040b35965243",
+    "current_status": "needs_human_review"
+  }
+]
+
+[2025-05-26T17:37:08.345181+00:00] Update payload
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T17:37:08.345169+00:00"
+}
+
+[2025-05-26T17:37:08.510105+00:00] Record 1f07a0c4-f3d2-4066-8701-040b35965243 after archive:
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T17:37:08.345169+00:00"
+}
+
+[2025-05-26T17:37:08.510499+00:00] Archive operation result
+data=[{'id': '0857ca1e-d0c1-4d63-a498-f845350897f8', 'document_id': '1f07a0c4-f3d2-4066-8701-040b35965243', 'fields': {'cell': {'value': '325-338-7743', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999918341636658, 'bounding_box': [[255.99999614059925, 771.0000023245811], [719.0000027418137, 771.0000023245811], [719.0000027418137, 835.9999895095825], [255.99999614059925, 835.9999895095825]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'city': {'value': 'Abilene', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'City validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'name': {'value': 'Brielle Samulde', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999823570251465, 'bounding_box': [[252.00000777840614, 250.0000074505806], [817.0000120997429, 250.0000074505806], [817.0000120997429, 325.0000096857548], [252.00000777840614, 325.0000096857548]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'email': {'value': 'samulbri29@wyliebulldogs.org', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999856948852539, 'bounding_box': [[277.00000628829, 597.0000207424164], [1161.0000371932983, 597.0000207424164], [1161.0000371932983, 670.0000002980232], [277.00000628829, 670.0000002980232]], 'review_notes': 'Email format was auto-corrected', 'review_confidence': 0.1, 'requires_human_review': True}, 'state': {'value': 'TX', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'State validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'address': {'value': 'Western Pumes', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.998552680015564, 'bounding_box': [[257.99999982118607, 934.9999934434891], [717.9999724030495, 934.9999934434891], [717.9999724030495, 1001.0000288486481], [257.99999982118607, 1001.0000288486481]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'zip_code': {'value': '79606', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999854564666748, 'bounding_box': [[917.0000061392784, 1110.0000232458115], [1133.999978005886, 1110.0000232458115], [1133.999978005886, 1156.9999784231186], [917.0000061392784, 1156.9999784231186]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'entry_term': {'value': 'Fall 2024', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999687075614929, 'bounding_box': [[890.9999772906303, 1571.9999760389328], [1168.9999759197235, 1571.9999760389328], [1168.9999759197235, 1642.0000076293945], [890.9999772906303, 1642.0000076293945]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'high_school': {'value': 'Wylie West Junior High', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999979138374329, 'bounding_box': [[260.0000035017729, 1273.9999651908875], [1005.9999704360962, 1273.9999651908875], [1005.9999704360962, 1345.9999948740005], [260.0000035017729, 1345.9999948740005]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'student_type': {'value': 'Freshman', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9961521029472351, 'bounding_box': [[304.0000084787607, 1611.0000371932983], [484.0000167489052, 1611.0000371932983], [484.0000167489052, 1637.000012397766], [304.0000084787607, 1637.000012397766]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'date_of_birth': {'value': '01/14/2011', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999837279319763, 'bounding_box': [[932.0000052452087, 430.99998235702515], [1201.0000348091125, 430.99998235702515], [1201.0000348091125, 479.9999848008156], [932.0000052452087, 479.9999848008156]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'permission_to_text': {'value': 'Yes', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.999799907207489, 'bounding_box': [[948.9999890327454, 766.0000070929527], [1013.0000308156013, 766.0000070929527], [1013.0000308156013, 790.9999832510948], [948.9999890327454, 790.9999832510948]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'preferred_first_name': {'value': 'Brie', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999939799308777, 'bounding_box': [[273.99999126791954, 427.9999852180481], [430.0000123679638, 427.9999852180481], [430.0000123679638, 486.99997812509537], [273.99999126791954, 486.99997812509537]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}}, 'created_at': '2025-05-26T17:33:07.305001+00:00', 'reviewed_at': '2025-05-26T17:37:08.345169+00:00', 'exported_at': None, 'event_id': '7818909d-a3ff-4211-bf6e-c9b65952f758', 'updated_at': '2025-05-26T17:37:08.442539+00:00', 'review_status': 'archived', 'school_id': 'b1a2c3d4-e5f6-7890-1234-56789abcdef0', 'user_id': 'f8714b88-f5c7-404c-b4fa-2304e014a44b', 'image_path': 'f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-26/10f0c93f-06ca-4f2a-8450-517fb4e7ed42.png'}] count=None
+
+[2025-05-26T17:37:08.511304+00:00] === ARCHIVE CARDS DB END ===
+
+[2025-05-26T17:37:08.511565+00:00] Successfully archived 1 records
+
+[2025-05-26T17:37:08.511681+00:00] === ARCHIVE CARDS SERVICE END ===
+
+[2025-05-26T17:41:00.201216+00:00] === ARCHIVE CARDS SERVICE START ===
+
+[2025-05-26T17:41:00.202797+00:00] Received document IDs
+[
+  "ac55dadf-dbb0-4698-a887-7f115569e917"
+]
+
+[2025-05-26T17:41:00.203009+00:00] Calling archive_cards_db...
+
+[2025-05-26T17:41:00.203076+00:00] === ARCHIVE CARDS DB START ===
+
+[2025-05-26T17:41:00.203126+00:00] Document IDs to archive
+[
+  "ac55dadf-dbb0-4698-a887-7f115569e917"
+]
+
+[2025-05-26T17:41:00.203184+00:00] Checking existing records...
+
+[2025-05-26T17:41:00.662272+00:00] Record ac55dadf-dbb0-4698-a887-7f115569e917 full state:
+{
+  "document_id": "ac55dadf-dbb0-4698-a887-7f115569e917",
+  "review_status": "needs_human_review",
+  "status": null,
+  "deleted": null,
+  "reviewed_at": null
+}
+
+[2025-05-26T17:41:00.662613+00:00] Records to archive (excluding already archived)
+[
+  {
+    "document_id": "ac55dadf-dbb0-4698-a887-7f115569e917",
+    "current_status": "needs_human_review"
+  }
+]
+
+[2025-05-26T17:41:00.663150+00:00] Update payload
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T17:41:00.663135+00:00"
+}
+
+[2025-05-26T17:41:00.811236+00:00] Record ac55dadf-dbb0-4698-a887-7f115569e917 after archive:
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T17:41:00.663135+00:00"
+}
+
+[2025-05-26T17:41:00.811458+00:00] Archive operation result
+data=[{'id': '67f62d0f-28be-41bf-91d9-c0ff53a5f088', 'document_id': 'ac55dadf-dbb0-4698-a887-7f115569e917', 'fields': {'cell': {'value': '325-338-7743', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.999997079372406, 'bounding_box': [[255.99999614059925, 771.0000023245811], [719.0000027418137, 771.0000023245811], [719.0000027418137, 835.9999895095825], [255.99999614059925, 835.9999895095825]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'city': {'value': 'Abilene', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'City validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'name': {'value': 'Brielle Samulde', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999886155128479, 'bounding_box': [[252.00000777840614, 250.0000074505806], [817.0000120997429, 250.0000074505806], [817.0000120997429, 325.0000096857548], [252.00000777840614, 325.0000096857548]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'email': {'value': 'samulbri29@wyliebulldogs.org', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999904036521912, 'bounding_box': [[277.00000628829, 597.0000207424164], [1161.0000371932983, 597.0000207424164], [1161.0000371932983, 670.0000002980232], [277.00000628829, 670.0000002980232]], 'review_notes': 'Email format was auto-corrected', 'review_confidence': 0.1, 'requires_human_review': True}, 'state': {'value': 'TX', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'State validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'address': {'value': 'Western Pumes', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9986469745635986, 'bounding_box': [[257.99999982118607, 934.9999934434891], [717.9999724030495, 934.9999934434891], [717.9999724030495, 1001.0000288486481], [257.99999982118607, 1001.0000288486481]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'zip_code': {'value': '79606', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999876022338867, 'bounding_box': [[917.0000061392784, 1110.0000232458115], [1133.999978005886, 1110.0000232458115], [1133.999978005886, 1156.9999784231186], [917.0000061392784, 1156.9999784231186]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'entry_term': {'value': 'Fall 2024', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999358057975769, 'bounding_box': [[890.9999772906303, 1571.9999760389328], [1168.9999759197235, 1571.9999760389328], [1168.9999759197235, 1642.0000076293945], [890.9999772906303, 1642.0000076293945]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'high_school': {'value': 'Wylie West Junior High', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999960064888, 'bounding_box': [[260.0000035017729, 1273.9999651908875], [1005.9999704360962, 1273.9999651908875], [1005.9999704360962, 1345.9999948740005], [260.0000035017729, 1345.9999948740005]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'student_type': {'value': 'Freshman', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.998217761516571, 'bounding_box': [[304.0000084787607, 1611.0000371932983], [484.0000167489052, 1611.0000371932983], [484.0000167489052, 1637.000012397766], [304.0000084787607, 1637.000012397766]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'date_of_birth': {'value': '01/14/2011', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999780058860779, 'bounding_box': [[932.0000052452087, 430.99998235702515], [1201.0000348091125, 430.99998235702515], [1201.0000348091125, 479.9999848008156], [932.0000052452087, 479.9999848008156]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'permission_to_text': {'value': 'Yes', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999058842658997, 'bounding_box': [[948.9999890327454, 766.0000070929527], [1013.0000308156013, 766.0000070929527], [1013.0000308156013, 790.9999832510948], [948.9999890327454, 790.9999832510948]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'preferred_first_name': {'value': 'Brie', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.999997079372406, 'bounding_box': [[273.99999126791954, 427.9999852180481], [430.0000123679638, 427.9999852180481], [430.0000123679638, 486.99997812509537], [273.99999126791954, 486.99997812509537]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}}, 'created_at': '2025-05-26T17:37:25.76448+00:00', 'reviewed_at': '2025-05-26T17:41:00.663135+00:00', 'exported_at': None, 'event_id': '7818909d-a3ff-4211-bf6e-c9b65952f758', 'updated_at': '2025-05-26T17:41:00.757407+00:00', 'review_status': 'archived', 'school_id': 'b1a2c3d4-e5f6-7890-1234-56789abcdef0', 'user_id': 'f8714b88-f5c7-404c-b4fa-2304e014a44b', 'image_path': 'f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-26/a8ce219d-e0bd-49e9-9394-b43da70b106a.png'}] count=None
+
+[2025-05-26T17:41:00.811919+00:00] === ARCHIVE CARDS DB END ===
+
+[2025-05-26T17:41:00.812010+00:00] Successfully archived 1 records
+
+[2025-05-26T17:41:00.812086+00:00] === ARCHIVE CARDS SERVICE END ===
+
+[2025-05-26T17:43:50.491313+00:00] === ARCHIVE CARDS SERVICE START ===
+
+[2025-05-26T17:43:50.492793+00:00] Received document IDs
+[
+  "c77471a1-cac9-48e7-95a3-5f00e6dc13c0"
+]
+
+[2025-05-26T17:43:50.492904+00:00] Calling archive_cards_db...
+
+[2025-05-26T17:43:50.492963+00:00] === ARCHIVE CARDS DB START ===
+
+[2025-05-26T17:43:50.493017+00:00] Document IDs to archive
+[
+  "c77471a1-cac9-48e7-95a3-5f00e6dc13c0"
+]
+
+[2025-05-26T17:43:50.493071+00:00] Checking existing records...
+
+[2025-05-26T17:43:50.651061+00:00] Record c77471a1-cac9-48e7-95a3-5f00e6dc13c0 full state:
+{
+  "document_id": "c77471a1-cac9-48e7-95a3-5f00e6dc13c0",
+  "review_status": "needs_human_review",
+  "status": null,
+  "deleted": null,
+  "reviewed_at": null
+}
+
+[2025-05-26T17:43:50.651216+00:00] Records to archive (excluding already archived)
+[
+  {
+    "document_id": "c77471a1-cac9-48e7-95a3-5f00e6dc13c0",
+    "current_status": "needs_human_review"
+  }
+]
+
+[2025-05-26T17:43:50.651277+00:00] Update payload
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T17:43:50.651275+00:00"
+}
+
+[2025-05-26T17:43:50.802100+00:00] Record c77471a1-cac9-48e7-95a3-5f00e6dc13c0 after archive:
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T17:43:50.651275+00:00"
+}
+
+[2025-05-26T17:43:50.802333+00:00] Archive operation result
+data=[{'id': 'e8bc5d1f-3624-40b9-95f8-13a9ce821887', 'document_id': 'c77471a1-cac9-48e7-95a3-5f00e6dc13c0', 'fields': {'cell': {'value': '325-338-7743', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999918341636658, 'bounding_box': [[255.99999614059925, 771.0000023245811], [719.0000027418137, 771.0000023245811], [719.0000027418137, 835.9999895095825], [255.99999614059925, 835.9999895095825]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'city': {'value': 'Abilene', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'City validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'name': {'value': 'Brielle Samulde', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999823570251465, 'bounding_box': [[252.00000777840614, 250.0000074505806], [817.0000120997429, 250.0000074505806], [817.0000120997429, 325.0000096857548], [252.00000777840614, 325.0000096857548]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'email': {'value': 'samulbri29@wyliebulldogs.org', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999856948852539, 'bounding_box': [[277.00000628829, 597.0000207424164], [1161.0000371932983, 597.0000207424164], [1161.0000371932983, 670.0000002980232], [277.00000628829, 670.0000002980232]], 'review_notes': 'Email format was auto-corrected', 'review_confidence': 0.1, 'requires_human_review': True}, 'state': {'value': 'TX', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'State validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'address': {'value': 'Western Pumes', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.998552680015564, 'bounding_box': [[257.99999982118607, 934.9999934434891], [717.9999724030495, 934.9999934434891], [717.9999724030495, 1001.0000288486481], [257.99999982118607, 1001.0000288486481]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'zip_code': {'value': '79606', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999854564666748, 'bounding_box': [[917.0000061392784, 1110.0000232458115], [1133.999978005886, 1110.0000232458115], [1133.999978005886, 1156.9999784231186], [917.0000061392784, 1156.9999784231186]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'entry_term': {'value': 'Fall 2024', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999687075614929, 'bounding_box': [[890.9999772906303, 1571.9999760389328], [1168.9999759197235, 1571.9999760389328], [1168.9999759197235, 1642.0000076293945], [890.9999772906303, 1642.0000076293945]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'high_school': {'value': 'Wylie West Junior High', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999979138374329, 'bounding_box': [[260.0000035017729, 1273.9999651908875], [1005.9999704360962, 1273.9999651908875], [1005.9999704360962, 1345.9999948740005], [260.0000035017729, 1345.9999948740005]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'student_type': {'value': 'Freshman', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9961521029472351, 'bounding_box': [[304.0000084787607, 1611.0000371932983], [484.0000167489052, 1611.0000371932983], [484.0000167489052, 1637.000012397766], [304.0000084787607, 1637.000012397766]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'date_of_birth': {'value': '01/14/2011', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999837279319763, 'bounding_box': [[932.0000052452087, 430.99998235702515], [1201.0000348091125, 430.99998235702515], [1201.0000348091125, 479.9999848008156], [932.0000052452087, 479.9999848008156]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'permission_to_text': {'value': 'Yes', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.999799907207489, 'bounding_box': [[948.9999890327454, 766.0000070929527], [1013.0000308156013, 766.0000070929527], [1013.0000308156013, 790.9999832510948], [948.9999890327454, 790.9999832510948]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'preferred_first_name': {'value': 'Brie', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999939799308777, 'bounding_box': [[273.99999126791954, 427.9999852180481], [430.0000123679638, 427.9999852180481], [430.0000123679638, 486.99997812509537], [273.99999126791954, 486.99997812509537]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}}, 'created_at': '2025-05-26T17:41:17.439908+00:00', 'reviewed_at': '2025-05-26T17:43:50.651275+00:00', 'exported_at': None, 'event_id': '7818909d-a3ff-4211-bf6e-c9b65952f758', 'updated_at': '2025-05-26T17:43:50.740241+00:00', 'review_status': 'archived', 'school_id': 'b1a2c3d4-e5f6-7890-1234-56789abcdef0', 'user_id': 'f8714b88-f5c7-404c-b4fa-2304e014a44b', 'image_path': 'f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-26/04ace67f-302e-4c91-81fc-20406f2e94cc.png'}] count=None
+
+[2025-05-26T17:43:50.802539+00:00] === ARCHIVE CARDS DB END ===
+
+[2025-05-26T17:43:50.802609+00:00] Successfully archived 1 records
+
+[2025-05-26T17:43:50.802661+00:00] === ARCHIVE CARDS SERVICE END ===
+
+[2025-05-26T17:46:24.257641+00:00] === ARCHIVE CARDS SERVICE START ===
+
+[2025-05-26T17:46:24.260010+00:00] Received document IDs
+[
+  "5b257d2c-78eb-4e51-8492-b912189f3029"
+]
+
+[2025-05-26T17:46:24.260306+00:00] Calling archive_cards_db...
+
+[2025-05-26T17:46:24.260401+00:00] === ARCHIVE CARDS DB START ===
+
+[2025-05-26T17:46:24.260523+00:00] Document IDs to archive
+[
+  "5b257d2c-78eb-4e51-8492-b912189f3029"
+]
+
+[2025-05-26T17:46:24.260679+00:00] Checking existing records...
+
+[2025-05-26T17:46:24.504496+00:00] Record 5b257d2c-78eb-4e51-8492-b912189f3029 full state:
+{
+  "document_id": "5b257d2c-78eb-4e51-8492-b912189f3029",
+  "review_status": "needs_human_review",
+  "status": null,
+  "deleted": null,
+  "reviewed_at": null
+}
+
+[2025-05-26T17:46:24.504834+00:00] Records to archive (excluding already archived)
+[
+  {
+    "document_id": "5b257d2c-78eb-4e51-8492-b912189f3029",
+    "current_status": "needs_human_review"
+  }
+]
+
+[2025-05-26T17:46:24.505313+00:00] Update payload
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T17:46:24.505305+00:00"
+}
+
+[2025-05-26T17:46:24.674957+00:00] Record 5b257d2c-78eb-4e51-8492-b912189f3029 after archive:
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T17:46:24.505305+00:00"
+}
+
+[2025-05-26T17:46:24.675184+00:00] Archive operation result
+data=[{'id': 'bbb0c9b6-3546-468e-a670-ca97b15dc5ba', 'document_id': '5b257d2c-78eb-4e51-8492-b912189f3029', 'fields': {'cell': {'value': '325-338-7743', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999918341636658, 'bounding_box': [[255.99999614059925, 771.0000023245811], [719.0000027418137, 771.0000023245811], [719.0000027418137, 835.9999895095825], [255.99999614059925, 835.9999895095825]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'city': {'value': 'Abilene', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'City validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'name': {'value': 'Brielle Samulde', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999823570251465, 'bounding_box': [[252.00000777840614, 250.0000074505806], [817.0000120997429, 250.0000074505806], [817.0000120997429, 325.0000096857548], [252.00000777840614, 325.0000096857548]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'email': {'value': 'samulbri29@wyliebulldogs.org', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999856948852539, 'bounding_box': [[277.00000628829, 597.0000207424164], [1161.0000371932983, 597.0000207424164], [1161.0000371932983, 670.0000002980232], [277.00000628829, 670.0000002980232]], 'review_notes': 'Email format was auto-corrected', 'review_confidence': 0.1, 'requires_human_review': True}, 'state': {'value': 'TX', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'State validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'address': {'value': 'Western Pumes', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.998552680015564, 'bounding_box': [[257.99999982118607, 934.9999934434891], [717.9999724030495, 934.9999934434891], [717.9999724030495, 1001.0000288486481], [257.99999982118607, 1001.0000288486481]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'zip_code': {'value': '79606', 'source': 'docai', 'enabled': True, 'required': True, 'confidence': 0.9999854564666748, 'bounding_box': [[917.0000061392784, 1110.0000232458115], [1133.999978005886, 1110.0000232458115], [1133.999978005886, 1156.9999784231186], [917.0000061392784, 1156.9999784231186]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'entry_term': {'value': 'Fall 2024', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999687075614929, 'bounding_box': [[890.9999772906303, 1571.9999760389328], [1168.9999759197235, 1571.9999760389328], [1168.9999759197235, 1642.0000076293945], [890.9999772906303, 1642.0000076293945]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'high_school': {'value': 'Wylie West Junior High', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999979138374329, 'bounding_box': [[260.0000035017729, 1273.9999651908875], [1005.9999704360962, 1273.9999651908875], [1005.9999704360962, 1345.9999948740005], [260.0000035017729, 1345.9999948740005]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'student_type': {'value': 'Freshman', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9961521029472351, 'bounding_box': [[304.0000084787607, 1611.0000371932983], [484.0000167489052, 1611.0000371932983], [484.0000167489052, 1637.000012397766], [304.0000084787607, 1637.000012397766]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'date_of_birth': {'value': '01/14/2011', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999837279319763, 'bounding_box': [[932.0000052452087, 430.99998235702515], [1201.0000348091125, 430.99998235702515], [1201.0000348091125, 479.9999848008156], [932.0000052452087, 479.9999848008156]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'permission_to_text': {'value': 'Yes', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.999799907207489, 'bounding_box': [[948.9999890327454, 766.0000070929527], [1013.0000308156013, 766.0000070929527], [1013.0000308156013, 790.9999832510948], [948.9999890327454, 790.9999832510948]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}, 'preferred_first_name': {'value': 'Brie', 'source': 'docai', 'enabled': True, 'required': False, 'confidence': 0.9999939799308777, 'bounding_box': [[273.99999126791954, 427.9999852180481], [430.0000123679638, 427.9999852180481], [430.0000123679638, 486.99997812509537], [273.99999126791954, 486.99997812509537]], 'review_notes': "Gemini processing failed: module 'google.generativeai' has no attribute 'upload_file'", 'review_confidence': 0.1, 'requires_human_review': True}}, 'created_at': '2025-05-26T17:44:06.987323+00:00', 'reviewed_at': '2025-05-26T17:46:24.505305+00:00', 'exported_at': None, 'event_id': '7818909d-a3ff-4211-bf6e-c9b65952f758', 'updated_at': '2025-05-26T17:46:24.604072+00:00', 'review_status': 'archived', 'school_id': 'b1a2c3d4-e5f6-7890-1234-56789abcdef0', 'user_id': 'f8714b88-f5c7-404c-b4fa-2304e014a44b', 'image_path': 'f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-26/e963c5ff-6d03-465d-aec2-1400cff13f2c.png'}] count=None
+
+[2025-05-26T17:46:24.675632+00:00] === ARCHIVE CARDS DB END ===
+
+[2025-05-26T17:46:24.675720+00:00] Successfully archived 1 records
+
+[2025-05-26T17:46:24.675770+00:00] === ARCHIVE CARDS SERVICE END ===
+
+[2025-05-26T17:59:43.077282+00:00] === ARCHIVE CARDS SERVICE START ===
+
+[2025-05-26T17:59:43.078480+00:00] Received document IDs
+[
+  "8d392102-520d-4d4b-a516-267216a3ed18"
+]
+
+[2025-05-26T17:59:43.078877+00:00] Calling archive_cards_db...
+
+[2025-05-26T17:59:43.078933+00:00] === ARCHIVE CARDS DB START ===
+
+[2025-05-26T17:59:43.078973+00:00] Document IDs to archive
+[
+  "8d392102-520d-4d4b-a516-267216a3ed18"
+]
+
+[2025-05-26T17:59:43.079019+00:00] Checking existing records...
+
+[2025-05-26T17:59:43.328941+00:00] Record 8d392102-520d-4d4b-a516-267216a3ed18 full state:
+{
+  "document_id": "8d392102-520d-4d4b-a516-267216a3ed18",
+  "review_status": "needs_human_review",
+  "status": null,
+  "deleted": null,
+  "reviewed_at": null
+}
+
+[2025-05-26T17:59:43.329160+00:00] Records to archive (excluding already archived)
+[
+  {
+    "document_id": "8d392102-520d-4d4b-a516-267216a3ed18",
+    "current_status": "needs_human_review"
+  }
+]
+
+[2025-05-26T17:59:43.329578+00:00] Update payload
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T17:59:43.329574+00:00"
+}
+
+[2025-05-26T17:59:43.636929+00:00] Record 8d392102-520d-4d4b-a516-267216a3ed18 after archive:
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T17:59:43.329574+00:00"
+}
+
+[2025-05-26T17:59:43.637204+00:00] Archive operation result
+data=[{'id': '59b7adc5-b092-4c3d-a89f-a7eb30abe20d', 'document_id': '8d392102-520d-4d4b-a516-267216a3ed18', 'fields': {'cell': {'value': '325-338-7743', 'source': 'gemini', 'enabled': True, 'required': True, 'confidence': 0.9999918341636658, 'bounding_box': [[255.99999614059925, 771.0000023245811], [719.0000027418137, 771.0000023245811], [719.0000027418137, 835.9999895095825], [255.99999614059925, 835.9999895095825]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '325-338-7743'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'city': {'value': 'Abilene', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'City validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'name': {'value': 'Brielle Samulde', 'source': 'gemini', 'enabled': True, 'required': True, 'confidence': 0.9999823570251465, 'bounding_box': [[252.00000777840614, 250.0000074505806], [817.0000120997429, 250.0000074505806], [817.0000120997429, 325.0000096857548], [252.00000777840614, 325.0000096857548]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Brielle Samulde'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'email': {'value': 'samulbri29@wyliebulldogs.org', 'source': 'gemini', 'enabled': True, 'required': True, 'confidence': 0.9999856948852539, 'bounding_box': [[277.00000628829, 597.0000207424164], [1161.0000371932983, 597.0000207424164], [1161.0000371932983, 670.0000002980232], [277.00000628829, 670.0000002980232]], 'review_notes': 'Email format was auto-corrected', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Samulbri29@wyliebulldogs.org'}, 'review_confidence': 0.95, 'requires_human_review': True}, 'state': {'value': 'TX', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'State validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'address': {'value': 'Western Pumes', 'source': 'gemini', 'enabled': True, 'required': True, 'confidence': 0.998552680015564, 'bounding_box': [[257.99999982118607, 934.9999934434891], [717.9999724030495, 934.9999934434891], [717.9999724030495, 1001.0000288486481], [257.99999982118607, 1001.0000288486481]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Western Pumes'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'zip_code': {'value': '79606', 'source': 'gemini', 'enabled': True, 'required': True, 'confidence': 0.9999854564666748, 'bounding_box': [[917.0000061392784, 1110.0000232458115], [1133.999978005886, 1110.0000232458115], [1133.999978005886, 1156.9999784231186], [917.0000061392784, 1156.9999784231186]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '79606'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'entry_term': {'value': 'Fall 2024', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999687075614929, 'bounding_box': [[890.9999772906303, 1571.9999760389328], [1168.9999759197235, 1571.9999760389328], [1168.9999759197235, 1642.0000076293945], [890.9999772906303, 1642.0000076293945]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Fall 2024'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'high_school': {'value': 'Wylie West Junior High', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999979138374329, 'bounding_box': [[260.0000035017729, 1273.9999651908875], [1005.9999704360962, 1273.9999651908875], [1005.9999704360962, 1345.9999948740005], [260.0000035017729, 1345.9999948740005]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Wylie West Junior High'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'student_type': {'value': 'Freshman', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9961521029472351, 'bounding_box': [[304.0000084787607, 1611.0000371932983], [484.0000167489052, 1611.0000371932983], [484.0000167489052, 1637.000012397766], [304.0000084787607, 1637.000012397766]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Freshman'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'date_of_birth': {'value': '01/14/2011', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999837279319763, 'bounding_box': [[932.0000052452087, 430.99998235702515], [1201.0000348091125, 430.99998235702515], [1201.0000348091125, 479.9999848008156], [932.0000052452087, 479.9999848008156]], 'review_notes': '', 'quality_metadata': {'notes': 'Formatted date to MM/DD/YYYY', 'certainty': 'certain', 'edit_made': True, 'edit_type': 'format_correction', 'text_clarity': 'clear', 'original_value': '1-14-2011'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'permission_to_text': {'value': 'Yes', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.999799907207489, 'bounding_box': [[948.9999890327454, 766.0000070929527], [1013.0000308156013, 766.0000070929527], [1013.0000308156013, 790.9999832510948], [948.9999890327454, 790.9999832510948]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Yes'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'preferred_first_name': {'value': 'Brie', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999939799308777, 'bounding_box': [[273.99999126791954, 427.9999852180481], [430.0000123679638, 427.9999852180481], [430.0000123679638, 486.99997812509537], [273.99999126791954, 486.99997812509537]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Brie'}, 'review_confidence': 0.95, 'requires_human_review': False}}, 'created_at': '2025-05-26T17:46:57.152106+00:00', 'reviewed_at': '2025-05-26T17:59:43.329574+00:00', 'exported_at': None, 'event_id': '7818909d-a3ff-4211-bf6e-c9b65952f758', 'updated_at': '2025-05-26T17:59:43.519241+00:00', 'review_status': 'archived', 'school_id': 'b1a2c3d4-e5f6-7890-1234-56789abcdef0', 'user_id': 'f8714b88-f5c7-404c-b4fa-2304e014a44b', 'image_path': 'f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-26/a1c296b7-5842-4848-9a82-131f58eb30c8.png'}] count=None
+
+[2025-05-26T17:59:43.637667+00:00] === ARCHIVE CARDS DB END ===
+
+[2025-05-26T17:59:43.637766+00:00] Successfully archived 1 records
+
+[2025-05-26T17:59:43.637822+00:00] === ARCHIVE CARDS SERVICE END ===
+
+[2025-05-26T18:06:20.376736+00:00] === ARCHIVE CARDS SERVICE START ===
+
+[2025-05-26T18:06:20.377907+00:00] Received document IDs
+[
+  "2b589894-450e-48db-8383-37e808b07d0b"
+]
+
+[2025-05-26T18:06:20.378224+00:00] Calling archive_cards_db...
+
+[2025-05-26T18:06:20.378297+00:00] === ARCHIVE CARDS DB START ===
+
+[2025-05-26T18:06:20.378348+00:00] Document IDs to archive
+[
+  "2b589894-450e-48db-8383-37e808b07d0b"
+]
+
+[2025-05-26T18:06:20.378462+00:00] Checking existing records...
+
+[2025-05-26T18:06:20.652396+00:00] Record 2b589894-450e-48db-8383-37e808b07d0b full state:
+{
+  "document_id": "2b589894-450e-48db-8383-37e808b07d0b",
+  "review_status": "needs_human_review",
+  "status": null,
+  "deleted": null,
+  "reviewed_at": null
+}
+
+[2025-05-26T18:06:20.652652+00:00] Records to archive (excluding already archived)
+[
+  {
+    "document_id": "2b589894-450e-48db-8383-37e808b07d0b",
+    "current_status": "needs_human_review"
+  }
+]
+
+[2025-05-26T18:06:20.652722+00:00] Update payload
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T18:06:20.652719+00:00"
+}
+
+[2025-05-26T18:06:20.882498+00:00] Record 2b589894-450e-48db-8383-37e808b07d0b after archive:
+{
+  "review_status": "archived",
+  "reviewed_at": "2025-05-26T18:06:20.652719+00:00"
+}
+
+[2025-05-26T18:06:20.882725+00:00] Archive operation result
+data=[{'id': 'f7d811bb-2b5c-4ce5-89ef-141f2b4a443e', 'document_id': '2b589894-450e-48db-8383-37e808b07d0b', 'fields': {'cell': {'value': '325-338-7743', 'source': 'gemini', 'enabled': True, 'required': True, 'confidence': 0.9999918341636658, 'bounding_box': [[255.99999614059925, 771.0000023245811], [719.0000027418137, 771.0000023245811], [719.0000027418137, 835.9999895095825], [255.99999614059925, 835.9999895095825]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '325-338-7743'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'city': {'value': 'Abilene', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'City validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'name': {'value': 'Brielle Samulde', 'source': 'gemini', 'enabled': True, 'required': True, 'confidence': 0.9999823570251465, 'bounding_box': [[252.00000777840614, 250.0000074505806], [817.0000120997429, 250.0000074505806], [817.0000120997429, 325.0000096857548], [252.00000777840614, 325.0000096857548]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Brielle Samulde'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'email': {'value': 'samulbri29@wyliebulldogs.org', 'source': 'gemini', 'enabled': True, 'required': True, 'confidence': 0.9999856948852539, 'bounding_box': [[277.00000628829, 597.0000207424164], [1161.0000371932983, 597.0000207424164], [1161.0000371932983, 670.0000002980232], [277.00000628829, 670.0000002980232]], 'review_notes': 'Email format was auto-corrected', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Samulbri29@wyliebulldogs.org'}, 'review_confidence': 0.95, 'requires_human_review': True}, 'state': {'value': 'TX', 'source': 'zip_validation', 'enabled': True, 'required': False, 'confidence': 0.95, 'bounding_box': [], 'review_notes': 'State validated from zip code', 'review_confidence': 0.95, 'requires_human_review': False}, 'address': {'value': 'Western Pumes', 'source': 'gemini', 'enabled': True, 'required': True, 'confidence': 0.998552680015564, 'bounding_box': [[257.99999982118607, 934.9999934434891], [717.9999724030495, 934.9999934434891], [717.9999724030495, 1001.0000288486481], [257.99999982118607, 1001.0000288486481]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Western Pumes'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'zip_code': {'value': '79606', 'source': 'gemini', 'enabled': True, 'required': True, 'confidence': 0.9999854564666748, 'bounding_box': [[917.0000061392784, 1110.0000232458115], [1133.999978005886, 1110.0000232458115], [1133.999978005886, 1156.9999784231186], [917.0000061392784, 1156.9999784231186]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': '79606'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'entry_term': {'value': 'Fall 2024', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999687075614929, 'bounding_box': [[890.9999772906303, 1571.9999760389328], [1168.9999759197235, 1571.9999760389328], [1168.9999759197235, 1642.0000076293945], [890.9999772906303, 1642.0000076293945]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Fall 2024'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'high_school': {'value': 'Wylie West Junior High', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999979138374329, 'bounding_box': [[260.0000035017729, 1273.9999651908875], [1005.9999704360962, 1273.9999651908875], [1005.9999704360962, 1345.9999948740005], [260.0000035017729, 1345.9999948740005]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Wylie West Junior High'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'student_type': {'value': 'Freshman', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9961521029472351, 'bounding_box': [[304.0000084787607, 1611.0000371932983], [484.0000167489052, 1611.0000371932983], [484.0000167489052, 1637.000012397766], [304.0000084787607, 1637.000012397766]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Freshman'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'date_of_birth': {'value': '01/14/2011', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999837279319763, 'bounding_box': [[932.0000052452087, 430.99998235702515], [1201.0000348091125, 430.99998235702515], [1201.0000348091125, 479.9999848008156], [932.0000052452087, 479.9999848008156]], 'review_notes': '', 'quality_metadata': {'notes': 'Added leading zero and formatted to MM/DD/YYYY.', 'certainty': 'certain', 'edit_made': True, 'edit_type': 'format_correction', 'text_clarity': 'clear', 'original_value': '1-14-2011'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'permission_to_text': {'value': 'Yes', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.999799907207489, 'bounding_box': [[948.9999890327454, 766.0000070929527], [1013.0000308156013, 766.0000070929527], [1013.0000308156013, 790.9999832510948], [948.9999890327454, 790.9999832510948]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Yes'}, 'review_confidence': 0.95, 'requires_human_review': False}, 'preferred_first_name': {'value': 'Brie', 'source': 'gemini', 'enabled': True, 'required': False, 'confidence': 0.9999939799308777, 'bounding_box': [[273.99999126791954, 427.9999852180481], [430.0000123679638, 427.9999852180481], [430.0000123679638, 486.99997812509537], [273.99999126791954, 486.99997812509537]], 'review_notes': '', 'quality_metadata': {'notes': None, 'certainty': 'certain', 'edit_made': False, 'edit_type': 'none', 'text_clarity': 'clear', 'original_value': 'Brie'}, 'review_confidence': 0.95, 'requires_human_review': False}}, 'created_at': '2025-05-26T18:00:14.582845+00:00', 'reviewed_at': '2025-05-26T18:06:20.652719+00:00', 'exported_at': None, 'event_id': '7818909d-a3ff-4211-bf6e-c9b65952f758', 'updated_at': '2025-05-26T18:06:20.824192+00:00', 'review_status': 'archived', 'school_id': 'b1a2c3d4-e5f6-7890-1234-56789abcdef0', 'user_id': 'f8714b88-f5c7-404c-b4fa-2304e014a44b', 'image_path': 'f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-05-26/e23b26e4-a75a-4ba3-ad7a-a31b33f33c7d.png'}] count=None
+
+[2025-05-26T18:06:20.883169+00:00] === ARCHIVE CARDS DB END ===
+
+[2025-05-26T18:06:20.883223+00:00] Successfully archived 1 records
+
+[2025-05-26T18:06:20.883259+00:00] === ARCHIVE CARDS SERVICE END ===

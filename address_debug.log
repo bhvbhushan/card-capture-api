@@ -1,0 +1,270 @@
+
+[2025-05-26T17:26:00.210355+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T17:26:00.210646+00:00] Current address components
+{
+  "address": "Western Pumes",
+  "city": "",
+  "state": "",
+  "zip_code": "79606"
+}
+
+[2025-05-26T17:26:00.210783+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T17:26:00.814635+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": false,
+  "queried_by_zip_only": true
+}
+
+[2025-05-26T17:26:00.814870+00:00] Enhancing city: '' -> 'Abilene'
+
+[2025-05-26T17:26:00.815320+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T17:26:00.815376+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T17:33:07.048133+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T17:33:07.048256+00:00] Current address components
+{
+  "address": "Western Pumes",
+  "city": "",
+  "state": "",
+  "zip_code": "79606"
+}
+
+[2025-05-26T17:33:07.048292+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T17:33:07.302427+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": false,
+  "queried_by_zip_only": true
+}
+
+[2025-05-26T17:33:07.302826+00:00] Enhancing city: '' -> 'Abilene'
+
+[2025-05-26T17:33:07.303543+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T17:33:07.303617+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T17:37:25.585031+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T17:37:25.585134+00:00] Current address components
+{
+  "address": "Western Pumes",
+  "city": "",
+  "state": "",
+  "zip_code": "79606"
+}
+
+[2025-05-26T17:37:25.585192+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T17:37:25.762633+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": false,
+  "queried_by_zip_only": true
+}
+
+[2025-05-26T17:37:25.762862+00:00] Enhancing city: '' -> 'Abilene'
+
+[2025-05-26T17:37:25.763314+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T17:37:25.763378+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T17:41:17.229518+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T17:41:17.230799+00:00] Current address components
+{
+  "address": "Western Pumes",
+  "city": "",
+  "state": "",
+  "zip_code": "79606"
+}
+
+[2025-05-26T17:41:17.230875+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T17:41:17.437632+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": false,
+  "queried_by_zip_only": true
+}
+
+[2025-05-26T17:41:17.437879+00:00] Enhancing city: '' -> 'Abilene'
+
+[2025-05-26T17:41:17.438363+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T17:41:17.438446+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T17:44:06.818346+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T17:44:06.818493+00:00] Current address components
+{
+  "address": "Western Pumes",
+  "city": "",
+  "state": "",
+  "zip_code": "79606"
+}
+
+[2025-05-26T17:44:06.818527+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T17:44:06.984745+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": false,
+  "queried_by_zip_only": true
+}
+
+[2025-05-26T17:44:06.985117+00:00] Enhancing city: '' -> 'Abilene'
+
+[2025-05-26T17:44:06.985795+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T17:44:06.985866+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T17:46:56.997619+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T17:46:56.997795+00:00] Current address components
+{
+  "address": "Western Pumes",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": "79606"
+}
+
+[2025-05-26T17:46:56.997955+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T17:46:57.150800+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": false,
+  "queried_by_zip_only": true
+}
+
+[2025-05-26T17:46:57.150975+00:00] Enhancing city: 'Abilene' -> 'Abilene'
+
+[2025-05-26T17:46:57.151500+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T17:46:57.151607+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:00:14.307663+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:00:14.307845+00:00] Current address components
+{
+  "address": "Western Pumes",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": "79606"
+}
+
+[2025-05-26T18:00:14.307905+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:00:14.581759+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": false,
+  "queried_by_zip_only": true
+}
+
+[2025-05-26T18:00:14.581964+00:00] Enhancing city: 'Abilene' -> 'Abilene'
+
+[2025-05-26T18:00:14.582419+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:00:14.582473+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:04:42.597372+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:04:42.597532+00:00] Current address components
+{
+  "address": "Western Pumes",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": "79606"
+}
+
+[2025-05-26T18:04:42.597585+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:04:42.773878+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": false,
+  "queried_by_zip_only": true
+}
+
+[2025-05-26T18:04:42.774128+00:00] Address 'Western Pumes' could not be validated by Google Maps
+
+[2025-05-26T18:04:42.774578+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T18:06:58.361112+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T18:06:58.361379+00:00] Current address components
+{
+  "address": "Western Pumes",
+  "city": "Abilene",
+  "state": "TX",
+  "zip_code": "79606"
+}
+
+[2025-05-26T18:06:58.361451+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T18:06:58.519244+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": false,
+  "queried_by_zip_only": true
+}
+
+[2025-05-26T18:06:58.519453+00:00] Enhancing city: 'Abilene' -> 'Abilene'
+
+[2025-05-26T18:06:58.519946+00:00] Enhancing state: 'TX' -> 'TX'
+
+[2025-05-26T18:06:58.520017+00:00] Address 'Western Pumes' could not be validated by Google Maps
+
+[2025-05-26T18:06:58.520061+00:00] === ADDRESS VALIDATION COMPLETE ===
