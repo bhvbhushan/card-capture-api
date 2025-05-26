@@ -25,17 +25,27 @@ def list_users_service():
         raise HTTPException(status_code=500, detail=f"Error fetching users: {e}")
 
 def invite_user_service(user, payload):
-    if user.get("role") != "admin":
+    user_roles = user.get("role", [])
+    if "admin" not in user_roles:
         print("❌ Only admins can invite users.")
         raise HTTPException(status_code=403, detail="Only admins can invite users.")
+    
     first_name = payload.get("first_name")
     last_name = payload.get("last_name")
     email = payload.get("email")
-    role = payload.get("role", "user")
+    role = payload.get("role", ["reviewer"])
     school_id = payload.get("school_id")
+    
     if not all([first_name, last_name, email, school_id]):
         print("❌ Missing required fields.")
         raise HTTPException(status_code=400, detail="Missing required fields.")
+    
+    if isinstance(role, list):
+        valid_roles = ["admin", "recruiter", "reviewer"]
+        if not all(r in valid_roles for r in role):
+            print("❌ Invalid roles specified.")
+            raise HTTPException(status_code=400, detail="Invalid roles specified.")
+    
     try:
         print(f"🔑 Attempting to invite user: {email}")
         print(f"📝 User metadata being sent:")
@@ -72,11 +82,11 @@ def delete_user_service(user, user_id):
     print(f"🔍 User role: {user.get('role')}")
     print(f"🔍 User keys: {list(user.keys()) if user else 'None'}")
     
-    if user.get("role") != "admin":
+    user_roles = user.get("role", [])
+    if "admin" not in user_roles:
         print("❌ Only admins can delete users.")
         raise HTTPException(status_code=403, detail="Only admins can delete users.")
     
-    # Prevent self-deletion
     if user.get("id") == user_id or user.get("user_id") == user_id:
         print("❌ Users cannot delete themselves.")
         raise HTTPException(status_code=400, detail="You cannot delete your own account.")

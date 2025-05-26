@@ -1013,3 +1013,45 @@
   "status": "reviewed",
   "fields_needing_review": []
 }
+
+[2025-05-26T21:40:00.852944+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T21:40:00.853133+00:00] Field validation complete
+
+[2025-05-26T21:40:01.062355+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T21:40:01.062468+00:00] Field email explicitly marked for review
+{
+  "reason": "This required field appears to be empty"
+}
+
+[2025-05-26T21:40:01.062574+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T21:40:01.062647+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "email"
+  ]
+}
+
+[2025-05-26T21:43:22.613394+00:00] === VALIDATING FIELD DATA ===
+
+[2025-05-26T21:43:22.613886+00:00] Field validation complete
+
+[2025-05-26T21:43:22.755603+00:00] === DETERMINING REVIEW STATUS ===
+
+[2025-05-26T21:43:22.755646+00:00] Field address explicitly marked for review
+{
+  "reason": "Address could not be validated"
+}
+
+[2025-05-26T21:43:22.755752+00:00] Card needs review - 1 fields flagged
+
+[2025-05-26T21:43:22.755837+00:00] Review determination complete
+{
+  "status": "needs_human_review",
+  "fields_needing_review": [
+    "address"
+  ]
+}

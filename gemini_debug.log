@@ -24106,3 +24106,1431 @@
 }
 
 [2025-05-26T19:53:09.790081+00:00] === GEMINI PROCESSING V2 COMPLETE ===
+
+[2025-05-26T21:39:43.175102+00:00] === GEMINI PROCESSING V2 START ===
+
+[2025-05-26T21:39:43.175184+00:00] Image path: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmp1ug3jvf4_trimmed.png
+
+[2025-05-26T21:39:43.175254+00:00] Input DocAI fields
+{
+  "address": {
+    "value": "Sierra Sunset",
+    "required": true,
+    "enabled": true
+  },
+  "cell": {
+    "value": "945 2143363463",
+    "required": true,
+    "enabled": true
+  },
+  "city_state": {
+    "value": "aBiLien",
+    "required": false,
+    "enabled": true
+  },
+  "date_of_birth": {
+    "value": "03/26/11",
+    "required": false,
+    "enabled": true
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "required": false,
+    "enabled": true
+  },
+  "high_school": {
+    "value": "(wyile High School",
+    "required": false,
+    "enabled": true
+  },
+  "major": {
+    "value": "Soccer",
+    "required": false,
+    "enabled": true
+  },
+  "name": {
+    "value": "DarkA DeLatorre",
+    "required": true,
+    "enabled": true
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "required": false,
+    "enabled": true
+  },
+  "preferred_first_name": {
+    "value": "Day Len",
+    "required": false,
+    "enabled": true
+  },
+  "student_type": {
+    "value": "Freshman",
+    "required": false,
+    "enabled": true
+  },
+  "zip_code": {
+    "value": "79606",
+    "required": true,
+    "enabled": true
+  },
+  "email": {
+    "value": "",
+    "required": true,
+    "enabled": true
+  }
+}
+
+[2025-05-26T21:39:43.175638+00:00] Gemini input prepared
+{
+  "address": {
+    "value": "Sierra Sunset",
+    "confidence": 0.9999454617500305,
+    "required": true,
+    "enabled": true
+  },
+  "cell": {
+    "value": "945 2143363463",
+    "confidence": 0.9985317587852478,
+    "required": true,
+    "enabled": true
+  },
+  "city_state": {
+    "value": "aBiLien",
+    "confidence": 0.9998725056648254,
+    "required": false,
+    "enabled": true
+  },
+  "date_of_birth": {
+    "value": "03/26/11",
+    "confidence": 0.9999898076057434,
+    "required": false,
+    "enabled": true
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "confidence": 0.999864935874939,
+    "required": false,
+    "enabled": true
+  },
+  "high_school": {
+    "value": "(wyile High School",
+    "confidence": 0.9956978559494019,
+    "required": false,
+    "enabled": true
+  },
+  "major": {
+    "value": "Soccer",
+    "confidence": 0.9999922513961792,
+    "required": false,
+    "enabled": true
+  },
+  "name": {
+    "value": "DarkA DeLatorre",
+    "confidence": 0.9999301433563232,
+    "required": true,
+    "enabled": true
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "confidence": 0.9999202489852905,
+    "required": false,
+    "enabled": true
+  },
+  "preferred_first_name": {
+    "value": "Day Len",
+    "confidence": 0.9998882412910461,
+    "required": false,
+    "enabled": true
+  },
+  "student_type": {
+    "value": "Freshman",
+    "confidence": 0.9995376467704773,
+    "required": false,
+    "enabled": true
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence": 0.9999823570251465,
+    "required": true,
+    "enabled": true
+  },
+  "email": {
+    "value": "",
+    "confidence": 0.0,
+    "required": true,
+    "enabled": true
+  }
+}
+
+[2025-05-26T21:39:43.176053+00:00] Uploading image to Gemini...
+
+[2025-05-26T21:39:45.758178+00:00] Sending request to Gemini...
+
+[2025-05-26T21:40:00.850393+00:00] Raw Gemini response
+```json
+{
+  "address": {
+    "value": "Sierra Sunset",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Sierra Sunset",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "cell": {
+    "value": "945-214-3363",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "945 2143363463",
+    "text_clarity": "clear",
+    "certainty": "mostly_certain",
+    "notes": "Removed extra digits and added hyphens for formatting.  Unable to verify all digits due to overlapping writing."
+  },
+  "city_state": {
+    "value": "Abilene",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "aBiLien",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Corrected capitalization"
+  },
+  "date_of_birth": {
+    "value": "03/26/2011",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "03/26/11",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added century to birthdate"
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Fall 2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "(wyile High School",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Removed parenthesis and corrected spelling error."
+  },
+  "major": {
+    "value": "Soccer",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Soccer",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "name": {
+    "value": "DayLen DeLatorre",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "DarkA DeLatorre",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected first name to match preferred name field"
+  },
+  "permission_to_text": {
+    "value": "No",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "No bubble filled in for permission to text"
+  },
+  "preferred_first_name": {
+    "value": "DayLen",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Day Len",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Transfer",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Transfer bubble clearly marked in image."
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "email": {
+    "value": "",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  }
+}
+```
+
+[2025-05-26T21:40:00.851551+00:00] === PARSING GEMINI QUALITY RESPONSE ===
+
+[2025-05-26T21:40:00.851619+00:00] Cleaned response text
+{
+  "address": {
+    "value": "Sierra Sunset",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Sierra Sunset",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "cell": {
+    "value": "945-214-3363",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "945 2143363463",
+    "text_clarity": "clear",
+    "certainty": "mostly_certain",
+    "notes": "Removed extra digits and added hyphens for formatting.  Unable to verify all digits due to overlapping writing."
+  },
+  "city_state": {
+    "value": "Abilene",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "aBiLien",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Corrected capitalization"
+  },
+  "date_of_birth": {
+    "value": "03/26/2011",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "03/26/11",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added century to birthdate"
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Fall 2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "(wyile High School",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Removed parenthesis and corrected spelling error."
+  },
+  "major": {
+    "value": "Soccer",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Soccer",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "name": {
+    "value": "DayLen DeLatorre",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "DarkA DeLatorre",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected first name to match preferred name field"
+  },
+  "permission_to_text": {
+    "value": "No",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "No bubble filled in for permission to text"
+  },
+  "preferred_first_name": {
+    "value": "DayLen",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Day Len",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Transfer",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Transfer bubble clearly marked in image."
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "email": {
+    "value": "",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  }
+}
+
+[2025-05-26T21:40:00.851756+00:00] Parsed Gemini data
+{
+  "address": {
+    "value": "Sierra Sunset",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Sierra Sunset",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "cell": {
+    "value": "945-214-3363",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "945 2143363463",
+    "text_clarity": "clear",
+    "certainty": "mostly_certain",
+    "notes": "Removed extra digits and added hyphens for formatting.  Unable to verify all digits due to overlapping writing."
+  },
+  "city_state": {
+    "value": "Abilene",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "aBiLien",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Corrected capitalization"
+  },
+  "date_of_birth": {
+    "value": "03/26/2011",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "03/26/11",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added century to birthdate"
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Fall 2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "(wyile High School",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Removed parenthesis and corrected spelling error."
+  },
+  "major": {
+    "value": "Soccer",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Soccer",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "name": {
+    "value": "DayLen DeLatorre",
+    "edit_made": true,
+    "edit_type": "cross_validation_fix",
+    "original_value": "DarkA DeLatorre",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected first name to match preferred name field"
+  },
+  "permission_to_text": {
+    "value": "No",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "No bubble filled in for permission to text"
+  },
+  "preferred_first_name": {
+    "value": "DayLen",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Day Len",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Transfer",
+    "edit_made": true,
+    "edit_type": "ocr_correction",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Transfer bubble clearly marked in image."
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "email": {
+    "value": "",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  }
+}
+
+[2025-05-26T21:40:00.851898+00:00] Enhanced field address
+{
+  "value": "Sierra Sunset",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:40:00.851964+00:00] Enhanced field cell
+{
+  "value": "945-214-3363",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:40:00.852022+00:00] Enhanced field city_state
+{
+  "value": "Abilene",
+  "confidence": 0.8075,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:40:00.852071+00:00] Enhanced field date_of_birth
+{
+  "value": "03/26/2011",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:40:00.852121+00:00] Enhanced field entry_term
+{
+  "value": "Fall 2029",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:40:00.852171+00:00] Enhanced field high_school
+{
+  "value": "Wylie High School",
+  "confidence": 0.8075,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:40:00.852220+00:00] Enhanced field major
+{
+  "value": "Soccer",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:40:00.852266+00:00] Enhanced field name
+{
+  "value": "DayLen DeLatorre",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:40:00.852307+00:00] Enhanced field permission_to_text
+{
+  "value": "No",
+  "confidence": 0.9025,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:40:00.852404+00:00] Enhanced field preferred_first_name
+{
+  "value": "DayLen",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:40:00.852447+00:00] Enhanced field student_type
+{
+  "value": "Transfer",
+  "confidence": 0.9025,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:40:00.852492+00:00] Enhanced field zip_code
+{
+  "value": "79606",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:40:00.852528+00:00] Enhanced field email
+{
+  "value": "",
+  "confidence": 0.1,
+  "needs_review": true,
+  "review_notes": "This required field appears to be empty"
+}
+
+[2025-05-26T21:40:00.852571+00:00] Enhanced fields created
+{
+  "address": {
+    "value": "Sierra Sunset",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "cell": {
+    "value": "945-214-3363",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "city_state": {
+    "value": "Abilene",
+    "confidence_score": 0.8075,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "date_of_birth": {
+    "value": "03/26/2011",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "high_school": {
+    "value": "Wylie High School",
+    "confidence_score": 0.8075,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "major": {
+    "value": "Soccer",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "name": {
+    "value": "DayLen DeLatorre",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "permission_to_text": {
+    "value": "No",
+    "confidence_score": 0.9025,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "preferred_first_name": {
+    "value": "DayLen",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "student_type": {
+    "value": "Transfer",
+    "confidence_score": 0.9025,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "email": {
+    "value": "",
+    "confidence_score": 0.1,
+    "requires_review": true,
+    "review_notes": "This required field appears to be empty"
+  }
+}
+
+[2025-05-26T21:40:00.852660+00:00] === GEMINI PROCESSING V2 COMPLETE ===
+
+[2025-05-26T21:43:04.674934+00:00] === GEMINI PROCESSING V2 START ===
+
+[2025-05-26T21:43:04.675165+00:00] Image path: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/tmpifuhk1ut_trimmed.png
+
+[2025-05-26T21:43:04.675232+00:00] Input DocAI fields
+{
+  "address": {
+    "value": "6318 Day hill ar",
+    "required": true,
+    "enabled": true
+  },
+  "cell": {
+    "value": "325-269-3735",
+    "required": true,
+    "enabled": true
+  },
+  "city_state": {
+    "value": "abilene /\ntexas",
+    "required": false,
+    "enabled": true
+  },
+  "date_of_birth": {
+    "value": "05/09/2011",
+    "required": false,
+    "enabled": true
+  },
+  "email": {
+    "value": "aidenblG@outlook.com",
+    "required": true,
+    "enabled": true
+  },
+  "entry_term": {
+    "value": "2029",
+    "required": false,
+    "enabled": true
+  },
+  "high_school": {
+    "value": "Abilene wylie highschool",
+    "required": false,
+    "enabled": true
+  },
+  "major": {
+    "value": "Ag buisness",
+    "required": false,
+    "enabled": true
+  },
+  "name": {
+    "value": "Aiden Baldwin",
+    "required": true,
+    "enabled": true
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "required": false,
+    "enabled": true
+  },
+  "preferred_first_name": {
+    "value": "Aiden",
+    "required": false,
+    "enabled": true
+  },
+  "student_type": {
+    "value": "Freshman",
+    "required": false,
+    "enabled": true
+  },
+  "zip_code": {
+    "value": "79606",
+    "required": true,
+    "enabled": true
+  }
+}
+
+[2025-05-26T21:43:04.675674+00:00] Gemini input prepared
+{
+  "address": {
+    "value": "6318 Day hill ar",
+    "confidence": 0.9999827146530151,
+    "required": true,
+    "enabled": true
+  },
+  "cell": {
+    "value": "325-269-3735",
+    "confidence": 0.9999961256980896,
+    "required": true,
+    "enabled": true
+  },
+  "city_state": {
+    "value": "abilene /\ntexas",
+    "confidence": 0.9953736662864685,
+    "required": false,
+    "enabled": true
+  },
+  "date_of_birth": {
+    "value": "05/09/2011",
+    "confidence": 0.9999963641166687,
+    "required": false,
+    "enabled": true
+  },
+  "email": {
+    "value": "aidenblG@outlook.com",
+    "confidence": 0.9998951554298401,
+    "required": true,
+    "enabled": true
+  },
+  "entry_term": {
+    "value": "2029",
+    "confidence": 0.9999937415122986,
+    "required": false,
+    "enabled": true
+  },
+  "high_school": {
+    "value": "Abilene wylie highschool",
+    "confidence": 0.9999931454658508,
+    "required": false,
+    "enabled": true
+  },
+  "major": {
+    "value": "Ag buisness",
+    "confidence": 0.9999924898147583,
+    "required": false,
+    "enabled": true
+  },
+  "name": {
+    "value": "Aiden Baldwin",
+    "confidence": 0.9999976754188538,
+    "required": true,
+    "enabled": true
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "confidence": 0.9875012040138245,
+    "required": false,
+    "enabled": true
+  },
+  "preferred_first_name": {
+    "value": "Aiden",
+    "confidence": 0.9999958872795105,
+    "required": false,
+    "enabled": true
+  },
+  "student_type": {
+    "value": "Freshman",
+    "confidence": 0.9999722838401794,
+    "required": false,
+    "enabled": true
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence": 0.9999969601631165,
+    "required": true,
+    "enabled": true
+  }
+}
+
+[2025-05-26T21:43:04.675963+00:00] Uploading image to Gemini...
+
+[2025-05-26T21:43:07.551778+00:00] Sending request to Gemini...
+
+[2025-05-26T21:43:22.606931+00:00] Raw Gemini response
+```json
+{
+  "address": {
+    "value": "6318 Day hill ar",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "6318 Day hill ar",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "cell": {
+    "value": "325-269-3735",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "325-269-3735",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "city_state": {
+    "value": "abilene/texas",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "abilene /\ntexas",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Removed extra space and newline character"
+  },
+  "date_of_birth": {
+    "value": "05/09/2011",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "05/09/2011",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "email": {
+    "value": "aidenbig@outlook.com",
+    "edit_made": true,
+    "edit_type": "typo_fix",
+    "original_value": "aidenblG@outlook.com",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Corrected typo in email address, 'lG' to 'big'"
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added 'Fall' as the default semester."
+  },
+  "high_school": {
+    "value": "Abilene Wylie High School",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "Abilene wylie highschool",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'Wylie' and 'High School'."
+  },
+  "major": {
+    "value": "Ag Business",
+    "edit_made": true,
+    "edit_type": "typo_fix",
+    "original_value": "Ag buisness",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected spelling of 'Business'."
+  },
+  "name": {
+    "value": "Aiden Baldwin",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Aiden Baldwin",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Checkbox clearly marked 'Yes'."
+  },
+  "preferred_first_name": {
+    "value": "Aiden",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Aiden",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Freshman checkbox clearly marked on the form."
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  }
+}
+```
+
+[2025-05-26T21:43:22.609710+00:00] === PARSING GEMINI QUALITY RESPONSE ===
+
+[2025-05-26T21:43:22.610001+00:00] Cleaned response text
+{
+  "address": {
+    "value": "6318 Day hill ar",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "6318 Day hill ar",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "cell": {
+    "value": "325-269-3735",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "325-269-3735",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "city_state": {
+    "value": "abilene/texas",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "abilene /\ntexas",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Removed extra space and newline character"
+  },
+  "date_of_birth": {
+    "value": "05/09/2011",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "05/09/2011",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "email": {
+    "value": "aidenbig@outlook.com",
+    "edit_made": true,
+    "edit_type": "typo_fix",
+    "original_value": "aidenblG@outlook.com",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Corrected typo in email address, 'lG' to 'big'"
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added 'Fall' as the default semester."
+  },
+  "high_school": {
+    "value": "Abilene Wylie High School",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "Abilene wylie highschool",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'Wylie' and 'High School'."
+  },
+  "major": {
+    "value": "Ag Business",
+    "edit_made": true,
+    "edit_type": "typo_fix",
+    "original_value": "Ag buisness",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected spelling of 'Business'."
+  },
+  "name": {
+    "value": "Aiden Baldwin",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Aiden Baldwin",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Checkbox clearly marked 'Yes'."
+  },
+  "preferred_first_name": {
+    "value": "Aiden",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Aiden",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Freshman checkbox clearly marked on the form."
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  }
+}
+
+[2025-05-26T21:43:22.610219+00:00] Parsed Gemini data
+{
+  "address": {
+    "value": "6318 Day hill ar",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "6318 Day hill ar",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "cell": {
+    "value": "325-269-3735",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "325-269-3735",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "city_state": {
+    "value": "abilene/texas",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "abilene /\ntexas",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Removed extra space and newline character"
+  },
+  "date_of_birth": {
+    "value": "05/09/2011",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "05/09/2011",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "email": {
+    "value": "aidenbig@outlook.com",
+    "edit_made": true,
+    "edit_type": "typo_fix",
+    "original_value": "aidenblG@outlook.com",
+    "text_clarity": "mostly_clear",
+    "certainty": "certain",
+    "notes": "Corrected typo in email address, 'lG' to 'big'"
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "2029",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Added 'Fall' as the default semester."
+  },
+  "high_school": {
+    "value": "Abilene Wylie High School",
+    "edit_made": true,
+    "edit_type": "format_correction",
+    "original_value": "Abilene wylie highschool",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Capitalized 'Wylie' and 'High School'."
+  },
+  "major": {
+    "value": "Ag Business",
+    "edit_made": true,
+    "edit_type": "typo_fix",
+    "original_value": "Ag buisness",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Corrected spelling of 'Business'."
+  },
+  "name": {
+    "value": "Aiden Baldwin",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Aiden Baldwin",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Yes",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Checkbox clearly marked 'Yes'."
+  },
+  "preferred_first_name": {
+    "value": "Aiden",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Aiden",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "Freshman",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": "Freshman checkbox clearly marked on the form."
+  },
+  "zip_code": {
+    "value": "79606",
+    "edit_made": false,
+    "edit_type": "none",
+    "original_value": "79606",
+    "text_clarity": "clear",
+    "certainty": "certain",
+    "notes": ""
+  }
+}
+
+[2025-05-26T21:43:22.610604+00:00] Enhanced field address
+{
+  "value": "6318 Day hill ar",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:43:22.610764+00:00] Enhanced field cell
+{
+  "value": "325-269-3735",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:43:22.610905+00:00] Enhanced field city_state
+{
+  "value": "abilene/texas",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:43:22.611172+00:00] Enhanced field date_of_birth
+{
+  "value": "05/09/2011",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:43:22.611351+00:00] Enhanced field email
+{
+  "value": "aidenbig@outlook.com",
+  "confidence": 0.8075,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:43:22.611501+00:00] Enhanced field entry_term
+{
+  "value": "Fall 2029",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:43:22.611637+00:00] Enhanced field high_school
+{
+  "value": "Abilene Wylie High School",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:43:22.612040+00:00] Enhanced field major
+{
+  "value": "Ag Business",
+  "confidence": 0.9025,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:43:22.612162+00:00] Enhanced field name
+{
+  "value": "Aiden Baldwin",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:43:22.612284+00:00] Enhanced field permission_to_text
+{
+  "value": "Yes",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:43:22.612378+00:00] Enhanced field preferred_first_name
+{
+  "value": "Aiden",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:43:22.612454+00:00] Enhanced field student_type
+{
+  "value": "Freshman",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:43:22.612522+00:00] Enhanced field zip_code
+{
+  "value": "79606",
+  "confidence": 0.95,
+  "needs_review": false,
+  "review_notes": ""
+}
+
+[2025-05-26T21:43:22.612598+00:00] Enhanced fields created
+{
+  "address": {
+    "value": "6318 Day hill ar",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "cell": {
+    "value": "325-269-3735",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "city_state": {
+    "value": "abilene/texas",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "date_of_birth": {
+    "value": "05/09/2011",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "email": {
+    "value": "aidenbig@outlook.com",
+    "confidence_score": 0.8075,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "entry_term": {
+    "value": "Fall 2029",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "high_school": {
+    "value": "Abilene Wylie High School",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "major": {
+    "value": "Ag Business",
+    "confidence_score": 0.9025,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "name": {
+    "value": "Aiden Baldwin",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "permission_to_text": {
+    "value": "Yes",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "preferred_first_name": {
+    "value": "Aiden",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "student_type": {
+    "value": "Freshman",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  },
+  "zip_code": {
+    "value": "79606",
+    "confidence_score": 0.95,
+    "requires_review": false,
+    "review_notes": ""
+  }
+}
+
+[2025-05-26T21:43:22.612754+00:00] === GEMINI PROCESSING V2 COMPLETE ===

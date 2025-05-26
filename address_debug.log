@@ -1026,3 +1026,65 @@
 [2025-05-26T19:53:10.002344+00:00] Enhancing zip: '79606' -> '79606-5039'
 
 [2025-05-26T19:53:10.002400+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T21:40:00.853205+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T21:40:00.853389+00:00] Current address components
+{
+  "address": "Sierra Sunset",
+  "city": "",
+  "state": "",
+  "zip_code": "79606"
+}
+
+[2025-05-26T21:40:00.853435+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T21:40:01.060787+00:00] Google Maps validation successful
+{
+  "street_address": "Sierra Sunset",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Sierra Sunset, Abilene, TX 79606, USA",
+  "location_type": "GEOMETRIC_CENTER",
+  "partial_match": false,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T21:40:01.061269+00:00] Enhancing city: '' -> 'Abilene'
+
+[2025-05-26T21:40:01.062042+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T21:40:01.062143+00:00] === ADDRESS VALIDATION COMPLETE ===
+
+[2025-05-26T21:43:22.614085+00:00] === ADDRESS VALIDATION START ===
+
+[2025-05-26T21:43:22.614403+00:00] Current address components
+{
+  "address": "6318 Day hill ar",
+  "city": "",
+  "state": "",
+  "zip_code": "79606"
+}
+
+[2025-05-26T21:43:22.614547+00:00] Attempting Google Maps validation with zip code
+
+[2025-05-26T21:43:22.754667+00:00] Google Maps validation successful
+{
+  "street_address": "",
+  "city": "Abilene",
+  "state": "TX",
+  "zip": "79606",
+  "formatted": "Abilene, TX 79606, USA",
+  "location_type": "APPROXIMATE",
+  "partial_match": true,
+  "queried_by_zip_only": false
+}
+
+[2025-05-26T21:43:22.754863+00:00] Enhancing city: '' -> 'Abilene'
+
+[2025-05-26T21:43:22.755308+00:00] Enhancing state: '' -> 'TX'
+
+[2025-05-26T21:43:22.755367+00:00] Address '6318 Day hill ar' could not be validated by Google Maps
+
+[2025-05-26T21:43:22.755469+00:00] === ADDRESS VALIDATION COMPLETE ===

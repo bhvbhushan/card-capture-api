@@ -10,7 +10,24 @@ from app.repositories.events_repository import (
 from datetime import datetime, timezone
 
 def is_admin(user):
-    return user.get("role") == "admin"
+    # Updated to check roles array for admin permission
+    user_roles = user.get("role", [])
+    return "admin" in user_roles
+
+def has_role(user, role_name):
+    """Helper function to check if user has a specific role"""
+    user_roles = user.get("role", [])
+    return role_name in user_roles
+
+def can_create_events(user):
+    """Check if user can create events (admin or recruiter)"""
+    user_roles = user.get("role", [])
+    return any(role in user_roles for role in ["admin", "recruiter"])
+
+def can_archive_events(user):
+    """Check if user can archive events (admin or recruiter)"""
+    user_roles = user.get("role", [])
+    return any(role in user_roles for role in ["admin", "recruiter"])
 
 async def create_event_service(payload):
     if not supabase_client:

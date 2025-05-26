@@ -12381,3 +12381,739 @@
   "student_type",
   "zip_code"
 ]
+
+[2025-05-26T21:39:35.242989+00:00] === GETTING FIELD REQUIREMENTS ===
+
+[2025-05-26T21:39:35.243390+00:00] School ID: b1a2c3d4-e5f6-7890-1234-56789abcdef0
+
+[2025-05-26T21:39:35.312183+00:00] Found school settings
+{
+  "gpa": {
+    "enabled": true,
+    "required": false
+  },
+  "cell": {
+    "enabled": true,
+    "required": true
+  },
+  "city": {
+    "enabled": true,
+    "required": false
+  },
+  "name": {
+    "enabled": true,
+    "required": true
+  },
+  "email": {
+    "enabled": true,
+    "required": true
+  },
+  "major": {
+    "enabled": true,
+    "required": false
+  },
+  "state": {
+    "enabled": true,
+    "required": false
+  },
+  "address": {
+    "enabled": true,
+    "required": true
+  },
+  "zip_code": {
+    "enabled": true,
+    "required": true
+  },
+  "city_state": {
+    "enabled": true,
+    "required": false
+  },
+  "class_rank": {
+    "enabled": true,
+    "required": false
+  },
+  "entry_term": {
+    "enabled": true,
+    "required": false
+  },
+  "high_school": {
+    "enabled": true,
+    "required": false
+  },
+  "student_type": {
+    "enabled": true,
+    "required": false
+  },
+  "date_of_birth": {
+    "enabled": true,
+    "required": false
+  },
+  "students_in_class": {
+    "enabled": true,
+    "required": false
+  },
+  "permission_to_text": {
+    "enabled": true,
+    "required": false
+  },
+  "preferred_first_name": {
+    "enabled": true,
+    "required": false
+  }
+}
+
+[2025-05-26T21:39:43.002899+00:00] === SYNCING FIELD REQUIREMENTS ===
+
+[2025-05-26T21:39:43.002956+00:00] School ID: b1a2c3d4-e5f6-7890-1234-56789abcdef0
+
+[2025-05-26T21:39:43.003000+00:00] Detected fields
+[
+  "address",
+  "cell",
+  "city_state",
+  "date_of_birth",
+  "entry_term",
+  "high_school",
+  "major",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T21:39:43.003043+00:00] === GETTING FIELD REQUIREMENTS ===
+
+[2025-05-26T21:39:43.003073+00:00] School ID: b1a2c3d4-e5f6-7890-1234-56789abcdef0
+
+[2025-05-26T21:39:43.171945+00:00] Found school settings
+{
+  "gpa": {
+    "enabled": true,
+    "required": false
+  },
+  "cell": {
+    "enabled": true,
+    "required": true
+  },
+  "city": {
+    "enabled": true,
+    "required": false
+  },
+  "name": {
+    "enabled": true,
+    "required": true
+  },
+  "email": {
+    "enabled": true,
+    "required": true
+  },
+  "major": {
+    "enabled": true,
+    "required": false
+  },
+  "state": {
+    "enabled": true,
+    "required": false
+  },
+  "address": {
+    "enabled": true,
+    "required": true
+  },
+  "zip_code": {
+    "enabled": true,
+    "required": true
+  },
+  "city_state": {
+    "enabled": true,
+    "required": false
+  },
+  "class_rank": {
+    "enabled": true,
+    "required": false
+  },
+  "entry_term": {
+    "enabled": true,
+    "required": false
+  },
+  "high_school": {
+    "enabled": true,
+    "required": false
+  },
+  "student_type": {
+    "enabled": true,
+    "required": false
+  },
+  "date_of_birth": {
+    "enabled": true,
+    "required": false
+  },
+  "students_in_class": {
+    "enabled": true,
+    "required": false
+  },
+  "permission_to_text": {
+    "enabled": true,
+    "required": false
+  },
+  "preferred_first_name": {
+    "enabled": true,
+    "required": false
+  }
+}
+
+[2025-05-26T21:39:43.172494+00:00] === APPLYING FIELD REQUIREMENTS ===
+
+[2025-05-26T21:39:43.173251+00:00] Input fields
+[
+  "address",
+  "cell",
+  "city_state",
+  "date_of_birth",
+  "entry_term",
+  "high_school",
+  "major",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T21:39:43.173389+00:00] Requirements
+{
+  "gpa": {
+    "enabled": true,
+    "required": false
+  },
+  "cell": {
+    "enabled": true,
+    "required": true
+  },
+  "city": {
+    "enabled": true,
+    "required": false
+  },
+  "name": {
+    "enabled": true,
+    "required": true
+  },
+  "email": {
+    "enabled": true,
+    "required": true
+  },
+  "major": {
+    "enabled": true,
+    "required": false
+  },
+  "state": {
+    "enabled": true,
+    "required": false
+  },
+  "address": {
+    "enabled": true,
+    "required": true
+  },
+  "zip_code": {
+    "enabled": true,
+    "required": true
+  },
+  "city_state": {
+    "enabled": true,
+    "required": false
+  },
+  "class_rank": {
+    "enabled": true,
+    "required": false
+  },
+  "entry_term": {
+    "enabled": true,
+    "required": false
+  },
+  "high_school": {
+    "enabled": true,
+    "required": false
+  },
+  "student_type": {
+    "enabled": true,
+    "required": false
+  },
+  "date_of_birth": {
+    "enabled": true,
+    "required": false
+  },
+  "students_in_class": {
+    "enabled": true,
+    "required": false
+  },
+  "permission_to_text": {
+    "enabled": true,
+    "required": false
+  },
+  "preferred_first_name": {
+    "enabled": true,
+    "required": false
+  }
+}
+
+[2025-05-26T21:39:43.173578+00:00] Updated address
+{
+  "enabled": true,
+  "required": true
+}
+
+[2025-05-26T21:39:43.173662+00:00] Updated cell
+{
+  "enabled": true,
+  "required": true
+}
+
+[2025-05-26T21:39:43.173742+00:00] Updated city_state
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:39:43.173827+00:00] Updated date_of_birth
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:39:43.173904+00:00] Updated entry_term
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:39:43.173984+00:00] Updated high_school
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:39:43.174066+00:00] Updated major
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:39:43.174141+00:00] Updated name
+{
+  "enabled": true,
+  "required": true
+}
+
+[2025-05-26T21:39:43.174214+00:00] Updated permission_to_text
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:39:43.174287+00:00] Updated preferred_first_name
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:39:43.174359+00:00] Updated student_type
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:39:43.174431+00:00] Updated zip_code
+{
+  "enabled": true,
+  "required": true
+}
+
+[2025-05-26T21:39:43.174503+00:00] Adding missing required field: email
+
+[2025-05-26T21:39:43.174566+00:00] Final fields
+[
+  "address",
+  "cell",
+  "city_state",
+  "date_of_birth",
+  "entry_term",
+  "high_school",
+  "major",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code",
+  "email"
+]
+
+[2025-05-26T21:42:57.272849+00:00] === GETTING FIELD REQUIREMENTS ===
+
+[2025-05-26T21:42:57.273667+00:00] School ID: b1a2c3d4-e5f6-7890-1234-56789abcdef0
+
+[2025-05-26T21:42:57.341449+00:00] Found school settings
+{
+  "gpa": {
+    "enabled": true,
+    "required": false
+  },
+  "cell": {
+    "enabled": true,
+    "required": true
+  },
+  "city": {
+    "enabled": true,
+    "required": false
+  },
+  "name": {
+    "enabled": true,
+    "required": true
+  },
+  "email": {
+    "enabled": true,
+    "required": true
+  },
+  "major": {
+    "enabled": true,
+    "required": false
+  },
+  "state": {
+    "enabled": true,
+    "required": false
+  },
+  "address": {
+    "enabled": true,
+    "required": true
+  },
+  "zip_code": {
+    "enabled": true,
+    "required": true
+  },
+  "city_state": {
+    "enabled": true,
+    "required": false
+  },
+  "class_rank": {
+    "enabled": true,
+    "required": false
+  },
+  "entry_term": {
+    "enabled": true,
+    "required": false
+  },
+  "high_school": {
+    "enabled": true,
+    "required": false
+  },
+  "student_type": {
+    "enabled": true,
+    "required": false
+  },
+  "date_of_birth": {
+    "enabled": true,
+    "required": false
+  },
+  "students_in_class": {
+    "enabled": true,
+    "required": false
+  },
+  "permission_to_text": {
+    "enabled": true,
+    "required": false
+  },
+  "preferred_first_name": {
+    "enabled": true,
+    "required": false
+  }
+}
+
+[2025-05-26T21:43:04.507727+00:00] === SYNCING FIELD REQUIREMENTS ===
+
+[2025-05-26T21:43:04.507765+00:00] School ID: b1a2c3d4-e5f6-7890-1234-56789abcdef0
+
+[2025-05-26T21:43:04.507802+00:00] Detected fields
+[
+  "address",
+  "cell",
+  "city_state",
+  "date_of_birth",
+  "email",
+  "entry_term",
+  "high_school",
+  "major",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T21:43:04.507848+00:00] === GETTING FIELD REQUIREMENTS ===
+
+[2025-05-26T21:43:04.507878+00:00] School ID: b1a2c3d4-e5f6-7890-1234-56789abcdef0
+
+[2025-05-26T21:43:04.673349+00:00] Found school settings
+{
+  "gpa": {
+    "enabled": true,
+    "required": false
+  },
+  "cell": {
+    "enabled": true,
+    "required": true
+  },
+  "city": {
+    "enabled": true,
+    "required": false
+  },
+  "name": {
+    "enabled": true,
+    "required": true
+  },
+  "email": {
+    "enabled": true,
+    "required": true
+  },
+  "major": {
+    "enabled": true,
+    "required": false
+  },
+  "state": {
+    "enabled": true,
+    "required": false
+  },
+  "address": {
+    "enabled": true,
+    "required": true
+  },
+  "zip_code": {
+    "enabled": true,
+    "required": true
+  },
+  "city_state": {
+    "enabled": true,
+    "required": false
+  },
+  "class_rank": {
+    "enabled": true,
+    "required": false
+  },
+  "entry_term": {
+    "enabled": true,
+    "required": false
+  },
+  "high_school": {
+    "enabled": true,
+    "required": false
+  },
+  "student_type": {
+    "enabled": true,
+    "required": false
+  },
+  "date_of_birth": {
+    "enabled": true,
+    "required": false
+  },
+  "students_in_class": {
+    "enabled": true,
+    "required": false
+  },
+  "permission_to_text": {
+    "enabled": true,
+    "required": false
+  },
+  "preferred_first_name": {
+    "enabled": true,
+    "required": false
+  }
+}
+
+[2025-05-26T21:43:04.673561+00:00] === APPLYING FIELD REQUIREMENTS ===
+
+[2025-05-26T21:43:04.673950+00:00] Input fields
+[
+  "address",
+  "cell",
+  "city_state",
+  "date_of_birth",
+  "email",
+  "entry_term",
+  "high_school",
+  "major",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
+
+[2025-05-26T21:43:04.674004+00:00] Requirements
+{
+  "gpa": {
+    "enabled": true,
+    "required": false
+  },
+  "cell": {
+    "enabled": true,
+    "required": true
+  },
+  "city": {
+    "enabled": true,
+    "required": false
+  },
+  "name": {
+    "enabled": true,
+    "required": true
+  },
+  "email": {
+    "enabled": true,
+    "required": true
+  },
+  "major": {
+    "enabled": true,
+    "required": false
+  },
+  "state": {
+    "enabled": true,
+    "required": false
+  },
+  "address": {
+    "enabled": true,
+    "required": true
+  },
+  "zip_code": {
+    "enabled": true,
+    "required": true
+  },
+  "city_state": {
+    "enabled": true,
+    "required": false
+  },
+  "class_rank": {
+    "enabled": true,
+    "required": false
+  },
+  "entry_term": {
+    "enabled": true,
+    "required": false
+  },
+  "high_school": {
+    "enabled": true,
+    "required": false
+  },
+  "student_type": {
+    "enabled": true,
+    "required": false
+  },
+  "date_of_birth": {
+    "enabled": true,
+    "required": false
+  },
+  "students_in_class": {
+    "enabled": true,
+    "required": false
+  },
+  "permission_to_text": {
+    "enabled": true,
+    "required": false
+  },
+  "preferred_first_name": {
+    "enabled": true,
+    "required": false
+  }
+}
+
+[2025-05-26T21:43:04.674092+00:00] Updated address
+{
+  "enabled": true,
+  "required": true
+}
+
+[2025-05-26T21:43:04.674136+00:00] Updated cell
+{
+  "enabled": true,
+  "required": true
+}
+
+[2025-05-26T21:43:04.674179+00:00] Updated city_state
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:43:04.674220+00:00] Updated date_of_birth
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:43:04.674261+00:00] Updated email
+{
+  "enabled": true,
+  "required": true
+}
+
+[2025-05-26T21:43:04.674304+00:00] Updated entry_term
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:43:04.674346+00:00] Updated high_school
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:43:04.674386+00:00] Updated major
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:43:04.674427+00:00] Updated name
+{
+  "enabled": true,
+  "required": true
+}
+
+[2025-05-26T21:43:04.674474+00:00] Updated permission_to_text
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:43:04.674515+00:00] Updated preferred_first_name
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:43:04.674555+00:00] Updated student_type
+{
+  "enabled": true,
+  "required": false
+}
+
+[2025-05-26T21:43:04.674704+00:00] Updated zip_code
+{
+  "enabled": true,
+  "required": true
+}
+
+[2025-05-26T21:43:04.674748+00:00] Final fields
+[
+  "address",
+  "cell",
+  "city_state",
+  "date_of_birth",
+  "email",
+  "entry_term",
+  "high_school",
+  "major",
+  "name",
+  "permission_to_text",
+  "preferred_first_name",
+  "student_type",
+  "zip_code"
+]
