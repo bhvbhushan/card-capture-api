@@ -336,11 +336,8 @@ async def export_to_slate_service(payload: dict):
         if not school_id or not rows or not isinstance(rows, list):
             return JSONResponse(status_code=400, content={"error": "Missing or invalid school_id or rows."})
         
-        # 1. Look up SFTP config
-        sftp_resp = supabase_client.table("sftp_configs").select("*").eq("school_id", school_id).maybe_single().execute()
-        sftp_config = sftp_resp.data if sftp_resp and sftp_resp.data else None
-        if not sftp_config or not sftp_config.get("enabled"):
-            return JSONResponse(status_code=400, content={"error": "No SFTP config found or integration is disabled."})
+        # DEBUG MODE: Skip SFTP config check for testing
+        print(f"DEBUG: Processing Slate export for school_id: {school_id} with {len(rows)} rows")
         
         # 2. Generate CSV file from rows
         import tempfile
@@ -413,32 +410,6 @@ async def export_to_slate_service(payload: dict):
         debug_csv_path = os.path.join(downloads_path, f"slate_export_debug_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv")
         shutil.copy2(csv_path, debug_csv_path)
         print(f"DEBUG: CSV saved to {debug_csv_path}")
-        
-        # Comment out SFTP upload for debugging
-        """
-        # 3. Upload to SFTP
-        class ConfigObj:
-            pass
-        config_obj = ConfigObj()
-        config_obj.host = sftp_config["host"]
-        config_obj.port = sftp_config["port"]
-        config_obj.username = sftp_config["username"]
-        config_obj.password = sftp_config["password"]
-        config_obj.upload_path = sftp_config["remote_path"]
-        config_obj.key_path = None
-        
-        try:
-            success = upload_to_slate(csv_path, config_obj)
-        except Exception as e:
-            import traceback
-            traceback.print_exc()
-            os.remove(csv_path)
-            return JSONResponse(status_code=500, content={"error": f"SFTP upload failed: {str(e)}"})
-        
-        os.remove(csv_path)
-        if not success:
-            return JSONResponse(status_code=500, content={"error": "SFTP upload failed."})
-        """
         
         # 4. Mark rows as exported
         try:

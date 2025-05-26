@@ -1,6 +1,13 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 
+class BulkActionPayload(BaseModel):
+    """Standardized payload for all bulk card actions"""
+    document_ids: List[str]
+    review_status: Optional[str] = None
+    status: Optional[str] = None
+
+# Legacy models for backward compatibility during transition
 class MarkExportedPayload(BaseModel):
     document_ids: Optional[List[str]] = Field(None, alias='documentIds')
     documentIds: Optional[List[str]] = None

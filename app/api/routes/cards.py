@@ -1,81 +1,50 @@
-from fastapi import APIRouter, Body
-from typing import Union, List, Dict, Any
-from app.controllers.cards_controller import (
-    get_cards_controller,
-    archive_cards_controller,
-    mark_as_exported_controller,
-    delete_cards_controller,
-    move_cards_controller
-)
-from app.services.cards_service import mark_as_exported_service
-from app.models.card import ArchiveCardsPayload, MarkExportedPayload, DeleteCardsPayload, MoveCardsPayload
+from fastapi import APIRouter, Body, HTTPException
 from fastapi.responses import JSONResponse
-from app.core.clients import supabase_client
+from typing import Dict, Any, List, Union
 from datetime import datetime, timezone
 import traceback
 import uuid
 
-router = APIRouter(tags=["Cards"])
+from app.models.card import BulkActionPayload, MarkExportedPayload
+from app.services.cards_service import (
+    mark_as_exported_service,
+    archive_cards_service,
+    delete_cards_service,
+    move_cards_service,
+    save_manual_review_service,
+    get_cards_service
+)
+from app.core.clients import supabase_client
+
+router = APIRouter()
 
 @router.get("/cards", response_model=List[Dict[str, Any]])
 async def get_cards(event_id: Union[str, None] = None):
-    return await get_cards_controller(event_id)
+    return await get_cards_service(event_id)
 
 @router.post("/archive-cards")
-async def archive_cards(payload: ArchiveCardsPayload):
-    return await archive_cards_controller(payload)
+async def archive_cards(payload: BulkActionPayload):
+    """
+    Archive cards - standardized endpoint
+    """
+    print(f"📁 Archive cards - document_ids: {payload.document_ids}")
+    
+    if not payload.document_ids:
+        return JSONResponse(status_code=400, content={"error": "No document_ids provided"})
+    
+    return await archive_cards_service(payload.document_ids)
 
 @router.post("/mark-exported")
-async def mark_as_exported(payload: Dict[str, Any] = Body(...)):
+async def mark_as_exported(payload: BulkActionPayload):
     """
-    Mark cards as exported - flexible payload handling
-    Accepts document IDs in various formats
+    Mark cards as exported - standardized endpoint
     """
-    print(f"📤 Raw payload received: {payload}")
+    print(f"📤 Mark as exported - document_ids: {payload.document_ids}")
     
-    # Try to extract document_ids from various possible field names
-    document_ids = []
-    if isinstance(payload, dict):
-        # Try different possible field names
-        possible_fields = ['document_ids', 'documentIds', 'ids', 'selectedCards', 'cards', 'items']
-        for field in possible_fields:
-            if field in payload and payload[field]:
-                candidate = payload[field]
-                
-                # Check if it's an event object (has isTrusted property)
-                if isinstance(candidate, dict) and 'isTrusted' in candidate:
-                    print(f"❌ Detected event object in field '{field}': {candidate}")
-                    return JSONResponse(status_code=400, content={
-                        "error": f"Frontend error: Event object passed instead of document IDs. Field '{field}' contains: {candidate}"
-                    })
-                
-                # Check if it's a proper list of strings
-                if isinstance(candidate, list) and all(isinstance(item, str) for item in candidate):
-                    document_ids = candidate
-                    print(f"📤 Found document IDs in field '{field}': {document_ids}")
-                    break
-                else:
-                    print(f"⚠️ Field '{field}' contains invalid data type: {type(candidate)} - {candidate}")
-        
-        # If still empty, check if the payload itself is a list
-        if not document_ids and isinstance(payload, list):
-            document_ids = payload
-            print(f"📤 Payload is a list of document IDs: {document_ids}")
+    if not payload.document_ids:
+        return JSONResponse(status_code=400, content={"error": "No document_ids provided"})
     
-    print(f"📤 Final document IDs: {document_ids}")
-    print(f"📤 Number of document IDs: {len(document_ids) if document_ids else 0}")
-    
-    if not document_ids:
-        print("❌ No document_ids found in payload")
-        return JSONResponse(status_code=400, content={"error": "No document_ids provided in payload"})
-    
-    # Create a simple payload object for the service
-    class SimplePayload:
-        def __init__(self, document_ids):
-            self.document_ids = document_ids
-    
-    simple_payload = SimplePayload(document_ids)
-    return await mark_as_exported_service(simple_payload)
+    return await mark_as_exported_service(payload.document_ids)
 
 @router.post("/debug-mark-exported")
 async def debug_mark_exported(payload: Dict[str, Any] = Body(...)):
@@ -84,7 +53,6 @@ async def debug_mark_exported(payload: Dict[str, Any] = Body(...)):
     print(f"🐛 DEBUG: Payload type: {type(payload)}")
     print(f"🐛 DEBUG: Payload keys: {list(payload.keys()) if isinstance(payload, dict) else 'Not a dict'}")
     
-    # Try to extract document_ids in different formats
     document_ids = None
     if isinstance(payload, dict):
         document_ids = payload.get('document_ids') or payload.get('documentIds') or payload.get('ids')
@@ -97,12 +65,29 @@ async def debug_mark_exported(payload: Dict[str, Any] = Body(...)):
     })
 
 @router.post("/delete-cards")
-async def delete_cards(payload: DeleteCardsPayload):
-    return await delete_cards_controller(payload)
+async def delete_cards(payload: BulkActionPayload):
+    """
+    Delete cards - standardized endpoint
+    """
+    print(f"🗑️ Delete cards - document_ids: {payload.document_ids}")
+    
+    if not payload.document_ids:
+        return JSONResponse(status_code=400, content={"error": "No document_ids provided"})
+    
+    return await delete_cards_service(payload.document_ids)
 
 @router.post("/move-cards")
-async def move_cards(payload: MoveCardsPayload):
-    return await move_cards_controller(payload)
+async def move_cards(payload: BulkActionPayload):
+    """
+    Move cards - standardized endpoint
+    """
+    print(f"📦 Move cards - document_ids: {payload.document_ids}, status: {payload.status}")
+    
+    if not payload.document_ids:
+        return JSONResponse(status_code=400, content={"error": "No document_ids provided"})
+    
+    status = payload.status or "reviewed"
+    return await move_cards_service(payload.document_ids, status)
 
 @router.post("/save-review/{document_id}")
 async def save_manual_review(document_id: str, payload: Dict[str, Any] = Body(...)):

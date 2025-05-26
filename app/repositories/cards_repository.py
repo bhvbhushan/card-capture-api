@@ -148,7 +148,9 @@ def delete_cards_db(supabase_client, document_ids: List[str]):
     return reviewed_response, extracted_response
 
 def move_cards_db(supabase_client, document_ids: List[str], status: str):
+    """Move cards to a different review status"""
+    timestamp = datetime.now(timezone.utc).isoformat()
     return supabase_client.table('reviewed_data') \
-        .update({"status": status}) \
+        .update({"review_status": status, "reviewed_at": timestamp}) \
         .in_("document_id", document_ids) \
         .execute() 
