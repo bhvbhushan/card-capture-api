@@ -44,3 +44,15 @@ uploads/images/
 uploads/trimmed/ 
 
 cc/
+
+# Ignore debug logs
+address_debug.log
+archive_debug.log
+docai_debug.log
+gemini_debug.log
+review_debug.log
+settings_debug.log
+
+# Ignore trimmed images
+app/uploads/trimmed/
+supabase/config.toml
