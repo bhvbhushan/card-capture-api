@@ -15,8 +15,12 @@ from app.services.cards_service import (
     get_cards_service
 )
 from app.core.clients import supabase_client
+from app.repositories.reviewed_data_repository import upsert_reviewed_data
 
 router = APIRouter()
+
+# Define required fields that determine review status
+REQUIRED_FIELDS = ["address", "cell", "city", "state", "zip_code", "name", "email"]
 
 @router.get("/cards", response_model=List[Dict[str, Any]])
 async def get_cards(event_id: Union[str, None] = None):
@@ -92,80 +96,41 @@ async def move_cards(payload: BulkActionPayload):
 @router.post("/save-review/{document_id}")
 async def save_manual_review(document_id: str, payload: Dict[str, Any] = Body(...)):
     """
-    Updates a record in reviewed_data based on manual user edits.
-    Only required fields determine if a card needs review.
+    Save manual review changes for a card
     """
-    if not supabase_client:
-        return JSONResponse(status_code=503, content={"error": "Database client not available."})
-
-    print(f"💾 Saving manual review for document_id: {document_id}")
-    print(f"   Payload received: {payload}")
-    
-    updated_fields = payload.get("fields", {})
-    frontend_status = payload.get("status")
-
     try:
-        # 1. Fetch the current record from reviewed_data
-        fetch_response = supabase_client.table("reviewed_data") \
-                                        .select("fields, event_id, school_id") \
-                                        .eq("document_id", document_id) \
-                                        .maybe_single() \
-                                        .execute()
+        # Get current card data
+        current_card = supabase_client.table("reviewed_data").select("*").eq("document_id", document_id).maybe_single().execute()
+        if not current_card or not current_card.data:
+            raise HTTPException(status_code=404, detail="Card not found")
 
-        # Defensive: handle if fetch_response is None (e.g., 406 error from Supabase)
-        if not fetch_response or not hasattr(fetch_response, "data"):
-            print(f"  -> Error: Supabase query failed or returned no response for reviewed_data (document_id={document_id})")
-            return JSONResponse(status_code=500, content={"error": "Supabase query failed for reviewed_data. Check Accept headers and Supabase client configuration."})
+        current_fields_data = current_card.data.get("fields", {})
+        updated_fields = payload.get("fields", {})
+        frontend_status = payload.get("status")
 
-        if not fetch_response.data:
-            # If no reviewed data exists yet, get event_id and school_id from extracted_data
-            extracted_response = supabase_client.table("extracted_data") \
-                .select("event_id, school_id, fields") \
-                .eq("document_id", document_id) \
-                .maybe_single() \
-                .execute()
-            # Defensive: handle if extracted_response is None
-            if not extracted_response or not hasattr(extracted_response, "data"):
-                print(f"  -> Error: Supabase query failed or returned no response for extracted_data (document_id={document_id})")
-                return JSONResponse(status_code=500, content={"error": "Supabase query failed for extracted_data. Check Accept headers and Supabase client configuration."})
-            if not extracted_response.data:
-                print(f"  -> Error: No existing data found for {document_id}")
-                return JSONResponse(status_code=404, content={"error": "Record not found."})
-            event_id = extracted_response.data.get("event_id")
-            school_id = extracted_response.data.get("school_id")
-            current_fields_data = extracted_response.data.get("fields", {})
-        else:
-            event_id = fetch_response.data.get("event_id")
-            school_id = fetch_response.data.get("school_id")
-            current_fields_data = fetch_response.data.get("fields", {})
-
-        # Define required fields that determine review status
-        REQUIRED_FIELDS = ["address", "cell", "city", "state", "zip_code", "name", "email"]
-
-        # 2. Update fields based on user input
+        # Update fields based on user input
         for key, field_data in updated_fields.items():
             if key in current_fields_data:
-                # Update value and metadata for the edited field
+                # Preserve the original review status
                 current_fields_data[key].update({
                     **field_data,
-                    "reviewed": True,  # Mark as reviewed since it's a manual edit
-                    "requires_human_review": False,  # No longer needs review
-                    "confidence": 1.0,  # High confidence for manual edits
-                    "source": "human_review",
-                    "review_notes": "Manually reviewed"
+                    "value": field_data.get("value", current_fields_data[key].get("value", "")),
+                    "reviewed": field_data.get("reviewed", current_fields_data[key].get("reviewed", False)),
+                    "requires_human_review": field_data.get("requires_human_review", current_fields_data[key].get("requires_human_review", False)),
+                    "review_notes": field_data.get("review_notes", current_fields_data[key].get("review_notes", "")),
+                    "source": "human_review"
                 })
             else:
-                # If the field doesn't exist, add it with full metadata
+                # For new fields, set default values
                 current_fields_data[key] = {
                     **field_data,
-                    "reviewed": True,
+                    "reviewed": False,
                     "requires_human_review": False,
-                    "confidence": 1.0,
-                    "source": "human_review",
-                    "review_notes": "Manually reviewed"
+                    "review_notes": "",
+                    "source": "human_review"
                 }
 
-        # 3. Check if any required fields still need review
+        # Check if any required fields still need review
         any_required_field_needs_review = False
         for field_name in REQUIRED_FIELDS:
             field_data = current_fields_data.get(field_name, {})
@@ -177,35 +142,26 @@ async def save_manual_review(document_id: str, payload: Dict[str, Any] = Body(..
                     any_required_field_needs_review = True
                     break
 
-        # 4. Prepare data for update
         # Use the frontend status if provided, otherwise determine based on fields
         review_status = frontend_status if frontend_status else ("needs_human_review" if any_required_field_needs_review else "reviewed")
-        
-        update_payload = {
+
+        # Update the card
+        update_data = {
             "document_id": document_id,
             "fields": current_fields_data,
             "review_status": review_status,
-            "reviewed_at": datetime.now(timezone.utc).isoformat(),
-            "event_id": event_id,
-            "school_id": school_id
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "school_id": current_card.data.get("school_id"),  # Preserve school_id
+            "event_id": current_card.data.get("event_id"),    # Preserve event_id
+            "image_path": current_card.data.get("image_path") # Preserve image_path
         }
 
-        # 5. Update the record in Supabase
-        update_response = supabase_client.table("reviewed_data") \
-                                         .upsert(update_payload, on_conflict="document_id") \
-                                         .execute()
-
-        print(f"✅ Successfully saved manual review for {document_id}")
-        return JSONResponse(status_code=200, content={
-            "message": "Review saved successfully",
-            "status": update_payload["review_status"],
-            "any_field_needs_review": any_required_field_needs_review
-        })
+        response = upsert_reviewed_data(supabase_client, update_data)
+        return response.data[0] if response.data else None
 
     except Exception as e:
-        print(f"❌ Error saving manual review for {document_id}: {e}")
-        traceback.print_exc()
-        return JSONResponse(status_code=500, content={"error": "Failed to save review."})
+        print(f"Error saving review: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/manual-entry")
 async def manual_entry(payload: Dict[str, Any] = Body(...)):
