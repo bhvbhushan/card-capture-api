@@ -6,6 +6,9 @@ import json
 from datetime import datetime, timezone
 from typing import Dict, Any
 
+from fastapi import FastAPI, HTTPException, Request
+import uvicorn
+
 # Import new services
 from app.services.docai_service import process_image_with_docai
 from app.services.settings_service import get_field_requirements, apply_field_requirements, sync_field_requirements
@@ -22,6 +25,12 @@ from app.config import DOCAI_PROCESSOR_ID
 BUCKET = "cards-uploads"
 MAX_RETRIES = 3
 SLEEP_SECONDS = 1
+
+app = FastAPI(title="CardCapture Worker API")
+
+@app.get("/")
+def root():
+    return {"message": "CardCapture Worker API is running"}
 
 def log_worker_debug(message: str, data: Any = None):
     """Write debug message and optional data to worker_v2_debug.log"""
@@ -215,35 +224,72 @@ def main_v2():
     """
     log_worker_debug("Starting CardCapture processing worker V2...")
     
-    while True:
-        try:
-            log_worker_debug("=== CHECKING FOR QUEUED JOBS ===")
+    try:
+        log_worker_debug("=== CHECKING FOR QUEUED JOBS ===")
+        
+        # Get next queued job
+        jobs = supabase_client.table("processing_jobs").select("*").eq("status", "queued").order("created_at").limit(1).execute()
+        
+        if jobs.data and len(jobs.data) > 0:
+            job = jobs.data[0]
+            log_worker_debug(f"Found job {job['id']} to process")
             
-            # Get next queued job
-            jobs = supabase_client.table("processing_jobs").select("*").eq("status", "queued").order("created_at").limit(1).execute()
+            # Mark job as processing
+            now = datetime.now(timezone.utc).isoformat()
+            update_processing_job(supabase_client, job["id"], {
+                "status": "processing",
+                "updated_at": now
+            })
             
-            if jobs.data and len(jobs.data) > 0:
-                job = jobs.data[0]
-                log_worker_debug(f"Found job {job['id']} to process")
-                
-                # Mark job as processing
-                now = datetime.now(timezone.utc).isoformat()
-                update_processing_job(supabase_client, job["id"], {
-                    "status": "processing",
-                    "updated_at": now
-                })
-                
-                # Process the job
-                process_job_v2(job)
-                
-            else:
-                log_worker_debug("No queued jobs found, sleeping...")
-                time.sleep(SLEEP_SECONDS)
-                
-        except Exception as e:
-            log_worker_debug(f"Worker error: {str(e)}")
-            log_worker_debug("Worker traceback", traceback.format_exc())
+            # Process the job
+            process_job_v2(job)
+            
+        else:
+            log_worker_debug("No queued jobs found, sleeping...")
             time.sleep(SLEEP_SECONDS)
+            
+    except Exception as e:
+        log_worker_debug(f"Worker error: {str(e)}")
+        log_worker_debug("Worker traceback", traceback.format_exc())
+        time.sleep(SLEEP_SECONDS)
+
+@app.post("/process")
+async def process_job_endpoint(request: Request):
+    try:
+        data = await request.json()
+        
+        # Check if job_id is provided
+        if not data or "job_id" not in data:
+            raise HTTPException(status_code=400, detail="Missing job_id in request")
+        
+        job_id = data["job_id"]
+        
+        # Fetch the job details from Supabase
+        job_query = supabase_client.table("processing_jobs").select("*").eq("id", job_id).maybe_single().execute()
+        
+        if not job_query.data:
+            raise HTTPException(status_code=404, detail=f"Job {job_id} not found")
+            
+        job = job_query.data
+        
+        # Update status to processing
+        now = datetime.now(timezone.utc).isoformat()
+        update_processing_job(supabase_client, job_id, {
+            "status": "processing",
+            "updated_at": now
+        })
+        
+        # Process the job
+        process_job_v2(job)
+        # return result
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Error in process_job_endpoint: {e}")
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 if __name__ == "__main__":
-    main_v2() 
+    port = int(os.environ.get("PORT", 8080))
+    uvicorn.run(app, host="0.0.0.0", port=port) 
