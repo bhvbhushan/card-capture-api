@@ -24,4 +24,4 @@ COPY . .
 EXPOSE 8080
 
 # Run the worker as a FastAPI app
-CMD python -m app.worker.worker 
+CMD python -m app.worker.worker_v2 
