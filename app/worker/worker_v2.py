@@ -6,7 +6,8 @@ import json
 from datetime import datetime, timezone
 from typing import Dict, Any
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
+import uvicorn
 
 # Import new services
 from app.services.docai_service import process_image_with_docai
