@@ -24,7 +24,7 @@ def list_users_service():
         print(f"❌ Error fetching users: {e}")
         raise HTTPException(status_code=500, detail=f"Error fetching users: {e}")
 
-def invite_user_service(user, payload):
+async def invite_user_service(user, payload):
     user_roles = user.get("role", [])
     if "admin" not in user_roles:
         print("❌ Only admins can invite users.")
@@ -53,12 +53,12 @@ def invite_user_service(user, payload):
         print(f"  - last_name: {last_name}")
         print(f"  - role: {role}")
         print(f"  - school_id: {school_id}")
-        result = invite_user_db(supabase_auth, email, first_name, last_name, role, school_id)
+        
+        result = await invite_user_db(email, first_name, last_name, role, school_id)
         print(f"✅ Successfully invited user: {email}")
         print(f"📝 Created user metadata:")
-        print(f"  User metadata: {result.user.user_metadata}")
-        print(f"  App metadata: {result.user.app_metadata}")
-        return {"success": True, "user_id": result.user.id}
+        print(f"  User data: {result}")
+        return {"success": True, "user": result}
     except Exception as e:
         print(f"❌ Error inviting user: {str(e)}")
         print(f"❌ Error type: {type(e)}")
