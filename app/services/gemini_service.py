@@ -16,14 +16,19 @@ from app.config import GEMINI_MODEL
 def log_gemini_debug(message: str, data: Any = None):
     """Write debug message and optional data to gemini_debug.log"""
     timestamp = datetime.now(timezone.utc).isoformat()
+    log_entry = f"\n[{timestamp}] {message}\n"
+    if data:
+        if isinstance(data, (dict, list)):
+            log_entry += json.dumps(data, indent=2)
+        else:
+            log_entry += str(data)
+        log_entry += "\n"
+    # Write to file
     with open('gemini_debug.log', 'a') as f:
-        f.write(f"\n[{timestamp}] {message}\n")
-        if data:
-            if isinstance(data, (dict, list)):
-                f.write(json.dumps(data, indent=2))
-            else:
-                f.write(str(data))
-            f.write("\n")
+        f.write(log_entry)
+    # Also print to stdout for Cloud Run logging
+    print(log_entry, flush=True)
+
 
 def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any]) -> Dict[str, Any]:
     """
