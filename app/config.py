@@ -51,7 +51,10 @@ ALLOWED_ORIGINS = [
     "http://127.0.0.1:8086",
     "http://127.0.0.1:8087",
     "http://localhost:3000",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
+    "https://cardcapture.io",
+    "https://gen-lang-client-0493571343.web.app",
+    "https://gen-lang-client-0493571343.firebaseapp.com"
 ]
 
 GEMINI_MODEL = " gemini-1.5-pro-latest"
