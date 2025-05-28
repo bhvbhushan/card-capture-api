@@ -28,7 +28,6 @@ httpcore==0.17.3
 httplib2==0.22.0
 httpx==0.24.1
 idna==3.10
-mimetypes>=0.1.0
 numpy==2.0.2
 opencv-python==4.11.0.86
 packaging==25.0
