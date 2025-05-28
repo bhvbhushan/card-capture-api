@@ -33,16 +33,20 @@ def root():
     return {"message": "CardCapture Worker API is running"}
 
 def log_worker_debug(message: str, data: Any = None):
-    """Write debug message and optional data to worker_v2_debug.log"""
+    """Write debug message and optional data to worker_v2_debug.log and stdout for Cloud Run."""
     timestamp = datetime.now(timezone.utc).isoformat()
+    log_entry = f"\n[{timestamp}] {message}\n"
+    if data:
+        if isinstance(data, (dict, list)):
+            log_entry += json.dumps(data, indent=2)
+        else:
+            log_entry += str(data)
+        log_entry += "\n"
+    # Write to file
     with open('worker_v2_debug.log', 'a') as f:
-        f.write(f"\n[{timestamp}] {message}\n")
-        if data:
-            if isinstance(data, (dict, list)):
-                f.write(json.dumps(data, indent=2))
-            else:
-                f.write(str(data))
-            f.write("\n")
+        f.write(log_entry)
+    # Also print to stdout for Cloud Run logging
+    print(log_entry, flush=True)
 
 def download_from_supabase(file_url: str, local_path: str) -> None:
     """Download file from Supabase storage to local path"""
