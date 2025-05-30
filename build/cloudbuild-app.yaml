@@ -1,13 +1,10 @@
-substitutions:
-  _DOCKER_BASE_URL: "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture"
-
 steps:
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
         "build",
         "-t",
-        "$_DOCKER_BASE_URL/$_BE_IMAGE_NAME_SUFFIX",
+        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_BE_IMAGE_NAME_SUFFIX",
         "-f",
         "Dockerfile",
         ".",
@@ -17,15 +14,23 @@ steps:
       [
         "build",
         "-t",
-        "$_DOCKER_BASE_URL/$_WORKER_IMAGE_NAME_SUFFIX",
+        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_WORKER_IMAGE_NAME_SUFFIX",
         "-f",
         "Dockerfile.worker",
         ".",
       ]
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "$_DOCKER_BASE_URL/$_BE_IMAGE_NAME_SUFFIX"]
+    args:
+      [
+        "push",
+        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_BE_IMAGE_NAME_SUFFIX",
+      ]
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "$_DOCKER_BASE_URL/$_WORKER_IMAGE_NAME_SUFFIX"]
+    args:
+      [
+        "push",
+        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_WORKER_IMAGE_NAME_SUFFIX",
+      ]
   - name: "gcr.io/cloud-builders/gcloud"
     args:
       [
@@ -33,7 +38,7 @@ steps:
         "deploy",
         "$_BE_CLOUD_RUN_SERVICE",
         "--image",
-        "$_DOCKER_BASE_URL/$_BE_IMAGE_NAME_SUFFIX",
+        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_BE_IMAGE_NAME_SUFFIX",
         "--platform",
         "managed",
         "--region",
@@ -47,7 +52,7 @@ steps:
         "deploy",
         "$_WORKER_CLOUD_RUN_SERVICE",
         "--image",
-        "$_DOCKER_BASE_URL/$_WORKER_IMAGE_NAME_SUFFIX",
+        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_WORKER_IMAGE_NAME_SUFFIX",
         "--platform",
         "managed",
         "--region",
@@ -59,8 +64,8 @@ steps:
       ]
 
 images:
-  - "$_DOCKER_BASE_URL/$_BE_IMAGE_NAME_SUFFIX"
-  - "$_DOCKER_BASE_URL/$_WORKER_IMAGE_NAME_SUFFIX"
+  - "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_BE_IMAGE_NAME_SUFFIX"
+  - "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_WORKER_IMAGE_NAME_SUFFIX"
 
 options:
   logging: CLOUD_LOGGING_ONLY
