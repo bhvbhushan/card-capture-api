@@ -61,3 +61,6 @@ steps:
 images:
   - "$_DOCKER_BASE_URL/$_BE_IMAGE_NAME_SUFFIX"
   - "$_DOCKER_BASE_URL/$_WORKER_IMAGE_NAME_SUFFIX"
+
+options:
+  logging: CLOUD_LOGGING_ONLY
