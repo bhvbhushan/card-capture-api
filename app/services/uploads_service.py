@@ -22,6 +22,7 @@ from google.cloud import documentai_v1 as documentai
 from app.config import PROJECT_ID, DOCAI_LOCATION, DOCAI_PROCESSOR_ID, TRIMMED_FOLDER
 import json
 from datetime import datetime, timezone
+import requests
 
 def process_image_and_trim(input_path: str, processor_id: str, percent_expand: float = 0.5):
     """
@@ -187,6 +188,12 @@ async def upload_file_service(background_tasks, file, event_id, school_id, user)
             "event_id": event_id
         }
         insert_processing_job_db(supabase_client, job_data)
+        # Notify the worker (local dev: http://localhost:8080)
+        try:
+            worker_url = "http://localhost:8080/process"
+            requests.post(worker_url, json={"job_id": job_id})
+        except Exception as notify_exc:
+            print(f"[WARN] Could not notify worker: {notify_exc}")
         response_data = {
             "status": "success",
             "message": "File uploaded successfully. Processing will continue in the background.",
@@ -294,6 +301,12 @@ async def bulk_upload_service(background_tasks, file, event_id, school_id, user)
                         "event_id": event_id
                     }
                     insert_processing_job_db(supabase_client, job_data)
+                    # Notify the worker (local dev: http://localhost:8080)
+                    try:
+                        worker_url = "http://localhost:8080/process"
+                        requests.post(worker_url, json={"job_id": job_id})
+                    except Exception as notify_exc:
+                        print(f"[WARN] Could not notify worker: {notify_exc}")
                     jobs_created.append({"job_id": job_id, "document_id": job_id, "image": storage_path})
         else:
             return {"error": "File is not a PDF. Use the standard upload for images."}

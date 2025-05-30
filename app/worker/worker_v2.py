@@ -22,6 +22,10 @@ from app.core.clients import supabase_client
 from app.repositories.reviewed_data_repository import upsert_reviewed_data
 from app.config import DOCAI_PROCESSOR_ID
 
+# Import utils
+from app.utils.image_processing import ensure_trimmed_image
+from app.utils.storage import upload_to_supabase_storage_from_path
+
 BUCKET = "cards-uploads"
 MAX_RETRIES = 3
 SLEEP_SECONDS = 1
@@ -166,7 +170,22 @@ def process_job_v2(job: Dict[str, Any]) -> None:
             "status": review_status,
             "fields_needing_review": fields_needing_review
         })
-        
+
+        # === NEW STEP: TRIM IMAGE AND UPLOAD TO SUPABASE ===
+        log_worker_debug("=== STEP 8.5: TRIM IMAGE AND UPLOAD TO SUPABASE ===")
+        trimmed_image_path = ensure_trimmed_image(tmp_file)
+        trimmed_storage_path = None
+        try:
+            trimmed_storage_path = upload_to_supabase_storage_from_path(
+                supabase_client,
+                trimmed_image_path,
+                user_id,
+                os.path.basename(trimmed_image_path)
+            )
+            log_worker_debug(f"Trimmed image uploaded to Supabase: {trimmed_storage_path}")
+        except Exception as e:
+            log_worker_debug(f"Failed to upload trimmed image to Supabase: {e}")
+
         # Step 9: Save results
         log_worker_debug("=== STEP 9: SAVE RESULTS ===")
         now = datetime.now(timezone.utc).isoformat()
@@ -178,6 +197,7 @@ def process_job_v2(job: Dict[str, Any]) -> None:
             "user_id": user_id,
             "event_id": event_id,
             "image_path": job.get("image_path"),
+            "trimmed_image_path": trimmed_storage_path,
             "review_status": review_status,
             "created_at": now,
             "updated_at": now

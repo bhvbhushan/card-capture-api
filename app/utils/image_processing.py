@@ -1,5 +1,5 @@
 import os
-from PIL import Image
+from PIL import Image, ExifTags
 from google.cloud import documentai_v1 as documentai
 from app.config import PROJECT_ID, DOCAI_LOCATION, DOCAI_PROCESSOR_ID, TRIMMED_FOLDER
 
@@ -65,10 +65,40 @@ def trim_image_with_docai(input_path: str, output_path: str = None, percent_expa
         print(f"[DocAI] Error in trim_image_with_docai: {e}")
         return input_path
 
+def ensure_vertical_orientation(image_path: str) -> str:
+    img = Image.open(image_path)
+    # Auto-rotate based on EXIF
+    try:
+        for orientation in ExifTags.TAGS.keys():
+            if ExifTags.TAGS[orientation] == 'Orientation':
+                break
+        exif = img._getexif()
+        if exif is not None:
+            orientation_value = exif.get(orientation, None)
+            if orientation_value == 3:
+                img = img.rotate(180, expand=True)
+            elif orientation_value == 6:
+                img = img.rotate(270, expand=True)
+            elif orientation_value == 8:
+                img = img.rotate(90, expand=True)
+    except Exception as e:
+        print(f"EXIF orientation handling failed: {e}")
+
+    # Force portrait if needed
+    if img.width > img.height:
+        img = img.rotate(90, expand=True)
+
+    # Save to a new file (or overwrite)
+    rotated_path = image_path.replace('.', '_vertical.', 1)
+    img.save(rotated_path)
+    return rotated_path
+
 def ensure_trimmed_image(original_image_path: str) -> str:
     print(f"🔄 Processing image: {original_image_path}")
     try:
-        trimmed_path = trim_image_with_docai(original_image_path)
+        # Ensure vertical orientation first
+        vertical_path = ensure_vertical_orientation(original_image_path)
+        trimmed_path = trim_image_with_docai(vertical_path, percent_expand=0.30)
         if not os.path.exists(trimmed_path):
             print(f"⚠️ Trimmed image not found at: {trimmed_path}")
             return original_image_path
