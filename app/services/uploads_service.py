@@ -24,6 +24,8 @@ import json
 from datetime import datetime, timezone
 import requests
 
+WORKER_URL = os.environ.get("WORKER_URL", "http://localhost:8080/process")
+
 def process_image_and_trim(input_path: str, processor_id: str, percent_expand: float = 0.5):
     """
     Calls DocAI on the image, extracts field values and bounding box coordinates, trims the image,
@@ -188,9 +190,9 @@ async def upload_file_service(background_tasks, file, event_id, school_id, user)
             "event_id": event_id
         }
         insert_processing_job_db(supabase_client, job_data)
-        # Notify the worker (local dev: http://localhost:8080)
+        # Notify the worker (configurable URL)
         try:
-            worker_url = "http://localhost:8080/process"
+            worker_url = WORKER_URL
             requests.post(worker_url, json={"job_id": job_id})
         except Exception as notify_exc:
             print(f"[WARN] Could not notify worker: {notify_exc}")
@@ -301,9 +303,9 @@ async def bulk_upload_service(background_tasks, file, event_id, school_id, user)
                         "event_id": event_id
                     }
                     insert_processing_job_db(supabase_client, job_data)
-                    # Notify the worker (local dev: http://localhost:8080)
+                    # Notify the worker (configurable URL)
                     try:
-                        worker_url = "http://localhost:8080/process"
+                        worker_url = WORKER_URL
                         requests.post(worker_url, json={"job_id": job_id})
                     except Exception as notify_exc:
                         print(f"[WARN] Could not notify worker: {notify_exc}")
