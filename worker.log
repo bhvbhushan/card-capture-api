@@ -1,0 +1,5 @@
+/Users/kregboyd/Applications/card-capture-api/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+2025-05-29 10:41:02,815:INFO - API queries_quota: 60
+/Users/kregboyd/Applications/card-capture-api/venv/bin/python: Error while finding module specification for 'app.worker.worker_v2.py' (ModuleNotFoundError: __path__ attribute not found on 'app.worker.worker_v2' while trying to find 'app.worker.worker_v2.py'). Try using 'app.worker.worker_v2' instead of 'app.worker.worker_v2.py' as the module name.
+SUPABASE_URL: https://ftlweumoajawitlszpqx.supabase.co

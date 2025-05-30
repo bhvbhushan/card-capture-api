@@ -5,6 +5,8 @@ from typing import Dict, Any, Tuple
 from google.cloud import documentai_v1 as documentai
 from PIL import Image
 from app.config import PROJECT_ID, DOCAI_LOCATION, TRIMMED_FOLDER
+from app.services.image_processing_service import ImageProcessingService, TrimConfig
+from app.services.settings_service import get_canonical_field_list
 
 def log_docai_debug(message: str, data: Any = None):
     """Write debug message and optional data to docai_debug.log"""
@@ -23,7 +25,7 @@ def process_image_with_docai(image_path: str, processor_id: str) -> Tuple[Dict[s
     Single, reliable DocAI processing function that:
     1. Calls DocAI API
     2. Extracts entities with confidence scores and bounding boxes
-    3. Crops image based on detected entities
+    3. Crops image based on detected entities (using all fields)
     4. Returns standardized field format and cropped image path
     
     Args:
@@ -61,8 +63,6 @@ def process_image_with_docai(image_path: str, processor_id: str) -> Tuple[Dict[s
         
         # Extract field data and bounding boxes
         field_data = {}
-        all_vertices = []
-        
         log_docai_debug("=== EXTRACTING ENTITIES ===")
         for entity in document.entities:
             field_name = entity.type_.lower().replace(" ", "_")
@@ -88,95 +88,46 @@ def process_image_with_docai(image_path: str, processor_id: str) -> Tuple[Dict[s
                             for vertex in page_ref.bounding_poly.normalized_vertices:
                                 pixel_x = vertex.x * width
                                 pixel_y = vertex.y * height
-                                bounding_box.append([pixel_x, pixel_y])
-                                all_vertices.append((pixel_x, pixel_y))
+                                bounding_box.append((pixel_x, pixel_y))
                         elif page_ref.bounding_poly.vertices:
                             for vertex in page_ref.bounding_poly.vertices:
-                                bounding_box.append([vertex.x, vertex.y])
-                                all_vertices.append((vertex.x, vertex.y))
+                                bounding_box.append((vertex.x, vertex.y))
             
-            # Create standardized field data structure
-            field_data[field_name] = {
-                "value": field_value,
-                "confidence": confidence,
-                "bounding_box": bounding_box,
-                "source": "docai",
-                "enabled": True,  # Will be updated by settings service
-                "required": False,  # Will be updated by settings service
-                "requires_human_review": False,  # Will be determined later
-                "review_notes": "",
-                "review_confidence": 0.0  # Will be set by Gemini
-            }
+            if bounding_box:
+                field_data[field_name] = {
+                    "value": field_value,
+                    "confidence": confidence,
+                    "bounding_box": bounding_box,
+                    "source": "docai",
+                    "enabled": True,  # Will be updated by settings service
+                    "required": False,  # Will be updated by settings service
+                    "requires_human_review": False,  # Will be determined later
+                    "review_notes": "",
+                    "review_confidence": 0.0  # Will be set by Gemini
+                }
         
         log_docai_debug("Extracted fields", list(field_data.keys()))
         
-        # Crop image based on detected entities
-        cropped_image_path = _crop_image_from_entities(image_path, all_vertices)
+        # Select first and last field from canonical list that are present in field_data
+        canonical_fields = get_canonical_field_list()
+        present_fields = [f for f in canonical_fields if f in field_data and field_data[f].get('bounding_box')]
+        if not present_fields:
+            raise Exception("No canonical fields with bounding boxes found for cropping.")
+        first_field = present_fields[0]
+        last_field = present_fields[-1]
+        
+        # Use new cropping method
+        image_service = ImageProcessingService(TrimConfig(percent_expand=0.5))
+        cropped_image_path, trim_metadata = image_service.crop_using_all_fields(
+            image_path, field_data, first_field, last_field
+        )
         
         log_docai_debug("=== DOCAI PROCESSING COMPLETE ===")
         log_docai_debug(f"Cropped image saved to: {cropped_image_path}")
+        log_docai_debug("Trim metadata", trim_metadata)
         
         return field_data, cropped_image_path
         
     except Exception as e:
         log_docai_debug(f"ERROR in DocAI processing: {str(e)}")
-        raise Exception(f"DocAI processing failed: {str(e)}")
-
-def _crop_image_from_entities(input_path: str, all_vertices: list, percent_expand: float = 0.5) -> str:
-    """
-    Crop image based on bounding box vertices from detected entities
-    
-    Args:
-        input_path: Path to input image
-        all_vertices: List of (x, y) coordinates from all entities
-        percent_expand: Percentage to expand the bounding box
-        
-    Returns:
-        Path to cropped image
-    """
-    try:
-        if not all_vertices:
-            log_docai_debug("No vertices found, returning original image")
-            return input_path
-        
-        # Calculate bounding box
-        xs, ys = zip(*all_vertices)
-        min_x, max_x = min(xs), max(xs)
-        min_y, max_y = min(ys), max(ys)
-        
-        log_docai_debug("Bounding box coordinates", {
-            "min_x": min_x, "max_x": max_x,
-            "min_y": min_y, "max_y": max_y
-        })
-        
-        # Open image and calculate crop area with expansion
-        img = Image.open(input_path)
-        box_width = max_x - min_x
-        box_height = max_y - min_y
-        expand_x = box_width * (percent_expand / 2)
-        expand_y = box_height * (percent_expand / 2)
-        
-        left = max(int(min_x - expand_x), 0)
-        top = max(int(min_y - expand_y), 0)
-        right = min(int(max_x + expand_x), img.width)
-        bottom = min(int(max_y + expand_y), img.height)
-        
-        log_docai_debug("Crop coordinates", {
-            "left": left, "top": top, "right": right, "bottom": bottom
-        })
-        
-        # Crop and save image
-        cropped_img = img.crop((left, top, right, bottom))
-        filename = os.path.basename(input_path)
-        name, ext = os.path.splitext(filename)
-        output_path = os.path.join(TRIMMED_FOLDER, f"{name}_trimmed{ext}")
-        
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        cropped_img.save(output_path)
-        
-        log_docai_debug(f"Image cropped and saved to: {output_path}")
-        return output_path
-        
-    except Exception as e:
-        log_docai_debug(f"ERROR in image cropping: {str(e)}")
-        return input_path  # Return original if cropping fails 
+        raise Exception(f"DocAI processing failed: {str(e)}") 

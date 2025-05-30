@@ -11,16 +11,20 @@ import uvicorn
 
 # Import new services
 from app.services.docai_service import process_image_with_docai
-from app.services.settings_service import get_field_requirements, apply_field_requirements, sync_field_requirements
+from app.services.settings_service import get_field_requirements, apply_field_requirements, sync_field_requirements, get_canonical_field_list
 from app.services.review_service import determine_review_status, validate_field_data
 from app.services.address_service import validate_and_enhance_address
 from app.services.gemini_service import process_card_with_gemini_v2
+from app.services.image_processing_service import ImageProcessingService
 
 # Import existing infrastructure
 from app.repositories.processing_jobs_repository import update_processing_job
 from app.core.clients import supabase_client
-from app.repositories.reviewed_data_repository import upsert_reviewed_data
+from app.repositories.reviewed_data_repository import upsert_reviewed_data, update_reviewed_data_with_trimmed_image
 from app.config import DOCAI_PROCESSOR_ID
+
+# Import storage utility
+from app.utils.storage import upload_to_supabase_storage_from_path
 
 BUCKET = "cards-uploads"
 MAX_RETRIES = 3
@@ -127,6 +131,45 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         log_worker_debug("=== STEP 3: DOCAI PROCESSING ===")
         docai_fields, cropped_image_path = process_image_with_docai(tmp_file, processor_id)
         log_worker_debug("DocAI fields extracted", list(docai_fields.keys()))
+
+        # Step 3.5: Upload trimmed image to Supabase
+        log_worker_debug("=== STEP 3.5: UPLOAD TRIMMED IMAGE TO SUPABASE ===")
+        try:
+            # Use new cropping method with updated padding values
+            image_service = ImageProcessingService()
+            
+            # Get canonical fields and find first/last present fields
+            canonical_fields = get_canonical_field_list()
+            present_fields = [f for f in canonical_fields if f in docai_fields and docai_fields[f].get('bounding_box')]
+            if not present_fields:
+                raise Exception("No canonical fields with bounding boxes found for cropping.")
+            first_field = present_fields[0]
+            last_field = present_fields[-1]
+            
+            trimmed_image_path, trim_metadata = image_service.crop_using_all_fields(
+                cropped_image_path,
+                docai_fields,
+                first_field,
+                last_field,
+                padding_top_pct=0.12,
+                padding_bottom_pct=0.17,
+                padding_left_pct=0.11,
+                padding_right_pct=0.16
+            )
+            
+            # Upload the trimmed image to Supabase
+            supabase_path = upload_to_supabase_storage_from_path(
+                supabase_client, trimmed_image_path, user_id, os.path.basename(trimmed_image_path)
+            )
+            # Remove 'cards-uploads/' prefix for DB
+            trimmed_image_path_for_db = supabase_path.replace('cards-uploads/', '') if supabase_path.startswith('cards-uploads/') else supabase_path
+            log_worker_debug(f"Trimmed image uploaded to: {trimmed_image_path_for_db}")
+            
+            # Update the processing job with the new trimmed image path
+            update_processing_job(supabase_client, job_id, {"trimmed_image_path": trimmed_image_path_for_db})
+        except Exception as e:
+            log_worker_debug(f"Failed to upload trimmed image: {e}")
+            trimmed_image_path_for_db = None
         
         # Step 4: Apply field requirements to DocAI results
         log_worker_debug("=== STEP 4: APPLY FIELD REQUIREMENTS ===")
@@ -177,7 +220,8 @@ def process_job_v2(job: Dict[str, Any]) -> None:
             "school_id": school_id,
             "user_id": user_id,
             "event_id": event_id,
-            "image_path": job.get("image_path"),
+            "image_path": trimmed_image_path_for_db,
+            "trimmed_image_path": trimmed_image_path_for_db,
             "review_status": review_status,
             "created_at": now,
             "updated_at": now
@@ -192,7 +236,8 @@ def process_job_v2(job: Dict[str, Any]) -> None:
             "status": "complete",
             "updated_at": now,
             "error_message": None,
-            "result_json": enhanced_fields
+            "result_json": enhanced_fields,
+            "trimmed_image_path": trimmed_image_path_for_db
         })
         
         log_worker_debug(f"✅ Job {job_id} completed successfully")

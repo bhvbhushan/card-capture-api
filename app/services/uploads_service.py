@@ -4,7 +4,7 @@ import tempfile
 import uuid
 from fastapi.responses import JSONResponse, FileResponse
 from app.core.clients import supabase_client
-from app.utils.image_processing import ensure_trimmed_image
+# from app.utils.image_processing import ensure_trimmed_image  # Deprecated, removed
 from app.utils.storage import upload_to_supabase_storage_from_path
 from app.core.clients import supabase_client, docai_client
 from app.repositories.uploads_repository import (
@@ -12,7 +12,8 @@ from app.repositories.uploads_repository import (
     insert_extracted_data_db,
     insert_upload_notification_db,
     select_upload_notification_db,
-    select_extracted_data_image_db
+    select_extracted_data_image_db,
+    select_processing_job_by_id
 )
 from PIL import Image
 import csv
@@ -22,10 +23,13 @@ from google.cloud import documentai_v1 as documentai
 from app.config import PROJECT_ID, DOCAI_LOCATION, DOCAI_PROCESSOR_ID, TRIMMED_FOLDER
 import json
 from datetime import datetime, timezone
+from app.services.image_processing_service import ImageProcessingService, TrimConfig
+from app.services.settings_service import get_canonical_field_list
+from app.repositories.reviewed_data_repository import get_reviewed_data_by_document_id
 
 def process_image_and_trim(input_path: str, processor_id: str, percent_expand: float = 0.5):
     """
-    Calls DocAI on the image, extracts field values and bounding box coordinates, trims the image,
+    Calls DocAI on the image, extracts field values and bounding box coordinates, trims the image using all fields,
     and returns (docai_json, trimmed_image_path).
     """
     def log_debug(message, data=None):
@@ -64,10 +68,7 @@ def process_image_and_trim(input_path: str, processor_id: str, percent_expand: f
         "Number of entities": len(document.entities)
     })
     
-    # Gather all bounding box vertices from entities
-    all_vertices = []
     field_data = {}
-    
     log_debug("=== DETECTED ENTITIES ===")
     for entity in getattr(document, "entities", []):
         entity_data = {
@@ -75,7 +76,6 @@ def process_image_and_trim(input_path: str, processor_id: str, percent_expand: f
             "Mention Text": entity.mention_text,
             "Confidence": entity.confidence
         }
-        
         coords = []
         if entity.page_anchor and entity.page_anchor.page_refs:
             for page_ref in entity.page_anchor.page_refs:
@@ -88,68 +88,38 @@ def process_image_and_trim(input_path: str, processor_id: str, percent_expand: f
                         pixel_x = v.x * width
                         pixel_y = v.y * height
                         coords.append((pixel_x, pixel_y))
-                        all_vertices.append((pixel_x, pixel_y))
                 elif page_ref.bounding_poly.vertices:
                     for v in page_ref.bounding_poly.vertices:
                         coords.append((v.x, v.y))
-                        all_vertices.append((v.x, v.y))
-        
         entity_data["Bounding Box Coordinates"] = coords
         log_debug(f"Entity: {entity.type_}", entity_data)
-        
-        field_data[entity.type_] = {
+        field_name = entity.type_.lower().replace(" ", "_")
+        field_data[field_name] = {
             "value": entity.mention_text.strip(),
             "confidence": entity.confidence,
             "bounding_box": coords
         }
-    
     log_debug("=== PROCESSED FIELD DATA ===", field_data)
-    
-    if not all_vertices:
-        log_debug("⚠️ No bounding box vertices found for any entity. Returning original image.")
-        return field_data, input_path
-        
-    xs, ys = zip(*all_vertices)
-    min_x, max_x = min(xs), max(xs)
-    min_y, max_y = min(ys), max(ys)
-    
-    log_debug("=== IMAGE CROPPING INFO ===", {
-        "Original dimensions": Image.open(input_path).size,
-        "Bounding box": f"({min_x}, {min_y}) to ({max_x}, {max_y})"
-    })
-    
-    # Crop with percent expansion
-    img = Image.open(input_path)
-    box_width = max_x - min_x
-    box_height = max_y - min_y
-    expand_x = box_width * (percent_expand / 2)
-    expand_y = box_height * (percent_expand / 2)
-    left = max(int(min_x - expand_x), 0)
-    top = max(int(min_y - expand_y), 0)
-    right = min(int(max_x + expand_x), img.width)
-    bottom = min(int(max_y + expand_y), img.height)
-    
-    log_debug("Expanded box coordinates", {
-        "Left": left,
-        "Top": top,
-        "Right": right,
-        "Bottom": bottom
-    })
-    
-    cropped_img = img.crop((left, top, right, bottom))
-    filename = os.path.basename(input_path)
-    name, ext = os.path.splitext(filename)
-    output_path = os.path.join(TRIMMED_FOLDER, f"{name}_trimmed{ext}")
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    cropped_img.save(output_path)
-    
+
+    # Select first and last field from canonical list that are present in field_data
+    canonical_fields = get_canonical_field_list()
+    present_fields = [f for f in canonical_fields if f in field_data and field_data[f].get('bounding_box')]
+    if not present_fields:
+        raise Exception("No canonical fields with bounding boxes found for cropping.")
+    first_field = present_fields[0]
+    last_field = present_fields[-1]
+
+    # Use new cropping method
+    image_service = ImageProcessingService(TrimConfig(percent_expand=percent_expand))
+    trimmed_image_path, trim_metadata = image_service.crop_using_all_fields(
+        input_path, field_data, first_field, last_field
+    )
     log_debug("=== CROPPED IMAGE INFO ===", {
-        "Saved to": output_path,
-        "Dimensions": cropped_img.size
+        "Saved to": trimmed_image_path,
+        "Trim metadata": trim_metadata
     })
     log_debug("=== INITIAL DOCAI PROCESSING END ===\n")
-    
-    return field_data, output_path
+    return field_data, trimmed_image_path
 
 async def upload_file_service(background_tasks, file, event_id, school_id, user):
     print(f"📤 Received upload request for file: {file.filename}")
@@ -179,6 +149,7 @@ async def upload_file_service(background_tasks, file, event_id, school_id, user)
             "school_id": school_id,
             "file_url": storage_path,
             "image_path": image_path_for_db,
+            "trimmed_image_path": None,  # Will be updated after trimming
             "status": "queued",
             "result_json": None,  # Will be populated by worker
             "error_message": None,
@@ -187,6 +158,12 @@ async def upload_file_service(background_tasks, file, event_id, school_id, user)
             "event_id": event_id
         }
         insert_processing_job_db(supabase_client, job_data)
+        # Trigger the worker via HTTP
+        try:
+            import requests
+            requests.post("http://localhost:8080/process", json={"job_id": job_id}, timeout=2)
+        except Exception as e:
+            print(f"Failed to trigger worker for job {job_id}: {e}")
         response_data = {
             "status": "success",
             "message": "File uploaded successfully. Processing will continue in the background.",
@@ -208,13 +185,36 @@ async def check_upload_status_service(document_id: str):
     if not supabase_client:
         return JSONResponse(status_code=503, content={"error": "Database client not available."})
     try:
-        response = select_upload_notification_db(supabase_client, document_id)
-        if response.data and len(response.data) > 0:
-            return JSONResponse(content=response.data[0])
-        else:
+        print(f"Checking status for document_id: {document_id}")
+        response = select_processing_job_by_id(supabase_client, document_id)
+        
+        # Check for Supabase error
+        if hasattr(response, 'error') and response.error:
+            print(f"❌ Supabase error: {response.error}")
+            return JSONResponse(status_code=500, content={"error": f"Database error: {response.error}"})
+            
+        # Check if response is None
+        if response is None:
+            print(f"❌ No response from Supabase for document_id: {document_id}")
+            return JSONResponse(status_code=404, content={"status": "not_found"})
+            
+        # Check if data exists
+        if not hasattr(response, 'data') or not response.data:
+            print(f"❌ No data in response for document_id: {document_id}")
             return JSONResponse(content={"status": "not_found"})
+            
+        # Return a status object compatible with the frontend
+        job = response.data
+        return JSONResponse(content={
+            "status": job.get("status", "unknown"),
+            "error_message": job.get("error_message"),
+            "result_json": job.get("result_json"),
+            "document_id": job.get("id"),
+            "created_at": job.get("created_at"),
+            "updated_at": job.get("updated_at")
+        })
     except Exception as e:
-        print(f"❌ Error checking upload status: {e}")
+        print(f"❌ Error checking upload status: {str(e)}")
         import traceback
         traceback.print_exc()
         return JSONResponse(status_code=500, content={"error": "Failed to check upload status."})
@@ -224,23 +224,24 @@ async def get_image_service(document_id: str):
         return JSONResponse(status_code=503, content={"error": "Database client not available."})
     print(f"🖼️ Image requested for document_id: {document_id}")
     try:
-        response = select_extracted_data_image_db(supabase_client, document_id)
-        if response.data:
-            image_path = response.data.get("trimmed_image_path") or response.data.get("image_path")
-            print(f"  -> Found image path: {image_path}")
-            if image_path and os.path.exists(image_path):
-                headers = {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, OPTIONS",
-                    "Access-Control-Allow-Headers": "*",
-                }
-                return FileResponse(image_path, headers=headers)
-            else:
-                print(f"  -> File not found at path: {image_path}")
-                return JSONResponse(status_code=404, content={"error": "Image file not found on server."})
-        else:
-            print(f"  -> No database record found for document_id: {document_id}")
-            return JSONResponse(status_code=404, content={"error": "Image record not found."})
+        reviewed = get_reviewed_data_by_document_id(supabase_client, document_id)
+        image_path = reviewed.get("image_path")
+        if not image_path:
+            print(f"  -> No image_path found in reviewed_data for document_id: {document_id}")
+            return JSONResponse(status_code=404, content={"error": "Image path not found in reviewed_data."})
+        # Generate a signed URL for the image in Supabase Storage
+        bucket = "cards-uploads"
+        # image_path is relative to the bucket root
+        signed_url_resp = supabase_client.storage.from_(bucket).create_signed_url(image_path, 3600)
+        if hasattr(signed_url_resp, 'error') and signed_url_resp.error:
+            print(f"  -> Error generating signed URL: {signed_url_resp.error}")
+            return JSONResponse(status_code=500, content={"error": "Failed to generate signed URL."})
+        signed_url = signed_url_resp.get("signed_url") or signed_url_resp.get("signedURL") or signed_url_resp.get("url")
+        if not signed_url:
+            print(f"  -> No signed URL returned from Supabase for {image_path}")
+            return JSONResponse(status_code=500, content={"error": "No signed URL returned from Supabase."})
+        print(f"  -> Returning signed URL for image: {signed_url}")
+        return JSONResponse(content={"url": signed_url})
     except Exception as e:
         print(f"❌ Error retrieving image for {document_id}: {e}")
         import traceback
@@ -286,6 +287,7 @@ async def bulk_upload_service(background_tasks, file, event_id, school_id, user)
                         "school_id": school_id,
                         "file_url": storage_path,
                         "image_path": image_path_for_db,
+                        "trimmed_image_path": None,  # Will be updated after trimming
                         "status": "queued",
                         "result_json": None,  # Will be populated by worker
                         "error_message": None,
@@ -294,6 +296,12 @@ async def bulk_upload_service(background_tasks, file, event_id, school_id, user)
                         "event_id": event_id
                     }
                     insert_processing_job_db(supabase_client, job_data)
+                    # Trigger the worker via HTTP
+                    try:
+                        import requests
+                        requests.post("http://localhost:8080/process", json={"job_id": job_id}, timeout=2)
+                    except Exception as e:
+                        print(f"Failed to trigger worker for job {job_id}: {e}")
                     jobs_created.append({"job_id": job_id, "document_id": job_id, "image": storage_path})
         else:
             return {"error": "File is not a PDF. Use the standard upload for images."}
