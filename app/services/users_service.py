@@ -25,10 +25,20 @@ def list_users_service():
         raise HTTPException(status_code=500, detail=f"Error fetching users: {e}")
 
 async def invite_user_service(user, payload):
+    print("\n=== INVITE USER SERVICE START ===")
+    print(f"👤 Service called by user: {user.get('email')} (ID: {user.get('id')})")
+    print(f"👤 User object keys: {list(user.keys())}")
+    print(f"👤 User object full: {user}")
+    
     user_roles = user.get("role", [])
+    print(f"🔑 User roles: {user_roles}")
+    print(f"🔑 Checking if user has admin role...")
+    
     if "admin" not in user_roles:
         print("❌ Only admins can invite users.")
         raise HTTPException(status_code=403, detail="Only admins can invite users.")
+    
+    print("✅ User has admin role")
     
     first_name = payload.get("first_name")
     last_name = payload.get("last_name")
@@ -36,15 +46,32 @@ async def invite_user_service(user, payload):
     role = payload.get("role", ["reviewer"])
     school_id = payload.get("school_id")
     
+    print(f"📝 Processing invitation for:")
+    print(f"  - Email: {email}")
+    print(f"  - Name: {first_name} {last_name}")
+    print(f"  - Roles: {role}")
+    print(f"  - School ID: {school_id}")
+    
     if not all([first_name, last_name, email, school_id]):
         print("❌ Missing required fields.")
-        raise HTTPException(status_code=400, detail="Missing required fields.")
+        missing_fields = [field for field, value in {
+            "first_name": first_name,
+            "last_name": last_name,
+            "email": email,
+            "school_id": school_id
+        }.items() if not value]
+        print(f"❌ Missing fields: {missing_fields}")
+        raise HTTPException(status_code=400, detail=f"Missing required fields: {', '.join(missing_fields)}")
     
     if isinstance(role, list):
         valid_roles = ["admin", "recruiter", "reviewer"]
-        if not all(r in valid_roles for r in role):
-            print("❌ Invalid roles specified.")
-            raise HTTPException(status_code=400, detail="Invalid roles specified.")
+        print(f"🔑 Validating roles: {role}")
+        print(f"🔑 Valid roles allowed: {valid_roles}")
+        
+        invalid_roles = [r for r in role if r not in valid_roles]
+        if invalid_roles:
+            print(f"❌ Invalid roles specified: {invalid_roles}")
+            raise HTTPException(status_code=400, detail=f"Invalid roles specified: {', '.join(invalid_roles)}")
     
     try:
         print(f"🔑 Attempting to invite user: {email}")
@@ -54,15 +81,26 @@ async def invite_user_service(user, payload):
         print(f"  - role: {role}")
         print(f"  - school_id: {school_id}")
         
-        result = await invite_user_db(email, first_name, last_name, role, school_id)
+        result = invite_user_db(email, first_name, last_name, role, school_id)
         print(f"✅ Successfully invited user: {email}")
         print(f"📝 Created user metadata:")
         print(f"  User data: {result}")
+        print("=== INVITE USER SERVICE END ===\n")
         return {"success": True, "user": result}
     except Exception as e:
-        print(f"❌ Error inviting user: {str(e)}")
+        print("\n❌ ERROR IN INVITE USER SERVICE:")
         print(f"❌ Error type: {type(e)}")
-        print(f"❌ Error details: {e.__dict__ if hasattr(e, '__dict__') else 'No details available'}")
+        print(f"❌ Error message: {str(e)}")
+        if hasattr(e, 'message'):
+            print(f"❌ Error message attribute: {e.message}")
+        if hasattr(e, 'details'):
+            print(f"❌ Error details: {e.details}")
+        if hasattr(e, '__dict__'):
+            print(f"❌ Error dict: {e.__dict__}")
+        import traceback
+        print("❌ Stack trace:")
+        print(traceback.format_exc())
+        print("=== INVITE USER SERVICE END WITH ERROR ===\n")
         raise HTTPException(status_code=500, detail=f"Error inviting user: {str(e)}")
 
 def update_user_service(user_id, update):
