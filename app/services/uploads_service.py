@@ -24,7 +24,19 @@ import json
 from datetime import datetime, timezone
 import requests
 
-WORKER_URL = os.environ.get("WORKER_URL", "http://localhost:8080/process")
+# Debug environment variables
+print("=== Environment Variables Debug ===")
+print(f"WORKER_URL from env: {os.environ.get('WORKER_URL')}")
+print(f"All environment variables: {dict(os.environ)}")
+print("=================================")
+
+# Get worker URL with fallback
+WORKER_URL = os.environ.get("WORKER_URL")
+if not WORKER_URL:
+    print("⚠️ WORKER_URL environment variable not found, using default localhost URL")
+    WORKER_URL = "http://localhost:8080/process"
+else:
+    print(f"✅ Using WORKER_URL from environment: {WORKER_URL}")
 
 def process_image_and_trim(input_path: str, processor_id: str, percent_expand: float = 0.5):
     """
@@ -204,7 +216,7 @@ async def upload_file_service(background_tasks, file, event_id, school_id, user)
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
-                timeout=10  # Add timeout
+                timeout=30  # Increased timeout from 10 to 30 seconds
             )
             
             if response.status_code == 200:

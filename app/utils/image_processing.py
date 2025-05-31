@@ -88,9 +88,9 @@ def ensure_vertical_orientation(image_path: str) -> str:
     if img.width > img.height:
         img = img.rotate(90, expand=True)
 
-    # Save to a new file (or overwrite)
+    # Save to a new file with high quality
     rotated_path = image_path.replace('.', '_vertical.', 1)
-    img.save(rotated_path)
+    img.save(rotated_path, quality=100, optimize=True)
     return rotated_path
 
 def ensure_trimmed_image(original_image_path: str) -> str:
@@ -98,10 +98,20 @@ def ensure_trimmed_image(original_image_path: str) -> str:
     try:
         # Ensure vertical orientation first
         vertical_path = ensure_vertical_orientation(original_image_path)
+        
+        # Open image with high quality settings
+        img = Image.open(vertical_path)
+        
+        # Save with high quality
         trimmed_path = trim_image_with_docai(vertical_path, percent_expand=0.30)
         if not os.path.exists(trimmed_path):
             print(f"⚠️ Trimmed image not found at: {trimmed_path}")
             return original_image_path
+            
+        # Ensure high quality output
+        output_img = Image.open(trimmed_path)
+        output_img.save(trimmed_path, quality=100, optimize=True)
+        
         print(f"✅ Image processed and saved at: {trimmed_path}")
         return trimmed_path
     except Exception as e:
