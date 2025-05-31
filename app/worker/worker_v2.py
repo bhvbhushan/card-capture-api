@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from typing import Dict, Any
 
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 # Import new services
@@ -31,6 +32,15 @@ MAX_RETRIES = 3
 SLEEP_SECONDS = 1
 
 app = FastAPI(title="CardCapture Worker API")
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins in development
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def root():
@@ -280,21 +290,30 @@ def main_v2():
 @app.post("/process")
 async def process_job_endpoint(request: Request):
     try:
+        # Log request details
+        log_worker_debug("=== INCOMING REQUEST ===")
+        log_worker_debug("Headers", dict(request.headers))
+        log_worker_debug("Client", request.client)
+        
         data = await request.json()
+        log_worker_debug("Request body", data)
         
         # Check if job_id is provided
         if not data or "job_id" not in data:
             raise HTTPException(status_code=400, detail="Missing job_id in request")
         
         job_id = data["job_id"]
+        log_worker_debug(f"Processing job_id: {job_id}")
         
         # Fetch the job details from Supabase
         job_query = supabase_client.table("processing_jobs").select("*").eq("id", job_id).maybe_single().execute()
         
         if not job_query.data:
+            log_worker_debug(f"Job {job_id} not found in database")
             raise HTTPException(status_code=404, detail=f"Job {job_id} not found")
             
         job = job_query.data
+        log_worker_debug("Found job in database", job)
         
         # Update status to processing
         now = datetime.now(timezone.utc).isoformat()
@@ -305,12 +324,13 @@ async def process_job_endpoint(request: Request):
         
         # Process the job
         process_job_v2(job)
-        # return result
+        return {"status": "success", "message": f"Job {job_id} processing started"}
+        
     except HTTPException:
         raise
     except Exception as e:
-        print(f"Error in process_job_endpoint: {e}")
-        traceback.print_exc()
+        log_worker_debug(f"Error in process_job_endpoint: {str(e)}")
+        log_worker_debug("Full traceback", traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
 
 

@@ -190,12 +190,37 @@ async def upload_file_service(background_tasks, file, event_id, school_id, user)
             "event_id": event_id
         }
         insert_processing_job_db(supabase_client, job_data)
+        
         # Notify the worker (configurable URL)
         try:
             worker_url = WORKER_URL
-            requests.post(worker_url, json={"job_id": job_id})
+            print(f"🔔 Notifying worker at URL: {worker_url}")
+            print(f"📦 Sending job_id: {job_id}")
+            
+            response = requests.post(
+                worker_url,
+                json={"job_id": job_id},
+                headers={
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                timeout=10  # Add timeout
+            )
+            
+            if response.status_code == 200:
+                print(f"✅ Worker notification successful for job {job_id}")
+            else:
+                print(f"⚠️ Worker notification returned status {response.status_code}")
+                print(f"Response: {response.text}")
+                
+        except requests.exceptions.Timeout:
+            print(f"⚠️ Worker notification timed out for job {job_id}")
+        except requests.exceptions.ConnectionError as e:
+            print(f"⚠️ Could not connect to worker: {str(e)}")
         except Exception as notify_exc:
-            print(f"[WARN] Could not notify worker: {notify_exc}")
+            print(f"⚠️ Error notifying worker: {str(notify_exc)}")
+            print(f"Full error: {traceback.format_exc()}")
+            
         response_data = {
             "status": "success",
             "message": "File uploaded successfully. Processing will continue in the background.",
