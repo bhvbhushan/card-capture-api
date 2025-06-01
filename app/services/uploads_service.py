@@ -150,6 +150,8 @@ def process_image_and_trim(input_path: str, processor_id: str, percent_expand: f
     name, ext = os.path.splitext(filename)
     output_path = os.path.join(TRIMMED_FOLDER, f"{name}_trimmed{ext}")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    if cropped_img.mode == 'RGBA':
+        cropped_img = cropped_img.convert('RGB')
     cropped_img.save(output_path, quality=85)
     
     log_debug("=== CROPPED IMAGE INFO ===", {
