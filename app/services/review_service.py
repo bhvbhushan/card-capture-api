@@ -2,6 +2,14 @@ import json
 from datetime import datetime, timezone
 from typing import Dict, Any, Tuple, List
 
+# Add at the top of the file
+CANONICAL_FIELD_MAP = {
+    "birthdate": "date_of_birth",
+    "cell_phone": "cell",
+    "city_state_zip": "city_state",
+    # Add more mappings as needed
+}
+
 def log_review_debug(message: str, data: Any = None):
     """Write debug message and optional data to review_debug.log"""
     timestamp = datetime.now(timezone.utc).isoformat()
@@ -85,6 +93,16 @@ def determine_review_status(fields: Dict[str, Any]) -> Tuple[str, List[str]]:
     
     return review_status, fields_needing_review
 
+def canonicalize_fields(fields: dict) -> dict:
+    """
+    Map alternate field names to canonical field names.
+    """
+    new_fields = {}
+    for key, value in fields.items():
+        canonical_key = CANONICAL_FIELD_MAP.get(key, key)
+        new_fields[canonical_key] = value
+    return new_fields
+
 def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
     """
     Validate and clean field data, applying business rules
@@ -96,6 +114,9 @@ def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
         Validated and cleaned field data
     """
     log_review_debug("=== VALIDATING FIELD DATA ===")
+    
+    # Canonicalize field keys before validation
+    fields = canonicalize_fields(fields)
     
     for field_name, field_data in fields.items():
         if not isinstance(field_data, dict):

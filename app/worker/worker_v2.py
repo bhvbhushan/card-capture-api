@@ -5,6 +5,7 @@ import traceback
 import json
 from datetime import datetime, timezone
 from typing import Dict, Any
+import re
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -46,16 +47,26 @@ app.add_middleware(
 def root():
     return {"message": "CardCapture Worker API is running"}
 
-def log_worker_debug(message: str, data: Any = None):
+def log_worker_debug(message: str, data: Any = None, verbose: bool = False):
     """Write debug message and optional data to worker_v2_debug.log and stdout for Cloud Run."""
     timestamp = datetime.now(timezone.utc).isoformat()
     log_entry = f"\n[{timestamp}] {message}\n"
-    if data:
-        if isinstance(data, (dict, list)):
-            log_entry += json.dumps(data, indent=2)
+    # Only print data if verbose is True or if it's a small summary
+    if data is not None:
+        if verbose:
+            if isinstance(data, (dict, list)):
+                log_entry += json.dumps(data, indent=2)
+            else:
+                log_entry += str(data)
+            log_entry += "\n"
         else:
-            log_entry += str(data)
-        log_entry += "\n"
+            # For dicts/lists, just print keys or summary
+            if isinstance(data, dict):
+                log_entry += f"Keys: {list(data.keys())}\n"
+            elif isinstance(data, list):
+                log_entry += f"List length: {len(data)}\n"
+            else:
+                log_entry += str(data) + "\n"
     # Write to file
     with open('worker_v2_debug.log', 'a') as f:
         f.write(log_entry)
@@ -87,6 +98,24 @@ def download_from_supabase(file_url: str, local_path: str) -> None:
     except Exception as e:
         log_worker_debug(f"ERROR downloading file: {str(e)}")
         raise
+
+def split_combined_address_fields(fields: dict) -> dict:
+    """
+    Detects and splits combined address/city/state/zip fields into separate fields.
+    Modifies the dict in-place and returns it.
+    """
+    for key in ['city_state_zip', 'citystatezip', 'city_state', 'address_line']:
+        field = fields.get(key)
+        if field and isinstance(field, dict) and field.get('value'):
+            value = field['value'].replace('\n', ' ').replace('\r', ' ').strip()
+            # Try to extract city, state, zip (e.g., "Robstown, TX, 78380" or "Robstown, TX 78380")
+            match = re.match(r'^([^,]+),\s*([A-Z]{2})[ ,]+(\d{5}(?:-\d{4})?)$', value)
+            if match:
+                fields['city'] = {'value': match.group(1).strip()}
+                fields['state'] = {'value': match.group(2).strip()}
+                fields['zip_code'] = {'value': match.group(3).strip()}
+            # Optionally, handle other patterns here
+    return fields
 
 def process_job_v2(job: Dict[str, Any]) -> None:
     """
@@ -151,33 +180,37 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         
         # Apply requirements to fields
         docai_fields = apply_field_requirements(docai_fields, updated_requirements)
-        log_worker_debug("Fields after applying requirements", {
-            field_name: {
-                "value": field_data.get("value", ""),
-                "required": field_data.get("required", False),
-                "enabled": field_data.get("enabled", True)
-            }
-            for field_name, field_data in docai_fields.items()
-        })
+        log_worker_debug("Fields after applying requirements", {field_name: {"value": field_data.get("value", ""), "required": field_data.get("required", False), "enabled": field_data.get("enabled", True)} for field_name, field_data in docai_fields.items()}, verbose=False)
         
         # Step 4.5: Fetch valid majors for the school
         log_worker_debug("=== STEP 4.5: FETCH VALID MAJORS ===")
         majors_query = supabase_client.table("schools").select("majors").eq("id", school_id).maybe_single().execute()
         valid_majors = majors_query.data.get("majors") if majors_query and majors_query.data and majors_query.data.get("majors") else []
-        log_worker_debug("Valid majors fetched", valid_majors)
+        log_worker_debug("Valid majors fetched", valid_majors, verbose=False)
         
         # Step 5: Process with Gemini (with requirements context)
         log_worker_debug("=== STEP 5: GEMINI PROCESSING ===")
         gemini_fields = process_card_with_gemini_v2(cropped_image_path, docai_fields, valid_majors)
         log_worker_debug("Gemini processing complete", list(gemini_fields.keys()))
-        
+
+        # NEW: Split combined address fields before validation
+        log_worker_debug("=== SPLITTING COMBINED ADDRESS FIELDS ===")
+        gemini_fields = split_combined_address_fields(gemini_fields)
+        log_worker_debug("Fields after splitting address fields", list(gemini_fields.keys()))
+
+        # Ensure all detected fields are synced to school.card_fields
+        all_field_names = list(gemini_fields.keys())
+        updated_requirements = sync_field_requirements(school_id, all_field_names)
+
         # Step 6: Validate and clean field data
         log_worker_debug("=== STEP 6: FIELD VALIDATION ===")
         validated_fields = validate_field_data(gemini_fields)
+        log_worker_debug("Validated fields", list(validated_fields.keys()))
         
         # Step 7: Enhance with address validation
         log_worker_debug("=== STEP 7: ADDRESS VALIDATION ===")
         enhanced_fields = validate_and_enhance_address(validated_fields)
+        log_worker_debug("Enhanced fields", list(enhanced_fields.keys()))
         
         # Step 8: Determine review status
         log_worker_debug("=== STEP 8: DETERMINE REVIEW STATUS ===")

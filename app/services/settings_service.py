@@ -17,29 +17,22 @@ def log_settings_debug(message: str, data: Any = None):
 
 def get_field_requirements(school_id: str) -> Dict[str, Dict[str, bool]]:
     """
-    Get field requirements from school settings
-    
-    Args:
-        school_id: School ID to get settings for
-        
-    Returns:
-        Dict with format: {"field_name": {"enabled": bool, "required": bool}}
+    Get field requirements from school settings (now as an array)
     """
     log_settings_debug("=== GETTING FIELD REQUIREMENTS ===")
     log_settings_debug(f"School ID: {school_id}")
-    
+
     try:
-        # Get school settings from database
         school_query = supabase_client.table("schools").select("card_fields").eq("id", school_id).maybe_single().execute()
-        
         if school_query and school_query.data:
-            card_fields = school_query.data.get("card_fields", {})
+            card_fields_array = school_query.data.get("card_fields") or []
+            # Convert array to dict for internal use
+            card_fields = {f["key"]: {"enabled": f.get("enabled", True), "required": f.get("required", False)} for f in card_fields_array}
             log_settings_debug("Found school settings", card_fields)
             return card_fields
         else:
             log_settings_debug("No school settings found, returning empty dict")
             return {}
-            
     except Exception as e:
         log_settings_debug(f"ERROR getting field requirements: {str(e)}")
         return {}
@@ -97,45 +90,43 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
 def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, Dict[str, bool]]:
     """
     Sync detected fields with school settings, adding any new fields with defaults
-    
-    Args:
-        school_id: School ID to update
-        detected_fields: List of field names detected by DocAI
-        
-    Returns:
-        Updated field requirements
     """
     log_settings_debug("=== SYNCING FIELD REQUIREMENTS ===")
     log_settings_debug(f"School ID: {school_id}")
     log_settings_debug("Detected fields", detected_fields)
-    
+
     try:
-        # Get current school settings
-        current_requirements = get_field_requirements(school_id)
-        
-        # Add any new fields with default settings
+        # Get current school settings as array
+        school_query = supabase_client.table("schools").select("card_fields").eq("id", school_id).maybe_single().execute()
+        card_fields_array = school_query.data.get("card_fields") or []
+        existing_keys = {f["key"] for f in card_fields_array}
         updated = False
+
+        # Add any new fields at the end
         for field_name in detected_fields:
-            if field_name not in current_requirements:
-                current_requirements[field_name] = {
+            if field_name not in existing_keys:
+                card_fields_array.append({
+                    "key": field_name,
                     "enabled": True,
                     "required": False
-                }
+                })
                 updated = True
                 log_settings_debug(f"Added new field {field_name} with defaults")
-        
-        # Update school record if we added new fields
+
+        # Optionally, remove fields not in detected_fields (if you want to prune)
+        # card_fields_array = [f for f in card_fields_array if f["key"] in detected_fields]
+
         if updated:
             update_payload = {
                 "id": school_id,
-                "card_fields": current_requirements
+                "card_fields": card_fields_array
             }
-            
             supabase_client.table("schools").update(update_payload).eq("id", school_id).execute()
             log_settings_debug("Updated school settings in database")
-        
-        return current_requirements
-        
+
+        # Return as dict for internal use
+        return {f["key"]: {"enabled": f.get("enabled", True), "required": f.get("required", False)} for f in card_fields_array}
+
     except Exception as e:
         log_settings_debug(f"ERROR syncing field requirements: {str(e)}")
         return {}
