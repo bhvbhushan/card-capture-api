@@ -108,12 +108,15 @@ def ensure_trimmed_image(original_image_path: str) -> str:
             print(f"⚠️ Trimmed image not found at: {trimmed_path}")
             return original_image_path
             
-        # Ensure high quality output
+        # Ensure high quality output and always save as JPEG (RGB)
         output_img = Image.open(trimmed_path)
-        output_img.save(trimmed_path, quality=100, optimize=True)
-        
-        print(f"✅ Image processed and saved at: {trimmed_path}")
-        return trimmed_path
+        if output_img.mode != 'RGB':
+            output_img = output_img.convert('RGB')
+        # Always save as .jpg
+        jpeg_path = os.path.splitext(trimmed_path)[0] + '.jpg'
+        output_img.save(jpeg_path, format='JPEG', quality=100, optimize=True)
+        print(f"✅ Image processed and saved at: {jpeg_path}")
+        return jpeg_path
     except Exception as e:
         print(f"❌ Error processing image: {e}")
         return original_image_path 
