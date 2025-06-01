@@ -176,6 +176,34 @@ async def upload_file_service(background_tasks, file, event_id, school_id, user)
         temp_file_path = temp_file.name
 
     try:
+        # Compress image before upload if it's an image file
+        if file.content_type.startswith('image/'):
+            print(f"🖼️ Compressing image before upload: {file.filename}")
+            with Image.open(temp_file_path) as img:
+                # Convert to RGB if needed
+                if img.mode == 'RGBA':
+                    img = img.convert('RGB')
+                
+                # Calculate new dimensions while maintaining aspect ratio
+                max_dimension = 2048
+                if max(img.size) > max_dimension:
+                    ratio = max_dimension / max(img.size)
+                    new_size = tuple(int(dim * ratio) for dim in img.size)
+                    img = img.resize(new_size, Image.Resampling.LANCZOS)
+                
+                # Save compressed image
+                compressed_path = temp_file_path + '_compressed.jpg'
+                img.save(compressed_path, 'JPEG', quality=85, optimize=True)
+                
+                # Log file sizes
+                original_size = os.path.getsize(temp_file_path)
+                compressed_size = os.path.getsize(compressed_path)
+                print(f"📊 File sizes - Original: {original_size/1024:.1f}KB, Compressed: {compressed_size/1024:.1f}KB")
+                
+                # Replace original with compressed
+                os.remove(temp_file_path)
+                temp_file_path = compressed_path
+
         # Upload to Supabase storage
         storage_path = upload_to_supabase_storage_from_path(supabase_client, temp_file_path, user_id, file.filename)
         print(f"✅ File uploaded to storage: {storage_path}")
