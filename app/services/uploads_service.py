@@ -24,12 +24,6 @@ import json
 from datetime import datetime, timezone
 import requests
 
-# Debug environment variables
-print("=== Environment Variables Debug ===")
-print(f"WORKER_URL from env: {os.environ.get('WORKER_URL')}")
-print(f"All environment variables: {dict(os.environ)}")
-print("=================================")
-
 # Get worker URL with fallback
 WORKER_URL = os.environ.get("WORKER_URL")
 if not WORKER_URL:
@@ -156,11 +150,12 @@ def process_image_and_trim(input_path: str, processor_id: str, percent_expand: f
     name, ext = os.path.splitext(filename)
     output_path = os.path.join(TRIMMED_FOLDER, f"{name}_trimmed{ext}")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    cropped_img.save(output_path)
+    cropped_img.save(output_path, quality=85)
     
     log_debug("=== CROPPED IMAGE INFO ===", {
         "Saved to": output_path,
-        "Dimensions": cropped_img.size
+        "Dimensions": cropped_img.size,
+        "File size (bytes)": os.path.getsize(output_path)
     })
     log_debug("=== INITIAL DOCAI PROCESSING END ===\n")
     
