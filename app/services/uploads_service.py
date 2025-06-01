@@ -233,7 +233,7 @@ async def upload_file_service(background_tasks, file, event_id, school_id, user)
             worker_url = WORKER_URL
             print(f"🔔 Notifying worker at URL: {worker_url}")
             print(f"📦 Sending job_id: {job_id}")
-            
+            print(f"[DEBUG] WORKER_URL at notify time: {worker_url}")
             response = requests.post(
                 worker_url,
                 json={"job_id": job_id},

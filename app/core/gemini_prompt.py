@@ -6,7 +6,9 @@ GEMINI_PROMPT_TEMPLATE = """
 **CRITICAL: ALWAYS VISUALLY VERIFY THE IMAGE - DO NOT JUST TRUST OCR VALUES!**
 
 **Input Format:** The input JSON provides initial OCR data for each field:
-`{{ "field_name": {{ "value": "OCR Text", "confidence": 0.xx, "required": true/false, "enabled": true/false }} }}`
+{{{{ "field_name": {{{{ "value": "OCR Text", "confidence": 0.xx, "required": true/false, "enabled": true/false }}}} }}}}
+
+**You will also be provided with a list of valid majors for the school as `valid_majors`. Use this for mapping the major field.**
 
 **CRITICAL: You MUST provide quality indicators, NOT confidence scores. Our system will calculate confidence from your quality assessment.**
 
@@ -29,19 +31,17 @@ GEMINI_PROMPT_TEMPLATE = """
 
 **Output Format:** Return ONLY valid JSON with this exact structure for EVERY field in the input:
 
-```json
-{{
-  "field_name": {{
+{{{{
+  "field_name": {{{{
     "value": "<Extracted or corrected value>",
     "edit_made": true/false,
-    "edit_type": "none|format_correction|ocr_correction|missing_data|unclear_text|typo_fix|cross_validation_fix",
+    "edit_type": "none|format_correction|ocr_correction|missing_data|unclear_text|typo_fix|cross_validation_fix|mapped_value",
     "original_value": "<Original DocAI value if edit was made, otherwise same as value>",
     "text_clarity": "clear|mostly_clear|unclear|unreadable",
     "certainty": "certain|mostly_certain|uncertain",
     "notes": "<Human-friendly explanation - see guidelines below>"
-  }}
-}}
-```
+  }}}}
+}}}}
 
 **Quality Indicator Definitions:**
 
@@ -57,6 +57,7 @@ GEMINI_PROMPT_TEMPLATE = """
 - `unclear_text`: Text exists but too unclear to read confidently
 - `typo_fix`: Fixed obvious spelling/typing errors
 - `cross_validation_fix`: Fixed inconsistency between related fields
+- `mapped_value`: Used for the mapped_major field when mapping to a valid major
 
 **text_clarity:** How clear was the original text on the image?
 - `clear`: Text is perfectly readable
@@ -177,87 +178,24 @@ GEMINI_PROMPT_TEMPLATE = """
 - Use exact text as shown on form
 - **Notes examples:** "Classification field appears blank" / "Text is too small to read clearly"
 
-**Critical Guidelines:**
+**For Mapped Major Field:**
+- You will be provided with a list of valid majors for the school as `valid_majors`.
+- Never overwrite or replace the original `major` field. Always preserve the original `major` field as extracted/corrected from the card.
+- The `major` field should only contain the user's original input, with spelling or formatting corrections if needed. Do NOT map this field to the list of valid majors.
+- The `mapped_major` field should contain the closest match from the list of valid majors, as described above.
+- **Always select the closest matching major from the list and output it as the value for the new `mapped_major` field, even if the match is not exact.**
+- If you are not certain, set `certainty` to "mostly_certain" or "uncertain" and explain your reasoning in the notes.
+- Only leave `mapped_major.value` blank if there is truly no close or reasonable match at all.
+- Do not guess or invent majors that are not in the provided list.
+- Use the same quality indicators and notes as for other fields (e.g., if the match is uncertain, mark as such).
 
-1. **Be Conservative:** Mark as `uncertain` rather than guess
-2. **Text Clarity Matters:** If handwriting is messy, mark `text_clarity: "unclear"`
-3. **Empty Fields:** If no text is visible, use empty string with `text_clarity: "clear"` and `certainty: "certain"`
-4. **N/A Values:** Convert "N/A" to empty string with `edit_type: "format_correction"`
-5. **Field Type Recognition:** Identify field purpose from context and apply appropriate formatting rules
-6. **Consistency:** Apply same formatting rules to similar field types across the form
-7. **Human-like Notes:** Write notes as if you're a human reviewer helping another human reviewer
-
-**Examples:**
-
-Clear email fix:
-```json
-"email_address": {{
-  "value": "john@gmail.com",
-  "edit_made": true,
-  "edit_type": "format_correction", 
-  "original_value": "john@gmai.com",
-  "text_clarity": "clear",
-  "certainty": "certain",
-  "notes": "Fixed obvious typo - 'gmai' should be 'gmail'"
-}}
-```
-
-Unclear handwriting:
-```json
-"student_name": {{
-  "value": "",
-  "edit_made": false,
-  "edit_type": "unclear_text",
-  "original_value": "",
-  "text_clarity": "unreadable", 
-  "certainty": "uncertain",
-  "notes": "Handwriting is too messy to read clearly"
-}}
-```
-
-Phone number formatting:
-```json
-"phone_number": {{
-  "value": "512-555-1234",
-  "edit_made": true,
-  "edit_type": "format_correction",
-  "original_value": "(512) 555-1234",
-  "text_clarity": "clear",
-  "certainty": "certain",
-  "notes": "Reformatted from parentheses to dashes"
-}}
-```
-
-Obvious typo fix:
-```json
-"student_name": {{
-  "value": "Adam Hodges Jr",
-  "edit_made": true,
-  "edit_type": "typo_fix",
-  "original_value": "Adam Hodges r",
-  "text_clarity": "mostly_clear",
-  "certainty": "certain",
-  "notes": "Fixed obvious typo - 'r' should be 'Jr'"
-}}
-```
-
-Uncertain field:
-```json
-"birth_date": {{
-  "value": "03/15/2005",
-  "edit_made": true,
-  "edit_type": "ocr_correction",
-  "original_value": "03/15/200S",
-  "text_clarity": "mostly_clear",
-  "certainty": "mostly_certain",
-  "notes": "Last digit was unclear - could be 5 or S, went with 5 for the year"
-}}
-```
+**MANDATORY:** You MUST always include a `mapped_major` field in your output. If you select a major, set its value; if not, leave it blank and explain why in the notes.
 
 **Input Fields JSON to Review:**
-```json
-{all_fields_json}
-```
+{{{{
+  "fields": {all_fields_json},
+  "valid_majors": {list_of_valid_majors}
+}}}}
 
 **Respond ONLY with the JSON object. No explanations, no markdown markers, just the JSON.**
 """

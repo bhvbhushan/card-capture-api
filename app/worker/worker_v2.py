@@ -160,9 +160,15 @@ def process_job_v2(job: Dict[str, Any]) -> None:
             for field_name, field_data in docai_fields.items()
         })
         
+        # Step 4.5: Fetch valid majors for the school
+        log_worker_debug("=== STEP 4.5: FETCH VALID MAJORS ===")
+        majors_query = supabase_client.table("schools").select("majors").eq("id", school_id).maybe_single().execute()
+        valid_majors = majors_query.data.get("majors") if majors_query and majors_query.data and majors_query.data.get("majors") else []
+        log_worker_debug("Valid majors fetched", valid_majors)
+        
         # Step 5: Process with Gemini (with requirements context)
         log_worker_debug("=== STEP 5: GEMINI PROCESSING ===")
-        gemini_fields = process_card_with_gemini_v2(cropped_image_path, docai_fields)
+        gemini_fields = process_card_with_gemini_v2(cropped_image_path, docai_fields, valid_majors)
         log_worker_debug("Gemini processing complete", list(gemini_fields.keys()))
         
         # Step 6: Validate and clean field data
@@ -232,25 +238,19 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         log_worker_debug(f"❌ Error processing job {job_id}: {str(e)}")
         log_worker_debug("Full traceback", traceback.format_exc())
         
-        # Convert error to string for database storage
-        error_message = str(e)
-        if hasattr(e, 'args') and e.args:
-            # For storage exceptions, extract the message
-            if 'Bucket not found' in error_message:
-                error_message = f"Storage error: {error_message}"
-        
-        # Update job with error status
+        # Update job status to 'failed' instead of 'error'
         update_processing_job(supabase_client, job_id, {
-            "status": "error",
-            "updated_at": datetime.now(timezone.utc).isoformat(),
-            "error_message": error_message
+            "status": "failed",
+            "error_message": str(e),
+            "updated_at": datetime.now(timezone.utc).isoformat()
         })
         
-    finally:
-        # Clean up temporary file
-        if tmp_file and os.path.exists(tmp_file):
-            os.unlink(tmp_file)
+        # Clean up temporary files
+        if os.path.exists(tmp_file):
+            os.remove(tmp_file)
             log_worker_debug(f"Cleaned up temporary file: {tmp_file}")
+        
+        raise
 
 def main_v2():
     """

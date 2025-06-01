@@ -30,13 +30,14 @@ def log_gemini_debug(message: str, data: Any = None):
     print(log_entry, flush=True)
 
 
-def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any]) -> Dict[str, Any]:
+def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], valid_majors: list = None) -> Dict[str, Any]:
     """
     Enhanced Gemini processing that uses quality indicators instead of confidence self-assessment
     
     Args:
         image_path: Path to the cropped image
         docai_fields: Fields from DocAI with requirements applied
+        valid_majors: List of valid majors for mapped_major logic
         
     Returns:
         Enhanced field data with computed confidence scores
@@ -51,28 +52,33 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any]) -
         }
         for field_name, field_data in docai_fields.items()
     })
-    
+    if valid_majors is None:
+        valid_majors = []
     try:
         # Configure Gemini
         genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
         model = genai.GenerativeModel("gemini-1.5-pro-latest")
         
-        # Prepare input for Gemini (simplified format)
-        gemini_input = {}
-        for field_name, field_data in docai_fields.items():
-            if field_data.get("enabled", True):
-                gemini_input[field_name] = {
+        # Prepare input for Gemini (fields + valid_majors)
+        gemini_input = {
+            "fields": {
+                field_name: {
                     "value": field_data.get("value", ""),
                     "confidence": field_data.get("confidence", 0.0),
                     "required": field_data.get("required", False),
                     "enabled": field_data.get("enabled", True)
                 }
+                for field_name, field_data in docai_fields.items() if field_data.get("enabled", True)
+            },
+            "valid_majors": valid_majors
+        }
         
         log_gemini_debug("Gemini input prepared", gemini_input)
         
         # Create prompt
         prompt = GEMINI_PROMPT_TEMPLATE.format(
-            all_fields_json=json.dumps(gemini_input, indent=2)
+            all_fields_json=json.dumps(gemini_input["fields"], indent=2),
+            list_of_valid_majors=json.dumps(valid_majors, indent=2)
         )
         
         # Upload image and generate content
@@ -80,6 +86,7 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any]) -
         uploaded_file = genai.upload_file(image_path)
         
         log_gemini_debug("Sending request to Gemini...")
+        log_gemini_debug("Prompt being sent:", prompt)
         response = model.generate_content([uploaded_file, prompt])
         
         if not response or not response.text:
@@ -88,7 +95,35 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any]) -
         log_gemini_debug("Raw Gemini response", response.text)
         
         # Parse response with quality indicators
-        enhanced_fields = parse_gemini_quality_response(response.text, docai_fields)
+        try:
+            enhanced_fields = parse_gemini_quality_response(response.text, docai_fields)
+            # Backend safeguard: ensure mapped_major is always present
+            if 'mapped_major' not in enhanced_fields:
+                enhanced_fields['mapped_major'] = {
+                    "value": "",
+                    "edit_made": False,
+                    "edit_type": "mapped_value",
+                    "original_value": "",
+                    "text_clarity": "clear",
+                    "certainty": "certain",
+                    "notes": ""
+                }
+            # Backend safeguard: ensure major is user's input, not mapped value
+            if 'major' in enhanced_fields and 'mapped_major' in enhanced_fields and valid_majors:
+                user_major_original = docai_fields.get('major', {}).get('value', '').strip().lower()
+                gemini_major = enhanced_fields['major'].get('value', '').strip().lower()
+                mapped_major = enhanced_fields['mapped_major'].get('value', '').strip().lower()
+                # If Gemini set major to a mapped value, but user input was different, restore user input
+                if mapped_major and gemini_major == mapped_major and user_major_original and user_major_original != mapped_major:
+                    enhanced_fields['major']['value'] = docai_fields['major']['value']
+        except json.JSONDecodeError as e:
+            log_gemini_debug(f"JSON parsing error: {str(e)}")
+            log_gemini_debug("Failed to parse response as JSON. Response text:", response.text)
+            raise Exception(f"Invalid JSON response from Gemini: {str(e)}")
+        except Exception as e:
+            log_gemini_debug(f"Error parsing Gemini response: {str(e)}")
+            log_gemini_debug("Response that caused error:", response.text)
+            raise
         
         log_gemini_debug("Enhanced fields created", {
             field_name: {
@@ -105,6 +140,7 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any]) -
         
     except Exception as e:
         log_gemini_debug(f"ERROR in Gemini processing: {str(e)}")
+        log_gemini_debug("Full traceback:", traceback.format_exc())
         # Return original fields with error flags
         for field_name, field_data in docai_fields.items():
             field_data["requires_human_review"] = True
@@ -128,16 +164,29 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
     try:
         # Clean response text
         cleaned_text = response_text.strip()
+        
+        # Remove markdown code block markers if present
         if cleaned_text.startswith("```json"):
             cleaned_text = cleaned_text[7:]
+        elif cleaned_text.startswith("```"):
+            cleaned_text = cleaned_text[3:]
         if cleaned_text.endswith("```"):
             cleaned_text = cleaned_text[:-3]
         cleaned_text = cleaned_text.strip()
         
         log_gemini_debug("Cleaned response text", cleaned_text)
         
-        # Parse JSON
-        gemini_data = json.loads(cleaned_text)
+        # Try to parse JSON
+        try:
+            gemini_data = json.loads(cleaned_text)
+        except json.JSONDecodeError as e:
+            log_gemini_debug(f"Initial JSON parse failed: {str(e)}")
+            # Try to fix common JSON issues
+            cleaned_text = cleaned_text.replace("'", '"')  # Replace single quotes with double quotes
+            cleaned_text = re.sub(r'(\w+):', r'"\1":', cleaned_text)  # Quote unquoted keys
+            log_gemini_debug("Attempting to parse with fixes", cleaned_text)
+            gemini_data = json.loads(cleaned_text)
+        
         log_gemini_debug("Parsed Gemini data", gemini_data)
         
         enhanced_fields = {}
@@ -199,12 +248,8 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
         
     except Exception as e:
         log_gemini_debug(f"ERROR parsing Gemini response: {str(e)}")
-        # Return original fields with error flags
-        for field_name, field_data in docai_fields.items():
-            field_data["requires_human_review"] = True
-            field_data["review_notes"] = "This field needs manual review due to a processing issue"
-            field_data["review_confidence"] = 0.1
-        return docai_fields
+        log_gemini_debug("Response text that caused error:", response_text)
+        raise
 
 def calculate_confidence_from_quality(quality_info: Dict[str, Any]) -> float:
     """

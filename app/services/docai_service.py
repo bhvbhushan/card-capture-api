@@ -33,24 +33,45 @@ def process_image_with_docai(image_path: str, processor_id: str) -> Tuple[Dict[s
     Returns:
         Tuple of (field_data_dict, cropped_image_path)
     """
-    log_docai_debug("=== DOCAI PROCESSING START ===")
-    log_docai_debug(f"Processing image: {image_path}")
-    log_docai_debug(f"Using processor: {processor_id}")
-    
     try:
-        # Set up Document AI client
+        # Log image details
+        print(f"\n[DEBUG] Processing image: {image_path}")
+        print(f"[DEBUG] Image exists: {os.path.exists(image_path)}")
+        print(f"[DEBUG] Image size: {os.path.getsize(image_path)} bytes")
+        
+        # Initialize DocAI client
         client = documentai.DocumentProcessorServiceClient()
         name = f"projects/{PROJECT_ID}/locations/{DOCAI_LOCATION}/processors/{processor_id}"
         
-        # Read and process image
-        with open(image_path, "rb") as image_file:
-            image_content = image_file.read()
+        print(f"[DEBUG] Using DocAI processor: {name}")
         
-        raw_document = documentai.RawDocument(content=image_content, mime_type="image/jpeg")
-        request = documentai.ProcessRequest(name=name, raw_document=raw_document)
+        # Read the file into memory
+        with open(image_path, "rb") as image:
+            content = image.read()
+            print(f"[DEBUG] Read {len(content)} bytes from image")
         
-        log_docai_debug("Sending request to DocAI...")
-        result = client.process_document(request=request)
+        # Configure the process request
+        request = documentai.ProcessRequest(
+            name=name,
+            raw_document=documentai.RawDocument(
+                content=content,
+                mime_type="image/png"
+            )
+        )
+        
+        print("[DEBUG] Sending request to DocAI...")
+        
+        # Process the document
+        try:
+            result = client.process_document(request=request)
+            print("[DEBUG] DocAI processing successful")
+        except Exception as e:
+            print(f"[DEBUG] DocAI error details: {str(e)}")
+            print(f"[DEBUG] Error type: {type(e)}")
+            if hasattr(e, 'response'):
+                print(f"[DEBUG] Response: {e.response}")
+            raise
+        
         document = result.document
         
         log_docai_debug("DocAI response received", {
