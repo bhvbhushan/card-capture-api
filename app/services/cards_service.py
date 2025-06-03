@@ -17,20 +17,22 @@ from app.repositories.cards_repository import (
     move_cards_db
 )
 from app.utils.archive_logging import log_archive_debug
+from app.utils.retry_utils import log_debug
 
-async def get_cards_service(event_id: Union[str, None] = None) -> List[Dict[str, Any]]:
+async def get_cards_service(event_id: str = None, school_id: str = None):
     try:
-        print(" Rcvd /cards request")
+        log_debug("Received /cards request", service="cards")
+        
         if event_id:
-            print(f" Filtering by event_id: {event_id}")
+            log_debug(f"Filtering by event_id: {event_id}", service="cards")
+        
         result = get_cards_db(supabase_client, event_id)
-        print(f" Found {len(result)} reviewed records.")
-        print(f" Returning {len(result)} non-deleted, non-archived records.")
+        log_debug(f"Found {len(result)} reviewed records", service="cards")
+        log_debug(f"Returning {len(result)} non-deleted, non-archived records", service="cards")
         return result
     except Exception as e:
-        print(f"❌ Error in /cards endpoint: {e}")
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+        log_debug(f"Error in /cards endpoint: {e}", service="cards")
+        raise e
 
 async def archive_cards_service(document_ids: List[str]) -> JSONResponse:
     """Archive cards by document IDs"""
@@ -72,67 +74,60 @@ async def archive_cards_service(document_ids: List[str]) -> JSONResponse:
 async def mark_as_exported_service(document_ids: List[str]) -> JSONResponse:
     """Mark cards as exported by document IDs"""
     if not supabase_client:
-        print("❌ Database client not available")
+        log_debug("Database client not available", service="cards")
         return JSONResponse(status_code=503, content={"error": "Database client not available."})
     
     if not document_ids:
-        print("❌ No document_ids provided.")
+        log_debug("No document_ids provided", service="cards")
         return JSONResponse(status_code=400, content={"error": "No document_ids provided."})
     
-    print(f"📤 Recording export timestamp for {len(document_ids)} records...")
+    log_debug(f"Recording export timestamp for {len(document_ids)} records...", service="cards")
     try:
         update_response = mark_as_exported_db(supabase_client, document_ids)
-        print(f"✅ Successfully recorded export timestamp for {len(document_ids)} records.")
+        log_debug(f"Successfully recorded export timestamp for {len(document_ids)} records", service="cards")
         return JSONResponse(status_code=200, content={"message": f"{len(document_ids)} records export timestamp updated."})
     except Exception as e:
-        print(f"❌ Error recording export timestamp: {e}")
+        log_debug(f"Error recording export timestamp: {e}", service="cards")
         traceback.print_exc()
         return JSONResponse(status_code=500, content={"error": "Failed to record export timestamp."})
 
-async def delete_cards_service(document_ids: List[str]) -> JSONResponse:
+def delete_cards_service(document_ids: List[str]) -> JSONResponse:
     """Delete cards by document IDs"""
     if not supabase_client:
-        print("❌ Database client not available")
+        log_debug("Database client not available", service="cards")
         return JSONResponse(status_code=503, content={"error": "Database client not available."})
     
     if not document_ids:
-        print("❌ No document_ids provided.")
+        log_debug("No document_ids provided", service="cards")
         return JSONResponse(status_code=400, content={"error": "No document_ids provided."})
     
-    print(f"🗑️ Deleting {len(document_ids)} cards...")
-    try:
-        reviewed_response, extracted_response = delete_cards_db(supabase_client, document_ids)
-        print(f"✅ Successfully deleted {len(document_ids)} cards.")
-        return JSONResponse(status_code=200, content={"message": f"{len(document_ids)} cards deleted successfully."})
-    except Exception as e:
-        print(f"❌ Error deleting cards: {e}")
-        traceback.print_exc()
-        return JSONResponse(status_code=500, content={"error": "Failed to delete cards."})
+    log_debug(f"Deleting {len(document_ids)} cards...", service="cards")
+    
+    delete_response = delete_cards_db(supabase_client, document_ids)
+    
+    log_debug(f"Successfully deleted {len(document_ids)} cards", service="cards")
+    return JSONResponse(status_code=200, content={"message": f"Successfully deleted {len(document_ids)} cards."})
 
-async def move_cards_service(document_ids: List[str], status: str = "reviewed") -> JSONResponse:
+def move_cards_service(document_ids: List[str], status: str = "reviewed") -> JSONResponse:
     """Move cards to a different status by document IDs"""
     if not supabase_client:
-        print("❌ Database client not available")
+        log_debug("Database client not available", service="cards")
         return JSONResponse(status_code=503, content={"error": "Database client not available."})
     
     if not document_ids:
-        print("❌ No document_ids provided.")
+        log_debug("No document_ids provided", service="cards")
         return JSONResponse(status_code=400, content={"error": "No document_ids provided."})
     
-    try:
-        result = move_cards_db(supabase_client, document_ids, status)
-        print(f"✅ Successfully moved {len(document_ids)} cards to status '{status}'")
-        return JSONResponse(
-            status_code=200,
-            content={"message": f"Successfully moved {len(document_ids)} cards to status '{status}'"}
-        )
-    except Exception as e:
-        print(f"❌ Error moving cards: {e}")
-        traceback.print_exc()
-        return JSONResponse(
-            status_code=500,
-            content={"error": str(e)}
-        )
+    # Validate status
+    valid_statuses = ['pending', 'reviewed', 'approved', 'archived']
+    if status not in valid_statuses:
+        return JSONResponse(status_code=400, content={"error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"})
+    
+    log_debug(f"Successfully moved {len(document_ids)} cards to status '{status}'", service="cards")
+    
+    update_response = move_cards_db(supabase_client, document_ids, status)
+    
+    return JSONResponse(status_code=200, content={"message": f"Successfully moved {len(document_ids)} cards to {status}."})
 
 # Legacy service functions for backward compatibility during transition
 async def mark_as_exported_service_legacy(payload: MarkExportedPayload):

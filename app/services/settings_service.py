@@ -2,25 +2,14 @@ import json
 from datetime import datetime, timezone
 from typing import Dict, Any
 from app.core.clients import supabase_client
-
-def log_settings_debug(message: str, data: Any = None):
-    """Write debug message and optional data to settings_debug.log"""
-    timestamp = datetime.now(timezone.utc).isoformat()
-    with open('settings_debug.log', 'a') as f:
-        f.write(f"\n[{timestamp}] {message}\n")
-        if data:
-            if isinstance(data, (dict, list)):
-                f.write(json.dumps(data, indent=2))
-            else:
-                f.write(str(data))
-            f.write("\n")
+from app.utils.retry_utils import log_debug
 
 def get_field_requirements(school_id: str) -> Dict[str, Dict[str, bool]]:
     """
     Get field requirements from school settings (now as an array)
     """
-    log_settings_debug("=== GETTING FIELD REQUIREMENTS ===")
-    log_settings_debug(f"School ID: {school_id}")
+    log_debug("=== GETTING FIELD REQUIREMENTS ===", service="settings")
+    log_debug(f"School ID: {school_id}", service="settings")
 
     try:
         school_query = supabase_client.table("schools").select("card_fields").eq("id", school_id).maybe_single().execute()
@@ -28,13 +17,13 @@ def get_field_requirements(school_id: str) -> Dict[str, Dict[str, bool]]:
             card_fields_array = school_query.data.get("card_fields") or []
             # Convert array to dict for internal use
             card_fields = {f["key"]: {"enabled": f.get("enabled", True), "required": f.get("required", False)} for f in card_fields_array}
-            log_settings_debug("Found school settings", card_fields)
+            log_debug("Found school settings", card_fields, service="settings")
             return card_fields
         else:
-            log_settings_debug("No school settings found, returning empty dict")
+            log_debug("No school settings found, returning empty dict", service="settings")
             return {}
     except Exception as e:
-        log_settings_debug(f"ERROR getting field requirements: {str(e)}")
+        log_debug(f"ERROR getting field requirements: {str(e)}", service="settings")
         return {}
 
 def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dict[str, bool]]) -> Dict[str, Any]:
@@ -48,9 +37,9 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
     Returns:
         Updated field data with requirements applied
     """
-    log_settings_debug("=== APPLYING FIELD REQUIREMENTS ===")
-    log_settings_debug("Input fields", list(fields.keys()))
-    log_settings_debug("Requirements", requirements)
+    log_debug("=== APPLYING FIELD REQUIREMENTS ===", service="settings")
+    log_debug("Input fields", list(fields.keys()), service="settings")
+    log_debug("Requirements", requirements, service="settings")
     
     # Update existing fields with requirements
     for field_name, field_data in fields.items():
@@ -58,20 +47,20 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
             field_settings = requirements[field_name]
             field_data["enabled"] = field_settings.get("enabled", True)
             field_data["required"] = field_settings.get("required", False)
-            log_settings_debug(f"Updated {field_name}", {
+            log_debug(f"Updated {field_name}", {
                 "enabled": field_data["enabled"],
                 "required": field_data["required"]
-            })
+            }, service="settings")
         else:
             # Default settings for fields not in requirements
             field_data["enabled"] = True
             field_data["required"] = False
-            log_settings_debug(f"Default settings for {field_name}")
+            log_debug(f"Default settings for {field_name}", service="settings")
     
     # Add missing required fields
     for field_name, field_settings in requirements.items():
         if field_settings.get("required", False) and field_name not in fields:
-            log_settings_debug(f"Adding missing required field: {field_name}")
+            log_debug(f"Adding missing required field: {field_name}", service="settings")
             fields[field_name] = {
                 "value": "",
                 "confidence": 0.0,
@@ -84,16 +73,16 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
                 "review_confidence": 0.0
             }
     
-    log_settings_debug("Final fields", list(fields.keys()))
+    log_debug("Final fields", list(fields.keys()), service="settings")
     return fields
 
 def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, Dict[str, bool]]:
     """
     Sync detected fields with school settings, adding any new fields with defaults
     """
-    log_settings_debug("=== SYNCING FIELD REQUIREMENTS ===")
-    log_settings_debug(f"School ID: {school_id}")
-    log_settings_debug("Detected fields", detected_fields)
+    log_debug("=== SYNCING FIELD REQUIREMENTS ===", service="settings")
+    log_debug(f"School ID: {school_id}", service="settings")
+    log_debug("Detected fields", detected_fields, service="settings")
 
     try:
         # Get current school settings as array
@@ -111,7 +100,7 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
                     "required": False
                 })
                 updated = True
-                log_settings_debug(f"Added new field {field_name} with defaults")
+                log_debug(f"Added new field {field_name} with defaults", service="settings")
 
         # Optionally, remove fields not in detected_fields (if you want to prune)
         # card_fields_array = [f for f in card_fields_array if f["key"] in detected_fields]
@@ -122,13 +111,13 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
                 "card_fields": card_fields_array
             }
             supabase_client.table("schools").update(update_payload).eq("id", school_id).execute()
-            log_settings_debug("Updated school settings in database")
+            log_debug("Updated school settings in database", service="settings")
 
         # Return as dict for internal use
         return {f["key"]: {"enabled": f.get("enabled", True), "required": f.get("required", False)} for f in card_fields_array}
 
     except Exception as e:
-        log_settings_debug(f"ERROR syncing field requirements: {str(e)}")
+        log_debug(f"ERROR syncing field requirements: {str(e)}", service="settings")
         return {}
 
 def get_canonical_field_list() -> list:

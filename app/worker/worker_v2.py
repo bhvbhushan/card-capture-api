@@ -28,6 +28,12 @@ from app.config import DOCAI_PROCESSOR_ID
 from app.utils.image_processing import ensure_trimmed_image
 from app.utils.storage import upload_to_supabase_storage_from_path
 
+from app.repositories.uploads_repository import (
+    update_job_status_with_review,
+    update_job_with_notification,
+    create_processing_job_with_data
+)
+
 BUCKET = "cards-uploads"
 MAX_RETRIES = 3
 SLEEP_SECONDS = 1
@@ -119,17 +125,7 @@ def split_combined_address_fields(fields: dict) -> dict:
 
 def process_job_v2(job: Dict[str, Any]) -> None:
     """
-    Simplified, reliable processing flow:
-    
-    1. Download image
-    2. Get school field requirements FIRST
-    3. Process with DocAI
-    4. Apply field requirements to DocAI results
-    5. Process with Gemini (with requirements context)
-    6. Validate and clean field data
-    7. Enhance with address validation
-    8. Determine review status
-    9. Save results
+    Simplified, reliable processing flow with atomic database operations
     """
     job_id = job["id"]
     file_url = job["file_url"]
@@ -235,11 +231,9 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         except Exception as e:
             log_worker_debug(f"Failed to upload trimmed image to Supabase: {e}")
 
-        # Step 9: Save results
-        log_worker_debug("=== STEP 9: SAVE RESULTS ===")
+        # Update job status and create review data atomically
         now = datetime.now(timezone.utc).isoformat()
-        
-        reviewed_data = {
+        review_data = {
             "document_id": job_id,
             "fields": enhanced_fields,
             "school_id": school_id,
@@ -252,17 +246,7 @@ def process_job_v2(job: Dict[str, Any]) -> None:
             "updated_at": now
         }
         
-        # Save to reviewed_data table
-        upsert_reviewed_data(supabase_client, reviewed_data)
-        log_worker_debug(f"✅ Upserted reviewed_data for job {job_id}")
-        
-        # Update processing job status
-        update_processing_job(supabase_client, job_id, {
-            "status": "complete",
-            "updated_at": now,
-            "error_message": None,
-            "result_json": enhanced_fields
-        })
+        update_job_status_with_review(supabase_client, job_id, "complete", review_data)
         
         log_worker_debug(f"✅ Job {job_id} completed successfully")
         log_worker_debug("=== PROCESSING JOB V2 END ===\n")
@@ -271,12 +255,15 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         log_worker_debug(f"❌ Error processing job {job_id}: {str(e)}")
         log_worker_debug("Full traceback", traceback.format_exc())
         
-        # Update job status to 'failed' instead of 'error'
-        update_processing_job(supabase_client, job_id, {
+        # Update job status to failed with notification
+        now = datetime.now(timezone.utc).isoformat()
+        notification_data = {
+            "document_id": job_id,
             "status": "failed",
-            "error_message": str(e),
-            "updated_at": datetime.now(timezone.utc).isoformat()
-        })
+            "error": str(e),
+            "created_at": now
+        }
+        update_job_with_notification(supabase_client, job_id, "failed", notification_data)
         
         # Clean up temporary files
         if os.path.exists(tmp_file):
@@ -348,12 +335,14 @@ async def process_job_endpoint(request: Request):
         job = job_query.data
         log_worker_debug("Found job in database", job)
         
-        # Update status to processing
+        # Update status to processing using atomic operation
         now = datetime.now(timezone.utc).isoformat()
-        update_processing_job(supabase_client, job_id, {
+        notification_data = {
+            "document_id": job_id,
             "status": "processing",
-            "updated_at": now
-        })
+            "created_at": now
+        }
+        update_job_with_notification(supabase_client, job_id, "processing", notification_data)
         
         # Process the job
         process_job_v2(job)

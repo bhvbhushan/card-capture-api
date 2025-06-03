@@ -8,27 +8,11 @@ import traceback
 import json
 import re
 import time
-from typing import Dict, Any, Tuple
+from typing import Dict, Any, Tuple, Callable
 import google.generativeai as genai
 from app.core.gemini_prompt import GEMINI_PROMPT_TEMPLATE
 from app.config import GEMINI_MODEL
-
-def log_gemini_debug(message: str, data: Any = None):
-    """Write debug message and optional data to gemini_debug.log"""
-    timestamp = datetime.now(timezone.utc).isoformat()
-    log_entry = f"\n[{timestamp}] {message}\n"
-    if data:
-        if isinstance(data, (dict, list)):
-            log_entry += json.dumps(data, indent=2)
-        else:
-            log_entry += str(data)
-        log_entry += "\n"
-    # Write to file
-    with open('gemini_debug.log', 'a') as f:
-        f.write(log_entry)
-    # Also print to stdout for Cloud Run logging
-    print(log_entry, flush=True)
-
+from app.utils.retry_utils import retry_with_exponential_backoff, log_debug
 
 def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], valid_majors: list = None) -> Dict[str, Any]:
     """
@@ -42,16 +26,17 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
     Returns:
         Enhanced field data with computed confidence scores
     """
-    log_gemini_debug("=== GEMINI PROCESSING V2 START ===")
-    log_gemini_debug(f"Image path: {image_path}")
-    log_gemini_debug("Input DocAI fields", {
+    log_debug("=== GEMINI PROCESSING V2 START ===", service="gemini")
+    log_debug(f"Image path: {image_path}", service="gemini")
+    log_debug("Input DocAI fields", {
         field_name: {
             "value": field_data.get("value", ""),
             "required": field_data.get("required", False),
             "enabled": field_data.get("enabled", True)
         }
         for field_name, field_data in docai_fields.items()
-    })
+    }, service="gemini")
+    
     if valid_majors is None:
         valid_majors = []
     try:
@@ -73,7 +58,7 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
             "valid_majors": valid_majors
         }
         
-        log_gemini_debug("Gemini input prepared", gemini_input)
+        log_debug("Gemini input prepared", gemini_input, service="gemini")
         
         # Create prompt
         prompt = GEMINI_PROMPT_TEMPLATE.format(
@@ -81,18 +66,30 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
             list_of_valid_majors=json.dumps(valid_majors, indent=2)
         )
         
-        # Upload image and generate content
-        log_gemini_debug("Uploading image to Gemini...")
-        uploaded_file = genai.upload_file(image_path)
+        # Upload image with retry logic
+        log_debug("Uploading image to Gemini...", service="gemini")
+        uploaded_file = retry_with_exponential_backoff(
+            func=lambda: genai.upload_file(image_path),
+            max_retries=3,
+            operation_name="Gemini image upload",
+            service="gemini"
+        )
         
-        log_gemini_debug("Sending request to Gemini...")
-        log_gemini_debug("Prompt being sent:", prompt)
-        response = model.generate_content([uploaded_file, prompt])
+        log_debug("Sending request to Gemini...", service="gemini")
+        log_debug("Prompt being sent:", prompt, service="gemini")
+        
+        # Generate content with retry logic
+        response = retry_with_exponential_backoff(
+            func=lambda: model.generate_content([uploaded_file, prompt]),
+            max_retries=3,
+            operation_name="Gemini content generation",
+            service="gemini"
+        )
         
         if not response or not response.text:
             raise Exception("No response from Gemini")
         
-        log_gemini_debug("Raw Gemini response", response.text)
+        log_debug("Raw Gemini response", response.text, service="gemini")
         
         # Parse response with quality indicators
         try:
@@ -117,15 +114,15 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
                 if mapped_major and gemini_major == mapped_major and user_major_original and user_major_original != mapped_major:
                     enhanced_fields['major']['value'] = docai_fields['major']['value']
         except json.JSONDecodeError as e:
-            log_gemini_debug(f"JSON parsing error: {str(e)}")
-            log_gemini_debug("Failed to parse response as JSON. Response text:", response.text)
+            log_debug(f"JSON parsing error: {str(e)}", service="gemini")
+            log_debug("Failed to parse response as JSON. Response text:", response.text, service="gemini")
             raise Exception(f"Invalid JSON response from Gemini: {str(e)}")
         except Exception as e:
-            log_gemini_debug(f"Error parsing Gemini response: {str(e)}")
-            log_gemini_debug("Response that caused error:", response.text)
+            log_debug(f"Error parsing Gemini response: {str(e)}", service="gemini")
+            log_debug("Response that caused error:", response.text, service="gemini")
             raise
         
-        log_gemini_debug("Enhanced fields created", {
+        log_debug("Enhanced fields created", {
             field_name: {
                 "value": field_data.get("value", ""),
                 "confidence_score": field_data.get("review_confidence", 0.0),
@@ -133,14 +130,14 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
                 "review_notes": field_data.get("review_notes", "")
             }
             for field_name, field_data in enhanced_fields.items()
-        })
+        }, service="gemini")
         
-        log_gemini_debug("=== GEMINI PROCESSING V2 COMPLETE ===")
+        log_debug("=== GEMINI PROCESSING V2 COMPLETE ===", service="gemini")
         return enhanced_fields
         
     except Exception as e:
-        log_gemini_debug(f"ERROR in Gemini processing: {str(e)}")
-        log_gemini_debug("Full traceback:", traceback.format_exc())
+        log_debug(f"ERROR in Gemini processing: {str(e)}", service="gemini")
+        log_debug("Full traceback:", traceback.format_exc(), service="gemini")
         # Return original fields with error flags
         for field_name, field_data in docai_fields.items():
             field_data["requires_human_review"] = True
@@ -159,7 +156,7 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
     Returns:
         Enhanced field data with computed confidence scores
     """
-    log_gemini_debug("=== PARSING GEMINI QUALITY RESPONSE ===")
+    log_debug("=== PARSING GEMINI QUALITY RESPONSE ===", service="gemini")
     
     try:
         # Clean response text
@@ -174,20 +171,20 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
             cleaned_text = cleaned_text[:-3]
         cleaned_text = cleaned_text.strip()
         
-        log_gemini_debug("Cleaned response text", cleaned_text)
+        log_debug("Cleaned response text", cleaned_text, service="gemini")
         
         # Try to parse JSON
         try:
             gemini_data = json.loads(cleaned_text)
         except json.JSONDecodeError as e:
-            log_gemini_debug(f"Initial JSON parse failed: {str(e)}")
+            log_debug(f"Initial JSON parse failed: {str(e)}", service="gemini")
             # Try to fix common JSON issues
             cleaned_text = cleaned_text.replace("'", '"')  # Replace single quotes with double quotes
             cleaned_text = re.sub(r'(\w+):', r'"\1":', cleaned_text)  # Quote unquoted keys
-            log_gemini_debug("Attempting to parse with fixes", cleaned_text)
+            log_debug("Attempting to parse with fixes", cleaned_text, service="gemini")
             gemini_data = json.loads(cleaned_text)
         
-        log_gemini_debug("Parsed Gemini data", gemini_data)
+        log_debug("Parsed Gemini data", gemini_data, service="gemini")
         
         enhanced_fields = {}
         
@@ -237,18 +234,18 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
             
             enhanced_fields[field_name] = enhanced_field
             
-            log_gemini_debug(f"Enhanced field {field_name}", {
+            log_debug(f"Enhanced field {field_name}", {
                 "value": enhanced_field["value"],
                 "confidence": confidence_score,
                 "needs_review": needs_review,
                 "review_notes": review_notes
-            })
+            }, service="gemini")
         
         return enhanced_fields
         
     except Exception as e:
-        log_gemini_debug(f"ERROR parsing Gemini response: {str(e)}")
-        log_gemini_debug("Response text that caused error:", response_text)
+        log_debug(f"ERROR parsing Gemini response: {str(e)}", service="gemini")
+        log_debug("Response text that caused error:", response_text, service="gemini")
         raise
 
 def calculate_confidence_from_quality(quality_info: Dict[str, Any]) -> float:

@@ -1,6 +1,7 @@
 import json
 from datetime import datetime, timezone
 from typing import Dict, Any, Tuple, List
+from app.utils.retry_utils import log_debug
 
 # Add at the top of the file
 CANONICAL_FIELD_MAP = {
@@ -9,18 +10,6 @@ CANONICAL_FIELD_MAP = {
     "city_state_zip": "city_state",
     # Add more mappings as needed
 }
-
-def log_review_debug(message: str, data: Any = None):
-    """Write debug message and optional data to review_debug.log"""
-    timestamp = datetime.now(timezone.utc).isoformat()
-    with open('review_debug.log', 'a') as f:
-        f.write(f"\n[{timestamp}] {message}\n")
-        if data:
-            if isinstance(data, (dict, list)):
-                f.write(json.dumps(data, indent=2))
-            else:
-                f.write(str(data))
-            f.write("\n")
 
 def determine_review_status(fields: Dict[str, Any]) -> Tuple[str, List[str]]:
     """
@@ -32,7 +21,7 @@ def determine_review_status(fields: Dict[str, Any]) -> Tuple[str, List[str]]:
     Returns:
         Tuple of (review_status, list_of_fields_needing_review)
     """
-    log_review_debug("=== DETERMINING REVIEW STATUS ===")
+    log_debug("=== DETERMINING REVIEW STATUS ===", service="review")
     
     fields_needing_review = []
     
@@ -48,9 +37,9 @@ def determine_review_status(fields: Dict[str, Any]) -> Tuple[str, List[str]]:
         # Check if field is explicitly marked for review
         if field_data.get("requires_human_review", False):
             fields_needing_review.append(field_name)
-            log_review_debug(f"Field {field_name} explicitly marked for review", {
+            log_debug(f"Field {field_name} explicitly marked for review", {
                 "reason": field_data.get("review_notes", "No reason provided")
-            })
+            }, service="review")
             continue
             
         # Check required field rules
@@ -67,7 +56,7 @@ def determine_review_status(fields: Dict[str, Any]) -> Tuple[str, List[str]]:
                 fields_needing_review.append(field_name)
                 field_data["requires_human_review"] = True
                 field_data["review_notes"] = "Required field is empty"
-                log_review_debug(f"Field {field_name} marked for review: empty required field")
+                log_debug(f"Field {field_name} marked for review: empty required field", service="review")
                 continue
                 
             # Required field has low confidence
@@ -75,21 +64,21 @@ def determine_review_status(fields: Dict[str, Any]) -> Tuple[str, List[str]]:
                 fields_needing_review.append(field_name)
                 field_data["requires_human_review"] = True
                 field_data["review_notes"] = f"Required field has low confidence ({effective_confidence:.2f})"
-                log_review_debug(f"Field {field_name} marked for review: low confidence")
+                log_debug(f"Field {field_name} marked for review: low confidence", service="review")
                 continue
     
     # Determine final status
     if fields_needing_review:
         review_status = "needs_human_review"
-        log_review_debug(f"Card needs review - {len(fields_needing_review)} fields flagged")
+        log_debug(f"Card needs review - {len(fields_needing_review)} fields flagged", service="review")
     else:
         review_status = "reviewed"
-        log_review_debug("Card does not need review - all fields valid")
+        log_debug("Card does not need review - all fields valid", service="review")
     
-    log_review_debug("Review determination complete", {
+    log_debug("Review determination complete", {
         "status": review_status,
         "fields_needing_review": fields_needing_review
-    })
+    }, service="review")
     
     return review_status, fields_needing_review
 
@@ -113,7 +102,7 @@ def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
     Returns:
         Validated and cleaned field data
     """
-    log_review_debug("=== VALIDATING FIELD DATA ===")
+    log_debug("=== VALIDATING FIELD DATA ===", service="review")
     
     # Canonicalize field keys before validation
     fields = canonicalize_fields(fields)
@@ -129,23 +118,23 @@ def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
             # Remove "N/A" values
             if field_value.upper() in ["N/A", "NA", "NONE", "NULL"]:
                 field_data["value"] = ""
-                log_review_debug(f"Cleaned N/A value from {field_name}")
+                log_debug(f"Cleaned N/A value from {field_name}", service="review")
                 
             # Validate phone format
             elif field_name == "cell" and field_value:
                 cleaned_phone = _validate_phone_format(field_value)
                 if cleaned_phone != field_value:
                     field_data["value"] = cleaned_phone
-                    log_review_debug(f"Formatted phone: {field_value} -> {cleaned_phone}")
+                    log_debug(f"Formatted phone: {field_value} -> {cleaned_phone}", service="review")
                     
             # Validate date format
             elif field_name == "date_of_birth" and field_value:
                 cleaned_date = _validate_date_format(field_value)
                 if cleaned_date != field_value:
                     field_data["value"] = cleaned_date
-                    log_review_debug(f"Formatted date: {field_value} -> {cleaned_date}")
+                    log_debug(f"Formatted date: {field_value} -> {cleaned_date}", service="review")
     
-    log_review_debug("Field validation complete")
+    log_debug("Field validation complete", service="review")
     return fields
 
 def _validate_phone_format(phone: str) -> str:
