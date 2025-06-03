@@ -3,7 +3,6 @@ import os
 from app.core.clients import supabase_client
 from app.repositories.reviewed_data_repository import upsert_reviewed_data
 from app.repositories.extracted_data_repository import get_extracted_data_by_document_id
-from app.repositories.upload_notifications_repository import insert_upload_notification
 import traceback
 import json
 import re

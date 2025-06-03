@@ -78,12 +78,17 @@ async def archive_events_service(payload):
         archived_count = 0
         errors = []
         
-        # Archive each event individually
+        # Archive each event
+        archived_events = []
         for event_id in payload.event_ids:
             try:
-                result = archive_event_db(supabase_client, event_id, "system", "Bulk archive operation")
-                archived_count += 1
-                log_debug(f"Successfully archived event {event_id}", service="events")
+                result = archive_event_db(supabase_client, event_id)
+                if result.get("event"):
+                    archived_events.append(result["event"])
+                    log_debug(f"Successfully archived event {event_id}", service="events")
+                    archived_count += 1
+                else:
+                    log_debug(f"Failed to archive event {event_id} - no result", service="events")
             except Exception as e:
                 error_msg = f"Failed to archive event {event_id}: {str(e)}"
                 errors.append(error_msg)

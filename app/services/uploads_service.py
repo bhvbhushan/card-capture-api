@@ -11,9 +11,8 @@ from app.core.clients import supabase_client, docai_client
 from app.repositories.uploads_repository import (
     insert_processing_job_db,
     insert_extracted_data_db,
-    insert_upload_notification_db,
-    select_upload_notification_db,
-    select_extracted_data_image_db
+    select_extracted_data_image_db,
+    update_processing_job_db
 )
 from PIL import Image
 import csv
@@ -23,6 +22,7 @@ from app.config import PROJECT_ID, DOCAI_LOCATION, DOCAI_PROCESSOR_ID, TRIMMED_F
 import json
 from app.utils.retry_utils import retry_with_exponential_backoff, log_debug
 from datetime import datetime, timezone
+from typing import Dict, Any
 
 # Try to import SFTP utils, but gracefully handle if not available
 try:
@@ -513,13 +513,40 @@ async def notify_worker(job_id: str, job_data: dict):
     # Create notification record
     notification_data = {
         "job_id": job_id,
-        "status": "sent",
-        "message": f"Job {job_id} ready for processing"
+        "user_id": job_data.get("user_id"),
+        "status": "processing",
+        "message": "File uploaded and processing started",
+        "created_at": datetime.now(timezone.utc).isoformat()
     }
     
-    result = insert_upload_notification_db(supabase_client, notification_data)
+    result = update_processing_job_db(supabase_client, job_id, {
+        "status": "processing", 
+        "updated_at": datetime.now(timezone.utc).isoformat()
+    })
     if not result.data:
-        raise Exception("Failed to create notification record")
+        raise Exception("Failed to update job status")
     
     log_debug(f"Worker notified for job {job_id}", {"job_data": job_data}, service="uploads")
-    return True 
+    return True
+
+async def notify_processing_complete_service(supabase_client, job_data: Dict[str, Any]):
+    """
+    Simplified notification service - just updates the job status.
+    """
+    log_debug("Processing notification", {
+        "job_id": job_data.get("id"),
+        "status": job_data.get("status")
+    }, service="uploads")
+    
+    try:
+        # Just update the job status - removed upload_notifications table usage
+        result = update_processing_job_db(supabase_client, job_data["id"], {
+            "status": "complete",
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        })
+        
+        log_debug("Job status updated successfully", {"job_id": job_data["id"]}, service="uploads")
+        return result
+    except Exception as e:
+        log_debug(f"Failed to update job status: {str(e)}", service="uploads")
+        raise e 
