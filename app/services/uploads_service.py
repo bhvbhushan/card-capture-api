@@ -137,32 +137,28 @@ async def upload_file_service(file, school_id, event_id, user):
                 log_debug(f"File uploaded to storage: {storage_path}", service="uploads")
                 
                 # Upload to storage using the compressed file
-                storage_response = upload_to_supabase_storage_from_path(
+                storage_path = upload_to_supabase_storage_from_path(
+                    supabase_client,
                     compressed_file_path, 
-                    storage_path
+                    user.get("id"),
+                    file.filename
                 )
-                
-                if not storage_response.get("success"):
-                    raise Exception(f"Storage upload failed: {storage_response.get('error', 'Unknown error')}")
                 
                 # Create processing job
                 job_data = {
-                    "document_id": unique_filename.split('.')[0],  # Remove extension for ID
-                    "image_path": storage_path,
-                    "original_filename": file.filename,
-                    "school_id": school_id,
-                    "event_id": event_id,
                     "user_id": user.get("id"),
+                    "school_id": school_id,
+                    "file_url": storage_path,
                     "status": "queued",
-                    "file_size": compressed_size,
-                    "content_type": "image/jpeg"  # Always JPEG after compression
+                    "event_id": event_id,
+                    "image_path": storage_path
                 }
                 
                 result = insert_processing_job_db(supabase_client, job_data)
-                if not result.data:
+                if not result:
                     raise Exception("Failed to create processing job")
                 
-                job_id = result.data[0]["id"]
+                job_id = result[0]["id"]
                 
                 # Notify worker with retry mechanism
                 try:
@@ -232,31 +228,30 @@ async def handle_pdf_upload(pdf_path: str, original_filename: str, school_id: st
                     img.save(jpg_path, "JPEG", quality=85, optimize=True)
                 
                 # Upload to storage
-                storage_response = upload_to_supabase_storage_from_path(jpg_path, storage_path)
-                if not storage_response.get("success"):
-                    raise Exception(f"Storage upload failed for page {i+1}: {storage_response.get('error', 'Unknown error')}")
+                storage_path = upload_to_supabase_storage_from_path(
+                    supabase_client, 
+                    jpg_path, 
+                    user.get("id"), 
+                    f"{original_filename} (Page {i+1})"
+                )
                 
                 # Create processing job for this page
-                document_id = unique_filename.split('.')[0]
                 job_data = {
-                    "document_id": document_id,
-                    "image_path": storage_path,
-                    "original_filename": f"{original_filename} (Page {i+1})",
-                    "school_id": school_id,
-                    "event_id": event_id,
                     "user_id": user.get("id"),
+                    "school_id": school_id,
+                    "file_url": storage_path,
                     "status": "queued",
-                    "file_size": os.path.getsize(jpg_path),
-                    "content_type": "image/jpeg"
+                    "event_id": event_id,
+                    "image_path": storage_path
                 }
                 
                 result = insert_processing_job_db(supabase_client, job_data)
-                if not result.data:
+                if not result:
                     raise Exception(f"Failed to create processing job for page {i+1}")
                 
-                job_id = result.data[0]["id"]
+                job_id = result[0]["id"]
                 job_ids.append(job_id)
-                document_ids.append(document_id)
+                document_ids.append(str(job_id))  # Use job_id as document identifier
                 
                 # Clean up temporary files
                 os.unlink(png_path)

@@ -29,9 +29,7 @@ from app.utils.image_processing import ensure_trimmed_image
 from app.utils.storage import upload_to_supabase_storage_from_path
 
 from app.repositories.uploads_repository import (
-    update_job_status_with_review,
-    update_job_with_notification,
-    create_processing_job_with_data
+    update_job_status_with_review
 )
 
 BUCKET = "cards-uploads"
@@ -255,15 +253,13 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         log_worker_debug(f"❌ Error processing job {job_id}: {str(e)}")
         log_worker_debug("Full traceback", traceback.format_exc())
         
-        # Update job status to failed with notification
+        # Update job status to failed directly  
         now = datetime.now(timezone.utc).isoformat()
-        notification_data = {
-            "document_id": job_id,
+        update_processing_job(supabase_client, job_id, {
             "status": "failed",
-            "error": str(e),
-            "created_at": now
-        }
-        update_job_with_notification(supabase_client, job_id, "failed", notification_data)
+            "error_message": str(e),
+            "updated_at": now
+        })
         
         # Clean up temporary files
         if os.path.exists(tmp_file):
@@ -335,14 +331,12 @@ async def process_job_endpoint(request: Request):
         job = job_query.data
         log_worker_debug("Found job in database", job)
         
-        # Update status to processing using atomic operation
+        # Update status to processing using direct table update
         now = datetime.now(timezone.utc).isoformat()
-        notification_data = {
-            "document_id": job_id,
-            "status": "processing",
-            "created_at": now
-        }
-        update_job_with_notification(supabase_client, job_id, "processing", notification_data)
+        update_processing_job(supabase_client, job_id, {
+            "status": "processing", 
+            "updated_at": now
+        })
         
         # Process the job
         process_job_v2(job)
