@@ -13,6 +13,7 @@ import google.generativeai as genai
 from app.core.gemini_prompt import GEMINI_PROMPT_TEMPLATE
 from app.config import GEMINI_MODEL
 from app.utils.retry_utils import retry_with_exponential_backoff, log_debug
+import mimetypes
 
 def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], valid_majors: list = None) -> Dict[str, Any]:
     """
@@ -66,10 +67,31 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
             list_of_valid_majors=json.dumps(valid_majors, indent=2)
         )
         
-        # Upload image with retry logic
+        # Upload image with retry logic and explicit MIME type
         log_debug("Uploading image to Gemini...", service="gemini")
+        
+        # Determine MIME type
+        mime_type, _ = mimetypes.guess_type(image_path)
+        if not mime_type:
+            # Default to JPEG if we can't determine the type
+            file_ext = os.path.splitext(image_path)[1].lower()
+            if file_ext in ['.jpg', '.jpeg']:
+                mime_type = 'image/jpeg'
+            elif file_ext in ['.png']:
+                mime_type = 'image/png'
+            elif file_ext in ['.gif']:
+                mime_type = 'image/gif'
+            elif file_ext in ['.bmp']:
+                mime_type = 'image/bmp'
+            elif file_ext in ['.tiff', '.tif']:
+                mime_type = 'image/tiff'
+            else:
+                mime_type = 'image/jpeg'  # Default fallback
+        
+        log_debug(f"Detected MIME type: {mime_type} for file: {image_path}", service="gemini")
+        
         uploaded_file = retry_with_exponential_backoff(
-            func=lambda: genai.upload_file(image_path),
+            func=lambda: genai.upload_file(image_path, mime_type=mime_type),
             max_retries=3,
             operation_name="Gemini image upload",
             service="gemini"
