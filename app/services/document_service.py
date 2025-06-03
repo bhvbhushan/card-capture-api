@@ -2,73 +2,117 @@ import json
 import traceback
 from typing import Dict, Any, Optional
 from app.core.clients import gmaps_client
+from app.utils.retry_utils import log_debug
 
 # --- Address Validation ---
-def validate_address_with_google(address: str, zip_code: str) -> Optional[Dict[str, Any]]:
+def validate_address_with_google(address_str: str, zip_code: str):
+    """
+    Validate an address using Google Maps Places API
+    Enhanced version with zip-based validation
+    """
     if not gmaps_client:
-        print("ℹ️ Google Maps client not initialized.")
+        log_debug("Google Maps client not initialized", service="document")
         return None
+    
     if not zip_code:
-        print("ℹ️ Zip Code missing for Google Maps validation.")
+        log_debug("Zip Code missing for Google Maps validation", service="document")
         return None
-    geocode_result = None
-    queried_by_zip_only = False
-    full_address_query = f"{address}, {zip_code}" if address else zip_code
-    print(f"🗺️ Validating via Google Maps (Primary): {full_address_query}")
+    
     try:
-        geocode_result = gmaps_client.geocode(full_address_query)
-    except Exception as e:
-        print(f"❌ Error during primary Google Maps query: {e}")
-        traceback.print_exc()
-        geocode_result = None
-    if not geocode_result and address:
-        print(f"ℹ️ Primary validation failed for '{full_address_query}'. Trying fallback with Zip Code only: {zip_code}")
-        try:
-            geocode_result = gmaps_client.geocode(zip_code)
-            if geocode_result:
-                queried_by_zip_only = True
-                print(f"✅ Google Maps fallback query successful for Zip: {zip_code}")
-        except Exception as e:
-            print(f"❌ Error during fallback Google Maps query: {e}")
-            traceback.print_exc()
-            return None
-    if geocode_result:
-        result = geocode_result[0]
-        print(f"✅ Raw Google Maps response: {json.dumps(result, indent=2)}")
-        components = result.get('address_components', [])
-        location_type = result.get('geometry', {}).get('location_type', 'UNKNOWN')
-        partial_match_flag = result.get('partial_match', False)
-        parsed = {
-            "street_number": next((c['long_name'] for c in components if 'street_number' in c['types']), None),
-            "route": next((c['long_name'] for c in components if 'route' in c['types']), None),
-            "city": next((c['long_name'] for c in components if 'locality' in c['types']), None),
-            "state": next((c['short_name'] for c in components if 'administrative_area_level_1' in c['types']), None),
-            "zip": next((c['long_name'] for c in components if 'postal_code' in c['types']), None),
-            "zip_suffix": next((c['long_name'] for c in components if 'postal_code_suffix' in c['types']), None),
-            "formatted": result.get('formatted_address')
-        }
-        street_address_parts = [parsed["street_number"], parsed["route"]]
-        parsed["street_address"] = " ".join(filter(None, street_address_parts))
-        if parsed["zip"] and parsed["zip_suffix"]:
-            parsed["zip"] = f"{parsed['zip']}-{parsed['zip_suffix']}"
-        validation_data = {
-            "street_address": str(parsed["street_address"] or ''),
-            "city": str(parsed["city"] or ''),
-            "state": str(parsed["state"] or ''),
-            "zip": str(parsed["zip"] or ''),
-            "formatted": str(parsed["formatted"] or ''),
-            "location_type": location_type,
-            "partial_match": partial_match_flag,
-            "queried_by_zip_only": queried_by_zip_only
-        }
-        if validation_data["zip"] or (validation_data["city"] and validation_data["state"]):
-            print(f"✅ Google Maps validation successful: {validation_data['formatted']} (Type: {location_type}, Partial: {partial_match_flag}, ZipOnlyQuery: {queried_by_zip_only})")
-            return validation_data
+        # Enhanced address validation using zip code
+        full_address_query = f"{address_str}, {zip_code}"
+        log_debug(f"Validating via Google Maps (Primary): {full_address_query}", service="document")
+        
+        # Geocoding to get precise coordinates and components
+        geocoding_result = gmaps_client.geocode(full_address_query)
+        
+        if geocoding_result:
+            place = geocoding_result[0]
+            formatted_address = place.get('formatted_address', '')
+            geometry = place.get('geometry', {})
+            location = geometry.get('location', {})
+            components = place.get('address_components', [])
+            
+            # Extract components for better validation
+            extracted_data = {}
+            for component in components:
+                types = component.get('types', [])
+                if 'locality' in types:
+                    extracted_data['city'] = component['long_name']
+                elif 'administrative_area_level_1' in types:
+                    extracted_data['state'] = component['short_name']
+                elif 'postal_code' in types:
+                    extracted_data['zip'] = component['long_name']
+                elif 'street_number' in types:
+                    extracted_data['street_number'] = component['long_name']
+                elif 'route' in types:
+                    extracted_data['street_name'] = component['long_name']
+            
+            # Combine street number and name for full street address
+            if 'street_number' in extracted_data and 'street_name' in extracted_data:
+                extracted_data['street_address'] = f"{extracted_data['street_number']} {extracted_data['street_name']}"
+            
+            log_debug("Google Maps validation successful", {
+                "formatted_address": formatted_address,
+                "extracted_components": extracted_data,
+                "coordinates": location
+            }, service="document")
+            
+            return {
+                "formatted_address": formatted_address,
+                "latitude": location.get('lat'),
+                "longitude": location.get('lng'),
+                **extracted_data
+            }
         else:
-            print(f"⚠️ Google Maps result missing essential components (City/State/Zip). Query: {full_address_query}")
+            log_debug("Google Maps returned no results", {"query": full_address_query}, service="document")
             return None
-    else:
-        print(f"⚠️ Address/Zip not found by Google Maps after fallback: {full_address_query}")
+            
+    except Exception as e:
+        log_debug(f"Google Maps validation error: {str(e)}", {"query": full_address_query}, service="document")
+        return None
+
+def validate_zip_code(zip_code: str):
+    """
+    Validate a zip code using Google Maps Geocoding API
+    Returns city and state if valid
+    """
+    if not gmaps_client:
+        log_debug("Google Maps client not initialized", service="document")
+        return None
+        
+    if not zip_code or len(zip_code.strip()) < 5:
+        log_debug("Invalid zip code format", {"zip_code": zip_code}, service="document")
+        return None
+    
+    try:
+        log_debug(f"Validating zip code: {zip_code}", service="document")
+        
+        # Geocode the zip code
+        geocoding_result = gmaps_client.geocode(zip_code)
+        
+        if geocoding_result:
+            place = geocoding_result[0]
+            components = place.get('address_components', [])
+            
+            extracted_data = {}
+            for component in components:
+                types = component.get('types', [])
+                if 'locality' in types:
+                    extracted_data['city'] = component['long_name']
+                elif 'administrative_area_level_1' in types:
+                    extracted_data['state'] = component['short_name']
+                elif 'postal_code' in types:
+                    extracted_data['zip'] = component['long_name']
+            
+            log_debug("Zip code validation successful", extracted_data, service="document")
+            return extracted_data
+        else:
+            log_debug("Google Maps found no results for zip code", {"zip_code": zip_code}, service="document")
+            return None
+            
+    except Exception as e:
+        log_debug(f"Zip code validation error: {str(e)}", {"zip_code": zip_code}, service="document")
         return None
 
 def validate_address_components(address: Optional[str], city: Optional[str], state: Optional[str], zip_code: Optional[str]) -> Dict[str, Any]:
@@ -80,6 +124,7 @@ def validate_address_components(address: Optional[str], city: Optional[str], sta
             "review_notes": "Google Maps client not available",
             "auto_filled": []
         }
+    
     auto_filled = []
     validated_data = {
         "street_address": "",
@@ -87,48 +132,126 @@ def validate_address_components(address: Optional[str], city: Optional[str], sta
         "state": "",
         "zip": ""
     }
-    zip_code = str(zip_code).strip() if zip_code else ""
-    city = str(city).strip() if city else ""
-    state = str(state).strip().upper() if state else ""
-    address = str(address).strip() if address else ""
-    if zip_code and len(zip_code) >= 5:
-        print(f"🔍 Validating via zip code: {zip_code}")
-        zip_validation = validate_address_with_google("", zip_code)
-        if zip_validation:
-            print(f"✅ Zip validation response: {json.dumps(zip_validation, indent=2)}")
-            validated_data["city"] = zip_validation["city"]
-            validated_data["state"] = zip_validation["state"]
-            validated_data["zip"] = zip_validation["zip"]
-            if not city: auto_filled.append("city")
-            if not state: auto_filled.append("state")
-    requires_review = False
-    review_notes = []
-    if address:
-        print(f"🔍 Validating full address: {address}")
-        # First try validating with just the zip code
-        full_validation = validate_address_with_google(address, zip_code)
-        if not full_validation or not full_validation["street_address"]:
-            # If that fails, try with city/state context
-            location_context = f"{validated_data['city']}, {validated_data['state']} {validated_data['zip']}"
-            print(f"⚠️ Primary validation failed, trying with context: {location_context}")
-            full_validation = validate_address_with_google(address, location_context)
+    
+    try:
+        # First try zip code validation if available
+        if zip_code and len(zip_code.strip()) >= 5:
+            log_debug(f"Validating via zip code: {zip_code}", service="document")
+            zip_validation = validate_zip_code(zip_code)
+            log_debug(f"Zip validation response: {json.dumps(zip_validation, indent=2)}", service="document")
+            
+            if zip_validation:
+                if not city and zip_validation.get('city'):
+                    validated_data['city'] = zip_validation['city']
+                    auto_filled.append('city')
+                if not state and zip_validation.get('state'):
+                    validated_data['state'] = zip_validation['state']
+                    auto_filled.append('state')
         
-        if full_validation and full_validation["street_address"]:
-            validated_data["street_address"] = full_validation["street_address"]
-            print(f"✅ Full address validated: {full_validation['street_address']}")
+        # Then try full address validation if we have an address
+        if address:
+            log_debug(f"Validating full address: {address}", service="document")
+            location_context = f"{city or validated_data['city']}, {state or validated_data['state']} {zip_code}".strip()
+            
+            full_validation = validate_address_with_google(address, zip_code)
+            if not full_validation and location_context:
+                log_debug(f"Primary validation failed, trying with context: {location_context}", service="document")
+                full_validation = validate_address_with_google(address, location_context)
+            
+            if full_validation and full_validation.get('street_address'):
+                validated_data['street_address'] = full_validation['street_address']
+                log_debug(f"Full address validated: {full_validation['street_address']}", service="document")
+            else:
+                validated_data['street_address'] = address
+                log_debug(f"Could not verify street address, preserving original: {address}", service="document")
+        
+        # Fill in any missing data
+        validated_data['city'] = validated_data['city'] or city or ""
+        validated_data['state'] = validated_data['state'] or state or ""
+        validated_data['zip'] = zip_code or ""
+        
+        # Calculate confidence based on validation success
+        confidence = 0.50  # Base confidence
+        if zip_validation:
+            confidence += 0.20
+        if full_validation:
+            confidence += 0.20
+        
+        requires_review = confidence < 0.70 or not all([
+            validated_data['street_address'],
+            validated_data['city'], 
+            validated_data['state'],
+            validated_data['zip']
+        ])
+        
+        review_notes = []
+        if not validated_data['street_address']:
+            review_notes.append("Street address missing")
+        if not validated_data['city']:
+            review_notes.append("City missing")
+        if not validated_data['state']:
+            review_notes.append("State missing")
+        if not validated_data['zip']:
+            review_notes.append("Zip code missing")
+        
+        return {
+            "validated": validated_data,
+            "confidence": min(confidence, 0.95),
+            "requires_review": requires_review,
+            "review_notes": "; ".join(review_notes) if review_notes else "Address validation complete",
+            "auto_filled": auto_filled
+        }
+        
+    except Exception as e:
+        log_debug(f"Address validation error: {str(e)}", service="document")
+        return {
+            "validated": {
+                "street_address": address or "",
+                "city": city or "",
+                "state": state or "",
+                "zip": zip_code or ""
+            },
+            "confidence": 0.30,
+            "requires_review": True,
+            "review_notes": f"Validation error: {str(e)}",
+            "auto_filled": []
+        }
+
+def apply_field_requirements_to_document(fields: dict, requirements: dict) -> dict:
+    """
+    Apply field requirements from school settings to document fields
+    """
+    log_debug("Applying field requirements to document", {
+        "fields_count": len(fields),
+        "requirements_count": len(requirements)
+    }, service="document")
+    
+    # Update existing fields with requirements
+    for field_name, field_data in fields.items():
+        if field_name in requirements:
+            field_settings = requirements[field_name]
+            field_data["enabled"] = field_settings.get("enabled", True)
+            field_data["required"] = field_settings.get("required", False)
         else:
-            requires_review = True
-            review_notes.append("Could not verify street address")
-            # Preserve the original address when Google Maps returns empty street address
-            validated_data["street_address"] = address
-            print(f"⚠️ Could not verify street address, preserving original: {address}")
-    else:
-        requires_review = True
-        review_notes.append("Missing street address")
-    return {
-        "validated": validated_data,
-        "confidence": 0.95 if not requires_review else 0.3,
-        "requires_review": requires_review,
-        "review_notes": "; ".join(review_notes) if review_notes else "",
-        "auto_filled": auto_filled
-    } 
+            # Default settings for fields not in requirements
+            field_data["enabled"] = True
+            field_data["required"] = False
+    
+    # Add missing required fields that weren't detected
+    for field_name, field_settings in requirements.items():
+        if field_settings.get("required", False) and field_name not in fields:
+            log_debug(f"Adding missing required field: {field_name}", service="document")
+            fields[field_name] = {
+                "value": "",
+                "confidence": 0.0,
+                "bounding_box": [],
+                "source": "missing_required",
+                "enabled": field_settings.get("enabled", True),
+                "required": True,
+                "requires_human_review": True,
+                "review_notes": "Required field not detected",
+                "review_confidence": 0.0
+            }
+    
+    log_debug("Field requirements applied successfully", {"final_fields_count": len(fields)}, service="document")
+    return fields 

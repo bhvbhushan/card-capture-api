@@ -56,3 +56,17 @@ settings_debug.log
 # Ignore trimmed images
 app/uploads/trimmed/
 supabase/config.toml
+
+# Ignore system + build artifacts
+.DS_Store
+__pycache__/
+*.pyc
+
+# Node + npm
+node_modules/
+package-lock.json
+package.json
+
+# Project-specific
+UMHB/
+pdf_trim.py

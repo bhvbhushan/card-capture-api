@@ -1,156 +1,222 @@
 from typing import List, Dict, Any, Union
 from datetime import datetime, timezone
 from app.utils.archive_logging import log_archive_debug
+from app.utils.db_utils import (
+    ensure_atomic_updates,
+    safe_db_operation,
+    validate_db_response,
+    handle_db_error
+)
+from fastapi import HTTPException
 
+@safe_db_operation("Get cards")
 def get_cards_db(supabase_client, event_id: Union[str, None] = None) -> List[Dict[str, Any]]:
-    print(" Rcvd /cards request")
+    """Get cards with proper error handling."""
+    query = supabase_client.table("reviewed_data").select("*")
     if event_id:
-        print(f" Filtering by event_id: {event_id}")
-    reviewed_query = supabase_client.table("reviewed_data").select("*")
-    if event_id:
-        reviewed_query = reviewed_query.eq("event_id", event_id)
-    reviewed_response = reviewed_query.execute()
-    reviewed_data = reviewed_response.data
-    print(f" Found {len(reviewed_data)} reviewed records.")
-    filtered_data = [card for card in reviewed_data if card.get("review_status") != "deleted"]
-    print(f" Returning {len(filtered_data)} non-deleted records.")
+        query = query.eq("event_id", event_id)
+    response = query.execute()
+    
+    if not validate_db_response(response, "Get cards"):
+        return []
+        
+    filtered_data = [card for card in response.data if card.get("review_status") != "deleted"]
     return filtered_data
 
-def archive_cards_db(supabase_client, document_ids: List[str]):
-    log_archive_debug("=== ARCHIVE CARDS DB START ===")
-    log_archive_debug("Document IDs to archive", document_ids)
-    
-    # First check if records exist and their current status
-    log_archive_debug("Checking existing records...")
-    existing_query = supabase_client.table("reviewed_data").select("*").in_("document_id", document_ids).execute()
-    existing_records = existing_query.data
-    
-    # Log if no records were found
-    if not existing_records:
-        log_archive_debug("No records found with the provided document IDs")
-        return {"data": [], "count": 0}
-    
-    # Log the full state of each record
-    for record in existing_records:
-        log_archive_debug(f"Record {record['document_id']} full state:", {
-            "document_id": record.get("document_id"),
-            "review_status": record.get("review_status"),
-            "status": record.get("status"),
-            "deleted": record.get("deleted"),
-            "reviewed_at": record.get("reviewed_at")
-        })
-    
-    # Filter out records that are already archived
-    records_to_archive = [r for r in existing_records if r.get("review_status") != "archived"]
-    log_archive_debug("Records to archive (excluding already archived)", [
-        {
-            "document_id": r.get("document_id"),
-            "current_status": r.get("review_status")
-        } for r in records_to_archive
-    ])
-    
-    if not records_to_archive:
-        log_archive_debug("No records need archiving - all are already archived")
-        return {"data": [], "count": 0}
-    
-    timestamp = datetime.now(timezone.utc).isoformat()
-    update_payload = {
-        "review_status": "archived",
-        "reviewed_at": timestamp
-    }
-    log_archive_debug("Update payload", update_payload)
-    
-    try:
-        result = supabase_client.table('reviewed_data') \
-            .update(update_payload) \
-            .in_("document_id", [r["document_id"] for r in records_to_archive]) \
-            .execute()
-        
-        # Log the updated records
-        updated_query = supabase_client.table("reviewed_data").select("*").in_("document_id", [r["document_id"] for r in records_to_archive]).execute()
-        for record in updated_query.data:
-            log_archive_debug(f"Record {record['document_id']} after archive:", {
-                "review_status": record.get("review_status"),
-                "reviewed_at": record.get("reviewed_at")
-            })
-        
-        log_archive_debug("Archive operation result", result)
-        log_archive_debug("=== ARCHIVE CARDS DB END ===")
-        return result
-    except Exception as e:
-        log_archive_debug(f"Error during archive operation: {str(e)}")
-        log_archive_debug("=== ARCHIVE CARDS DB END WITH ERROR ===")
-        raise e
-
+@ensure_atomic_updates(["reviewed_data", "export_history"])
 def mark_as_exported_db(supabase_client, document_ids: List[str]):
-    print(f"📤 mark_as_exported_db: Starting export for {len(document_ids)} document IDs")
-    print(f"📤 Document IDs to export: {document_ids}")
-    
-    timestamp = datetime.now(timezone.utc).isoformat()
-    update_payload = {"exported_at": timestamp, "review_status": "exported"}
-    
-    print(f"📤 Update payload: {update_payload}")
-    
+    """
+    Mark cards as exported and create export history atomically.
+    If either operation fails, both are rolled back.
+    """
     try:
-        # First, check the current status of these records
-        current_records = supabase_client.table('reviewed_data') \
-            .select("document_id, review_status, exported_at") \
-            .in_("document_id", document_ids) \
-            .execute()
+        timestamp = datetime.now(timezone.utc).isoformat()
         
-        print(f"📤 Current records before update:")
-        for record in current_records.data:
-            print(f"   - {record['document_id']}: review_status={record.get('review_status')}, exported_at={record.get('exported_at')}")
+        # Update reviewed_data status
+        cards_response = supabase_client.table("reviewed_data").update({
+            "exported_at": timestamp,
+            "review_status": "exported"
+        }).in_("document_id", document_ids).execute()
         
-        # Perform the update
-        result = supabase_client.table('reviewed_data') \
-            .update(update_payload) \
-            .in_("document_id", document_ids) \
-            .execute()
+        if not validate_db_response(cards_response, "Update cards export status"):
+            raise HTTPException(status_code=500, detail="Failed to update cards export status")
+            
+        # Create export history records
+        export_records = [{
+            "document_id": doc_id,
+            "exported_at": timestamp,
+            "export_type": "slate",  # or other export types
+            "status": "success"
+        } for doc_id in document_ids]
         
-        print(f"📤 Update result: {result}")
-        print(f"📤 Updated {len(result.data) if result.data else 0} records")
-        
-        # Verify the update by checking the records again
-        updated_records = supabase_client.table('reviewed_data') \
-            .select("document_id, review_status, exported_at") \
-            .in_("document_id", document_ids) \
-            .execute()
-        
-        print(f"📤 Records after update:")
-        for record in updated_records.data:
-            print(f"   - {record['document_id']}: review_status={record.get('review_status')}, exported_at={record.get('exported_at')}")
-        
-        return result
+        history_response = supabase_client.table("export_history").insert(export_records).execute()
+        if not validate_db_response(history_response, "Create export history"):
+            raise HTTPException(status_code=500, detail="Failed to create export history")
+            
+        return {
+            "cards": cards_response.data,
+            "history": history_response.data
+        }
         
     except Exception as e:
-        print(f"❌ Error in mark_as_exported_db: {e}")
-        raise e
+        error_details = handle_db_error(e, "Mark cards as exported")
+        raise HTTPException(status_code=500, detail=error_details)
 
+@ensure_atomic_updates(["reviewed_data", "archive_history"])
+def archive_cards_db(supabase_client, document_ids: List[str]):
+    """
+    Archive cards and create archive history atomically.
+    If either operation fails, both are rolled back.
+    """
+    try:
+        timestamp = datetime.now(timezone.utc).isoformat()
+        
+        # Update reviewed_data status
+        cards_response = supabase_client.table("reviewed_data").update({
+            "review_status": "archived",
+            "archived_at": timestamp
+        }).in_("document_id", document_ids).execute()
+        
+        if not validate_db_response(cards_response, "Archive cards"):
+            raise HTTPException(status_code=500, detail="Failed to archive cards")
+            
+        # Create archive history records
+        archive_records = [{
+            "document_id": doc_id,
+            "archived_at": timestamp,
+            "archive_reason": "user_initiated",
+            "status": "success"
+        } for doc_id in document_ids]
+        
+        history_response = supabase_client.table("archive_history").insert(archive_records).execute()
+        if not validate_db_response(history_response, "Create archive history"):
+            raise HTTPException(status_code=500, detail="Failed to create archive history")
+            
+        return {
+            "cards": cards_response.data,
+            "history": history_response.data
+        }
+        
+    except Exception as e:
+        error_details = handle_db_error(e, "Archive cards")
+        raise HTTPException(status_code=500, detail=error_details)
+
+@ensure_atomic_updates(["reviewed_data", "delete_history"])
 def delete_cards_db(supabase_client, document_ids: List[str]):
-    timestamp = datetime.now(timezone.utc).isoformat()
-    # Use review_status to mark as deleted instead of a deleted column
-    reviewed_response = supabase_client.table('reviewed_data') \
-        .update({"review_status": "deleted", "reviewed_at": timestamp}) \
-        .in_("document_id", document_ids) \
-        .execute()
-    
-    # Try to update extracted_data if it exists, but don't fail if it doesn't
+    """
+    Delete cards (mark as deleted) and create deletion history atomically.
+    If either operation fails, both are rolled back.
+    """
     try:
-        extracted_response = supabase_client.table('extracted_data') \
-            .update({"review_status": "deleted", "updated_at": timestamp}) \
-            .in_("document_id", document_ids) \
-            .execute()
+        timestamp = datetime.now(timezone.utc).isoformat()
+        
+        # Update reviewed_data status
+        cards_response = supabase_client.table("reviewed_data").update({
+            "review_status": "deleted",
+            "deleted_at": timestamp
+        }).in_("document_id", document_ids).execute()
+        
+        if not validate_db_response(cards_response, "Delete cards"):
+            raise HTTPException(status_code=500, detail="Failed to delete cards")
+            
+        # Create deletion history records
+        delete_records = [{
+            "document_id": doc_id,
+            "deleted_at": timestamp,
+            "delete_reason": "user_initiated",
+            "status": "success"
+        } for doc_id in document_ids]
+        
+        history_response = supabase_client.table("delete_history").insert(delete_records).execute()
+        if not validate_db_response(history_response, "Create delete history"):
+            raise HTTPException(status_code=500, detail="Failed to create delete history")
+            
+        return {
+            "cards": cards_response.data,
+            "history": history_response.data
+        }
+        
     except Exception as e:
-        print(f"Warning: Could not update extracted_data table: {e}")
-        extracted_response = None
-    
-    return reviewed_response, extracted_response
+        error_details = handle_db_error(e, "Delete cards")
+        raise HTTPException(status_code=500, detail=error_details)
 
+@ensure_atomic_updates(["reviewed_data", "status_history"])
 def move_cards_db(supabase_client, document_ids: List[str], status: str):
-    """Move cards to a different review status"""
-    timestamp = datetime.now(timezone.utc).isoformat()
-    return supabase_client.table('reviewed_data') \
-        .update({"review_status": status, "reviewed_at": timestamp}) \
-        .in_("document_id", document_ids) \
-        .execute() 
+    """
+    Move cards to a different status and create status change history atomically.
+    If either operation fails, both are rolled back.
+    """
+    try:
+        timestamp = datetime.now(timezone.utc).isoformat()
+        
+        # Update reviewed_data status
+        cards_response = supabase_client.table("reviewed_data").update({
+            "review_status": status,
+            "updated_at": timestamp
+        }).in_("document_id", document_ids).execute()
+        
+        if not validate_db_response(cards_response, "Move cards"):
+            raise HTTPException(status_code=500, detail=f"Failed to move cards to status: {status}")
+            
+        # Create status change history records
+        status_records = [{
+            "document_id": doc_id,
+            "old_status": None,  # Would need to fetch previous status if needed
+            "new_status": status,
+            "changed_at": timestamp,
+            "change_reason": "user_initiated"
+        } for doc_id in document_ids]
+        
+        history_response = supabase_client.table("status_history").insert(status_records).execute()
+        if not validate_db_response(history_response, "Create status history"):
+            raise HTTPException(status_code=500, detail="Failed to create status change history")
+            
+        return {
+            "cards": cards_response.data,
+            "history": history_response.data
+        }
+        
+    except Exception as e:
+        error_details = handle_db_error(e, "Move cards")
+        raise HTTPException(status_code=500, detail=error_details)
+
+@ensure_atomic_updates(["reviewed_data", "review_history"])
+def save_manual_review_db(supabase_client, document_id: str, review_data: Dict[str, Any], reviewer_id: str):
+    """
+    Save manual review changes and create review history atomically.
+    If either operation fails, both are rolled back.
+    """
+    try:
+        timestamp = datetime.now(timezone.utc).isoformat()
+        
+        # Update reviewed_data
+        review_response = supabase_client.table("reviewed_data").update({
+            **review_data,
+            "updated_at": timestamp,
+            "last_reviewed_by": reviewer_id
+        }).eq("document_id", document_id).execute()
+        
+        if not validate_db_response(review_response, "Save manual review"):
+            raise HTTPException(status_code=500, detail="Failed to save review changes")
+            
+        # Create review history record
+        history_record = {
+            "document_id": document_id,
+            "reviewer_id": reviewer_id,
+            "reviewed_at": timestamp,
+            "changes_made": review_data.get("changes", []),
+            "review_type": "manual"
+        }
+        
+        history_response = supabase_client.table("review_history").insert(history_record).execute()
+        if not validate_db_response(history_response, "Create review history"):
+            raise HTTPException(status_code=500, detail="Failed to create review history")
+            
+        return {
+            "review": review_response.data[0] if review_response.data else None,
+            "history": history_response.data[0] if history_response.data else None
+        }
+        
+    except Exception as e:
+        error_details = handle_db_error(e, "Save manual review")
+        raise HTTPException(status_code=500, detail=error_details) 

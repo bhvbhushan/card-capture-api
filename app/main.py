@@ -24,4 +24,13 @@ app.include_router(uploads_router)
 app.include_router(events_router)
 app.include_router(users_router)
 app.include_router(schools_router)
-app.include_router(stripe_router) 
+app.include_router(stripe_router)
+
+@app.get("/")
+async def root():
+    """Root endpoint for health check."""
+    return {
+        "message": "Card Scanner API is running",
+        "status": "healthy",
+        "version": "1.0.0"
+    } 
