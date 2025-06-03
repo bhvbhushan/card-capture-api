@@ -10,7 +10,7 @@ router = APIRouter(tags=["Schools"])
 
 @router.get("/schools/{school_id}")
 async def get_school(school_id: str, user=Depends(get_current_user)):
-    return get_school_controller(school_id)
+    return await get_school_controller(school_id)
 
 @router.put("/schools/{school_id}/card-fields")
 async def update_school_card_fields(school_id: str, payload: Dict[str, Any] = Body(...), user=Depends(get_current_user)):

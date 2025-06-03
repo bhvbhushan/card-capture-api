@@ -70,3 +70,6 @@ package.json
 # Project-specific
 UMHB/
 pdf_trim.py
+
+*.sql
+logs/*

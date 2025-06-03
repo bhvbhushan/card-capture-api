@@ -13,11 +13,11 @@ router = APIRouter(tags=["Users"])
 
 @router.get("/me")
 async def read_current_user(user=Depends(get_current_user)):
-    return get_current_user_controller(user)
+    return await get_current_user_controller(user)
 
 @router.get("/users")
 async def list_users(user=Depends(get_current_user)):
-    return list_users_controller()
+    return await list_users_controller()
 
 @router.post("/invite-user")
 async def invite_user(user=Depends(get_current_user), payload: dict = Body(...)):
@@ -76,8 +76,8 @@ async def invite_user(user=Depends(get_current_user), payload: dict = Body(...))
 
 @router.put("/users/{user_id}")
 async def update_user(user_id: str, update: UserUpdateRequest):
-    return update_user_controller(user_id, update)
+    return await update_user_controller(user_id, update)
 
 @router.delete("/users/{user_id}")
 async def delete_user(user_id: str, user=Depends(get_current_user)):
-    return delete_user_controller(user, user_id) 
+    return await delete_user_controller(user, user_id) 

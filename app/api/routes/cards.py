@@ -79,7 +79,7 @@ async def delete_cards(payload: BulkActionPayload):
     if not payload.document_ids:
         return JSONResponse(status_code=400, content={"error": "No document_ids provided"})
     
-    return await delete_cards_service(payload.document_ids)
+    return delete_cards_service(payload.document_ids)
 
 @router.post("/move-cards")
 async def move_cards(payload: BulkActionPayload):
@@ -92,7 +92,7 @@ async def move_cards(payload: BulkActionPayload):
         return JSONResponse(status_code=400, content={"error": "No document_ids provided"})
     
     status = payload.status or "reviewed"
-    return await move_cards_service(payload.document_ids, status)
+    return move_cards_service(payload.document_ids, status)
 
 @router.post("/save-review/{document_id}")
 async def save_manual_review(document_id: str, payload: Dict[str, Any] = Body(...)):
