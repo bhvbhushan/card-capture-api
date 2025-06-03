@@ -196,7 +196,10 @@ async def handle_pdf_upload(pdf_path: str, original_filename: str, school_id: st
     Handle PDF upload by splitting into individual PNG files and creating separate jobs
     """
     try:
-        log_debug(f"Entering PDF processing block for file: {original_filename}", service="uploads")
+        log_debug(f"Entering PDF processing block for file: {original_filename}", {
+            "pdf_path": pdf_path,
+            "original_filename": original_filename
+        }, service="uploads")
         
         # Split PDF into PNG files
         png_paths = split_pdf_to_pngs(pdf_path)
@@ -211,13 +214,9 @@ async def handle_pdf_upload(pdf_path: str, original_filename: str, school_id: st
         
         try:
             for i, png_path in enumerate(png_paths):
-                # Generate unique filename for each page
-                file_extension = ".jpg"  # We'll convert PNG to JPG for consistency
-                unique_filename = f"{uuid.uuid4().hex}{file_extension}"
-                storage_folder = TRIMMED_FOLDER or "trimmed"
-                storage_path = f"{storage_folder}/{unique_filename}"
+                log_debug(f"Processing page {i+1}: {png_path}", service="uploads")
                 
-                # Convert PNG to JPG and upload
+                # Convert PNG to JPG
                 with Image.open(png_path) as img:
                     # Convert to RGB if necessary
                     if img.mode in ('RGBA', 'LA', 'P'):
@@ -226,14 +225,20 @@ async def handle_pdf_upload(pdf_path: str, original_filename: str, school_id: st
                     # Save as JPG
                     jpg_path = png_path.replace('.png', '.jpg')
                     img.save(jpg_path, "JPEG", quality=85, optimize=True)
+                    log_debug(f"Converted PNG to JPG: {jpg_path}", service="uploads")
                 
-                # Upload to storage
+                # Upload to storage with proper JPG filename
+                page_filename = f"{os.path.splitext(original_filename)[0]} (Page {i+1}).jpg"
+                log_debug(f"Generated page filename: {page_filename}", service="uploads")
+                
                 storage_path = upload_to_supabase_storage_from_path(
                     supabase_client, 
                     jpg_path, 
                     user.get("id"), 
-                    f"{original_filename} (Page {i+1})"
+                    page_filename  # Use filename with .jpg extension
                 )
+                
+                log_debug(f"Storage upload completed. Storage path: {storage_path}", service="uploads")
                 
                 # Create processing job for this page
                 job_data = {
@@ -242,8 +247,14 @@ async def handle_pdf_upload(pdf_path: str, original_filename: str, school_id: st
                     "file_url": storage_path,
                     "status": "queued",
                     "event_id": event_id,
-                    "image_path": storage_path
+                    "image_path": storage_path  # This will be the JPG storage path
                 }
+                
+                log_debug(f"Created job data for page {i+1}", {
+                    "job_data": job_data,
+                    "file_url": storage_path,
+                    "image_path": storage_path
+                }, service="uploads")
                 
                 result = insert_processing_job_db(supabase_client, job_data)
                 if not result:
@@ -252,6 +263,13 @@ async def handle_pdf_upload(pdf_path: str, original_filename: str, school_id: st
                 job_id = result[0]["id"]
                 job_ids.append(job_id)
                 document_ids.append(str(job_id))  # Use job_id as document identifier
+                
+                log_debug(f"Successfully created job {job_id} for page {i+1} with paths", {
+                    "job_id": job_id,
+                    "file_url": storage_path,
+                    "image_path": storage_path,
+                    "page": i+1
+                }, service="uploads")
                 
                 # Clean up temporary files
                 os.unlink(png_path)
