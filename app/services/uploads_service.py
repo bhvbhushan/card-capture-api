@@ -172,7 +172,7 @@ async def upload_file_service(file, school_id, event_id, user):
                 return JSONResponse(status_code=200, content={
                     "message": "File uploaded successfully",
                     "job_id": job_id,
-                    "document_id": job_data["document_id"]
+                    "document_id": job_id
                 })
                 
             finally:
