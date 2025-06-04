@@ -186,6 +186,11 @@ def _check_for_invalid_addresses(fields: Dict[str, Any]) -> None:
         return
         
     address_field = fields['address']
+    
+    # Handle case where address_field is None
+    if address_field is None:
+        return
+        
     address_value = address_field.get('value', '').lower()
     
     # Common patterns that indicate invalid addresses
