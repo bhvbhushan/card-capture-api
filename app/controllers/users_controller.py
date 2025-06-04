@@ -9,8 +9,8 @@ from app.services.users_service import (
 async def get_current_user_controller(user_id):
     return await get_user_profile(user_id)
 
-async def list_users_controller():
-    return await get_users()
+async def list_users_controller(user):
+    return await get_users(user)
 
 async def invite_user_controller(user, payload):
     return await invite_user_service(payload, user)

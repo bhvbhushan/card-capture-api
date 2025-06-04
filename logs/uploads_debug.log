@@ -26,3 +26,275 @@
 [2025-06-03T11:59:27.137559+00:00] SFTP functionality loaded successfully
 
 [2025-06-03T11:59:48.233167+00:00] SFTP functionality loaded successfully
+
+[2025-06-03T18:44:40.177982+00:00] SFTP functionality loaded successfully
+
+[2025-06-03T18:45:24.282853+00:00] SFTP functionality loaded successfully
+
+[2025-06-03T18:47:05.559145+00:00] SFTP functionality loaded successfully
+
+[2025-06-03T18:51:42.797951+00:00] Received upload request for file: card_8.pdf
+{
+  "size": "406.8KB",
+  "type": "application/pdf",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": "f99f1f1e-c18b-4b15-908d-47efeb543148"
+}
+
+[2025-06-03T18:51:42.799820+00:00] Entering PDF processing block for file: card_8.pdf
+{
+  "pdf_path": "/var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmpapnwjakl.pdf",
+  "original_filename": "card_8.pdf"
+}
+
+[2025-06-03T18:51:42.992044+00:00] split_pdf_to_pngs returned 1 images: ['/var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmpxvsmryiy/page_1.png']
+
+[2025-06-03T18:51:42.992171+00:00] Processing page 1: /var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmpxvsmryiy/page_1.png
+
+[2025-06-03T18:51:43.038200+00:00] Converted PNG to JPG: /var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmpxvsmryiy/page_1.jpg
+
+[2025-06-03T18:51:43.038346+00:00] Generated page filename: card_8 (Page 1).jpg
+
+[2025-06-03T18:51:44.514711+00:00] Storage upload completed. Storage path: cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/f8d915f3-8659-466f-8be1-416c293c71f5.jpg
+
+[2025-06-03T18:51:44.514871+00:00] Created job data for page 1
+{
+  "job_data": {
+    "user_id": "ec425aba-e372-4f07-95f2-f562cb213f64",
+    "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+    "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/f8d915f3-8659-466f-8be1-416c293c71f5.jpg",
+    "status": "queued",
+    "event_id": "f99f1f1e-c18b-4b15-908d-47efeb543148",
+    "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/f8d915f3-8659-466f-8be1-416c293c71f5.jpg"
+  },
+  "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/f8d915f3-8659-466f-8be1-416c293c71f5.jpg",
+  "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/f8d915f3-8659-466f-8be1-416c293c71f5.jpg"
+}
+
+[2025-06-03T18:51:44.836126+00:00] Successfully created job 3650ec30-0919-4390-906d-60166f3fbd2a for page 1 with paths
+{
+  "job_id": "3650ec30-0919-4390-906d-60166f3fbd2a",
+  "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/f8d915f3-8659-466f-8be1-416c293c71f5.jpg",
+  "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/f8d915f3-8659-466f-8be1-416c293c71f5.jpg",
+  "page": 1
+}
+
+[2025-06-04T09:55:56.119972+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T09:56:19.424179+00:00] Received upload request for file: card_6.pdf
+{
+  "size": "416.0KB",
+  "type": "application/pdf",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": "f99f1f1e-c18b-4b15-908d-47efeb543148"
+}
+
+[2025-06-04T09:56:19.425184+00:00] Entering PDF processing block for file: card_6.pdf
+{
+  "pdf_path": "/var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmps1pabacl.pdf",
+  "original_filename": "card_6.pdf"
+}
+
+[2025-06-04T09:56:19.609485+00:00] split_pdf_to_pngs returned 1 images: ['/var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmpkjv8ve0r/page_1.png']
+
+[2025-06-04T09:56:19.609604+00:00] Processing page 1: /var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmpkjv8ve0r/page_1.png
+
+[2025-06-04T09:56:19.649040+00:00] Converted PNG to JPG: /var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmpkjv8ve0r/page_1.jpg
+
+[2025-06-04T09:56:19.649170+00:00] Generated page filename: card_6 (Page 1).jpg
+
+[2025-06-04T09:56:21.364205+00:00] Storage upload completed. Storage path: cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/ffeb0ba3-c8a5-4bd3-8818-4024dd4f4719.jpg
+
+[2025-06-04T09:56:21.365376+00:00] Created job data for page 1
+{
+  "job_data": {
+    "user_id": "ec425aba-e372-4f07-95f2-f562cb213f64",
+    "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+    "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/ffeb0ba3-c8a5-4bd3-8818-4024dd4f4719.jpg",
+    "status": "queued",
+    "event_id": "f99f1f1e-c18b-4b15-908d-47efeb543148",
+    "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/ffeb0ba3-c8a5-4bd3-8818-4024dd4f4719.jpg"
+  },
+  "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/ffeb0ba3-c8a5-4bd3-8818-4024dd4f4719.jpg",
+  "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/ffeb0ba3-c8a5-4bd3-8818-4024dd4f4719.jpg"
+}
+
+[2025-06-04T09:56:22.277720+00:00] Successfully created job 1b50f99d-9049-4c9c-9ce8-9fdec69b8e04 for page 1 with paths
+{
+  "job_id": "1b50f99d-9049-4c9c-9ce8-9fdec69b8e04",
+  "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/ffeb0ba3-c8a5-4bd3-8818-4024dd4f4719.jpg",
+  "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/ffeb0ba3-c8a5-4bd3-8818-4024dd4f4719.jpg",
+  "page": 1
+}
+
+[2025-06-04T10:24:30.505565+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T10:24:35.756572+00:00] Received upload request for file: card_9.pdf
+{
+  "size": "325.4KB",
+  "type": "application/pdf",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": "f99f1f1e-c18b-4b15-908d-47efeb543148"
+}
+
+[2025-06-04T10:24:35.759332+00:00] Entering PDF processing block for file: card_9.pdf
+{
+  "pdf_path": "/var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmpa7s24ose.pdf",
+  "original_filename": "card_9.pdf"
+}
+
+[2025-06-04T10:24:35.865143+00:00] split_pdf_to_pngs returned 1 images: ['/var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmpthtgku_g/page_1.png']
+
+[2025-06-04T10:24:35.865264+00:00] Processing page 1: /var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmpthtgku_g/page_1.png
+
+[2025-06-04T10:24:35.893236+00:00] Converted PNG to JPG: /var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmpthtgku_g/page_1.jpg
+
+[2025-06-04T10:24:35.893371+00:00] Generated page filename: card_9 (Page 1).jpg
+
+[2025-06-04T10:24:37.074322+00:00] Storage upload completed. Storage path: cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/a15a6673-d022-4a15-a278-f168cee0cd4a.jpg
+
+[2025-06-04T10:24:37.075050+00:00] Created job data for page 1
+{
+  "job_data": {
+    "user_id": "ec425aba-e372-4f07-95f2-f562cb213f64",
+    "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+    "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/a15a6673-d022-4a15-a278-f168cee0cd4a.jpg",
+    "status": "queued",
+    "event_id": "f99f1f1e-c18b-4b15-908d-47efeb543148",
+    "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/a15a6673-d022-4a15-a278-f168cee0cd4a.jpg"
+  },
+  "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/a15a6673-d022-4a15-a278-f168cee0cd4a.jpg",
+  "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/a15a6673-d022-4a15-a278-f168cee0cd4a.jpg"
+}
+
+[2025-06-04T10:24:37.878753+00:00] Successfully created job b22cfa6a-7ecc-4d92-8c0b-192af9c31058 for page 1 with paths
+{
+  "job_id": "b22cfa6a-7ecc-4d92-8c0b-192af9c31058",
+  "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/a15a6673-d022-4a15-a278-f168cee0cd4a.jpg",
+  "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/a15a6673-d022-4a15-a278-f168cee0cd4a.jpg",
+  "page": 1
+}
+
+[2025-06-04T10:25:39.984461+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T10:32:20.450335+00:00] Received upload request for file: card_14.pdf
+{
+  "size": "412.8KB",
+  "type": "application/pdf",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": "f99f1f1e-c18b-4b15-908d-47efeb543148"
+}
+
+[2025-06-04T10:32:20.452188+00:00] Entering PDF processing block for file: card_14.pdf
+{
+  "pdf_path": "/var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmp9w08w48i.pdf",
+  "original_filename": "card_14.pdf"
+}
+
+[2025-06-04T10:32:20.600254+00:00] split_pdf_to_pngs returned 1 images: ['/var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmp1avm20l9/page_1.png']
+
+[2025-06-04T10:32:20.600401+00:00] Processing page 1: /var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmp1avm20l9/page_1.png
+
+[2025-06-04T10:32:20.629929+00:00] Converted PNG to JPG: /var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmp1avm20l9/page_1.jpg
+
+[2025-06-04T10:32:20.630027+00:00] Generated page filename: card_14 (Page 1).jpg
+
+[2025-06-04T10:32:22.603296+00:00] Storage upload completed. Storage path: cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/5d967cf9-3787-4fc1-85b1-41bb7ac317f1.jpg
+
+[2025-06-04T10:32:22.603470+00:00] Created job data for page 1
+{
+  "job_data": {
+    "user_id": "ec425aba-e372-4f07-95f2-f562cb213f64",
+    "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+    "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/5d967cf9-3787-4fc1-85b1-41bb7ac317f1.jpg",
+    "status": "queued",
+    "event_id": "f99f1f1e-c18b-4b15-908d-47efeb543148",
+    "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/5d967cf9-3787-4fc1-85b1-41bb7ac317f1.jpg"
+  },
+  "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/5d967cf9-3787-4fc1-85b1-41bb7ac317f1.jpg",
+  "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/5d967cf9-3787-4fc1-85b1-41bb7ac317f1.jpg"
+}
+
+[2025-06-04T10:32:23.543308+00:00] Successfully created job dcaaf927-804a-4ff4-9aa6-767a7d76df0b for page 1 with paths
+{
+  "job_id": "dcaaf927-804a-4ff4-9aa6-767a7d76df0b",
+  "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/5d967cf9-3787-4fc1-85b1-41bb7ac317f1.jpg",
+  "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/5d967cf9-3787-4fc1-85b1-41bb7ac317f1.jpg",
+  "page": 1
+}
+
+[2025-06-04T10:43:13.553719+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T10:43:29.653078+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T10:47:57.290326+00:00] Received upload request for file: card_7.pdf
+{
+  "size": "306.7KB",
+  "type": "application/pdf",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": "f99f1f1e-c18b-4b15-908d-47efeb543148"
+}
+
+[2025-06-04T10:47:57.291937+00:00] Entering PDF processing block for file: card_7.pdf
+{
+  "pdf_path": "/var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmpglndnacj.pdf",
+  "original_filename": "card_7.pdf"
+}
+
+[2025-06-04T10:47:57.419810+00:00] split_pdf_to_pngs returned 1 images: ['/var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmp_rxu0n74/page_1.png']
+
+[2025-06-04T10:47:57.419948+00:00] Processing page 1: /var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmp_rxu0n74/page_1.png
+
+[2025-06-04T10:47:57.445717+00:00] Converted PNG to JPG: /var/folders/8h/npyh_9c11lz1fq4zly1v__780000gn/T/tmp_rxu0n74/page_1.jpg
+
+[2025-06-04T10:47:57.445822+00:00] Generated page filename: card_7 (Page 1).jpg
+
+[2025-06-04T10:47:58.176973+00:00] Storage upload completed. Storage path: cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/5fd9496d-abfe-4cfe-aea0-b10d5f12317c.jpg
+
+[2025-06-04T10:47:58.177188+00:00] Created job data for page 1
+{
+  "job_data": {
+    "user_id": "ec425aba-e372-4f07-95f2-f562cb213f64",
+    "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+    "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/5fd9496d-abfe-4cfe-aea0-b10d5f12317c.jpg",
+    "status": "queued",
+    "event_id": "f99f1f1e-c18b-4b15-908d-47efeb543148",
+    "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/5fd9496d-abfe-4cfe-aea0-b10d5f12317c.jpg"
+  },
+  "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/5fd9496d-abfe-4cfe-aea0-b10d5f12317c.jpg",
+  "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/5fd9496d-abfe-4cfe-aea0-b10d5f12317c.jpg"
+}
+
+[2025-06-04T10:47:59.128177+00:00] Successfully created job 64000387-62c0-4e9a-9b17-3bf8eb14edd9 for page 1 with paths
+{
+  "job_id": "64000387-62c0-4e9a-9b17-3bf8eb14edd9",
+  "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/5fd9496d-abfe-4cfe-aea0-b10d5f12317c.jpg",
+  "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-04/5fd9496d-abfe-4cfe-aea0-b10d5f12317c.jpg",
+  "page": 1
+}
+
+[2025-06-04T19:34:57.540013+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T19:35:11.258495+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T19:35:23.052395+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T19:35:24.333250+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T19:37:05.561678+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T19:37:26.151232+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T19:37:38.877216+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T19:39:33.581932+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T19:39:57.312647+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T19:41:05.510866+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T19:41:25.854812+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T19:41:28.062487+00:00] SFTP functionality loaded successfully
+
+[2025-06-04T19:41:29.119248+00:00] SFTP functionality loaded successfully

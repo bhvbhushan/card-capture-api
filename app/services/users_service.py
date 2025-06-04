@@ -5,7 +5,8 @@ from app.repositories.users_repository import (
     list_users_db,
     invite_user_db,
     update_user_db,
-    delete_user_db
+    delete_user_db,
+    parse_pg_array
 )
 from app.core.clients import supabase_client, supabase_auth
 from app.utils.retry_utils import log_debug
@@ -23,11 +24,30 @@ async def get_user_profile(user_id: str):
     except Exception as e:
         raise e
 
-async def get_users():
+async def get_users(user):
     try:
-        result = supabase_client.table("users").select("*").execute()
-        log_debug(f"Fetched {len(result.data)} users", service="users")
-        return result.data
+        # Get the logged-in user's school_id
+        user_school_id = user.get("school_id")
+        if not user_school_id:
+            log_debug("User does not have a school_id", service="users")
+            return []
+        
+        # Use the user_profiles_with_login view which now includes school_id
+        # This gives us both last_sign_in_at from users table and school_id from profiles table
+        result = supabase_client.table("user_profiles_with_login").select("id, email, first_name, last_name, role, school_id, last_sign_in_at").eq("school_id", user_school_id).execute()
+        
+        users = result.data or []
+        # Handle role parsing (same as existing logic)
+        for user_item in users:
+            role = user_item.get("role")
+            if isinstance(role, str) and role.startswith("{") and role.endswith("}"):
+                user_item["role"] = parse_pg_array(role)
+            elif role is None:
+                user_item["role"] = []
+            # If already a list, leave as is
+        
+        log_debug(f"Fetched {len(users)} users for school_id: {user_school_id}", service="users")
+        return users
     except Exception as e:
         log_debug(f"Error fetching users: {e}", service="users")
         raise e

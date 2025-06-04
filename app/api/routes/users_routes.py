@@ -17,7 +17,7 @@ async def read_current_user(user=Depends(get_current_user)):
 
 @router.get("/users")
 async def list_users(user=Depends(get_current_user)):
-    return await list_users_controller()
+    return await list_users_controller(user)
 
 @router.post("/invite-user")
 async def invite_user(user=Depends(get_current_user), payload: dict = Body(...)):
