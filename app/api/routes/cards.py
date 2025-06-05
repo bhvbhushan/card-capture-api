@@ -167,7 +167,7 @@ async def save_manual_review(document_id: str, payload: Dict[str, Any] = Body(..
         print(f"Error saving review: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/manual-entry")
+@router.post("/cards/manual")
 async def manual_entry(payload: Dict[str, Any] = Body(...)):
     """
     Create a new manual entry in reviewed_data with review_status='reviewed' and no image.
@@ -180,8 +180,8 @@ async def manual_entry(payload: Dict[str, Any] = Body(...)):
         event_id = payload.get("event_id")
         school_id = payload.get("school_id")
         fields = payload.get("fields", {})
-        if not event_id or not fields:
-            return JSONResponse(status_code=400, content={"error": "event_id and fields are required."})
+        if not event_id or not school_id or not fields:
+            return JSONResponse(status_code=400, content={"error": "event_id, school_id, and fields are required."})
 
         # Generate a new document_id
         document_id = str(uuid.uuid4())
