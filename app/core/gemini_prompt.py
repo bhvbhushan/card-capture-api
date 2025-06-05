@@ -189,7 +189,7 @@ GEMINI_PROMPT_TEMPLATE = """
 - Do not guess or invent majors that are not in the provided list.
 - Use the same quality indicators and notes as for other fields (e.g., if the match is uncertain, mark as such).
 
-**MANDATORY:** You MUST always include a `mapped_major` field in your output. If you select a major, set its value; if not, leave it blank and explain why in the notes.
+**MANDATORY:** You MUST always include a `mapped_major` field in your output. If you select a major, set its value; if not, leave it blank and flag the field for review and explain why in the notes.
 
 **Input Fields JSON to Review:**
 {{{{
