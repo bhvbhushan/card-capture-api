@@ -8,7 +8,9 @@ charset-normalizer==3.4.2
 click==8.1.8
 cryptography==44.0.3
 deprecation==2.1.0
+dnspython==2.7.0
 ecdsa==0.19.1
+email-validator==2.2.0
 exceptiongroup==1.2.2
 fastapi==0.109.1
 google-ai-generativelanguage==0.6.15

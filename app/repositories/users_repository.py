@@ -30,8 +30,7 @@ def list_users_db(supabase_client):
 
 def invite_user_db(email: str, first_name: str, last_name: str, role: List[str], school_id: str):
     """Invite a new user to the system"""
-    print("\n=== INVITE USER DB ===")
-    print(f"📧 Inviting user: {email}")
+    print(f"📧 Inviting user: {email} to school: {school_id}")
     
     # Prepare user metadata
     user_metadata = {
@@ -41,15 +40,11 @@ def invite_user_db(email: str, first_name: str, last_name: str, role: List[str],
         "school_id": school_id,
         "email_verified": False
     }
-    print(f"📝 User metadata: {user_metadata}")
     
     try:
-        print("🔄 Attempting to invite user via email...")
-        
         # Get the frontend URL from environment or use default
         frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
         redirect_url = f"{frontend_url}/accept-invite"
-        print(f"📍 Redirect URL: {redirect_url}")
         
         # Use invite_user_by_email to send the invitation email
         response = supabase_client.auth.admin.invite_user_by_email(
@@ -59,18 +54,6 @@ def invite_user_db(email: str, first_name: str, last_name: str, role: List[str],
                 "redirect_to": redirect_url  # Where they go after clicking the link
             }
         )
-        print(f"✅ Supabase response: {response}")
-        
-        # Alternative: If invite doesn't work, we can use generate_link
-        # link_response = supabase_client.auth.admin.generate_link({
-        #     "type": "invite",
-        #     "email": email,
-        #     "options": {
-        #         "data": user_metadata,
-        #         "redirect_to": redirect_url
-        #     }
-        # })
-        # Then send the link via your own email service
         
         if hasattr(response, 'error') and response.error:
             print(f"❌ Supabase error: {response.error}")
@@ -78,8 +61,10 @@ def invite_user_db(email: str, first_name: str, last_name: str, role: List[str],
         
         # After invite, we need to update app_metadata separately if needed
         if response and response.user:
-            print(f"🔄 Updating app_metadata for user {response.user.id}")
-            update_response = supabase_client.auth.admin.update_user_by_id(
+            print(f"🔄 Creating user profile and metadata for {response.user.id}")
+            
+            # Update app_metadata
+            supabase_client.auth.admin.update_user_by_id(
                 response.user.id,
                 {
                     "app_metadata": {
@@ -87,7 +72,20 @@ def invite_user_db(email: str, first_name: str, last_name: str, role: List[str],
                     }
                 }
             )
-            print(f"✅ App metadata updated: {update_response}")
+            
+            # Create profile record in the profiles table
+            profile_data = {
+                "id": response.user.id,
+                "email": email,
+                "first_name": first_name,
+                "last_name": last_name,
+                "role": role,
+                "school_id": school_id
+            }
+            
+            # Use upsert to handle potential conflicts
+            supabase_client.table("profiles").upsert(profile_data).execute()
+            print(f"✅ User profile created successfully")
         
         # Format the return value properly
         user_data = {
@@ -102,18 +100,14 @@ def invite_user_db(email: str, first_name: str, last_name: str, role: List[str],
             "invite_sent": True
         }
             
-        print("✅ User invited successfully")
-        print(f"📧 Invitation email sent to: {email}")
+        print(f"✅ Invitation email sent to: {email}")
         return user_data
         
     except Exception as e:
         print(f"❌ Error inviting user: {str(e)}")
-        print(f"❌ Error type: {type(e)}")
         import traceback
         print(f"❌ Stack trace: {traceback.format_exc()}")
         raise Exception(f"Error inviting user: {str(e)}")
-    finally:
-        print("=== INVITE USER DB END ===\n")
 
 def update_user_db(supabase_client, user_id, update):
     result = supabase_client.table("profiles").update({

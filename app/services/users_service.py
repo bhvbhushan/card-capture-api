@@ -59,23 +59,38 @@ async def invite_user_service(payload, user):
     log_debug(f"User object full: {user}", service="users")
     
     try:
-        # Check admin permissions
+        # Check admin permissions (allow SuperAdmins and regular admins)
         user_roles = user.get("role", [])
-        log_debug(f"User roles: {user_roles}", service="users")
-        log_debug("Checking if user has admin role...", service="users")
+        user_school_id = user.get("school_id")
+        is_superadmin = user_school_id is None
         
-        if "admin" not in user_roles:
-            log_debug("Only admins can invite users", service="users")
+        log_debug(f"User roles: {user_roles}", service="users")
+        log_debug(f"User school_id: {user_school_id}", service="users")
+        log_debug(f"Is SuperAdmin: {is_superadmin}", service="users")
+        log_debug("Checking permissions...", service="users")
+        
+        if not is_superadmin and "admin" not in user_roles:
+            log_debug("Only admins and SuperAdmins can invite users", service="users")
             return {"error": "Only admins can invite users"}, 403
         
-        log_debug("User has admin role", service="users")
+        if is_superadmin:
+            log_debug("User is SuperAdmin - invitation allowed", service="users")
+        else:
+            log_debug("User has admin role - invitation allowed", service="users")
         
-        # Extract payload data
-        email = payload.email
-        first_name = payload.first_name
-        last_name = payload.last_name
-        role = payload.role
-        school_id = payload.school_id
+        # Extract payload data (handle both dict and object)
+        if isinstance(payload, dict):
+            email = payload.get("email")
+            first_name = payload.get("first_name")
+            last_name = payload.get("last_name")
+            role = payload.get("role")
+            school_id = payload.get("school_id")
+        else:
+            email = payload.email
+            first_name = payload.first_name
+            last_name = payload.last_name
+            role = payload.role
+            school_id = payload.school_id
         
         log_debug("Processing invitation for:", {
             "email": email,
@@ -96,7 +111,7 @@ async def invite_user_service(payload, user):
             return {"error": f"Missing required fields: {', '.join(missing_fields)}"}, 400
         
         # Validate role
-        valid_roles = ["admin", "user", "recruiter"]
+        valid_roles = ["admin", "user", "recruiter", "reviewer"]
         log_debug(f"Validating roles: {role}", service="users")
         log_debug(f"Valid roles allowed: {valid_roles}", service="users")
         
@@ -113,20 +128,16 @@ async def invite_user_service(payload, user):
             "school_id": school_id
         }, service="users")
         
-        # Invite user via Supabase Auth
-        result = supabase_client.auth.admin.invite_user_by_email(email, {
-            "first_name": first_name,
-            "last_name": last_name,
-            "role": role,
-            "school_id": school_id
-        })
+        # Use the proper invite_user_db function that handles metadata correctly
+        user_data = invite_user_db(email, first_name, last_name, role, school_id)
         log_debug(f"Successfully invited user: {email}", service="users")
+        
         log_debug("Created user metadata:", {
-            "user_data": result
+            "user_data": user_data
         }, service="users")
         log_debug("=== INVITE USER SERVICE END ===\n", service="users")
         
-        return {"success": True, "user": result}
+        return {"success": True, "user": user_data}
         
     except Exception as e:
         log_debug("\n❌ ERROR IN INVITE USER SERVICE:", service="users")
@@ -162,10 +173,15 @@ async def delete_user_service(user_id: str, user):
     log_debug(f"User keys: {list(user.keys()) if user else 'None'}", service="users")
     
     try:
-        # Check admin permissions
+        # Check admin permissions (allow SuperAdmins and regular admins)
         user_roles = user.get("role", [])
-        if "admin" not in user_roles:
-            log_debug("Only admins can delete users", service="users")
+        user_school_id = user.get("school_id")
+        is_superadmin = user_school_id is None
+        
+        log_debug(f"Delete permission check - Is SuperAdmin: {is_superadmin}", service="users")
+        
+        if not is_superadmin and "admin" not in user_roles:
+            log_debug("Only admins and SuperAdmins can delete users", service="users")
             return {"error": "Only admins can delete users"}, 403
         
         # Prevent self-deletion

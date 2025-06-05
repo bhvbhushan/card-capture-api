@@ -7,6 +7,7 @@ from .events import router as events_router
 from .users_routes import router as users_router
 from .schools_routes import router as schools_router
 from .stripe_routes import router as stripe_router
+from .superadmin import router as superadmin_router
 
 __all__ = [
     'cards_router',
@@ -16,4 +17,5 @@ __all__ = [
     'users_router',
     'schools_router',
     'stripe_router',
+    'superadmin_router',
 ] 

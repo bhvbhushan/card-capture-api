@@ -22,11 +22,7 @@ async def list_users(user=Depends(get_current_user)):
 @router.post("/invite-user")
 async def invite_user(user=Depends(get_current_user), payload: dict = Body(...)):
     try:
-        print("\n=== INVITE USER REQUEST START ===")
-        print(f"🔑 Auth headers received")
-        print(f"👤 Request from user: {user.get('email')} (ID: {user.get('id')})")
-        print(f"👤 User roles: {user.get('role')}")
-        print(f"📝 Raw payload received: {payload}")
+        print(f"👤 Invite user request from: {user.get('email')}")
         
         # Validate required fields
         required_fields = ["email", "first_name", "last_name", "role", "school_id"]
@@ -39,9 +35,6 @@ async def invite_user(user=Depends(get_current_user), payload: dict = Body(...))
         roles = payload["role"] if isinstance(payload["role"], list) else [payload["role"]]
         valid_roles = ["admin", "recruiter", "reviewer"]
         
-        print(f"🔑 Validating roles: {roles}")
-        print(f"🔑 Valid roles allowed: {valid_roles}")
-        
         # Check if all roles are valid
         invalid_roles = [role for role in roles if role not in valid_roles]
         if invalid_roles:
@@ -53,25 +46,15 @@ async def invite_user(user=Depends(get_current_user), payload: dict = Body(...))
 
         # Update the payload with validated roles
         payload["role"] = roles
-        print("✅ Roles validated")
-        print("📝 Final payload being sent to controller:", payload)
-
+        
         # Call the service to handle the invitation
         result = await invite_user_controller(user, payload)
-        print("✅ Invite user controller completed successfully")
-        print("📝 Controller response:", result)
-        print("=== INVITE USER REQUEST END ===\n")
+        print(f"✅ User invitation completed for: {payload['email']}")
         return result
     except Exception as e:
-        print("\n❌ ERROR IN INVITE USER ENDPOINT:")
-        print(f"❌ Error type: {type(e)}")
-        print(f"❌ Error message: {str(e)}")
-        if hasattr(e, 'detail'):
-            print(f"❌ Error detail: {e.detail}")
+        print(f"❌ Error in invite user endpoint: {str(e)}")
         import traceback
-        print("❌ Stack trace:")
-        print(traceback.format_exc())
-        print("=== INVITE USER REQUEST END WITH ERROR ===\n")
+        print(f"❌ Stack trace: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.put("/users/{user_id}")
