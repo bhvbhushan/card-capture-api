@@ -30,6 +30,15 @@ def validate_and_enhance_address(fields: Dict[str, Any]) -> Dict[str, Any]:
         "zip_code": zip_code
     }, service="address")
     
+    # Check required fields first
+    for field_name in ['address', 'city', 'state', 'zip_code']:
+        if field_name in fields:
+            field_data = fields[field_name]
+            if field_data.get('required', False) and (not field_data.get('value') or field_data.get('value', '').strip() == ''):
+                field_data['requires_human_review'] = True
+                field_data['review_notes'] = f"Required {field_name} field is empty"
+                field_data['review_confidence'] = 0.3
+    
     # Only attempt validation if we have a zip code
     if zip_code and len(zip_code.strip()) >= 5:
         log_debug("Attempting Google Maps validation with zip code", service="address")
@@ -78,12 +87,17 @@ def validate_and_enhance_address(fields: Dict[str, Any]) -> Dict[str, Any]:
             elif address and not validated_address:
                 # We have an address but Google Maps couldn't validate it
                 log_debug(f"Address '{address}' could not be validated by Google Maps", service="address")
-                if 'address' in fields:
+                if 'address' in fields and fields['address'].get('required', False):
                     fields['address']['requires_human_review'] = True
-                    fields['address']['review_notes'] = "Address could not be validated"
+                    fields['address']['review_notes'] = "Required address field could not be validated by Google Maps"
                     fields['address']['review_confidence'] = 0.3
         else:
             log_debug("Google Maps validation failed", service="address")
+            # If validation failed and address is required, mark it for review
+            if 'address' in fields and fields['address'].get('required', False):
+                fields['address']['requires_human_review'] = True
+                fields['address']['review_notes'] = "Required address field could not be validated by Google Maps"
+                fields['address']['review_confidence'] = 0.3
             _mark_address_fields_for_review_if_missing(fields)
             # Also check for obviously invalid addresses
             _check_for_invalid_addresses(fields)
@@ -169,7 +183,7 @@ def _mark_address_fields_for_review_if_missing(fields: Dict[str, Any]) -> None:
         field_value = field_data.get('value', '')
         is_required = field_data.get('required', False)
         
-        # Mark for review if required and empty
+        # Only mark for review if required and empty
         if is_required and (not field_value or field_value.strip() == ""):
             field_data['requires_human_review'] = True
             field_data['review_notes'] = f"Required {field_name} field could not be validated"

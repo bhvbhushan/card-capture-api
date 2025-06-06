@@ -451,3 +451,535 @@
 }
 
 [2025-06-06T16:42:39.381337+00:00] SFTP functionality loaded successfully
+
+[2025-06-06T20:24:07.570266+00:00] SFTP functionality loaded successfully
+
+[2025-06-06T20:37:58.053797+00:00] Received upload request for file: page_14.png
+{
+  "size": "2827.0KB",
+  "type": "image/png",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": "de7a3a71-2272-4685-9a8c-e89eb340a24d"
+}
+
+[2025-06-06T20:37:58.055659+00:00] Compressing image before upload: page_14.png
+
+[2025-06-06T20:37:58.285955+00:00] File sizes - Original: 2827.0KB, Compressed: 239.6KB
+
+[2025-06-06T20:37:58.286117+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/ac6f254bf6774b1280d3bf307f143383.jpg
+
+[2025-06-06T20:38:10.030604+00:00] Received upload request for file: page_40.png
+{
+  "size": "2903.3KB",
+  "type": "image/png",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": "de7a3a71-2272-4685-9a8c-e89eb340a24d"
+}
+
+[2025-06-06T20:38:10.032562+00:00] Compressing image before upload: page_40.png
+
+[2025-06-06T20:38:10.234606+00:00] File sizes - Original: 2903.3KB, Compressed: 245.1KB
+
+[2025-06-06T20:38:10.234758+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/aebe7fb5f9af4ff8bce6c66fcc4c6404.jpg
+
+[2025-06-06T20:39:02.211952+00:00] Received upload request for file: page_21.png
+{
+  "size": "2954.3KB",
+  "type": "image/png",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": "de7a3a71-2272-4685-9a8c-e89eb340a24d"
+}
+
+[2025-06-06T20:39:02.213234+00:00] Compressing image before upload: page_21.png
+
+[2025-06-06T20:39:02.417303+00:00] File sizes - Original: 2954.3KB, Compressed: 247.0KB
+
+[2025-06-06T20:39:02.417477+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/b1c749d8340c4ab6bdfcfff3ecfab67d.jpg
+
+[2025-06-06T20:58:58.305942+00:00] SFTP functionality loaded successfully
+
+[2025-06-06T21:05:41.193877+00:00] Received upload request for file: page_16.png
+{
+  "size": "2780.6KB",
+  "type": "image/png",
+  "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+  "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414"
+}
+
+[2025-06-06T21:05:41.196264+00:00] Compressing image before upload: page_16.png
+
+[2025-06-06T21:05:41.406852+00:00] File sizes - Original: 2780.6KB, Compressed: 236.4KB
+
+[2025-06-06T21:05:41.407027+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/bc3dedd2c77149de8a7c445a7a053097.jpg
+
+[2025-06-06T21:15:41.875902+00:00] Received upload request for file: 10_cards.pdf
+{
+  "size": "2178.0KB",
+  "type": "application/pdf",
+  "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+  "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414"
+}
+
+[2025-06-06T21:15:41.878037+00:00] Entering PDF processing block for file: 10_cards.pdf
+{
+  "pdf_path": "/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpkct5ecbj.pdf",
+  "original_filename": "10_cards.pdf"
+}
+
+[2025-06-06T21:15:43.463326+00:00] split_pdf_to_pngs returned 10 images: ['/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_1.png', '/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_2.png', '/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_3.png', '/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_4.png', '/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_5.png', '/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_6.png', '/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_7.png', '/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_8.png', '/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_9.png', '/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_10.png']
+
+[2025-06-06T21:15:43.463476+00:00] Processing page 1: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_1.png
+
+[2025-06-06T21:15:43.482724+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_1.jpg
+
+[2025-06-06T21:15:43.482880+00:00] Generated page filename: 10_cards (Page 1).jpg
+
+[2025-06-06T21:15:44.295651+00:00] Storage upload completed. Storage path: cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f01fbc6e-c91d-4392-ae15-bfa79c91e7c1.jpg
+
+[2025-06-06T21:15:44.295806+00:00] Created job data for page 1
+{
+  "job_data": {
+    "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+    "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+    "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f01fbc6e-c91d-4392-ae15-bfa79c91e7c1.jpg",
+    "status": "queued",
+    "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414",
+    "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f01fbc6e-c91d-4392-ae15-bfa79c91e7c1.jpg"
+  },
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f01fbc6e-c91d-4392-ae15-bfa79c91e7c1.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f01fbc6e-c91d-4392-ae15-bfa79c91e7c1.jpg"
+}
+
+[2025-06-06T21:15:44.426693+00:00] Successfully created job dab2de5a-3b31-4883-9cac-6f826e33dd92 for page 1 with paths
+{
+  "job_id": "dab2de5a-3b31-4883-9cac-6f826e33dd92",
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f01fbc6e-c91d-4392-ae15-bfa79c91e7c1.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f01fbc6e-c91d-4392-ae15-bfa79c91e7c1.jpg",
+  "page": 1
+}
+
+[2025-06-06T21:15:44.427157+00:00] Processing page 2: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_2.png
+
+[2025-06-06T21:15:44.444714+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_2.jpg
+
+[2025-06-06T21:15:44.444884+00:00] Generated page filename: 10_cards (Page 2).jpg
+
+[2025-06-06T21:15:44.778477+00:00] Storage upload completed. Storage path: cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/e40d73d2-2e58-4993-8027-0f2ccbd515d5.jpg
+
+[2025-06-06T21:15:44.778645+00:00] Created job data for page 2
+{
+  "job_data": {
+    "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+    "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+    "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/e40d73d2-2e58-4993-8027-0f2ccbd515d5.jpg",
+    "status": "queued",
+    "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414",
+    "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/e40d73d2-2e58-4993-8027-0f2ccbd515d5.jpg"
+  },
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/e40d73d2-2e58-4993-8027-0f2ccbd515d5.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/e40d73d2-2e58-4993-8027-0f2ccbd515d5.jpg"
+}
+
+[2025-06-06T21:15:44.951760+00:00] Successfully created job c756ceed-820f-4f58-aeb1-c5ae832c48b3 for page 2 with paths
+{
+  "job_id": "c756ceed-820f-4f58-aeb1-c5ae832c48b3",
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/e40d73d2-2e58-4993-8027-0f2ccbd515d5.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/e40d73d2-2e58-4993-8027-0f2ccbd515d5.jpg",
+  "page": 2
+}
+
+[2025-06-06T21:15:44.952645+00:00] Processing page 3: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_3.png
+
+[2025-06-06T21:15:44.970621+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_3.jpg
+
+[2025-06-06T21:15:44.970781+00:00] Generated page filename: 10_cards (Page 3).jpg
+
+[2025-06-06T21:15:45.475920+00:00] Storage upload completed. Storage path: cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/db67a0c9-40fe-4c33-bbae-2d8ec1affb27.jpg
+
+[2025-06-06T21:15:45.476118+00:00] Created job data for page 3
+{
+  "job_data": {
+    "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+    "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+    "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/db67a0c9-40fe-4c33-bbae-2d8ec1affb27.jpg",
+    "status": "queued",
+    "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414",
+    "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/db67a0c9-40fe-4c33-bbae-2d8ec1affb27.jpg"
+  },
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/db67a0c9-40fe-4c33-bbae-2d8ec1affb27.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/db67a0c9-40fe-4c33-bbae-2d8ec1affb27.jpg"
+}
+
+[2025-06-06T21:15:45.638707+00:00] Successfully created job 0638f5c9-1d7a-4f0d-b302-80ceaf1e79eb for page 3 with paths
+{
+  "job_id": "0638f5c9-1d7a-4f0d-b302-80ceaf1e79eb",
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/db67a0c9-40fe-4c33-bbae-2d8ec1affb27.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/db67a0c9-40fe-4c33-bbae-2d8ec1affb27.jpg",
+  "page": 3
+}
+
+[2025-06-06T21:15:45.639078+00:00] Processing page 4: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_4.png
+
+[2025-06-06T21:15:45.656621+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_4.jpg
+
+[2025-06-06T21:15:45.656811+00:00] Generated page filename: 10_cards (Page 4).jpg
+
+[2025-06-06T21:15:46.286812+00:00] Storage upload completed. Storage path: cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/8a8dbf06-cd80-429b-adfd-57e240e825ce.jpg
+
+[2025-06-06T21:15:46.287182+00:00] Created job data for page 4
+{
+  "job_data": {
+    "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+    "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+    "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/8a8dbf06-cd80-429b-adfd-57e240e825ce.jpg",
+    "status": "queued",
+    "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414",
+    "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/8a8dbf06-cd80-429b-adfd-57e240e825ce.jpg"
+  },
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/8a8dbf06-cd80-429b-adfd-57e240e825ce.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/8a8dbf06-cd80-429b-adfd-57e240e825ce.jpg"
+}
+
+[2025-06-06T21:15:46.374677+00:00] Successfully created job 1743d63c-3c6a-4368-a181-3c93d25c9179 for page 4 with paths
+{
+  "job_id": "1743d63c-3c6a-4368-a181-3c93d25c9179",
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/8a8dbf06-cd80-429b-adfd-57e240e825ce.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/8a8dbf06-cd80-429b-adfd-57e240e825ce.jpg",
+  "page": 4
+}
+
+[2025-06-06T21:15:46.375082+00:00] Processing page 5: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_5.png
+
+[2025-06-06T21:15:46.393277+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_5.jpg
+
+[2025-06-06T21:15:46.393448+00:00] Generated page filename: 10_cards (Page 5).jpg
+
+[2025-06-06T21:15:46.928697+00:00] Storage upload completed. Storage path: cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f3d948a5-e2aa-4b5e-a1dd-7b9b79b09245.jpg
+
+[2025-06-06T21:15:46.928869+00:00] Created job data for page 5
+{
+  "job_data": {
+    "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+    "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+    "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f3d948a5-e2aa-4b5e-a1dd-7b9b79b09245.jpg",
+    "status": "queued",
+    "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414",
+    "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f3d948a5-e2aa-4b5e-a1dd-7b9b79b09245.jpg"
+  },
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f3d948a5-e2aa-4b5e-a1dd-7b9b79b09245.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f3d948a5-e2aa-4b5e-a1dd-7b9b79b09245.jpg"
+}
+
+[2025-06-06T21:15:47.023730+00:00] Successfully created job ddca366e-ae34-4da5-a2c9-766509f1fd6a for page 5 with paths
+{
+  "job_id": "ddca366e-ae34-4da5-a2c9-766509f1fd6a",
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f3d948a5-e2aa-4b5e-a1dd-7b9b79b09245.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f3d948a5-e2aa-4b5e-a1dd-7b9b79b09245.jpg",
+  "page": 5
+}
+
+[2025-06-06T21:15:47.024193+00:00] Processing page 6: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_6.png
+
+[2025-06-06T21:15:47.042464+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_6.jpg
+
+[2025-06-06T21:15:47.042654+00:00] Generated page filename: 10_cards (Page 6).jpg
+
+[2025-06-06T21:15:47.636354+00:00] Storage upload completed. Storage path: cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/c51cfad4-5f79-4d3a-bfc4-10e2d65aa709.jpg
+
+[2025-06-06T21:15:47.636525+00:00] Created job data for page 6
+{
+  "job_data": {
+    "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+    "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+    "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/c51cfad4-5f79-4d3a-bfc4-10e2d65aa709.jpg",
+    "status": "queued",
+    "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414",
+    "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/c51cfad4-5f79-4d3a-bfc4-10e2d65aa709.jpg"
+  },
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/c51cfad4-5f79-4d3a-bfc4-10e2d65aa709.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/c51cfad4-5f79-4d3a-bfc4-10e2d65aa709.jpg"
+}
+
+[2025-06-06T21:15:47.723425+00:00] Successfully created job 3506e039-0aab-4be8-b44f-d665a6f9b125 for page 6 with paths
+{
+  "job_id": "3506e039-0aab-4be8-b44f-d665a6f9b125",
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/c51cfad4-5f79-4d3a-bfc4-10e2d65aa709.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/c51cfad4-5f79-4d3a-bfc4-10e2d65aa709.jpg",
+  "page": 6
+}
+
+[2025-06-06T21:15:47.723881+00:00] Processing page 7: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_7.png
+
+[2025-06-06T21:15:47.742339+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_7.jpg
+
+[2025-06-06T21:15:47.742548+00:00] Generated page filename: 10_cards (Page 7).jpg
+
+[2025-06-06T21:15:48.232214+00:00] Storage upload completed. Storage path: cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/78269c2f-ebce-4c36-9e16-73587cff0865.jpg
+
+[2025-06-06T21:15:48.232552+00:00] Created job data for page 7
+{
+  "job_data": {
+    "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+    "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+    "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/78269c2f-ebce-4c36-9e16-73587cff0865.jpg",
+    "status": "queued",
+    "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414",
+    "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/78269c2f-ebce-4c36-9e16-73587cff0865.jpg"
+  },
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/78269c2f-ebce-4c36-9e16-73587cff0865.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/78269c2f-ebce-4c36-9e16-73587cff0865.jpg"
+}
+
+[2025-06-06T21:15:48.340695+00:00] Successfully created job 17cdadbd-8fd6-49c8-91e4-018db67cf272 for page 7 with paths
+{
+  "job_id": "17cdadbd-8fd6-49c8-91e4-018db67cf272",
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/78269c2f-ebce-4c36-9e16-73587cff0865.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/78269c2f-ebce-4c36-9e16-73587cff0865.jpg",
+  "page": 7
+}
+
+[2025-06-06T21:15:48.341076+00:00] Processing page 8: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_8.png
+
+[2025-06-06T21:15:48.359056+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_8.jpg
+
+[2025-06-06T21:15:48.359193+00:00] Generated page filename: 10_cards (Page 8).jpg
+
+[2025-06-06T21:15:48.748917+00:00] Storage upload completed. Storage path: cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/a6c317bd-e737-4a0c-9aa7-9c1138204c3f.jpg
+
+[2025-06-06T21:15:48.749084+00:00] Created job data for page 8
+{
+  "job_data": {
+    "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+    "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+    "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/a6c317bd-e737-4a0c-9aa7-9c1138204c3f.jpg",
+    "status": "queued",
+    "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414",
+    "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/a6c317bd-e737-4a0c-9aa7-9c1138204c3f.jpg"
+  },
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/a6c317bd-e737-4a0c-9aa7-9c1138204c3f.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/a6c317bd-e737-4a0c-9aa7-9c1138204c3f.jpg"
+}
+
+[2025-06-06T21:15:48.839542+00:00] Successfully created job 7749108e-9996-4e73-aff8-215a6de0dc5e for page 8 with paths
+{
+  "job_id": "7749108e-9996-4e73-aff8-215a6de0dc5e",
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/a6c317bd-e737-4a0c-9aa7-9c1138204c3f.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/a6c317bd-e737-4a0c-9aa7-9c1138204c3f.jpg",
+  "page": 8
+}
+
+[2025-06-06T21:15:48.839913+00:00] Processing page 9: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_9.png
+
+[2025-06-06T21:15:48.858060+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_9.jpg
+
+[2025-06-06T21:15:48.858231+00:00] Generated page filename: 10_cards (Page 9).jpg
+
+[2025-06-06T21:15:49.256423+00:00] Storage upload completed. Storage path: cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/8b6929be-cabf-4ef2-b179-b96c583f6257.jpg
+
+[2025-06-06T21:15:49.256572+00:00] Created job data for page 9
+{
+  "job_data": {
+    "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+    "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+    "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/8b6929be-cabf-4ef2-b179-b96c583f6257.jpg",
+    "status": "queued",
+    "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414",
+    "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/8b6929be-cabf-4ef2-b179-b96c583f6257.jpg"
+  },
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/8b6929be-cabf-4ef2-b179-b96c583f6257.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/8b6929be-cabf-4ef2-b179-b96c583f6257.jpg"
+}
+
+[2025-06-06T21:15:49.370333+00:00] Successfully created job 62902f43-c4ed-4760-93d5-2769db237a5a for page 9 with paths
+{
+  "job_id": "62902f43-c4ed-4760-93d5-2769db237a5a",
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/8b6929be-cabf-4ef2-b179-b96c583f6257.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/8b6929be-cabf-4ef2-b179-b96c583f6257.jpg",
+  "page": 9
+}
+
+[2025-06-06T21:15:49.370832+00:00] Processing page 10: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_10.png
+
+[2025-06-06T21:15:49.388678+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpwihwpitb/page_10.jpg
+
+[2025-06-06T21:15:49.388841+00:00] Generated page filename: 10_cards (Page 10).jpg
+
+[2025-06-06T21:15:49.829812+00:00] Storage upload completed. Storage path: cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f69801f1-bbba-4bf9-af8a-ed9acc9c730f.jpg
+
+[2025-06-06T21:15:49.830155+00:00] Created job data for page 10
+{
+  "job_data": {
+    "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+    "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+    "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f69801f1-bbba-4bf9-af8a-ed9acc9c730f.jpg",
+    "status": "queued",
+    "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414",
+    "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f69801f1-bbba-4bf9-af8a-ed9acc9c730f.jpg"
+  },
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f69801f1-bbba-4bf9-af8a-ed9acc9c730f.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f69801f1-bbba-4bf9-af8a-ed9acc9c730f.jpg"
+}
+
+[2025-06-06T21:15:49.951298+00:00] Successfully created job 0daf7ac1-685b-4f0e-9949-fe66fe9c664f for page 10 with paths
+{
+  "job_id": "0daf7ac1-685b-4f0e-9949-fe66fe9c664f",
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f69801f1-bbba-4bf9-af8a-ed9acc9c730f.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-06/f69801f1-bbba-4bf9-af8a-ed9acc9c730f.jpg",
+  "page": 10
+}
+
+[2025-06-06T21:35:04.156051+00:00] SFTP functionality loaded successfully
+
+[2025-06-06T21:35:53.141333+00:00] SFTP functionality loaded successfully
+
+[2025-06-06T21:37:15.278887+00:00] SFTP functionality loaded successfully
+
+[2025-06-06T21:44:26.521089+00:00] Received upload request for file: page_21.png
+{
+  "size": "2954.3KB",
+  "type": "image/png",
+  "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+  "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414"
+}
+
+[2025-06-06T21:44:26.523983+00:00] Compressing image before upload: page_21.png
+
+[2025-06-06T21:44:26.740550+00:00] File sizes - Original: 2954.3KB, Compressed: 247.0KB
+
+[2025-06-06T21:44:26.740743+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/8322d6b2d96b428296e9ecd215d47116.jpg
+
+[2025-06-06T21:56:11.631244+00:00] SFTP functionality loaded successfully
+
+[2025-06-06T21:56:46.081282+00:00] SFTP functionality loaded successfully
+
+[2025-06-06T21:57:21.891357+00:00] Received upload request for file: page_25.png
+{
+  "size": "2864.9KB",
+  "type": "image/png",
+  "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+  "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414"
+}
+
+[2025-06-06T21:57:21.893877+00:00] Compressing image before upload: page_25.png
+
+[2025-06-06T21:57:22.105322+00:00] File sizes - Original: 2864.9KB, Compressed: 240.8KB
+
+[2025-06-06T21:57:22.105495+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/74b6bb735f9d4b9a971d478b59eaef36.jpg
+
+[2025-06-06T22:00:53.829552+00:00] SFTP functionality loaded successfully
+
+[2025-06-06T22:01:32.935902+00:00] SFTP functionality loaded successfully
+
+[2025-06-06T22:01:43.465081+00:00] Received upload request for file: page_10.png
+{
+  "size": "2782.2KB",
+  "type": "image/png",
+  "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+  "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414"
+}
+
+[2025-06-06T22:01:43.466475+00:00] Compressing image before upload: page_10.png
+
+[2025-06-06T22:01:43.678945+00:00] File sizes - Original: 2782.2KB, Compressed: 236.3KB
+
+[2025-06-06T22:01:43.679106+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/b35b3faee8f047de9b8a097b7dd1c1f7.jpg
+
+[2025-06-06T22:04:12.381231+00:00] Received upload request for file: page_10.png
+{
+  "size": "2782.2KB",
+  "type": "image/png",
+  "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+  "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414"
+}
+
+[2025-06-06T22:04:12.383958+00:00] Compressing image before upload: page_10.png
+
+[2025-06-06T22:04:12.587226+00:00] File sizes - Original: 2782.2KB, Compressed: 236.3KB
+
+[2025-06-06T22:04:12.587503+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/2e237faf0ee749a9ae31c317d3121cde.jpg
+
+[2025-06-06T22:09:07.564387+00:00] SFTP functionality loaded successfully
+
+[2025-06-06T22:09:52.103961+00:00] SFTP functionality loaded successfully
+
+[2025-06-06T22:10:05.439476+00:00] Received upload request for file: page_10.png
+{
+  "size": "2782.2KB",
+  "type": "image/png",
+  "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+  "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414"
+}
+
+[2025-06-06T22:10:05.442538+00:00] Compressing image before upload: page_10.png
+
+[2025-06-06T22:10:05.654636+00:00] File sizes - Original: 2782.2KB, Compressed: 236.3KB
+
+[2025-06-06T22:10:05.654803+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/fa76e45eb4824413aa5f6b655162525b.jpg
+
+[2025-06-06T22:14:28.134104+00:00] SLATE EXPORT: Processing export for school_id: b1a2c3d4-e5f6-7890-1234-56789abcdef0 with 15 rows
+
+[2025-06-06T22:14:28.375004+00:00] SLATE EXPORT: Error fetching SFTP config: {'code': '42P01', 'details': None, 'hint': None, 'message': 'relation "public.school_settings" does not exist'}
+
+[2025-06-06T22:18:16.741218+00:00] SFTP functionality loaded successfully
+
+[2025-06-06T22:18:47.327453+00:00] Received upload request for file: page_10.png
+{
+  "size": "2782.2KB",
+  "type": "image/png",
+  "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+  "event_id": "9ca4594c-6535-4561-b12b-4c6ea7cf7414"
+}
+
+[2025-06-06T22:18:47.330193+00:00] Compressing image before upload: page_10.png
+
+[2025-06-06T22:18:47.540292+00:00] File sizes - Original: 2782.2KB, Compressed: 236.3KB
+
+[2025-06-06T22:18:47.540478+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/736d87da007741a18f28d0ef845c6d41.jpg
+
+[2025-06-06T22:24:08.362629+00:00] Received upload request for file: card_10.pdf
+{
+  "size": "405.8KB",
+  "type": "application/pdf",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": "1f7247e3-a4a2-4066-8dab-8cae68805953"
+}
+
+[2025-06-06T22:24:08.364516+00:00] Entering PDF processing block for file: card_10.pdf
+{
+  "pdf_path": "/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpp_sb4u99.pdf",
+  "original_filename": "card_10.pdf"
+}
+
+[2025-06-06T22:24:08.540978+00:00] split_pdf_to_pngs returned 1 images: ['/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpkqgyp9jp/page_1.png']
+
+[2025-06-06T22:24:08.541112+00:00] Processing page 1: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpkqgyp9jp/page_1.png
+
+[2025-06-06T22:24:08.551116+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpkqgyp9jp/page_1.jpg
+
+[2025-06-06T22:24:08.551324+00:00] Generated page filename: card_10 (Page 1).jpg
+
+[2025-06-06T22:24:09.702313+00:00] Storage upload completed. Storage path: cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-06/3036647e-5b7b-4801-a044-6df18ccbd8b0.jpg
+
+[2025-06-06T22:24:09.702478+00:00] Created job data for page 1
+{
+  "job_data": {
+    "user_id": "ec425aba-e372-4f07-95f2-f562cb213f64",
+    "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+    "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-06/3036647e-5b7b-4801-a044-6df18ccbd8b0.jpg",
+    "status": "queued",
+    "event_id": "1f7247e3-a4a2-4066-8dab-8cae68805953",
+    "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-06/3036647e-5b7b-4801-a044-6df18ccbd8b0.jpg"
+  },
+  "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-06/3036647e-5b7b-4801-a044-6df18ccbd8b0.jpg",
+  "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-06/3036647e-5b7b-4801-a044-6df18ccbd8b0.jpg"
+}
+
+[2025-06-06T22:24:09.798692+00:00] Successfully created job cf79d269-8b7a-4c81-b556-d035940c0080 for page 1 with paths
+{
+  "job_id": "cf79d269-8b7a-4c81-b556-d035940c0080",
+  "file_url": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-06/3036647e-5b7b-4801-a044-6df18ccbd8b0.jpg",
+  "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-06/3036647e-5b7b-4801-a044-6df18ccbd8b0.jpg",
+  "page": 1
+}
+
+[2025-06-06T22:30:22.974446+00:00] SFTP functionality loaded successfully

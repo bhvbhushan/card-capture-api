@@ -239,9 +239,14 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
             needs_review, review_notes = determine_review_from_quality(
                 quality_info, enhanced_field
             )
-            enhanced_field["requires_human_review"] = needs_review
-            if review_notes:
-                enhanced_field["review_notes"] = review_notes
+            # --- Restrict review flag to required fields only ---
+            if enhanced_field.get("required", False):
+                enhanced_field["requires_human_review"] = needs_review
+                if review_notes:
+                    enhanced_field["review_notes"] = review_notes
+            else:
+                enhanced_field["requires_human_review"] = False
+                enhanced_field["review_notes"] = ""
             
             # Store quality metadata for debugging
             enhanced_field["quality_metadata"] = {
@@ -258,8 +263,8 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
             log_debug(f"Enhanced field {field_name}", {
                 "value": enhanced_field["value"],
                 "confidence": confidence_score,
-                "needs_review": needs_review,
-                "review_notes": review_notes
+                "needs_review": enhanced_field["requires_human_review"],
+                "review_notes": enhanced_field["review_notes"]
             }, service="gemini")
         
         return enhanced_fields
