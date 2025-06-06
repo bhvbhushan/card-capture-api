@@ -106,19 +106,65 @@ def download_from_supabase(file_url: str, local_path: str) -> None:
 def split_combined_address_fields(fields: dict) -> dict:
     """
     Detects and splits combined address/city/state/zip fields into separate fields.
-    Modifies the dict in-place and returns it.
+    Handles multiple formats:
+    - "City, State, Zip"
+    - "City, State Zip"
+    - "City State Zip"
+    - "City, State"
+    - "City State"
     """
     for key in ['city_state_zip', 'citystatezip', 'city_state', 'address_line']:
         field = fields.get(key)
         if field and isinstance(field, dict) and field.get('value'):
             value = field['value'].replace('\n', ' ').replace('\r', ' ').strip()
-            # Try to extract city, state, zip (e.g., "Robstown, TX, 78380" or "Robstown, TX 78380")
-            match = re.match(r'^([^,]+),\s*([A-Z]{2})[ ,]+(\d{5}(?:-\d{4})?)$', value)
+            
+            # Pattern 1: City, State, Zip
+            match = re.match(r'^([^,]+),\s*([A-Z]{2})(?:,\s*|\s+)(\d{5}(?:-\d{4})?)$', value)
             if match:
                 fields['city'] = {'value': match.group(1).strip()}
                 fields['state'] = {'value': match.group(2).strip()}
                 fields['zip_code'] = {'value': match.group(3).strip()}
-            # Optionally, handle other patterns here
+                continue
+
+            # Pattern 2: City, State (no zip)
+            match = re.match(r'^([^,]+),\s*([A-Z]{2})$', value)
+            if match:
+                fields['city'] = {'value': match.group(1).strip()}
+                fields['state'] = {'value': match.group(2).strip()}
+                continue
+
+            # Pattern 3: City State Zip (no commas)
+            match = re.match(r'^([^,]+)\s+([A-Z]{2})\s+(\d{5}(?:-\d{4})?)$', value)
+            if match:
+                fields['city'] = {'value': match.group(1).strip()}
+                fields['state'] = {'value': match.group(2).strip()}
+                fields['zip_code'] = {'value': match.group(3).strip()}
+                continue
+
+            # Pattern 4: City State (no commas, no zip)
+            match = re.match(r'^([^,]+)\s+([A-Z]{2})$', value)
+            if match:
+                fields['city'] = {'value': match.group(1).strip()}
+                fields['state'] = {'value': match.group(2).strip()}
+                continue
+
+            # If no patterns match, try to extract just city and state
+            # This is a fallback for less structured formats
+            parts = value.split()
+            if len(parts) >= 2:
+                # Look for a two-letter state code
+                for i in range(len(parts) - 1):
+                    if re.match(r'^[A-Z]{2}$', parts[i + 1]):
+                        city = ' '.join(parts[:i + 1])
+                        state = parts[i + 1]
+                        fields['city'] = {'value': city.strip()}
+                        fields['state'] = {'value': state.strip()}
+                        
+                        # If there's a zip code after the state
+                        if i + 2 < len(parts) and re.match(r'^\d{5}(?:-\d{4})?$', parts[i + 2]):
+                            fields['zip_code'] = {'value': parts[i + 2].strip()}
+                        break
+
     return fields
 
 def process_job_v2(job: Dict[str, Any]) -> None:
