@@ -188,9 +188,8 @@ GEMINI_PROMPT_TEMPLATE = """
 - Only leave `mapped_major.value` blank if there is truly no close or reasonable match at all.
 - Do not guess or invent majors that are not in the provided list.
 - Use the same quality indicators and notes as for other fields (e.g., if the match is uncertain, mark as such).
-- If majors field is empty, for mapped_major select `Undecided`
 
-**MANDATORY:** You MUST always include a `mapped_major` field in your output. If you select a major, set its value; if not, leave it blank and flag the field for review and explain why in the notes.
+**MANDATORY:** You MUST always include a `mapped_major` field in your output. If you select a major, set its value; if not, leave it blank and flag the field for review and explain why in the notes. If major field is empty, then ONLY for mapped_major select `Undecided`, else, it should be either blank or the closest match from the list of valid majors.
 
 **Input Fields JSON to Review:**
 {{{{
