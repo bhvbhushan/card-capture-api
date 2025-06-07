@@ -188,80 +188,74 @@ def process_job_v2(job: Dict[str, Any]) -> None:
     
     tmp_file = None
     try:
-        # Step 1: Download image
-        log_worker_debug("=== STEP 1: DOWNLOAD IMAGE ===")
-        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file_url)[1] or '.png') as tmp:
-            tmp_file = tmp.name
-        download_from_supabase(file_url, tmp_file)
-        
-        # Step 2: Get school field requirements FIRST
-        log_worker_debug("=== STEP 2: GET FIELD REQUIREMENTS ===")
-        
-        # Get school's DocAI processor ID
+        # Step 1: Get school field requirements
+        log_worker_debug("=== STEP 1: GET FIELD REQUIREMENTS ===")
         school_query = supabase_client.table("schools").select("docai_processor_id").eq("id", school_id).maybe_single().execute()
         processor_id = school_query.data.get("docai_processor_id") if school_query and school_query.data else DOCAI_PROCESSOR_ID
         log_worker_debug(f"Using DocAI processor: {processor_id}")
         
-        # Get current field requirements
         field_requirements = get_field_requirements(school_id)
-        log_worker_debug("Field requirements", field_requirements)
+        log_worker_debug("Current Field Requirements", field_requirements, verbose=True)
+        
+        # Step 2: Download image
+        log_worker_debug("=== STEP 2: DOWNLOAD IMAGE ===")
+        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file_url)[1] or '.png') as tmp:
+            tmp_file = tmp.name
+        download_from_supabase(file_url, tmp_file)
         
         # Step 3: Process with DocAI
         log_worker_debug("=== STEP 3: DOCAI PROCESSING ===")
         docai_fields, cropped_image_path = process_image_with_docai(tmp_file, processor_id)
-        log_worker_debug("DocAI fields extracted", list(docai_fields.keys()))
+        log_worker_debug("Original DocAI Response", docai_fields, verbose=True)
         
-        # Step 4: Apply field requirements to DocAI results
-        log_worker_debug("=== STEP 4: APPLY FIELD REQUIREMENTS ===")
+        # Step 4: Split address fields
+        log_worker_debug("=== STEP 4: SPLIT ADDRESS FIELDS ===")
+        docai_fields = split_combined_address_fields(docai_fields)
+        log_worker_debug("Fields After Address Splitting", docai_fields, verbose=True)
         
-        # Sync any new fields detected by DocAI with school settings
-        detected_field_names = list(docai_fields.keys())
-        updated_requirements = sync_field_requirements(school_id, detected_field_names)
+        # Step 5: Sync fields with school settings
+        log_worker_debug("=== STEP 5: SYNC FIELDS WITH SCHOOL SETTINGS ===")
+        all_field_names = list(docai_fields.keys())
+        updated_requirements = sync_field_requirements(school_id, all_field_names)
+        log_worker_debug("Updated Field Requirements", updated_requirements, verbose=True)
         
-        # Apply requirements to fields
+        # Step 6: Apply requirements to fields
+        log_worker_debug("=== STEP 6: APPLY FIELD REQUIREMENTS ===")
         docai_fields = apply_field_requirements(docai_fields, updated_requirements)
-        log_worker_debug("Fields after applying requirements", {field_name: {"value": field_data.get("value", ""), "required": field_data.get("required", False), "enabled": field_data.get("enabled", True)} for field_name, field_data in docai_fields.items()}, verbose=False)
+        log_worker_debug("Fields After Applying Requirements", docai_fields, verbose=True)
         
-        # Step 4.5: Fetch valid majors for the school
-        log_worker_debug("=== STEP 4.5: FETCH VALID MAJORS ===")
+        # Step 7: Validate addresses
+        log_worker_debug("=== STEP 7: ADDRESS VALIDATION ===")
+        validated_fields = validate_and_enhance_address(docai_fields)
+        log_worker_debug("Fields After Address Validation", validated_fields, verbose=True)
+        
+        # Step 8: Fetch valid majors
+        log_worker_debug("=== STEP 8: FETCH VALID MAJORS ===")
         majors_query = supabase_client.table("schools").select("majors").eq("id", school_id).maybe_single().execute()
         valid_majors = majors_query.data.get("majors") if majors_query and majors_query.data and majors_query.data.get("majors") else []
-        log_worker_debug("Valid majors fetched", valid_majors, verbose=False)
+        log_worker_debug("Valid majors", valid_majors, verbose=True)
         
-        # Step 5: Process with Gemini (with requirements context)
-        log_worker_debug("=== STEP 5: GEMINI PROCESSING ===")
-        gemini_fields = process_card_with_gemini_v2(cropped_image_path, docai_fields, valid_majors)
-        log_worker_debug("Gemini processing complete", list(gemini_fields.keys()))
-
-        # NEW: Split combined address fields before validation
-        log_worker_debug("=== SPLITTING COMBINED ADDRESS FIELDS ===")
-        gemini_fields = split_combined_address_fields(gemini_fields)
-        log_worker_debug("Fields after splitting address fields", list(gemini_fields.keys()))
-
-        # Ensure all detected fields are synced to school.card_fields
-        all_field_names = list(gemini_fields.keys())
-        updated_requirements = sync_field_requirements(school_id, all_field_names)
-
-        # Step 6: Validate and clean field data
-        log_worker_debug("=== STEP 6: FIELD VALIDATION ===")
-        validated_fields = validate_field_data(gemini_fields)
-        log_worker_debug("Validated fields", list(validated_fields.keys()))
+        # Step 9: Process with Gemini
+        log_worker_debug("=== STEP 9: GEMINI PROCESSING ===")
+        gemini_fields = process_card_with_gemini_v2(
+            cropped_image_path,
+            validated_fields,
+            valid_majors
+        )
+        log_worker_debug("Gemini Output", gemini_fields, verbose=True)
         
-        # Step 7: Enhance with address validation
-        log_worker_debug("=== STEP 7: ADDRESS VALIDATION ===")
-        enhanced_fields = validate_and_enhance_address(validated_fields)
-        log_worker_debug("Enhanced fields", list(enhanced_fields.keys()))
-        
-        # Step 8: Determine review status
-        log_worker_debug("=== STEP 8: DETERMINE REVIEW STATUS ===")
-        review_status, fields_needing_review = determine_review_status(enhanced_fields)
-        log_worker_debug("Review determination", {
+        # Step 10: Final validation and review determination
+        log_worker_debug("=== STEP 10: FINAL VALIDATION ===")
+        final_fields = validate_field_data(gemini_fields)
+        log_worker_debug("Final Fields", final_fields, verbose=True)
+        review_status, fields_needing_review = determine_review_status(final_fields)
+        log_worker_debug("Review Status", {
             "status": review_status,
             "fields_needing_review": fields_needing_review
-        })
-
-        # === NEW STEP: TRIM IMAGE AND UPLOAD TO SUPABASE ===
-        log_worker_debug("=== STEP 8.5: TRIM IMAGE AND UPLOAD TO SUPABASE ===")
+        }, verbose=True)
+        
+        # Step 11: Trim and upload image
+        log_worker_debug("=== STEP 11: TRIM AND UPLOAD IMAGE ===")
         trimmed_image_path = ensure_trimmed_image(tmp_file)
         trimmed_storage_path = None
         try:
@@ -274,12 +268,13 @@ def process_job_v2(job: Dict[str, Any]) -> None:
             log_worker_debug(f"Trimmed image uploaded to Supabase: {trimmed_storage_path}")
         except Exception as e:
             log_worker_debug(f"Failed to upload trimmed image to Supabase: {e}")
-
-        # Update job status and create review data atomically
+        
+        # Step 12: Update job status and create review data
+        log_worker_debug("=== STEP 12: UPDATE JOB STATUS ===")
         now = datetime.now(timezone.utc).isoformat()
         review_data = {
             "document_id": job_id,
-            "fields": enhanced_fields,
+            "fields": final_fields,  # Use final_fields which includes all processing
             "school_id": school_id,
             "user_id": user_id,
             "event_id": event_id,
@@ -289,6 +284,7 @@ def process_job_v2(job: Dict[str, Any]) -> None:
             "created_at": now,
             "updated_at": now
         }
+        log_worker_debug("Review Data to be Saved", review_data, verbose=True)
         
         update_job_status_with_review(supabase_client, job_id, "complete", review_data)
         

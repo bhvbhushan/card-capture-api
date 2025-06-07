@@ -983,3 +983,133 @@
 }
 
 [2025-06-06T22:30:22.974446+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T14:46:26.648758+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T15:00:06.571262+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T15:08:16.572338+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T15:08:54.011103+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T15:10:40.813758+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T15:14:52.167500+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T15:20:25.584402+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T15:29:36.550636+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T17:39:43.762526+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T17:42:04.618687+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T17:42:57.550209+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T17:43:22.714940+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T17:45:15.259880+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T17:45:29.372778+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T17:45:31.079782+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T17:50:45.969663+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T17:50:55.527631+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T17:51:07.256066+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T17:51:20.140567+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T17:54:37.047879+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T17:58:09.013193+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T17:58:50.194206+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:00:24.874374+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:06:20.137237+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:06:44.322470+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:08:04.649646+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:09:14.821461+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:11:31.063726+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:11:32.297350+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:15:18.520234+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:17:14.533543+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:18:29.837327+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:20:00.020218+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:23:38.399649+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:28:48.502420+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:37:21.484697+00:00] Received upload request for file: page_10.png
+{
+  "size": "2782.2KB",
+  "type": "image/png",
+  "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+  "event_id": "7320be9c-73b6-4eaf-9bfe-af15b9ab9558"
+}
+
+[2025-06-07T18:37:21.487347+00:00] Compressing image before upload: page_10.png
+
+[2025-06-07T18:37:21.703156+00:00] File sizes - Original: 2782.2KB, Compressed: 236.3KB
+
+[2025-06-07T18:37:21.703387+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/d845e83b72a3448faa01e17f41276a09.jpg
+
+[2025-06-07T18:38:48.683641+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:39:04.537596+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:39:29.403876+00:00] Received upload request for file: page_10.png
+{
+  "size": "2782.2KB",
+  "type": "image/png",
+  "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+  "event_id": "7320be9c-73b6-4eaf-9bfe-af15b9ab9558"
+}
+
+[2025-06-07T18:39:29.405949+00:00] Compressing image before upload: page_10.png
+
+[2025-06-07T18:39:29.619196+00:00] File sizes - Original: 2782.2KB, Compressed: 236.3KB
+
+[2025-06-07T18:39:29.619404+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/9e015ddcd71b4c0c869d5a85ef359fa2.jpg
+
+[2025-06-07T18:40:00.794449+00:00] SFTP functionality loaded successfully
+
+[2025-06-07T18:40:17.640242+00:00] Received upload request for file: page_10.png
+{
+  "size": "2782.2KB",
+  "type": "image/png",
+  "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+  "event_id": "7320be9c-73b6-4eaf-9bfe-af15b9ab9558"
+}
+
+[2025-06-07T18:40:17.642507+00:00] Compressing image before upload: page_10.png
+
+[2025-06-07T18:40:17.850870+00:00] File sizes - Original: 2782.2KB, Compressed: 236.3KB
+
+[2025-06-07T18:40:17.851085+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/0c5f82bcb8fb4ee3966ef7cadd45161a.jpg
+
+[2025-06-07T18:40:18.846743+00:00] 🚫 Non-retryable error detected (attributeerror): 'list' object has no attribute 'data'
+
+[2025-06-07T18:40:18.846945+00:00] ❌ Non-retryable error in Worker notification for job 9313381b-e66e-48d3-ad0e-bd92f7928f66: 'list' object has no attribute 'data'
+
+[2025-06-07T18:40:18.847370+00:00] Worker notification failed for job 9313381b-e66e-48d3-ad0e-bd92f7928f66, but job is queued and worker may pick it up
+{
+  "error": "'list' object has no attribute 'data'",
+  "job_id": "9313381b-e66e-48d3-ad0e-bd92f7928f66"
+}
+
+[2025-06-07T18:40:51.229654+00:00] SFTP functionality loaded successfully

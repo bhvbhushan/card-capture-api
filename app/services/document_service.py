@@ -5,7 +5,7 @@ from app.core.clients import gmaps_client
 from app.utils.retry_utils import log_debug
 
 # --- Address Validation ---
-def validate_address_with_google(address_str: str, zip_code: str):
+def validate_address_with_google(address_str: str, city: str = '', state: str = '', zip_code: str = ''):
     """
     Validate an address using Google Maps Places API
     Enhanced version with zip-based validation
@@ -20,7 +20,13 @@ def validate_address_with_google(address_str: str, zip_code: str):
     
     try:
         # Enhanced address validation using zip code
-        full_address_query = f"{address_str}, {zip_code}"
+        full_address_query = f"{address_str}"
+        if city:
+            full_address_query += f", {city}"
+        if state:
+            full_address_query += f", {state}"
+        full_address_query += f", {zip_code}"
+        
         log_debug(f"Validating via Google Maps (Primary): {full_address_query}", service="document")
         
         # Geocoding to get precise coordinates and components
@@ -153,7 +159,7 @@ def validate_address_components(address: Optional[str], city: Optional[str], sta
             log_debug(f"Validating full address: {address}", service="document")
             location_context = f"{city or validated_data['city']}, {state or validated_data['state']} {zip_code}".strip()
             
-            full_validation = validate_address_with_google(address, zip_code)
+            full_validation = validate_address_with_google(address, city, state, zip_code)
             if not full_validation and location_context:
                 log_debug(f"Primary validation failed, trying with context: {location_context}", service="document")
                 full_validation = validate_address_with_google(address, location_context)

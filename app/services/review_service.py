@@ -34,6 +34,13 @@ def determine_review_status(fields: Dict[str, Any]) -> Tuple[str, List[str]]:
         if not field_data.get("enabled", True):
             continue
             
+        # Only process required fields
+        if not field_data.get("required", False):
+            # Clear any review flags for non-required fields
+            field_data["requires_human_review"] = False
+            field_data["review_notes"] = ""
+            continue
+            
         # Check if field is explicitly marked for review
         if field_data.get("requires_human_review", False):
             fields_needing_review.append(field_name)
@@ -43,29 +50,28 @@ def determine_review_status(fields: Dict[str, Any]) -> Tuple[str, List[str]]:
             continue
             
         # Check required field rules
-        if field_data.get("required", False):
-            field_value = field_data.get("value", "")
-            confidence = field_data.get("confidence", 0.0)
-            review_confidence = field_data.get("review_confidence", 0.0)
+        field_value = field_data.get("value", "")
+        confidence = field_data.get("confidence", 0.0)
+        review_confidence = field_data.get("review_confidence", 0.0)
+        
+        # Use the higher of the two confidence scores
+        effective_confidence = max(confidence, review_confidence)
+        
+        # Required field is empty
+        if not field_value or field_value.strip() == "":
+            fields_needing_review.append(field_name)
+            field_data["requires_human_review"] = True
+            field_data["review_notes"] = "Required field is empty"
+            log_debug(f"Field {field_name} marked for review: empty required field", service="review")
+            continue
             
-            # Use the higher of the two confidence scores
-            effective_confidence = max(confidence, review_confidence)
-            
-            # Required field is empty
-            if not field_value or field_value.strip() == "":
-                fields_needing_review.append(field_name)
-                field_data["requires_human_review"] = True
-                field_data["review_notes"] = "Required field is empty"
-                log_debug(f"Field {field_name} marked for review: empty required field", service="review")
-                continue
-                
-            # Required field has low confidence
-            if effective_confidence < 0.7:
-                fields_needing_review.append(field_name)
-                field_data["requires_human_review"] = True
-                field_data["review_notes"] = f"Required field has low confidence ({effective_confidence:.2f})"
-                log_debug(f"Field {field_name} marked for review: low confidence", service="review")
-                continue
+        # Required field has low confidence
+        if effective_confidence < 0.7:
+            fields_needing_review.append(field_name)
+            field_data["requires_human_review"] = True
+            field_data["review_notes"] = f"Required field has low confidence ({effective_confidence:.2f})"
+            log_debug(f"Field {field_name} marked for review: low confidence", service="review")
+            continue
     
     # Determine final status
     if fields_needing_review:
