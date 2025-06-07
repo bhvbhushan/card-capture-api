@@ -158,10 +158,27 @@ async def invite_user_service(payload, user):
 
 async def update_user_service(user_id: str, payload):
     try:
-        result = supabase_client.table("users").update(payload).eq("id", user_id).execute()
-        if result.error:
+        # Convert Pydantic model to dictionary if needed
+        if hasattr(payload, 'model_dump'):
+            # For Pydantic v2
+            update_data = payload.model_dump()
+        elif hasattr(payload, 'dict'):
+            # For Pydantic v1
+            update_data = payload.dict()
+        else:
+            # Already a dictionary
+            update_data = payload
+        
+        log_debug(f"Updating user {user_id} with data: {update_data}", service="users")
+        
+        # Update the profiles table (not users table)
+        result = supabase_client.table("profiles").update(update_data).eq("id", user_id).execute()
+        
+        if hasattr(result, 'error') and result.error:
             log_debug(f"Error updating user {user_id}: {result.error}", service="users")
-        log_debug(f"User updated: {user_id}", service="users")
+            raise Exception(f"Database error: {result.error}")
+        
+        log_debug(f"User updated successfully: {user_id}", service="users")
         return result
     except Exception as e:
         log_debug(f"Error updating user {user_id}: {e}", service="users")
