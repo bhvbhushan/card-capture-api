@@ -128,9 +128,9 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
                 }
             # Backend safeguard: ensure major is user's input, not mapped value
             if 'major' in enhanced_fields and 'mapped_major' in enhanced_fields and valid_majors:
-                user_major_original = docai_fields.get('major', {}).get('value', '').strip().lower()
-                gemini_major = enhanced_fields['major'].get('value', '').strip().lower()
-                mapped_major = enhanced_fields['mapped_major'].get('value', '').strip().lower()
+                user_major_original = (docai_fields.get('major', {}).get('value') or '').strip().lower()
+                gemini_major = (enhanced_fields['major'].get('value') or '').strip().lower()
+                mapped_major = (enhanced_fields['mapped_major'].get('value') or '').strip().lower()
                 # If Gemini set major to a mapped value, but user input was different, restore user input
                 if mapped_major and gemini_major == mapped_major and user_major_original and user_major_original != mapped_major:
                     enhanced_fields['major']['value'] = docai_fields['major']['value']
