@@ -1,7 +1,7 @@
 import json
 from datetime import datetime, timezone
 from typing import Dict, Any, Optional
-from app.services.document_service import validate_address_with_google
+from app.services.document_service import validate_address_with_google, validate_zip_code
 from app.core.clients import gmaps_client
 from app.utils.retry_utils import log_debug
 
@@ -34,49 +34,59 @@ def validate_and_enhance_address(fields: Dict[str, Any]) -> Dict[str, Any]:
     for field_name in ['address', 'city', 'state', 'zip_code']:
         if field_name in fields:
             field_data = fields[field_name]
-            if field_data.get('required', False) and (not field_data.get('value') or field_data.get('value', '').strip() == ''):
-                field_data['requires_human_review'] = True
-                field_data['review_notes'] = f"Required {field_name} field is empty"
-                field_data['review_confidence'] = 0.3
+            # Only mark required fields for review
+            if field_data.get('required', False):
+                if not field_data.get('value') or field_data.get('value', '').strip() == '':
+                    field_data['requires_human_review'] = True
+                    field_data['review_notes'] = f"Required {field_name} field is empty"
+                    field_data['review_confidence'] = 0.3
+                else:
+                    # If field has a value, don't mark for review based on confidence
+                    field_data['requires_human_review'] = False
+                    field_data['review_notes'] = ""
+            else:
+                # Clear any review flags for non-required fields
+                field_data['requires_human_review'] = False
+                field_data['review_notes'] = ""
     
-    # Only attempt validation if we have a zip code
-    if zip_code and len(zip_code.strip()) >= 5:
-        log_debug("Attempting Google Maps validation with zip code", service="address")
-        validation_result = validate_address_with_google(address, zip_code)
-        
-        if validation_result:
-            log_debug("Google Maps validation successful", validation_result, service="address")
+    # Only proceed with Google Maps validation if we have a zip code
+    if zip_code:
+        try:
+            # First try zip code validation to get city and state
+            zip_validation = validate_zip_code(zip_code)
+            if zip_validation:
+                # Enhance city if missing or low confidence
+                if 'city' in zip_validation and _should_enhance_field(fields.get('city', {}), zip_validation['city']):
+                    log_debug(f"Enhancing city: '{city}' -> '{zip_validation['city']}'", service="address")
+                    fields['city'] = _create_enhanced_field(
+                        zip_validation['city'],
+                        "zip_validation",
+                        "City validated from zip code"
+                    )
+                    # Clear review flag since we validated it
+                    fields['city']['requires_human_review'] = False
+                    fields['city']['review_notes'] = ""
+                
+                # Enhance state if missing or low confidence
+                if 'state' in zip_validation and _should_enhance_field(fields.get('state', {}), zip_validation['state']):
+                    log_debug(f"Enhancing state: '{state}' -> '{zip_validation['state']}'", service="address")
+                    fields['state'] = _create_enhanced_field(
+                        zip_validation['state'],
+                        "zip_validation",
+                        "State validated from zip code"
+                    )
+                    # Clear review flag since we validated it
+                    fields['state']['requires_human_review'] = False
+                    fields['state']['review_notes'] = ""
             
-            # Enhance city if missing or low confidence
-            if _should_enhance_field(fields.get('city', {}), validation_result.get('city', '')):
-                log_debug(f"Enhancing city: '{city}' -> '{validation_result['city']}'", service="address")
-                fields['city'] = _create_enhanced_field(
-                    validation_result['city'],
-                    "zip_validation",
-                    "City validated from zip code"
-                )
+            # Then try full address validation
+            validated_address = validate_address_with_google(
+                address,
+                city or (zip_validation.get('city', '') if zip_validation else ''),
+                state or (zip_validation.get('state', '') if zip_validation else ''),
+                zip_code
+            )
             
-            # Enhance state if missing or low confidence
-            if _should_enhance_field(fields.get('state', {}), validation_result.get('state', '')):
-                log_debug(f"Enhancing state: '{state}' -> '{validation_result['state']}'", service="address")
-                fields['state'] = _create_enhanced_field(
-                    validation_result['state'],
-                    "zip_validation",
-                    "State validated from zip code"
-                )
-            
-            # Enhance zip code if we got a more complete one
-            validated_zip = validation_result.get('zip', '')
-            if validated_zip and len(validated_zip) > len(zip_code):
-                log_debug(f"Enhancing zip: '{zip_code}' -> '{validated_zip}'", service="address")
-                fields['zip_code'] = _create_enhanced_field(
-                    validated_zip,
-                    "zip_validation",
-                    "Zip code enhanced from validation"
-                )
-            
-            # Enhance address if missing and we got a street address
-            validated_address = validation_result.get('street_address', '')
             if validated_address and _should_enhance_field(fields.get('address', {}), validated_address):
                 log_debug(f"Enhancing address: '{address}' -> '{validated_address}'", service="address")
                 fields['address'] = _create_enhanced_field(
@@ -84,15 +94,28 @@ def validate_and_enhance_address(fields: Dict[str, Any]) -> Dict[str, Any]:
                     "address_validation",
                     "Address validated from Google Maps"
                 )
-            elif address and not validated_address:
+                # Clear review flag since we validated it
+                fields['address']['requires_human_review'] = False
+                fields['address']['review_notes'] = ""
+            elif address:
                 # We have an address but Google Maps couldn't validate it
                 log_debug(f"Address '{address}' could not be validated by Google Maps", service="address")
                 if 'address' in fields and fields['address'].get('required', False):
                     fields['address']['requires_human_review'] = True
                     fields['address']['review_notes'] = "Required address field could not be validated by Google Maps"
                     fields['address']['review_confidence'] = 0.3
-        else:
-            log_debug("Google Maps validation failed", service="address")
+            # Update the address field with the validated street address from Google Maps
+            if validated_address and 'street_address' in validated_address:
+                log_debug(f"Updating address with validated street address: '{validated_address['street_address']}'", service="address")
+                fields['address'] = _create_enhanced_field(
+                    validated_address['street_address'],
+                    "address_validation",
+                    "Address validated from Google Maps"
+                )
+                fields['address']['requires_human_review'] = False
+                fields['address']['review_notes'] = ""
+        except Exception as e:
+            log_debug(f"Google Maps validation failed: {str(e)}", service="address")
             # If validation failed and address is required, mark it for review
             if 'address' in fields and fields['address'].get('required', False):
                 fields['address']['requires_human_review'] = True
@@ -144,26 +167,23 @@ def _should_enhance_field(current_field: Dict[str, Any], new_value: str) -> bool
 
 def _create_enhanced_field(value: str, source: str, notes: str) -> Dict[str, Any]:
     """
-    Create an enhanced field data structure
+    Create a field with enhanced data
     
     Args:
         value: The enhanced value
-        source: Source of the enhancement
+        source: Where the enhancement came from
         notes: Notes about the enhancement
         
     Returns:
-        Enhanced field data structure
+        Enhanced field data
     """
     return {
-        "value": value,
-        "confidence": 0.95,  # High confidence for validated data
-        "bounding_box": [],
-        "source": source,
-        "enabled": True,
-        "required": False,  # Will be updated by settings
-        "requires_human_review": False,  # Validated data doesn't need review
-        "review_notes": notes,
-        "review_confidence": 0.95
+        'value': value,
+        'confidence': 0.95,  # High confidence for validated data
+        'source': source,
+        'notes': notes,
+        'requires_human_review': False,
+        'review_notes': ""
     }
 
 def _mark_address_fields_for_review_if_missing(fields: Dict[str, Any]) -> None:

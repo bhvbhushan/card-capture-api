@@ -168,47 +168,23 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
 
 def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Parse Gemini response with quality indicators and convert to confidence scores
+    Parse Gemini's quality assessment response and enhance field data
     
     Args:
-        response_text: Raw Gemini response with quality indicators
-        docai_fields: Original DocAI fields for metadata preservation
+        response_text: Raw response from Gemini
+        docai_fields: Original field data from DocAI
         
     Returns:
-        Enhanced field data with computed confidence scores
+        Enhanced field data with quality assessments
     """
     log_debug("=== PARSING GEMINI QUALITY RESPONSE ===", service="gemini")
     
     try:
-        # Clean response text
-        cleaned_text = response_text.strip()
+        # Parse the response text into a dictionary
+        gemini_data = json.loads(response_text)
+        log_debug("Parsed Gemini response", gemini_data, service="gemini")
         
-        # Remove markdown code block markers if present
-        if cleaned_text.startswith("```json"):
-            cleaned_text = cleaned_text[7:]
-        elif cleaned_text.startswith("```"):
-            cleaned_text = cleaned_text[3:]
-        if cleaned_text.endswith("```"):
-            cleaned_text = cleaned_text[:-3]
-        cleaned_text = cleaned_text.strip()
-        
-        log_debug("Cleaned response text", cleaned_text, service="gemini")
-        
-        # Try to parse JSON
-        try:
-            gemini_data = json.loads(cleaned_text)
-        except json.JSONDecodeError as e:
-            log_debug(f"Initial JSON parse failed: {str(e)}", service="gemini")
-            # Try to fix common JSON issues
-            cleaned_text = cleaned_text.replace("'", '"')  # Replace single quotes with double quotes
-            cleaned_text = re.sub(r'(\w+):', r'"\1":', cleaned_text)  # Quote unquoted keys
-            log_debug("Attempting to parse with fixes", cleaned_text, service="gemini")
-            gemini_data = json.loads(cleaned_text)
-        
-        log_debug("Parsed Gemini data", gemini_data, service="gemini")
-        
-        enhanced_fields = {}
-        
+        # Process each field
         for field_name, quality_info in gemini_data.items():
             # Start with DocAI field data if it exists
             if field_name in docai_fields:
@@ -235,44 +211,28 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
             confidence_score = calculate_confidence_from_quality(quality_info)
             enhanced_field["review_confidence"] = confidence_score
             
-            # Determine if field needs review
-            needs_review, review_notes = determine_review_from_quality(
-                quality_info, enhanced_field
-            )
-            # --- Restrict review flag to required fields only ---
+            # Only determine review status for required fields
             if enhanced_field.get("required", False):
+                needs_review, review_notes = determine_review_from_quality(
+                    quality_info, enhanced_field
+                )
                 enhanced_field["requires_human_review"] = needs_review
                 if review_notes:
                     enhanced_field["review_notes"] = review_notes
             else:
+                # Clear any review flags for non-required fields
                 enhanced_field["requires_human_review"] = False
                 enhanced_field["review_notes"] = ""
             
-            # Store quality metadata for debugging
-            enhanced_field["quality_metadata"] = {
-                "edit_made": quality_info.get("edit_made", False),
-                "edit_type": quality_info.get("edit_type", "none"),
-                "original_value": quality_info.get("original_value", ""),
-                "text_clarity": quality_info.get("text_clarity", "unclear"),
-                "certainty": quality_info.get("certainty", "uncertain"),
-                "notes": quality_info.get("notes", "")
-            }
+            # Update the field in the response
+            docai_fields[field_name] = enhanced_field
             
-            enhanced_fields[field_name] = enhanced_field
-            
-            log_debug(f"Enhanced field {field_name}", {
-                "value": enhanced_field["value"],
-                "confidence": confidence_score,
-                "needs_review": enhanced_field["requires_human_review"],
-                "review_notes": enhanced_field["review_notes"]
-            }, service="gemini")
-        
-        return enhanced_fields
+        log_debug("Field quality assessment complete", service="gemini")
+        return docai_fields
         
     except Exception as e:
-        log_debug(f"ERROR parsing Gemini response: {str(e)}", service="gemini")
-        log_debug("Response text that caused error:", response_text, service="gemini")
-        raise
+        log_debug(f"Error parsing Gemini response: {str(e)}", service="gemini")
+        return docai_fields
 
 def calculate_confidence_from_quality(quality_info: Dict[str, Any]) -> float:
     """
