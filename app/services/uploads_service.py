@@ -363,29 +363,52 @@ async def export_to_slate_service(payload: dict):
         
         log_debug(f"SLATE EXPORT: Processing export for school_id: {school_id} with {len(rows)} rows", service="uploads")
         
-        # Fetch SFTP configuration
+        # Fetch SFTP configuration from sftp_configs table
         try:
-            sftp_config_result = supabase_client.table("school_settings").select("sftp_config").eq("school_id", school_id).execute()
+            sftp_config_result = supabase_client.table("sftp_configs").select("*").eq("school_id", school_id).eq("enabled", True).execute()
             
-            if sftp_config_result.data and sftp_config_result.data[0].get("sftp_config"):
-                sftp_config = sftp_config_result.data[0]["sftp_config"]
+            if sftp_config_result.data:
+                sftp_data = sftp_config_result.data[0]
+                sftp_config = {
+                    "host": sftp_data["host"],
+                    "port": sftp_data.get("port", 22),
+                    "username": sftp_data["username"],
+                    "password": sftp_data["password"],
+                    "remote_directory": sftp_data["remote_path"]
+                }
+                log_debug(f"SLATE EXPORT: Found SFTP config - Host: {sftp_config['host']}, Username: {sftp_config['username']}", service="uploads")
             else:
-                log_debug(f"SLATE EXPORT: No school-specific SFTP config found for school_id: {school_id}, trying default config", service="uploads")
-                
-                # Try to fetch default SFTP config
-                default_config_result = supabase_client.table("school_settings").select("sftp_config").is_("school_id", None).execute()
-                
-                if default_config_result.data and default_config_result.data[0].get("sftp_config"):
-                    sftp_config = default_config_result.data[0]["sftp_config"]
-                else:
-                    log_debug("SLATE EXPORT: No SFTP configuration found at all", service="uploads")
-                    return JSONResponse(status_code=400, content={"error": "SFTP configuration not found for this school."})
-            
-            log_debug(f"SLATE EXPORT: Found SFTP config - Host: {sftp_config.get('host')}, Username: {sftp_config.get('username')}", service="uploads")
+                log_debug(f"SLATE EXPORT: No enabled SFTP configuration found for school_id: {school_id}", service="uploads")
+                return JSONResponse(status_code=400, content={"error": "No enabled SFTP configuration found for this school."})
             
         except Exception as e:
             log_debug(f"SLATE EXPORT: Error fetching SFTP config: {str(e)}", service="uploads")
             return JSONResponse(status_code=500, content={"error": f"Failed to fetch SFTP configuration: {str(e)}"})
+        
+        # Fetch school's card fields configuration
+        try:
+            school_result = supabase_client.table("schools").select("card_fields").eq("id", school_id).execute()
+            
+            if school_result.data and school_result.data[0].get("card_fields"):
+                card_fields = school_result.data[0]["card_fields"]
+                log_debug(f"SLATE EXPORT: Found card_fields configuration for school_id: {school_id}", service="uploads")
+            else:
+                log_debug(f"SLATE EXPORT: No card_fields configuration found for school_id: {school_id}, using default fields", service="uploads")
+                # Default fallback fields
+                card_fields = [
+                    {"key": "name", "enabled": True, "required": True},
+                    {"key": "email", "enabled": True, "required": True},
+                    {"key": "cell", "enabled": True, "required": False},
+                    {"key": "address", "enabled": True, "required": False},
+                    {"key": "city", "enabled": True, "required": False},
+                    {"key": "state", "enabled": True, "required": False},
+                    {"key": "zip_code", "enabled": True, "required": False},
+                    {"key": "major", "enabled": True, "required": False}
+                ]
+                
+        except Exception as e:
+            log_debug(f"SLATE EXPORT: Error fetching card fields: {str(e)}", service="uploads")
+            return JSONResponse(status_code=500, content={"error": f"Failed to fetch card fields configuration: {str(e)}"})
         
         # Required SFTP fields
         required_fields = ["host", "username", "password", "remote_directory"]
@@ -396,14 +419,24 @@ async def export_to_slate_service(payload: dict):
                 "error": f"SFTP configuration is missing required fields: {', '.join(missing_fields)}"
             })
         
-        # Generate CSV content
+        # Generate CSV content using dynamic card fields
         csv_content = io.StringIO()
         
-        # Updated headers to match expected Slate format
-        headers = [
-            "first_name", "last_name", "email", "phone", "address", "city", "state", "zip_code",
-            "major", "school_name", "graduation_year", "gpa", "event_name", "date_created"
-        ]
+        # Extract enabled field names from card_fields configuration
+        headers = []
+        for field_config in card_fields:
+            if isinstance(field_config, dict) and field_config.get("enabled", False):
+                field_key = field_config.get("key")
+                if field_key:
+                    headers.append(field_key)
+        
+        # Add common fields that might not be in card_fields but are useful for export
+        additional_fields = ["event_name", "date_created"]
+        for field in additional_fields:
+            if field not in headers:
+                headers.append(field)
+        
+        log_debug(f"SLATE EXPORT: Using CSV headers: {headers}", service="uploads")
         
         writer = csv.DictWriter(csv_content, fieldnames=headers)
         writer.writeheader()
@@ -417,23 +450,11 @@ async def export_to_slate_service(payload: dict):
             if document_id:
                 document_ids.append(document_id)
             
-            # Prepare row data for CSV
-            csv_row = {
-                "first_name": row.get("first_name", ""),
-                "last_name": row.get("last_name", ""),
-                "email": row.get("email", ""),
-                "phone": row.get("phone", ""),
-                "address": row.get("address", ""),
-                "city": row.get("city", ""),
-                "state": row.get("state", ""),
-                "zip_code": row.get("zip_code", ""),
-                "major": row.get("major", ""),
-                "school_name": row.get("school_name", ""),
-                "graduation_year": row.get("graduation_year", ""),
-                "gpa": row.get("gpa", ""),
-                "event_name": row.get("event_name", ""),
-                "date_created": row.get("date_created", "")
-            }
+            # Prepare row data for CSV using dynamic headers
+            csv_row = {}
+            for header in headers:
+                csv_row[header] = row.get(header, "")
+            
             writer.writerow(csv_row)
         
         # Generate filename with timestamp
@@ -442,42 +463,47 @@ async def export_to_slate_service(payload: dict):
         
         log_debug(f"SLATE EXPORT: Generated CSV file with {len(rows)} records: {csv_filename}", service="uploads")
         
-        # Get CSV content as bytes
-        csv_bytes = csv_content.getvalue().encode('utf-8')
-        csv_content.close()
-        
         # Upload to SFTP server
+        temp_csv_path = None
         try:
             log_debug(f"SLATE EXPORT: Connecting to SFTP server: {sftp_config['host']}", service="uploads")
+            
+            # Create temporary CSV file
+            import tempfile
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False, encoding='utf-8') as temp_csv:
+                temp_csv_path = temp_csv.name
+                temp_csv.write(csv_content.getvalue())
             
             # Construct remote path
             remote_directory = sftp_config["remote_directory"].rstrip("/")
             remote_path = f"{remote_directory}/{csv_filename}"
             
-            # Use the upload_to_slate function
-            upload_result = upload_to_slate(
-                csv_data=csv_bytes,
-                filename=csv_filename,
-                sftp_config={
-                    "host": sftp_config["host"],
-                    "port": sftp_config.get("port", 22),
-                    "username": sftp_config["username"],
-                    "password": sftp_config["password"],
-                    "remote_directory": sftp_config["remote_directory"]
-                }
-            )
+            # Create SFTPConfig object for upload_to_slate
+            from sftp_utils import SFTPConfig
+            config = SFTPConfig()
+            config.host = sftp_config["host"]
+            config.port = sftp_config.get("port", 22)
+            config.username = sftp_config["username"]
+            config.password = sftp_config["password"]
+            config.upload_path = sftp_config["remote_directory"]
             
-            if upload_result.get("success"):
+            # Use the upload_to_slate function
+            upload_success = upload_to_slate(temp_csv_path, config)
+            
+            if upload_success:
                 log_debug(f"SLATE EXPORT: Successfully uploaded file to: {remote_path}", service="uploads")
             else:
-                error_msg = upload_result.get("error", "Unknown SFTP error")
-                raise Exception(f"SFTP upload failed: {error_msg}")
+                raise Exception("SFTP upload returned False")
                 
         except Exception as e:
             log_debug(f"SLATE EXPORT: SFTP upload failed: {str(e)}", service="uploads")
             return JSONResponse(status_code=500, content={
                 "error": f"Failed to upload to SFTP server: {str(e)}"
             })
+        finally:
+            # Clean up temporary CSV file
+            if temp_csv_path and os.path.exists(temp_csv_path):
+                os.unlink(temp_csv_path)
         
         # Mark records as exported in database
         if document_ids:

@@ -8,6 +8,7 @@ from .users_routes import router as users_router
 from .schools_routes import router as schools_router
 from .stripe_routes import router as stripe_router
 from .superadmin import router as superadmin_router
+from .sftp import router as sftp_router
 
 __all__ = [
     'cards_router',
@@ -18,4 +19,5 @@ __all__ = [
     'schools_router',
     'stripe_router',
     'superadmin_router',
+    'sftp_router',
 ] 
