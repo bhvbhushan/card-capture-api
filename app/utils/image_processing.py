@@ -1,5 +1,5 @@
 import os
-from PIL import Image, ExifTags
+from PIL import Image, ExifTags, ImageOps
 from google.cloud import documentai_v1 as documentai
 from app.config import PROJECT_ID, DOCAI_LOCATION, DOCAI_PROCESSOR_ID, TRIMMED_FOLDER
 
@@ -66,31 +66,24 @@ def trim_image_with_docai(input_path: str, output_path: str = None, percent_expa
         return input_path
 
 def ensure_vertical_orientation(image_path: str) -> str:
+    """
+    Properly handle EXIF orientation using Pillow's modern ImageOps method.
+    """
     img = Image.open(image_path)
-    # Auto-rotate based on EXIF
-    try:
-        for orientation in ExifTags.TAGS.keys():
-            if ExifTags.TAGS[orientation] == 'Orientation':
-                break
-        exif = img._getexif()
-        if exif is not None:
-            orientation_value = exif.get(orientation, None)
-            if orientation_value == 3:
-                img = img.rotate(180, expand=True)
-            elif orientation_value == 6:
-                img = img.rotate(270, expand=True)
-            elif orientation_value == 8:
-                img = img.rotate(90, expand=True)
-    except Exception as e:
-        print(f"EXIF orientation handling failed: {e}")
-
-    # Force portrait if needed
-    if img.width > img.height:
-        img = img.rotate(90, expand=True)
-
-    # Save to a new file with high quality
+    
+    # This handles EXIF orientation automatically and strips EXIF data
+    img = ImageOps.exif_transpose(img)
+    print(f"✅ EXIF orientation applied successfully")
+    
+    # Convert to RGB if needed
+    if img.mode in ('RGBA', 'LA', 'P'):
+        img = img.convert('RGB')
+        
+    # Save processed image
     rotated_path = image_path.replace('.', '_vertical.', 1)
-    img.save(rotated_path, quality=100, optimize=True)
+    img.save(rotated_path, format='JPEG', quality=100, optimize=True)
+    print(f"✅ Processed image saved to: {rotated_path}")
+    
     return rotated_path
 
 def ensure_trimmed_image(original_image_path: str) -> str:
