@@ -27,6 +27,7 @@ from app.config import DOCAI_PROCESSOR_ID
 # Import utils
 from app.utils.image_processing import ensure_trimmed_image
 from app.utils.storage import upload_to_supabase_storage_from_path
+from app.utils.field_utils import filter_combined_fields
 
 from app.repositories.uploads_repository import (
     update_job_status_with_review
@@ -321,10 +322,16 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         
         # Step 12: Update job status and create review data
         log_worker_debug("=== STEP 12: UPDATE JOB STATUS ===")
+        
+        # Filter out combined fields before saving to reviewed_data
+        log_worker_debug("Filtering combined fields before saving")
+        filtered_fields = filter_combined_fields(final_fields)
+        log_worker_debug(f"Fields before filtering: {len(final_fields)}, after filtering: {len(filtered_fields)}")
+        
         now = datetime.now(timezone.utc).isoformat()
         review_data = {
             "document_id": job_id,
-            "fields": final_fields,  # Use final_fields which includes all processing
+            "fields": filtered_fields,  # Use filtered fields without combined address fields
             "school_id": school_id,
             "user_id": user_id,
             "event_id": event_id,
@@ -514,10 +521,15 @@ async def retry_ai_processing(document_id: str):
                 "fields_needing_review": fields_needing_review
             })
             
+            # Filter out combined fields before saving to reviewed_data
+            log_worker_debug("Filtering combined fields before retry save")
+            filtered_fields = filter_combined_fields(final_fields)
+            log_worker_debug(f"Retry fields before filtering: {len(final_fields)}, after filtering: {len(filtered_fields)}")
+            
             # Update reviewed_data with successful results
             now = datetime.now(timezone.utc).isoformat()
             update_result = supabase_client.table("reviewed_data").update({
-                "fields": final_fields,               # Now has proper Gemini data
+                "fields": filtered_fields,            # Now has proper Gemini data without combined fields
                 "review_status": new_review_status,   # Proper review status
                 "ai_error_message": None,            # Clear the error
                 "updated_at": now

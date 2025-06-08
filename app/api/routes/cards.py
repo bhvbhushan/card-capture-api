@@ -17,6 +17,7 @@ from app.services.cards_service import (
 from app.core.clients import supabase_client
 from app.repositories.reviewed_data_repository import upsert_reviewed_data
 from app.services.review_service import canonicalize_fields
+from app.utils.field_utils import filter_combined_fields
 
 router = APIRouter()
 
@@ -149,10 +150,13 @@ async def save_manual_review(document_id: str, payload: Dict[str, Any] = Body(..
         # Use the frontend status if provided, otherwise determine based on fields
         review_status = frontend_status if frontend_status else ("needs_human_review" if any_required_field_needs_review else "reviewed")
 
+        # Filter out combined fields before saving
+        filtered_fields = filter_combined_fields(current_fields_data)
+
         # Update the card
         update_data = {
             "document_id": document_id,
-            "fields": current_fields_data,
+            "fields": filtered_fields,  # Use filtered fields without combined address fields
             "review_status": review_status,
             "updated_at": datetime.now(timezone.utc).isoformat(),
             "school_id": current_card.data.get("school_id"),  # Preserve school_id
@@ -199,9 +203,12 @@ async def manual_entry(payload: Dict[str, Any] = Body(...)):
                 "review_notes": "Manually entered"
             }
 
+        # Filter out combined fields before saving
+        filtered_fields = filter_combined_fields(reviewed_fields)
+
         record = {
             "document_id": document_id,
-            "fields": reviewed_fields,
+            "fields": filtered_fields,  # Use filtered fields without combined address fields
             "review_status": "reviewed",
             "reviewed_at": now,
             "event_id": event_id,
