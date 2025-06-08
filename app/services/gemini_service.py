@@ -213,10 +213,23 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
     log_debug("=== PARSING GEMINI QUALITY RESPONSE ===", service="gemini")
     log_debug("Raw Gemini response for parsing", response_text, service="gemini")
     try:
+        # Clean the response text by removing markdown code block markers
+        cleaned_text = response_text.strip()
+        if cleaned_text.startswith("```json"):
+            cleaned_text = cleaned_text[7:]  # Remove ```json
+        elif cleaned_text.startswith("```"):
+            cleaned_text = cleaned_text[3:]   # Remove ```
+        if cleaned_text.endswith("```"):
+            cleaned_text = cleaned_text[:-3]  # Remove trailing ```
+        cleaned_text = cleaned_text.strip()
+        
+        log_debug("Cleaned response text for parsing", cleaned_text, service="gemini")
+        
         # Parse the response text into a dictionary
-        gemini_data = json.loads(response_text)
+        gemini_data = json.loads(cleaned_text)
         log_debug("Parsed Gemini response", gemini_data, service="gemini")
         enhanced_fields = {}
+        
         # Process each field from Gemini response
         for field_name, quality_info in gemini_data.items():
             # Start with DocAI field data if it exists
@@ -232,12 +245,22 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
                     "enabled": True,
                     "required": False,
                 }
-            # Update with Gemini data
-            enhanced_field["value"] = quality_info.get("value", "")
-            enhanced_field["source"] = "gemini"
-            # Convert quality indicators to confidence score
-            confidence_score = calculate_confidence_from_quality(quality_info)
-            enhanced_field["review_confidence"] = confidence_score
+            
+            # Update with Gemini data and preserve all quality indicators
+            enhanced_field.update({
+                "value": quality_info.get("value", ""),
+                "source": "gemini",
+                "edit_made": quality_info.get("edit_made", False),
+                "edit_type": quality_info.get("edit_type", "none"),
+                "original_value": quality_info.get("original_value", ""),
+                "text_clarity": quality_info.get("text_clarity", "unclear"),
+                "certainty": quality_info.get("certainty", "uncertain"),
+                "notes": quality_info.get("notes", ""),
+                "review_confidence": calculate_confidence_from_quality(quality_info),
+                "requires_human_review": False,
+                "review_notes": ""
+            })
+            
             # Only determine review status for required fields
             if enhanced_field.get("required", False):
                 needs_review, review_notes = determine_review_from_quality(
@@ -245,15 +268,9 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
                 )
                 enhanced_field["requires_human_review"] = needs_review
                 enhanced_field["review_notes"] = review_notes or ""
-            else:
-                # Clear any review flags for non-required fields
-                enhanced_field["requires_human_review"] = False
-                enhanced_field["review_notes"] = ""
-            # Always ensure required keys are present
-            for key in ["review_confidence", "requires_human_review", "review_notes"]:
-                if key not in enhanced_field:
-                    enhanced_field[key] = 0.0 if key == "review_confidence" else (False if key == "requires_human_review" else "")
+            
             enhanced_fields[field_name] = enhanced_field
+
         log_debug("Enhanced fields after parsing Gemini response", enhanced_fields, service="gemini")
         return enhanced_fields
     except Exception as e:
@@ -264,6 +281,12 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
             field_data["review_confidence"] = 0.0
             field_data["requires_human_review"] = False
             field_data["review_notes"] = ""
+            field_data["edit_made"] = False
+            field_data["edit_type"] = "none"
+            field_data["original_value"] = field_data.get("value", "")
+            field_data["text_clarity"] = "unclear"
+            field_data["certainty"] = "uncertain"
+            field_data["notes"] = ""
         return docai_fields
 
 def calculate_confidence_from_quality(quality_info: Dict[str, Any]) -> float:

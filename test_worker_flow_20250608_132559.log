@@ -1,0 +1,2905 @@
+[
+  {
+    "timestamp": "2025-06-08T18:25:59.052453+00:00",
+    "message": "=== TESTING WORKER FLOW ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-08T18:25:59.052478+00:00",
+    "message": "Test Parameters",
+    "data": {
+      "Image path": "/Users/kregboyd/Applications/card-capture-api/test_images/page_13.png",
+      "School ID": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+      "User ID": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+      "Event ID": null
+    }
+  },
+  {
+    "timestamp": "2025-06-08T18:25:59.052501+00:00",
+    "message": "=== STEP 1: GET FIELD REQUIREMENTS ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-08T18:25:59.480614+00:00",
+    "message": "Using DocAI processor: 894b9758c2215ed6",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-08T18:25:59.636300+00:00",
+    "message": "Current Field Requirements",
+    "data": {
+      "name": {
+        "enabled": true,
+        "required": true
+      },
+      "preferred_first_name": {
+        "enabled": true,
+        "required": false
+      },
+      "date_of_birth": {
+        "enabled": true,
+        "required": false
+      },
+      "email": {
+        "enabled": true,
+        "required": true
+      },
+      "cell": {
+        "enabled": true,
+        "required": true
+      },
+      "permission_to_text": {
+        "enabled": true,
+        "required": false
+      },
+      "address": {
+        "enabled": true,
+        "required": true
+      },
+      "city": {
+        "enabled": true,
+        "required": true
+      },
+      "state": {
+        "enabled": true,
+        "required": true
+      },
+      "zip_code": {
+        "enabled": true,
+        "required": true
+      },
+      "high_school": {
+        "enabled": true,
+        "required": false
+      },
+      "class_rank": {
+        "enabled": true,
+        "required": false
+      },
+      "students_in_class": {
+        "enabled": true,
+        "required": false
+      },
+      "gpa": {
+        "enabled": true,
+        "required": false
+      },
+      "student_type": {
+        "enabled": true,
+        "required": false
+      },
+      "entry_term": {
+        "enabled": true,
+        "required": false
+      },
+      "major": {
+        "enabled": true,
+        "required": false
+      },
+      "mapped_major": {
+        "enabled": true,
+        "required": false
+      },
+      "city_state": {
+        "enabled": false,
+        "required": false
+      },
+      "high_school_class_rank": {
+        "enabled": false,
+        "required": false
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-08T18:25:59.636397+00:00",
+    "message": "=== STEP 2: DOCAI PROCESSING ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-08T18:26:06.677355+00:00",
+    "message": "Original DocAI Response",
+    "data": {
+      "date_of_birth": {
+        "value": "1/3/11",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            857.9999640583992,
+            403.000009059906
+          ],
+          [
+            1038.9999836683273,
+            403.000009059906
+          ],
+          [
+            1038.9999836683273,
+            502.00001299381256
+          ],
+          [
+            857.9999640583992,
+            502.00001299381256
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Computer Science",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            243.00000071525574,
+            1723.9999294281006
+          ],
+          [
+            817.999966442585,
+            1723.9999294281006
+          ],
+          [
+            817.999966442585,
+            1836.000019311905
+          ],
+          [
+            243.00000071525574,
+            1836.000019311905
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "cell": {
+        "value": "(325) 669-1790",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            436.0000044107437,
+            838.9999866485596
+          ],
+          [
+            950.9999737143517,
+            838.9999866485596
+          ],
+          [
+            950.9999737143517,
+            908.0000191926956
+          ],
+          [
+            436.0000044107437,
+            908.0000191926956
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Joshua Davidkon",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            245.9999967366457,
+            242.99998953938484
+          ],
+          [
+            724.0000024437904,
+            242.99998953938484
+          ],
+          [
+            724.0000024437904,
+            327.00000777840614
+          ],
+          [
+            245.9999967366457,
+            327.00000777840614
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "high_school": {
+        "value": "Wylie High",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            260.0000035017729,
+            1253.9999842643738
+          ],
+          [
+            792.9999679327011,
+            1253.9999842643738
+          ],
+          [
+            792.9999679327011,
+            1347.999992966652
+          ],
+          [
+            260.0000035017729,
+            1347.999992966652
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city_state": {
+        "value": "Abilene TX",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            263.999991863966,
+            1078.9999544620514
+          ],
+          [
+            717.0000180602074,
+            1078.9999544620514
+          ],
+          [
+            717.0000180602074,
+            1180.999955534935
+          ],
+          [
+            263.999991863966,
+            1180.999955534935
+          ]
+        ],
+        "source": "docai",
+        "enabled": false,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "email": {
+        "value": "Javidios 29@wylie bulldogs.org",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            235.99999733269215,
+            567.9999992251396
+          ],
+          [
+            1196.0000351071358,
+            567.9999992251396
+          ],
+          [
+            1196.0000351071358,
+            682.9999879002571
+          ],
+          [
+            235.99999733269215,
+            682.9999879002571
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "8049 Tuscany Drive",
+        "confidence": 0.95,
+        "source": "address_validation",
+        "notes": "Address validated from Google Maps",
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "permission_to_text": {
+        "value": "Yes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            935.9999746084213,
+            770.0000032782555
+          ],
+          [
+            998.000031709671,
+            770.0000032782555
+          ],
+          [
+            998.000031709671,
+            787.9999861121178
+          ],
+          [
+            935.9999746084213,
+            787.9999861121178
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            295.0000014156103,
+            1609.000039100647
+          ],
+          [
+            465.0000102818012,
+            1609.000039100647
+          ],
+          [
+            465.0000102818012,
+            1634.000015258789
+          ],
+          [
+            295.0000014156103,
+            1634.000015258789
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Joshua",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            243.99999305605888,
+            412.00000047683716
+          ],
+          [
+            467.99998730421066,
+            412.00000047683716
+          ],
+          [
+            467.99998730421066,
+            497.00001776218414
+          ],
+          [
+            243.99999305605888,
+            497.00001776218414
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            872.0000088214874,
+            1078.9999544620514
+          ],
+          [
+            1120.999963581562,
+            1078.9999544620514
+          ],
+          [
+            1120.999963581562,
+            1179.9999564886093
+          ],
+          [
+            872.0000088214874,
+            1179.9999564886093
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city": {
+        "value": "Abilene",
+        "confidence": 0.95,
+        "source": "zip_validation",
+        "notes": "City validated from zip code",
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "state": {
+        "value": "TX",
+        "confidence": 0.95,
+        "source": "zip_validation",
+        "notes": "State validated from zip code",
+        "requires_human_review": false,
+        "review_notes": ""
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-08T18:26:06.677751+00:00",
+    "message": "=== STEP 3: SPLIT ADDRESS FIELDS ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-08T18:26:06.678150+00:00",
+    "message": "Fields After Address Splitting",
+    "data": {
+      "date_of_birth": {
+        "value": "1/3/11",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            857.9999640583992,
+            403.000009059906
+          ],
+          [
+            1038.9999836683273,
+            403.000009059906
+          ],
+          [
+            1038.9999836683273,
+            502.00001299381256
+          ],
+          [
+            857.9999640583992,
+            502.00001299381256
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Computer Science",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            243.00000071525574,
+            1723.9999294281006
+          ],
+          [
+            817.999966442585,
+            1723.9999294281006
+          ],
+          [
+            817.999966442585,
+            1836.000019311905
+          ],
+          [
+            243.00000071525574,
+            1836.000019311905
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "cell": {
+        "value": "(325) 669-1790",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            436.0000044107437,
+            838.9999866485596
+          ],
+          [
+            950.9999737143517,
+            838.9999866485596
+          ],
+          [
+            950.9999737143517,
+            908.0000191926956
+          ],
+          [
+            436.0000044107437,
+            908.0000191926956
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Joshua Davidkon",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            245.9999967366457,
+            242.99998953938484
+          ],
+          [
+            724.0000024437904,
+            242.99998953938484
+          ],
+          [
+            724.0000024437904,
+            327.00000777840614
+          ],
+          [
+            245.9999967366457,
+            327.00000777840614
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "high_school": {
+        "value": "Wylie High",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            260.0000035017729,
+            1253.9999842643738
+          ],
+          [
+            792.9999679327011,
+            1253.9999842643738
+          ],
+          [
+            792.9999679327011,
+            1347.999992966652
+          ],
+          [
+            260.0000035017729,
+            1347.999992966652
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city_state": {
+        "value": "Abilene TX",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            263.999991863966,
+            1078.9999544620514
+          ],
+          [
+            717.0000180602074,
+            1078.9999544620514
+          ],
+          [
+            717.0000180602074,
+            1180.999955534935
+          ],
+          [
+            263.999991863966,
+            1180.999955534935
+          ]
+        ],
+        "source": "docai",
+        "enabled": false,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "email": {
+        "value": "Javidios 29@wylie bulldogs.org",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            235.99999733269215,
+            567.9999992251396
+          ],
+          [
+            1196.0000351071358,
+            567.9999992251396
+          ],
+          [
+            1196.0000351071358,
+            682.9999879002571
+          ],
+          [
+            235.99999733269215,
+            682.9999879002571
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "8049 Tuscany Drive",
+        "confidence": 0.95,
+        "source": "address_validation",
+        "notes": "Address validated from Google Maps",
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "permission_to_text": {
+        "value": "Yes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            935.9999746084213,
+            770.0000032782555
+          ],
+          [
+            998.000031709671,
+            770.0000032782555
+          ],
+          [
+            998.000031709671,
+            787.9999861121178
+          ],
+          [
+            935.9999746084213,
+            787.9999861121178
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            295.0000014156103,
+            1609.000039100647
+          ],
+          [
+            465.0000102818012,
+            1609.000039100647
+          ],
+          [
+            465.0000102818012,
+            1634.000015258789
+          ],
+          [
+            295.0000014156103,
+            1634.000015258789
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Joshua",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            243.99999305605888,
+            412.00000047683716
+          ],
+          [
+            467.99998730421066,
+            412.00000047683716
+          ],
+          [
+            467.99998730421066,
+            497.00001776218414
+          ],
+          [
+            243.99999305605888,
+            497.00001776218414
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            872.0000088214874,
+            1078.9999544620514
+          ],
+          [
+            1120.999963581562,
+            1078.9999544620514
+          ],
+          [
+            1120.999963581562,
+            1179.9999564886093
+          ],
+          [
+            872.0000088214874,
+            1179.9999564886093
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city": {
+        "value": "Abilene",
+        "confidence": 0.95,
+        "source": "zip_validation",
+        "notes": "City validated from zip code",
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "state": {
+        "value": "TX",
+        "confidence": 0.95,
+        "source": "zip_validation",
+        "notes": "State validated from zip code",
+        "requires_human_review": false,
+        "review_notes": ""
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-08T18:26:06.678979+00:00",
+    "message": "=== STEP 4: SYNC FIELDS WITH SCHOOL SETTINGS ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-08T18:26:06.915256+00:00",
+    "message": "Updated Field Requirements",
+    "data": {
+      "name": {
+        "enabled": true,
+        "required": true
+      },
+      "preferred_first_name": {
+        "enabled": true,
+        "required": false
+      },
+      "date_of_birth": {
+        "enabled": true,
+        "required": false
+      },
+      "email": {
+        "enabled": true,
+        "required": true
+      },
+      "cell": {
+        "enabled": true,
+        "required": true
+      },
+      "permission_to_text": {
+        "enabled": true,
+        "required": false
+      },
+      "address": {
+        "enabled": true,
+        "required": true
+      },
+      "city": {
+        "enabled": true,
+        "required": true
+      },
+      "state": {
+        "enabled": true,
+        "required": true
+      },
+      "zip_code": {
+        "enabled": true,
+        "required": true
+      },
+      "high_school": {
+        "enabled": true,
+        "required": false
+      },
+      "class_rank": {
+        "enabled": true,
+        "required": false
+      },
+      "students_in_class": {
+        "enabled": true,
+        "required": false
+      },
+      "gpa": {
+        "enabled": true,
+        "required": false
+      },
+      "student_type": {
+        "enabled": true,
+        "required": false
+      },
+      "entry_term": {
+        "enabled": true,
+        "required": false
+      },
+      "major": {
+        "enabled": true,
+        "required": false
+      },
+      "mapped_major": {
+        "enabled": true,
+        "required": false
+      },
+      "city_state": {
+        "enabled": false,
+        "required": false
+      },
+      "high_school_class_rank": {
+        "enabled": false,
+        "required": false
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-08T18:26:06.915341+00:00",
+    "message": "=== STEP 5: APPLY FIELD REQUIREMENTS ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-08T18:26:06.917035+00:00",
+    "message": "Fields After Applying Requirements",
+    "data": {
+      "date_of_birth": {
+        "value": "1/3/11",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            857.9999640583992,
+            403.000009059906
+          ],
+          [
+            1038.9999836683273,
+            403.000009059906
+          ],
+          [
+            1038.9999836683273,
+            502.00001299381256
+          ],
+          [
+            857.9999640583992,
+            502.00001299381256
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Computer Science",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            243.00000071525574,
+            1723.9999294281006
+          ],
+          [
+            817.999966442585,
+            1723.9999294281006
+          ],
+          [
+            817.999966442585,
+            1836.000019311905
+          ],
+          [
+            243.00000071525574,
+            1836.000019311905
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "cell": {
+        "value": "(325) 669-1790",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            436.0000044107437,
+            838.9999866485596
+          ],
+          [
+            950.9999737143517,
+            838.9999866485596
+          ],
+          [
+            950.9999737143517,
+            908.0000191926956
+          ],
+          [
+            436.0000044107437,
+            908.0000191926956
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Joshua Davidkon",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            245.9999967366457,
+            242.99998953938484
+          ],
+          [
+            724.0000024437904,
+            242.99998953938484
+          ],
+          [
+            724.0000024437904,
+            327.00000777840614
+          ],
+          [
+            245.9999967366457,
+            327.00000777840614
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "high_school": {
+        "value": "Wylie High",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            260.0000035017729,
+            1253.9999842643738
+          ],
+          [
+            792.9999679327011,
+            1253.9999842643738
+          ],
+          [
+            792.9999679327011,
+            1347.999992966652
+          ],
+          [
+            260.0000035017729,
+            1347.999992966652
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city_state": {
+        "value": "Abilene TX",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            263.999991863966,
+            1078.9999544620514
+          ],
+          [
+            717.0000180602074,
+            1078.9999544620514
+          ],
+          [
+            717.0000180602074,
+            1180.999955534935
+          ],
+          [
+            263.999991863966,
+            1180.999955534935
+          ]
+        ],
+        "source": "docai",
+        "enabled": false,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "email": {
+        "value": "Javidios 29@wylie bulldogs.org",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            235.99999733269215,
+            567.9999992251396
+          ],
+          [
+            1196.0000351071358,
+            567.9999992251396
+          ],
+          [
+            1196.0000351071358,
+            682.9999879002571
+          ],
+          [
+            235.99999733269215,
+            682.9999879002571
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "8049 Tuscany Drive",
+        "confidence": 0.95,
+        "source": "address_validation",
+        "notes": "Address validated from Google Maps",
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "permission_to_text": {
+        "value": "Yes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            935.9999746084213,
+            770.0000032782555
+          ],
+          [
+            998.000031709671,
+            770.0000032782555
+          ],
+          [
+            998.000031709671,
+            787.9999861121178
+          ],
+          [
+            935.9999746084213,
+            787.9999861121178
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            295.0000014156103,
+            1609.000039100647
+          ],
+          [
+            465.0000102818012,
+            1609.000039100647
+          ],
+          [
+            465.0000102818012,
+            1634.000015258789
+          ],
+          [
+            295.0000014156103,
+            1634.000015258789
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Joshua",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            243.99999305605888,
+            412.00000047683716
+          ],
+          [
+            467.99998730421066,
+            412.00000047683716
+          ],
+          [
+            467.99998730421066,
+            497.00001776218414
+          ],
+          [
+            243.99999305605888,
+            497.00001776218414
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            872.0000088214874,
+            1078.9999544620514
+          ],
+          [
+            1120.999963581562,
+            1078.9999544620514
+          ],
+          [
+            1120.999963581562,
+            1179.9999564886093
+          ],
+          [
+            872.0000088214874,
+            1179.9999564886093
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city": {
+        "value": "Abilene",
+        "confidence": 0.95,
+        "source": "zip_validation",
+        "notes": "City validated from zip code",
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "state": {
+        "value": "TX",
+        "confidence": 0.95,
+        "source": "zip_validation",
+        "notes": "State validated from zip code",
+        "requires_human_review": false,
+        "review_notes": ""
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-08T18:26:06.917349+00:00",
+    "message": "=== STEP 6: ADDRESS VALIDATION ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-08T18:26:07.178905+00:00",
+    "message": "Fields After Address Validation",
+    "data": {
+      "date_of_birth": {
+        "value": "1/3/11",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            857.9999640583992,
+            403.000009059906
+          ],
+          [
+            1038.9999836683273,
+            403.000009059906
+          ],
+          [
+            1038.9999836683273,
+            502.00001299381256
+          ],
+          [
+            857.9999640583992,
+            502.00001299381256
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Computer Science",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            243.00000071525574,
+            1723.9999294281006
+          ],
+          [
+            817.999966442585,
+            1723.9999294281006
+          ],
+          [
+            817.999966442585,
+            1836.000019311905
+          ],
+          [
+            243.00000071525574,
+            1836.000019311905
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "cell": {
+        "value": "(325) 669-1790",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            436.0000044107437,
+            838.9999866485596
+          ],
+          [
+            950.9999737143517,
+            838.9999866485596
+          ],
+          [
+            950.9999737143517,
+            908.0000191926956
+          ],
+          [
+            436.0000044107437,
+            908.0000191926956
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Joshua Davidkon",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            245.9999967366457,
+            242.99998953938484
+          ],
+          [
+            724.0000024437904,
+            242.99998953938484
+          ],
+          [
+            724.0000024437904,
+            327.00000777840614
+          ],
+          [
+            245.9999967366457,
+            327.00000777840614
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "high_school": {
+        "value": "Wylie High",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            260.0000035017729,
+            1253.9999842643738
+          ],
+          [
+            792.9999679327011,
+            1253.9999842643738
+          ],
+          [
+            792.9999679327011,
+            1347.999992966652
+          ],
+          [
+            260.0000035017729,
+            1347.999992966652
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city_state": {
+        "value": "Abilene TX",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            263.999991863966,
+            1078.9999544620514
+          ],
+          [
+            717.0000180602074,
+            1078.9999544620514
+          ],
+          [
+            717.0000180602074,
+            1180.999955534935
+          ],
+          [
+            263.999991863966,
+            1180.999955534935
+          ]
+        ],
+        "source": "docai",
+        "enabled": false,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "email": {
+        "value": "Javidios 29@wylie bulldogs.org",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            235.99999733269215,
+            567.9999992251396
+          ],
+          [
+            1196.0000351071358,
+            567.9999992251396
+          ],
+          [
+            1196.0000351071358,
+            682.9999879002571
+          ],
+          [
+            235.99999733269215,
+            682.9999879002571
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "8049 Tuscany Drive",
+        "confidence": 0.95,
+        "source": "address_validation",
+        "notes": "Address validated from Google Maps",
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "permission_to_text": {
+        "value": "Yes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            935.9999746084213,
+            770.0000032782555
+          ],
+          [
+            998.000031709671,
+            770.0000032782555
+          ],
+          [
+            998.000031709671,
+            787.9999861121178
+          ],
+          [
+            935.9999746084213,
+            787.9999861121178
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            295.0000014156103,
+            1609.000039100647
+          ],
+          [
+            465.0000102818012,
+            1609.000039100647
+          ],
+          [
+            465.0000102818012,
+            1634.000015258789
+          ],
+          [
+            295.0000014156103,
+            1634.000015258789
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Joshua",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            243.99999305605888,
+            412.00000047683716
+          ],
+          [
+            467.99998730421066,
+            412.00000047683716
+          ],
+          [
+            467.99998730421066,
+            497.00001776218414
+          ],
+          [
+            243.99999305605888,
+            497.00001776218414
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            872.0000088214874,
+            1078.9999544620514
+          ],
+          [
+            1120.999963581562,
+            1078.9999544620514
+          ],
+          [
+            1120.999963581562,
+            1179.9999564886093
+          ],
+          [
+            872.0000088214874,
+            1179.9999564886093
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city": {
+        "value": "Abilene",
+        "confidence": 0.95,
+        "source": "zip_validation",
+        "notes": "City validated from zip code",
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "state": {
+        "value": "TX",
+        "confidence": 0.95,
+        "source": "zip_validation",
+        "notes": "State validated from zip code",
+        "requires_human_review": false,
+        "review_notes": ""
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-08T18:26:07.179753+00:00",
+    "message": "=== STEP 7: FETCH VALID MAJORS ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-08T18:26:07.350617+00:00",
+    "message": "Valid majors",
+    "data": [
+      "Undecided",
+      "Accounting",
+      "Art Education",
+      "Biochemistry",
+      "Biology",
+      "Biomedical Science",
+      "Business Administration",
+      "Chemistry",
+      "Chemistry Grades 7-12",
+      "Communication",
+      "Computer Science",
+      "Computer Science Grades 6-12",
+      "Criminology",
+      "Cybersecurity",
+      "Dual Credit/Concurrent",
+      "Early Childhood Education",
+      "Engineering Physics",
+      "English and Writing",
+      "English Language Arts/Reading Grades 4-8",
+      "English Language Arts/Reading Grades 7-12",
+      "Entrepreneurship",
+      "Environmental Science",
+      "Exercise Science & Human Performance",
+      "FasTrack Education -  Elementary",
+      "FasTrack Education -  Secondary",
+      "Finance",
+      "Graphic Design and Multimedia",
+      "History",
+      "History Grades 7-12",
+      "History w/ Social Studies Grades 7-12",
+      "Human Health Science",
+      "Information Technology",
+      "Interdisciplinary Studies",
+      "Life Science",
+      "Life Science Grades 7-12",
+      "Management",
+      "Marketing",
+      "Mathematics",
+      "Mathematics Grades 4-8",
+      "Mathematics Grades 7-12",
+      "MSN Education Track",
+      "MSN Family Nurse Practitioner Track",
+      "Music",
+      "Music Education/Choral",
+      "Music Education/Instrumental",
+      "Non Degree",
+      "Nursing",
+      "Nursing RN to BSN",
+      "Online Criminal Justice",
+      "Online General Business",
+      "Online General Business Associate",
+      "Physical Education",
+      "Physics",
+      "Political Science",
+      "Psychology",
+      "Public Health and Wellness",
+      "Religion",
+      "Sociology",
+      "Sports Industry",
+      "Sports Leadership & Management",
+      "Studio Art",
+      "Theatre",
+      "Theatre Education",
+      "Transient",
+      "Undecided"
+    ]
+  },
+  {
+    "timestamp": "2025-06-08T18:26:07.350680+00:00",
+    "message": "=== STEP 8: GEMINI PROCESSING ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-08T18:26:24.235105+00:00",
+    "message": "Gemini Output",
+    "data": {
+      "date_of_birth": {
+        "value": "01/03/2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            857.9999640583992,
+            403.000009059906
+          ],
+          [
+            1038.9999836683273,
+            403.000009059906
+          ],
+          [
+            1038.9999836683273,
+            502.00001299381256
+          ],
+          [
+            857.9999640583992,
+            502.00001299381256
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "1/3/11",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Added century to birthdate."
+      },
+      "major": {
+        "value": "Computer Science",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            243.00000071525574,
+            1723.9999294281006
+          ],
+          [
+            817.999966442585,
+            1723.9999294281006
+          ],
+          [
+            817.999966442585,
+            1836.000019311905
+          ],
+          [
+            243.00000071525574,
+            1836.000019311905
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Computer Science",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "cell": {
+        "value": "325-669-1790",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            436.0000044107437,
+            838.9999866485596
+          ],
+          [
+            950.9999737143517,
+            838.9999866485596
+          ],
+          [
+            950.9999737143517,
+            908.0000191926956
+          ],
+          [
+            436.0000044107437,
+            908.0000191926956
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "(325) 669-1790",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Standardized phone format."
+      },
+      "name": {
+        "value": "Joshua Davidson",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            245.9999967366457,
+            242.99998953938484
+          ],
+          [
+            724.0000024437904,
+            242.99998953938484
+          ],
+          [
+            724.0000024437904,
+            327.00000777840614
+          ],
+          [
+            245.9999967366457,
+            327.00000777840614
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.9025,
+        "edit_made": true,
+        "edit_type": "typo_fix",
+        "original_value": "Joshua Davidkon",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Corrected typo in last name."
+      },
+      "high_school": {
+        "value": "Wylie High",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            260.0000035017729,
+            1253.9999842643738
+          ],
+          [
+            792.9999679327011,
+            1253.9999842643738
+          ],
+          [
+            792.9999679327011,
+            1347.999992966652
+          ],
+          [
+            260.0000035017729,
+            1347.999992966652
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Wylie High",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "email": {
+        "value": "davidjos29@wyliebulldogs.org",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            235.99999733269215,
+            567.9999992251396
+          ],
+          [
+            1196.0000351071358,
+            567.9999992251396
+          ],
+          [
+            1196.0000351071358,
+            682.9999879002571
+          ],
+          [
+            235.99999733269215,
+            682.9999879002571
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.9025,
+        "edit_made": true,
+        "edit_type": "ocr_correction",
+        "original_value": "Javidios 29@wylie bulldogs.org",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Corrected OCR errors."
+      },
+      "address": {
+        "value": "8049 Tuscany Drive",
+        "confidence": 0.95,
+        "source": "gemini",
+        "notes": null,
+        "requires_human_review": false,
+        "review_notes": "",
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "8049 Tuscany Drive",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "review_confidence": 0.95
+      },
+      "permission_to_text": {
+        "value": "Yes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            935.9999746084213,
+            770.0000032782555
+          ],
+          [
+            998.000031709671,
+            770.0000032782555
+          ],
+          [
+            998.000031709671,
+            787.9999861121178
+          ],
+          [
+            935.9999746084213,
+            787.9999861121178
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Yes",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked."
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            295.0000014156103,
+            1609.000039100647
+          ],
+          [
+            465.0000102818012,
+            1609.000039100647
+          ],
+          [
+            465.0000102818012,
+            1634.000015258789
+          ],
+          [
+            295.0000014156103,
+            1634.000015258789
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Freshman",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked."
+      },
+      "preferred_first_name": {
+        "value": "Joshua",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            243.99999305605888,
+            412.00000047683716
+          ],
+          [
+            467.99998730421066,
+            412.00000047683716
+          ],
+          [
+            467.99998730421066,
+            497.00001776218414
+          ],
+          [
+            243.99999305605888,
+            497.00001776218414
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Joshua",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            872.0000088214874,
+            1078.9999544620514
+          ],
+          [
+            1120.999963581562,
+            1078.9999544620514
+          ],
+          [
+            1120.999963581562,
+            1179.9999564886093
+          ],
+          [
+            872.0000088214874,
+            1179.9999564886093
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "79606",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "city": {
+        "value": "Abilene",
+        "confidence": 0.95,
+        "source": "gemini",
+        "notes": null,
+        "requires_human_review": false,
+        "review_notes": "",
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Abilene",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "review_confidence": 0.95
+      },
+      "state": {
+        "value": "TX",
+        "confidence": 0.95,
+        "source": "gemini",
+        "notes": null,
+        "requires_human_review": false,
+        "review_notes": "",
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "TX",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "review_confidence": 0.95
+      },
+      "mapped_major": {
+        "value": "Computer Science",
+        "edit_made": true,
+        "edit_type": "mapped_value",
+        "original_value": "Computer Science",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Mapped from 'Computer Science' to 'Computer Science'",
+        "requires_human_review": false,
+        "review_notes": ""
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-08T18:26:24.236883+00:00",
+    "message": "=== STEP 9: MAJOR MAPPING ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-08T18:26:24.236906+00:00",
+    "message": "Original Major",
+    "data": "Computer Science"
+  },
+  {
+    "timestamp": "2025-06-08T18:26:24.236938+00:00",
+    "message": "Major Mapping Result",
+    "data": {
+      "original": "Computer Science",
+      "mapped": "Computer Science"
+    }
+  },
+  {
+    "timestamp": "2025-06-08T18:26:24.236979+00:00",
+    "message": "=== STEP 10: FINAL VALIDATION ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-08T18:26:24.238250+00:00",
+    "message": "Final Fields",
+    "data": {
+      "date_of_birth": {
+        "value": "01/03/2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            857.9999640583992,
+            403.000009059906
+          ],
+          [
+            1038.9999836683273,
+            403.000009059906
+          ],
+          [
+            1038.9999836683273,
+            502.00001299381256
+          ],
+          [
+            857.9999640583992,
+            502.00001299381256
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "1/3/11",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Added century to birthdate."
+      },
+      "major": {
+        "value": "Computer Science",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            243.00000071525574,
+            1723.9999294281006
+          ],
+          [
+            817.999966442585,
+            1723.9999294281006
+          ],
+          [
+            817.999966442585,
+            1836.000019311905
+          ],
+          [
+            243.00000071525574,
+            1836.000019311905
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Computer Science",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "cell": {
+        "value": "325-669-1790",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            436.0000044107437,
+            838.9999866485596
+          ],
+          [
+            950.9999737143517,
+            838.9999866485596
+          ],
+          [
+            950.9999737143517,
+            908.0000191926956
+          ],
+          [
+            436.0000044107437,
+            908.0000191926956
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "(325) 669-1790",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Standardized phone format."
+      },
+      "name": {
+        "value": "Joshua Davidson",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            245.9999967366457,
+            242.99998953938484
+          ],
+          [
+            724.0000024437904,
+            242.99998953938484
+          ],
+          [
+            724.0000024437904,
+            327.00000777840614
+          ],
+          [
+            245.9999967366457,
+            327.00000777840614
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.9025,
+        "edit_made": true,
+        "edit_type": "typo_fix",
+        "original_value": "Joshua Davidkon",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Corrected typo in last name."
+      },
+      "high_school": {
+        "value": "Wylie High",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            260.0000035017729,
+            1253.9999842643738
+          ],
+          [
+            792.9999679327011,
+            1253.9999842643738
+          ],
+          [
+            792.9999679327011,
+            1347.999992966652
+          ],
+          [
+            260.0000035017729,
+            1347.999992966652
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Wylie High",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "email": {
+        "value": "davidjos29@wyliebulldogs.org",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            235.99999733269215,
+            567.9999992251396
+          ],
+          [
+            1196.0000351071358,
+            567.9999992251396
+          ],
+          [
+            1196.0000351071358,
+            682.9999879002571
+          ],
+          [
+            235.99999733269215,
+            682.9999879002571
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.9025,
+        "edit_made": true,
+        "edit_type": "ocr_correction",
+        "original_value": "Javidios 29@wylie bulldogs.org",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Corrected OCR errors."
+      },
+      "address": {
+        "value": "8049 Tuscany Drive",
+        "confidence": 0.95,
+        "source": "gemini",
+        "notes": null,
+        "requires_human_review": false,
+        "review_notes": "",
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "8049 Tuscany Drive",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "review_confidence": 0.95
+      },
+      "permission_to_text": {
+        "value": "Yes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            935.9999746084213,
+            770.0000032782555
+          ],
+          [
+            998.000031709671,
+            770.0000032782555
+          ],
+          [
+            998.000031709671,
+            787.9999861121178
+          ],
+          [
+            935.9999746084213,
+            787.9999861121178
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Yes",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked."
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            295.0000014156103,
+            1609.000039100647
+          ],
+          [
+            465.0000102818012,
+            1609.000039100647
+          ],
+          [
+            465.0000102818012,
+            1634.000015258789
+          ],
+          [
+            295.0000014156103,
+            1634.000015258789
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Freshman",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked."
+      },
+      "preferred_first_name": {
+        "value": "Joshua",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            243.99999305605888,
+            412.00000047683716
+          ],
+          [
+            467.99998730421066,
+            412.00000047683716
+          ],
+          [
+            467.99998730421066,
+            497.00001776218414
+          ],
+          [
+            243.99999305605888,
+            497.00001776218414
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Joshua",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            872.0000088214874,
+            1078.9999544620514
+          ],
+          [
+            1120.999963581562,
+            1078.9999544620514
+          ],
+          [
+            1120.999963581562,
+            1179.9999564886093
+          ],
+          [
+            872.0000088214874,
+            1179.9999564886093
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "79606",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "city": {
+        "value": "Abilene",
+        "confidence": 0.95,
+        "source": "gemini",
+        "notes": null,
+        "requires_human_review": false,
+        "review_notes": "",
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Abilene",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "review_confidence": 0.95
+      },
+      "state": {
+        "value": "TX",
+        "confidence": 0.95,
+        "source": "gemini",
+        "notes": null,
+        "requires_human_review": false,
+        "review_notes": "",
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "TX",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "review_confidence": 0.95
+      },
+      "mapped_major": {
+        "value": "Computer Science",
+        "edit_made": true,
+        "edit_type": "mapped_value",
+        "original_value": "Computer Science",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Mapped from 'Computer Science' to 'Computer Science'",
+        "requires_human_review": false,
+        "review_notes": ""
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-08T18:26:24.239651+00:00",
+    "message": "Review Status",
+    "data": {
+      "status": "reviewed",
+      "fields_needing_review": []
+    }
+  },
+  {
+    "timestamp": "2025-06-08T18:26:24.239684+00:00",
+    "message": "=== STEP 11: REVIEW DATA ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-08T18:26:24.239694+00:00",
+    "message": "Review Data to be Saved",
+    "data": {
+      "document_id": "test-job-2025-06-08T18:26:24.239690+00:00",
+      "fields": {
+        "date_of_birth": {
+          "value": "01/03/2011",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              857.9999640583992,
+              403.000009059906
+            ],
+            [
+              1038.9999836683273,
+              403.000009059906
+            ],
+            [
+              1038.9999836683273,
+              502.00001299381256
+            ],
+            [
+              857.9999640583992,
+              502.00001299381256
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": true,
+          "edit_type": "format_correction",
+          "original_value": "1/3/11",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Added century to birthdate."
+        },
+        "major": {
+          "value": "Computer Science",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              243.00000071525574,
+              1723.9999294281006
+            ],
+            [
+              817.999966442585,
+              1723.9999294281006
+            ],
+            [
+              817.999966442585,
+              1836.000019311905
+            ],
+            [
+              243.00000071525574,
+              1836.000019311905
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Computer Science",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "cell": {
+          "value": "325-669-1790",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              436.0000044107437,
+              838.9999866485596
+            ],
+            [
+              950.9999737143517,
+              838.9999866485596
+            ],
+            [
+              950.9999737143517,
+              908.0000191926956
+            ],
+            [
+              436.0000044107437,
+              908.0000191926956
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": true,
+          "edit_type": "format_correction",
+          "original_value": "(325) 669-1790",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Standardized phone format."
+        },
+        "name": {
+          "value": "Joshua Davidson",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              245.9999967366457,
+              242.99998953938484
+            ],
+            [
+              724.0000024437904,
+              242.99998953938484
+            ],
+            [
+              724.0000024437904,
+              327.00000777840614
+            ],
+            [
+              245.9999967366457,
+              327.00000777840614
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.9025,
+          "edit_made": true,
+          "edit_type": "typo_fix",
+          "original_value": "Joshua Davidkon",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Corrected typo in last name."
+        },
+        "high_school": {
+          "value": "Wylie High",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              260.0000035017729,
+              1253.9999842643738
+            ],
+            [
+              792.9999679327011,
+              1253.9999842643738
+            ],
+            [
+              792.9999679327011,
+              1347.999992966652
+            ],
+            [
+              260.0000035017729,
+              1347.999992966652
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Wylie High",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "email": {
+          "value": "davidjos29@wyliebulldogs.org",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              235.99999733269215,
+              567.9999992251396
+            ],
+            [
+              1196.0000351071358,
+              567.9999992251396
+            ],
+            [
+              1196.0000351071358,
+              682.9999879002571
+            ],
+            [
+              235.99999733269215,
+              682.9999879002571
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.9025,
+          "edit_made": true,
+          "edit_type": "ocr_correction",
+          "original_value": "Javidios 29@wylie bulldogs.org",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Corrected OCR errors."
+        },
+        "address": {
+          "value": "8049 Tuscany Drive",
+          "confidence": 0.95,
+          "source": "gemini",
+          "notes": null,
+          "requires_human_review": false,
+          "review_notes": "",
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "8049 Tuscany Drive",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "review_confidence": 0.95
+        },
+        "permission_to_text": {
+          "value": "Yes",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              935.9999746084213,
+              770.0000032782555
+            ],
+            [
+              998.000031709671,
+              770.0000032782555
+            ],
+            [
+              998.000031709671,
+              787.9999861121178
+            ],
+            [
+              935.9999746084213,
+              787.9999861121178
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Yes",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Checkbox clearly marked."
+        },
+        "student_type": {
+          "value": "Freshman",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              295.0000014156103,
+              1609.000039100647
+            ],
+            [
+              465.0000102818012,
+              1609.000039100647
+            ],
+            [
+              465.0000102818012,
+              1634.000015258789
+            ],
+            [
+              295.0000014156103,
+              1634.000015258789
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Freshman",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Checkbox clearly marked."
+        },
+        "preferred_first_name": {
+          "value": "Joshua",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              243.99999305605888,
+              412.00000047683716
+            ],
+            [
+              467.99998730421066,
+              412.00000047683716
+            ],
+            [
+              467.99998730421066,
+              497.00001776218414
+            ],
+            [
+              243.99999305605888,
+              497.00001776218414
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Joshua",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "zip_code": {
+          "value": "79606",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              872.0000088214874,
+              1078.9999544620514
+            ],
+            [
+              1120.999963581562,
+              1078.9999544620514
+            ],
+            [
+              1120.999963581562,
+              1179.9999564886093
+            ],
+            [
+              872.0000088214874,
+              1179.9999564886093
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "79606",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "city": {
+          "value": "Abilene",
+          "confidence": 0.95,
+          "source": "gemini",
+          "notes": null,
+          "requires_human_review": false,
+          "review_notes": "",
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Abilene",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "review_confidence": 0.95
+        },
+        "state": {
+          "value": "TX",
+          "confidence": 0.95,
+          "source": "gemini",
+          "notes": null,
+          "requires_human_review": false,
+          "review_notes": "",
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "TX",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "review_confidence": 0.95
+        },
+        "mapped_major": {
+          "value": "Computer Science",
+          "edit_made": true,
+          "edit_type": "mapped_value",
+          "original_value": "Computer Science",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Mapped from 'Computer Science' to 'Computer Science'",
+          "requires_human_review": false,
+          "review_notes": ""
+        }
+      },
+      "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+      "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+      "event_id": null,
+      "image_path": "/Users/kregboyd/Applications/card-capture-api/test_images/page_13.png",
+      "review_status": "reviewed",
+      "created_at": "2025-06-08T18:26:24.239690+00:00",
+      "updated_at": "2025-06-08T18:26:24.239690+00:00"
+    }
+  },
+  {
+    "timestamp": "2025-06-08T18:26:24.242280+00:00",
+    "message": "\u2705 Processing completed successfully",
+    "data": null
+  }
+]
