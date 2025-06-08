@@ -44,7 +44,8 @@ def invite_user_db(email: str, first_name: str, last_name: str, role: List[str],
     try:
         # Get the frontend URL from environment or use default
         frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
-        redirect_url = f"{frontend_url}/accept-invite"
+        # Include necessary query parameters that the frontend expects
+        redirect_url = f"{frontend_url}/accept-invite?email={email}&school_id={school_id}"
         
         # Use invite_user_by_email to send the invitation email
         response = supabase_client.auth.admin.invite_user_by_email(
