@@ -1,31 +1,31 @@
 [
   {
-    "timestamp": "2025-06-07T18:23:49.980588+00:00",
+    "timestamp": "2025-06-08T16:58:56.585441+00:00",
     "message": "=== TESTING WORKER FLOW ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-07T18:23:49.980614+00:00",
+    "timestamp": "2025-06-08T16:58:56.585466+00:00",
     "message": "Test Parameters",
     "data": {
-      "Image path": "/Users/kregboyd/Applications/card-capture-api/test_images/page_10.png",
+      "Image path": "/Users/kregboyd/Applications/card-capture-api/test_images/page_17.png",
       "School ID": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
       "User ID": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
       "Event ID": null
     }
   },
   {
-    "timestamp": "2025-06-07T18:23:49.980640+00:00",
+    "timestamp": "2025-06-08T16:58:56.585490+00:00",
     "message": "=== STEP 1: GET FIELD REQUIREMENTS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-07T18:23:50.291833+00:00",
+    "timestamp": "2025-06-08T16:58:56.843625+00:00",
     "message": "Using DocAI processor: 894b9758c2215ed6",
     "data": null
   },
   {
-    "timestamp": "2025-06-07T18:23:50.444776+00:00",
+    "timestamp": "2025-06-08T16:58:57.012611+00:00",
     "message": "Current Field Requirements",
     "data": {
       "name": {
@@ -111,173 +111,33 @@
     }
   },
   {
-    "timestamp": "2025-06-07T18:23:50.444894+00:00",
+    "timestamp": "2025-06-08T16:58:57.012928+00:00",
     "message": "=== STEP 2: DOCAI PROCESSING ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-07T18:23:58.515383+00:00",
+    "timestamp": "2025-06-08T16:59:04.691490+00:00",
     "message": "Original DocAI Response",
     "data": {
-      "entry_term": {
-        "value": "Fall 2024",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            890.9999772906303,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1642.0000076293945
-          ],
-          [
-            890.9999772906303,
-            1642.0000076293945
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "address": {
-        "value": "Western Pumes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            257.99999982118607,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            1001.0000288486481
-          ],
-          [
-            257.99999982118607,
-            1001.0000288486481
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": true,
-        "review_notes": "Required address field could not be validated by Google Maps",
-        "review_confidence": 0.3
-      },
-      "email": {
-        "value": "Samulbri29@wyliebulldogs.org",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            277.00000628829,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            670.0000002980232
-          ],
-          [
-            277.00000628829,
-            670.0000002980232
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "date_of_birth": {
-        "value": "01/14/2011",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            932.0000052452087,
-            430.99998235702515
-          ],
-          [
-            1201.0000348091125,
-            430.99998235702515
-          ],
-          [
-            1201.0000348091125,
-            479.9999848008156
-          ],
-          [
-            932.0000052452087,
-            479.9999848008156
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "name": {
-        "value": "Brielle Samulde",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            252.00000777840614,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            325.0000096857548
-          ],
-          [
-            252.00000777840614,
-            325.0000096857548
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
       "high_school": {
-        "value": "Wylie West Junior High",
+        "value": "Wylie High School",
         "confidence": 1.0,
         "bounding_box": [
           [
-            260.0000035017729,
-            1273.9999651908875
+            253.0000001192093,
+            1254.9999833106995
           ],
           [
-            1005.9999704360962,
-            1273.9999651908875
+            933.999989926815,
+            1254.9999833106995
           ],
           [
-            1005.9999704360962,
-            1345.9999948740005
+            933.999989926815,
+            1342.9999977350235
           ],
           [
-            260.0000035017729,
-            1345.9999948740005
+            253.0000001192093,
+            1342.9999977350235
           ]
         ],
         "source": "docai",
@@ -288,24 +148,24 @@
         "review_confidence": 0.0
       },
       "cell": {
-        "value": "325-338-7743",
+        "value": "325-439-8946",
         "confidence": 1.0,
         "bounding_box": [
           [
-            255.99999614059925,
-            771.0000023245811
+            240.00000469386578,
+            745.9999769926071
           ],
           [
-            719.0000027418137,
-            771.0000023245811
+            785.999983549118,
+            745.9999769926071
           ],
           [
-            719.0000027418137,
-            835.9999895095825
+            785.999983549118,
+            829.9999952316284
           ],
           [
-            255.99999614059925,
-            835.9999895095825
+            240.00000469386578,
+            829.9999952316284
           ]
         ],
         "source": "docai",
@@ -315,30 +175,30 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "zip_code": {
-        "value": "79606",
+      "city_state": {
+        "value": "Abilene",
         "confidence": 1.0,
         "bounding_box": [
           [
-            917.0000061392784,
-            1110.0000232458115
+            248.0000004172325,
+            1084.0000480413437
           ],
           [
-            1133.999978005886,
-            1110.0000232458115
+            580.0000034272671,
+            1084.0000480413437
           ],
           [
-            1133.999978005886,
-            1156.9999784231186
+            580.0000034272671,
+            1166.9999688863754
           ],
           [
-            917.0000061392784,
-            1156.9999784231186
+            248.0000004172325,
+            1166.9999688863754
           ]
         ],
         "source": "docai",
-        "enabled": true,
-        "required": true,
+        "enabled": false,
+        "required": false,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -352,21 +212,170 @@
             1611.0000371932983
           ],
           [
-            484.0000167489052,
+            476.99999436736107,
             1611.0000371932983
           ],
           [
-            484.0000167489052,
-            1637.000012397766
+            476.99999436736107,
+            1636.0000133514404
           ],
           [
             304.0000084787607,
-            1637.000012397766
+            1636.0000133514404
           ]
         ],
         "source": "docai",
         "enabled": true,
         "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "date_of_birth": {
+        "value": "08/24/2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            867.0000091195107,
+            397.9999892413616
+          ],
+          [
+            1277.0000606775284,
+            397.9999892413616
+          ],
+          [
+            1277.0000606775284,
+            490.00002443790436
+          ],
+          [
+            867.0000091195107,
+            490.00002443790436
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "email": {
+        "value": "aaliyahcarson2@Gmail.com",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            250.99999643862247,
+            579.9999877810478
+          ],
+          [
+            1225.0000029802322,
+            579.9999877810478
+          ],
+          [
+            1225.0000029802322,
+            674.9999955296516
+          ],
+          [
+            250.99999643862247,
+            674.9999955296516
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_term": {
+        "value": "fall 2029",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            870.9999784827232,
+            1557.9999893903732
+          ],
+          [
+            1181.9999903440475,
+            1557.9999893903732
+          ],
+          [
+            1181.9999903440475,
+            1650.9999990463257
+          ],
+          [
+            870.9999784827232,
+            1650.9999990463257
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "36 Pebble Beach Street",
+        "confidence": 0.95,
+        "source": "address_validation",
+        "notes": "Address validated from Google Maps",
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Liyah",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            258.9999921619892,
+            404.0000081062317
+          ],
+          [
+            486.0000014305115,
+            404.0000081062317
+          ],
+          [
+            486.0000014305115,
+            497.00001776218414
+          ],
+          [
+            258.9999921619892,
+            497.00001776218414
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            877.0000085234642,
+            1096.000036597252
+          ],
+          [
+            1148.9999771118164,
+            1096.000036597252
+          ],
+          [
+            1148.9999771118164,
+            1168.9999669790268
+          ],
+          [
+            877.0000085234642,
+            1168.9999669790268
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -376,20 +385,20 @@
         "confidence": 1.0,
         "bounding_box": [
           [
-            948.9999890327454,
-            766.0000070929527
+            948.0000346899033,
+            764.0000090003014
           ],
           [
-            1013.0000308156013,
-            766.0000070929527
+            1012.0000004768372,
+            764.0000090003014
           ],
           [
-            1013.0000308156013,
-            790.9999832510948
+            1012.0000004768372,
+            788.9999851584435
           ],
           [
-            948.9999890327454,
-            790.9999832510948
+            948.0000346899033,
+            788.9999851584435
           ]
         ],
         "source": "docai",
@@ -399,25 +408,53 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "preferred_first_name": {
-        "value": "Brie",
+      "name": {
+        "value": "Aaliyah amari Ncabe-Davis",
         "confidence": 1.0,
         "bounding_box": [
           [
-            273.99999126791954,
-            427.9999852180481
+            250.00000409781933,
+            232.00000002980232
           ],
           [
-            430.0000123679638,
-            427.9999852180481
+            1263.9999702572823,
+            232.00000002980232
           ],
           [
-            430.0000123679638,
-            486.99997812509537
+            1263.9999702572823,
+            335.9999991953373
           ],
           [
-            273.99999126791954,
-            486.99997812509537
+            250.00000409781933,
+            335.9999991953373
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Teacher Degree",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            262.0000071823597,
+            1743.9999103546143
+          ],
+          [
+            898.9999920129776,
+            1743.9999103546143
+          ],
+          [
+            898.9999920129776,
+            1831.0000240802765
+          ],
+          [
+            262.0000071823597,
+            1831.0000240802765
           ]
         ],
         "source": "docai",
@@ -433,7 +470,8 @@
         "source": "zip_validation",
         "notes": "City validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "state": {
         "value": "TX",
@@ -441,189 +479,50 @@
         "source": "zip_validation",
         "notes": "State validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "mapped_major": {
         "value": "",
         "edit_made": false,
         "edit_type": "mapped_value",
-        "original_value": "",
+        "original_value": "Teacher Degree",
         "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "",
+        "certainty": "uncertain",
+        "notes": "Could not map 'Teacher Degree' to a valid major",
         "requires_human_review": false,
         "review_notes": ""
       }
     }
   },
   {
-    "timestamp": "2025-06-07T18:23:58.515778+00:00",
+    "timestamp": "2025-06-08T16:59:04.691992+00:00",
     "message": "=== STEP 3: SPLIT ADDRESS FIELDS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-07T18:23:58.515788+00:00",
+    "timestamp": "2025-06-08T16:59:04.692375+00:00",
     "message": "Fields After Address Splitting",
     "data": {
-      "entry_term": {
-        "value": "Fall 2024",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            890.9999772906303,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1642.0000076293945
-          ],
-          [
-            890.9999772906303,
-            1642.0000076293945
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "address": {
-        "value": "Western Pumes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            257.99999982118607,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            1001.0000288486481
-          ],
-          [
-            257.99999982118607,
-            1001.0000288486481
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": true,
-        "review_notes": "Required address field could not be validated by Google Maps",
-        "review_confidence": 0.3
-      },
-      "email": {
-        "value": "Samulbri29@wyliebulldogs.org",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            277.00000628829,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            670.0000002980232
-          ],
-          [
-            277.00000628829,
-            670.0000002980232
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "date_of_birth": {
-        "value": "01/14/2011",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            932.0000052452087,
-            430.99998235702515
-          ],
-          [
-            1201.0000348091125,
-            430.99998235702515
-          ],
-          [
-            1201.0000348091125,
-            479.9999848008156
-          ],
-          [
-            932.0000052452087,
-            479.9999848008156
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "name": {
-        "value": "Brielle Samulde",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            252.00000777840614,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            325.0000096857548
-          ],
-          [
-            252.00000777840614,
-            325.0000096857548
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
       "high_school": {
-        "value": "Wylie West Junior High",
+        "value": "Wylie High School",
         "confidence": 1.0,
         "bounding_box": [
           [
-            260.0000035017729,
-            1273.9999651908875
+            253.0000001192093,
+            1254.9999833106995
           ],
           [
-            1005.9999704360962,
-            1273.9999651908875
+            933.999989926815,
+            1254.9999833106995
           ],
           [
-            1005.9999704360962,
-            1345.9999948740005
+            933.999989926815,
+            1342.9999977350235
           ],
           [
-            260.0000035017729,
-            1345.9999948740005
+            253.0000001192093,
+            1342.9999977350235
           ]
         ],
         "source": "docai",
@@ -634,24 +533,24 @@
         "review_confidence": 0.0
       },
       "cell": {
-        "value": "325-338-7743",
+        "value": "325-439-8946",
         "confidence": 1.0,
         "bounding_box": [
           [
-            255.99999614059925,
-            771.0000023245811
+            240.00000469386578,
+            745.9999769926071
           ],
           [
-            719.0000027418137,
-            771.0000023245811
+            785.999983549118,
+            745.9999769926071
           ],
           [
-            719.0000027418137,
-            835.9999895095825
+            785.999983549118,
+            829.9999952316284
           ],
           [
-            255.99999614059925,
-            835.9999895095825
+            240.00000469386578,
+            829.9999952316284
           ]
         ],
         "source": "docai",
@@ -661,30 +560,30 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "zip_code": {
-        "value": "79606",
+      "city_state": {
+        "value": "Abilene",
         "confidence": 1.0,
         "bounding_box": [
           [
-            917.0000061392784,
-            1110.0000232458115
+            248.0000004172325,
+            1084.0000480413437
           ],
           [
-            1133.999978005886,
-            1110.0000232458115
+            580.0000034272671,
+            1084.0000480413437
           ],
           [
-            1133.999978005886,
-            1156.9999784231186
+            580.0000034272671,
+            1166.9999688863754
           ],
           [
-            917.0000061392784,
-            1156.9999784231186
+            248.0000004172325,
+            1166.9999688863754
           ]
         ],
         "source": "docai",
-        "enabled": true,
-        "required": true,
+        "enabled": false,
+        "required": false,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -698,21 +597,170 @@
             1611.0000371932983
           ],
           [
-            484.0000167489052,
+            476.99999436736107,
             1611.0000371932983
           ],
           [
-            484.0000167489052,
-            1637.000012397766
+            476.99999436736107,
+            1636.0000133514404
           ],
           [
             304.0000084787607,
-            1637.000012397766
+            1636.0000133514404
           ]
         ],
         "source": "docai",
         "enabled": true,
         "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "date_of_birth": {
+        "value": "08/24/2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            867.0000091195107,
+            397.9999892413616
+          ],
+          [
+            1277.0000606775284,
+            397.9999892413616
+          ],
+          [
+            1277.0000606775284,
+            490.00002443790436
+          ],
+          [
+            867.0000091195107,
+            490.00002443790436
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "email": {
+        "value": "aaliyahcarson2@Gmail.com",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            250.99999643862247,
+            579.9999877810478
+          ],
+          [
+            1225.0000029802322,
+            579.9999877810478
+          ],
+          [
+            1225.0000029802322,
+            674.9999955296516
+          ],
+          [
+            250.99999643862247,
+            674.9999955296516
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_term": {
+        "value": "fall 2029",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            870.9999784827232,
+            1557.9999893903732
+          ],
+          [
+            1181.9999903440475,
+            1557.9999893903732
+          ],
+          [
+            1181.9999903440475,
+            1650.9999990463257
+          ],
+          [
+            870.9999784827232,
+            1650.9999990463257
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "36 Pebble Beach Street",
+        "confidence": 0.95,
+        "source": "address_validation",
+        "notes": "Address validated from Google Maps",
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Liyah",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            258.9999921619892,
+            404.0000081062317
+          ],
+          [
+            486.0000014305115,
+            404.0000081062317
+          ],
+          [
+            486.0000014305115,
+            497.00001776218414
+          ],
+          [
+            258.9999921619892,
+            497.00001776218414
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            877.0000085234642,
+            1096.000036597252
+          ],
+          [
+            1148.9999771118164,
+            1096.000036597252
+          ],
+          [
+            1148.9999771118164,
+            1168.9999669790268
+          ],
+          [
+            877.0000085234642,
+            1168.9999669790268
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -722,20 +770,20 @@
         "confidence": 1.0,
         "bounding_box": [
           [
-            948.9999890327454,
-            766.0000070929527
+            948.0000346899033,
+            764.0000090003014
           ],
           [
-            1013.0000308156013,
-            766.0000070929527
+            1012.0000004768372,
+            764.0000090003014
           ],
           [
-            1013.0000308156013,
-            790.9999832510948
+            1012.0000004768372,
+            788.9999851584435
           ],
           [
-            948.9999890327454,
-            790.9999832510948
+            948.0000346899033,
+            788.9999851584435
           ]
         ],
         "source": "docai",
@@ -745,25 +793,53 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "preferred_first_name": {
-        "value": "Brie",
+      "name": {
+        "value": "Aaliyah amari Ncabe-Davis",
         "confidence": 1.0,
         "bounding_box": [
           [
-            273.99999126791954,
-            427.9999852180481
+            250.00000409781933,
+            232.00000002980232
           ],
           [
-            430.0000123679638,
-            427.9999852180481
+            1263.9999702572823,
+            232.00000002980232
           ],
           [
-            430.0000123679638,
-            486.99997812509537
+            1263.9999702572823,
+            335.9999991953373
           ],
           [
-            273.99999126791954,
-            486.99997812509537
+            250.00000409781933,
+            335.9999991953373
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Teacher Degree",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            262.0000071823597,
+            1743.9999103546143
+          ],
+          [
+            898.9999920129776,
+            1743.9999103546143
+          ],
+          [
+            898.9999920129776,
+            1831.0000240802765
+          ],
+          [
+            262.0000071823597,
+            1831.0000240802765
           ]
         ],
         "source": "docai",
@@ -779,7 +855,8 @@
         "source": "zip_validation",
         "notes": "City validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "state": {
         "value": "TX",
@@ -787,28 +864,29 @@
         "source": "zip_validation",
         "notes": "State validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "mapped_major": {
         "value": "",
         "edit_made": false,
         "edit_type": "mapped_value",
-        "original_value": "",
+        "original_value": "Teacher Degree",
         "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "",
+        "certainty": "uncertain",
+        "notes": "Could not map 'Teacher Degree' to a valid major",
         "requires_human_review": false,
         "review_notes": ""
       }
     }
   },
   {
-    "timestamp": "2025-06-07T18:23:58.516371+00:00",
+    "timestamp": "2025-06-08T16:59:04.692906+00:00",
     "message": "=== STEP 4: SYNC FIELDS WITH SCHOOL SETTINGS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-07T18:23:58.743371+00:00",
+    "timestamp": "2025-06-08T16:59:04.928539+00:00",
     "message": "Updated Field Requirements",
     "data": {
       "name": {
@@ -894,173 +972,33 @@
     }
   },
   {
-    "timestamp": "2025-06-07T18:23:58.743614+00:00",
+    "timestamp": "2025-06-08T16:59:04.928983+00:00",
     "message": "=== STEP 5: APPLY FIELD REQUIREMENTS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-07T18:23:58.746224+00:00",
+    "timestamp": "2025-06-08T16:59:04.933991+00:00",
     "message": "Fields After Applying Requirements",
     "data": {
-      "entry_term": {
-        "value": "Fall 2024",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            890.9999772906303,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1642.0000076293945
-          ],
-          [
-            890.9999772906303,
-            1642.0000076293945
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "address": {
-        "value": "Western Pumes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            257.99999982118607,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            1001.0000288486481
-          ],
-          [
-            257.99999982118607,
-            1001.0000288486481
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": true,
-        "review_notes": "Required address field could not be validated by Google Maps",
-        "review_confidence": 0.3
-      },
-      "email": {
-        "value": "Samulbri29@wyliebulldogs.org",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            277.00000628829,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            670.0000002980232
-          ],
-          [
-            277.00000628829,
-            670.0000002980232
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "date_of_birth": {
-        "value": "01/14/2011",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            932.0000052452087,
-            430.99998235702515
-          ],
-          [
-            1201.0000348091125,
-            430.99998235702515
-          ],
-          [
-            1201.0000348091125,
-            479.9999848008156
-          ],
-          [
-            932.0000052452087,
-            479.9999848008156
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "name": {
-        "value": "Brielle Samulde",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            252.00000777840614,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            325.0000096857548
-          ],
-          [
-            252.00000777840614,
-            325.0000096857548
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
       "high_school": {
-        "value": "Wylie West Junior High",
+        "value": "Wylie High School",
         "confidence": 1.0,
         "bounding_box": [
           [
-            260.0000035017729,
-            1273.9999651908875
+            253.0000001192093,
+            1254.9999833106995
           ],
           [
-            1005.9999704360962,
-            1273.9999651908875
+            933.999989926815,
+            1254.9999833106995
           ],
           [
-            1005.9999704360962,
-            1345.9999948740005
+            933.999989926815,
+            1342.9999977350235
           ],
           [
-            260.0000035017729,
-            1345.9999948740005
+            253.0000001192093,
+            1342.9999977350235
           ]
         ],
         "source": "docai",
@@ -1071,24 +1009,24 @@
         "review_confidence": 0.0
       },
       "cell": {
-        "value": "325-338-7743",
+        "value": "325-439-8946",
         "confidence": 1.0,
         "bounding_box": [
           [
-            255.99999614059925,
-            771.0000023245811
+            240.00000469386578,
+            745.9999769926071
           ],
           [
-            719.0000027418137,
-            771.0000023245811
+            785.999983549118,
+            745.9999769926071
           ],
           [
-            719.0000027418137,
-            835.9999895095825
+            785.999983549118,
+            829.9999952316284
           ],
           [
-            255.99999614059925,
-            835.9999895095825
+            240.00000469386578,
+            829.9999952316284
           ]
         ],
         "source": "docai",
@@ -1098,30 +1036,30 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "zip_code": {
-        "value": "79606",
+      "city_state": {
+        "value": "Abilene",
         "confidence": 1.0,
         "bounding_box": [
           [
-            917.0000061392784,
-            1110.0000232458115
+            248.0000004172325,
+            1084.0000480413437
           ],
           [
-            1133.999978005886,
-            1110.0000232458115
+            580.0000034272671,
+            1084.0000480413437
           ],
           [
-            1133.999978005886,
-            1156.9999784231186
+            580.0000034272671,
+            1166.9999688863754
           ],
           [
-            917.0000061392784,
-            1156.9999784231186
+            248.0000004172325,
+            1166.9999688863754
           ]
         ],
         "source": "docai",
-        "enabled": true,
-        "required": true,
+        "enabled": false,
+        "required": false,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -1135,21 +1073,170 @@
             1611.0000371932983
           ],
           [
-            484.0000167489052,
+            476.99999436736107,
             1611.0000371932983
           ],
           [
-            484.0000167489052,
-            1637.000012397766
+            476.99999436736107,
+            1636.0000133514404
           ],
           [
             304.0000084787607,
-            1637.000012397766
+            1636.0000133514404
           ]
         ],
         "source": "docai",
         "enabled": true,
         "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "date_of_birth": {
+        "value": "08/24/2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            867.0000091195107,
+            397.9999892413616
+          ],
+          [
+            1277.0000606775284,
+            397.9999892413616
+          ],
+          [
+            1277.0000606775284,
+            490.00002443790436
+          ],
+          [
+            867.0000091195107,
+            490.00002443790436
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "email": {
+        "value": "aaliyahcarson2@Gmail.com",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            250.99999643862247,
+            579.9999877810478
+          ],
+          [
+            1225.0000029802322,
+            579.9999877810478
+          ],
+          [
+            1225.0000029802322,
+            674.9999955296516
+          ],
+          [
+            250.99999643862247,
+            674.9999955296516
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_term": {
+        "value": "fall 2029",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            870.9999784827232,
+            1557.9999893903732
+          ],
+          [
+            1181.9999903440475,
+            1557.9999893903732
+          ],
+          [
+            1181.9999903440475,
+            1650.9999990463257
+          ],
+          [
+            870.9999784827232,
+            1650.9999990463257
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "36 Pebble Beach Street",
+        "confidence": 0.95,
+        "source": "address_validation",
+        "notes": "Address validated from Google Maps",
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Liyah",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            258.9999921619892,
+            404.0000081062317
+          ],
+          [
+            486.0000014305115,
+            404.0000081062317
+          ],
+          [
+            486.0000014305115,
+            497.00001776218414
+          ],
+          [
+            258.9999921619892,
+            497.00001776218414
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            877.0000085234642,
+            1096.000036597252
+          ],
+          [
+            1148.9999771118164,
+            1096.000036597252
+          ],
+          [
+            1148.9999771118164,
+            1168.9999669790268
+          ],
+          [
+            877.0000085234642,
+            1168.9999669790268
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -1159,20 +1246,20 @@
         "confidence": 1.0,
         "bounding_box": [
           [
-            948.9999890327454,
-            766.0000070929527
+            948.0000346899033,
+            764.0000090003014
           ],
           [
-            1013.0000308156013,
-            766.0000070929527
+            1012.0000004768372,
+            764.0000090003014
           ],
           [
-            1013.0000308156013,
-            790.9999832510948
+            1012.0000004768372,
+            788.9999851584435
           ],
           [
-            948.9999890327454,
-            790.9999832510948
+            948.0000346899033,
+            788.9999851584435
           ]
         ],
         "source": "docai",
@@ -1182,25 +1269,53 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "preferred_first_name": {
-        "value": "Brie",
+      "name": {
+        "value": "Aaliyah amari Ncabe-Davis",
         "confidence": 1.0,
         "bounding_box": [
           [
-            273.99999126791954,
-            427.9999852180481
+            250.00000409781933,
+            232.00000002980232
           ],
           [
-            430.0000123679638,
-            427.9999852180481
+            1263.9999702572823,
+            232.00000002980232
           ],
           [
-            430.0000123679638,
-            486.99997812509537
+            1263.9999702572823,
+            335.9999991953373
           ],
           [
-            273.99999126791954,
-            486.99997812509537
+            250.00000409781933,
+            335.9999991953373
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Teacher Degree",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            262.0000071823597,
+            1743.9999103546143
+          ],
+          [
+            898.9999920129776,
+            1743.9999103546143
+          ],
+          [
+            898.9999920129776,
+            1831.0000240802765
+          ],
+          [
+            262.0000071823597,
+            1831.0000240802765
           ]
         ],
         "source": "docai",
@@ -1216,7 +1331,8 @@
         "source": "zip_validation",
         "notes": "City validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "state": {
         "value": "TX",
@@ -1224,189 +1340,50 @@
         "source": "zip_validation",
         "notes": "State validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "mapped_major": {
         "value": "",
         "edit_made": false,
         "edit_type": "mapped_value",
-        "original_value": "",
+        "original_value": "Teacher Degree",
         "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "",
+        "certainty": "uncertain",
+        "notes": "Could not map 'Teacher Degree' to a valid major",
         "requires_human_review": false,
         "review_notes": ""
       }
     }
   },
   {
-    "timestamp": "2025-06-07T18:23:58.746653+00:00",
+    "timestamp": "2025-06-08T16:59:04.935027+00:00",
     "message": "=== STEP 6: ADDRESS VALIDATION ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-07T18:23:58.982326+00:00",
+    "timestamp": "2025-06-08T16:59:05.176967+00:00",
     "message": "Fields After Address Validation",
     "data": {
-      "entry_term": {
-        "value": "Fall 2024",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            890.9999772906303,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1642.0000076293945
-          ],
-          [
-            890.9999772906303,
-            1642.0000076293945
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "address": {
-        "value": "Western Pumes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            257.99999982118607,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            1001.0000288486481
-          ],
-          [
-            257.99999982118607,
-            1001.0000288486481
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": true,
-        "review_notes": "Required address field could not be validated by Google Maps",
-        "review_confidence": 0.3
-      },
-      "email": {
-        "value": "Samulbri29@wyliebulldogs.org",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            277.00000628829,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            670.0000002980232
-          ],
-          [
-            277.00000628829,
-            670.0000002980232
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "date_of_birth": {
-        "value": "01/14/2011",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            932.0000052452087,
-            430.99998235702515
-          ],
-          [
-            1201.0000348091125,
-            430.99998235702515
-          ],
-          [
-            1201.0000348091125,
-            479.9999848008156
-          ],
-          [
-            932.0000052452087,
-            479.9999848008156
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "name": {
-        "value": "Brielle Samulde",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            252.00000777840614,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            325.0000096857548
-          ],
-          [
-            252.00000777840614,
-            325.0000096857548
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
       "high_school": {
-        "value": "Wylie West Junior High",
+        "value": "Wylie High School",
         "confidence": 1.0,
         "bounding_box": [
           [
-            260.0000035017729,
-            1273.9999651908875
+            253.0000001192093,
+            1254.9999833106995
           ],
           [
-            1005.9999704360962,
-            1273.9999651908875
+            933.999989926815,
+            1254.9999833106995
           ],
           [
-            1005.9999704360962,
-            1345.9999948740005
+            933.999989926815,
+            1342.9999977350235
           ],
           [
-            260.0000035017729,
-            1345.9999948740005
+            253.0000001192093,
+            1342.9999977350235
           ]
         ],
         "source": "docai",
@@ -1417,24 +1394,24 @@
         "review_confidence": 0.0
       },
       "cell": {
-        "value": "325-338-7743",
+        "value": "325-439-8946",
         "confidence": 1.0,
         "bounding_box": [
           [
-            255.99999614059925,
-            771.0000023245811
+            240.00000469386578,
+            745.9999769926071
           ],
           [
-            719.0000027418137,
-            771.0000023245811
+            785.999983549118,
+            745.9999769926071
           ],
           [
-            719.0000027418137,
-            835.9999895095825
+            785.999983549118,
+            829.9999952316284
           ],
           [
-            255.99999614059925,
-            835.9999895095825
+            240.00000469386578,
+            829.9999952316284
           ]
         ],
         "source": "docai",
@@ -1444,30 +1421,30 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "zip_code": {
-        "value": "79606",
+      "city_state": {
+        "value": "Abilene",
         "confidence": 1.0,
         "bounding_box": [
           [
-            917.0000061392784,
-            1110.0000232458115
+            248.0000004172325,
+            1084.0000480413437
           ],
           [
-            1133.999978005886,
-            1110.0000232458115
+            580.0000034272671,
+            1084.0000480413437
           ],
           [
-            1133.999978005886,
-            1156.9999784231186
+            580.0000034272671,
+            1166.9999688863754
           ],
           [
-            917.0000061392784,
-            1156.9999784231186
+            248.0000004172325,
+            1166.9999688863754
           ]
         ],
         "source": "docai",
-        "enabled": true,
-        "required": true,
+        "enabled": false,
+        "required": false,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -1481,21 +1458,170 @@
             1611.0000371932983
           ],
           [
-            484.0000167489052,
+            476.99999436736107,
             1611.0000371932983
           ],
           [
-            484.0000167489052,
-            1637.000012397766
+            476.99999436736107,
+            1636.0000133514404
           ],
           [
             304.0000084787607,
-            1637.000012397766
+            1636.0000133514404
           ]
         ],
         "source": "docai",
         "enabled": true,
         "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "date_of_birth": {
+        "value": "08/24/2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            867.0000091195107,
+            397.9999892413616
+          ],
+          [
+            1277.0000606775284,
+            397.9999892413616
+          ],
+          [
+            1277.0000606775284,
+            490.00002443790436
+          ],
+          [
+            867.0000091195107,
+            490.00002443790436
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "email": {
+        "value": "aaliyahcarson2@Gmail.com",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            250.99999643862247,
+            579.9999877810478
+          ],
+          [
+            1225.0000029802322,
+            579.9999877810478
+          ],
+          [
+            1225.0000029802322,
+            674.9999955296516
+          ],
+          [
+            250.99999643862247,
+            674.9999955296516
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_term": {
+        "value": "fall 2029",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            870.9999784827232,
+            1557.9999893903732
+          ],
+          [
+            1181.9999903440475,
+            1557.9999893903732
+          ],
+          [
+            1181.9999903440475,
+            1650.9999990463257
+          ],
+          [
+            870.9999784827232,
+            1650.9999990463257
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "36 Pebble Beach Street",
+        "confidence": 0.95,
+        "source": "address_validation",
+        "notes": "Address validated from Google Maps",
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Liyah",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            258.9999921619892,
+            404.0000081062317
+          ],
+          [
+            486.0000014305115,
+            404.0000081062317
+          ],
+          [
+            486.0000014305115,
+            497.00001776218414
+          ],
+          [
+            258.9999921619892,
+            497.00001776218414
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            877.0000085234642,
+            1096.000036597252
+          ],
+          [
+            1148.9999771118164,
+            1096.000036597252
+          ],
+          [
+            1148.9999771118164,
+            1168.9999669790268
+          ],
+          [
+            877.0000085234642,
+            1168.9999669790268
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -1505,20 +1631,20 @@
         "confidence": 1.0,
         "bounding_box": [
           [
-            948.9999890327454,
-            766.0000070929527
+            948.0000346899033,
+            764.0000090003014
           ],
           [
-            1013.0000308156013,
-            766.0000070929527
+            1012.0000004768372,
+            764.0000090003014
           ],
           [
-            1013.0000308156013,
-            790.9999832510948
+            1012.0000004768372,
+            788.9999851584435
           ],
           [
-            948.9999890327454,
-            790.9999832510948
+            948.0000346899033,
+            788.9999851584435
           ]
         ],
         "source": "docai",
@@ -1528,25 +1654,53 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "preferred_first_name": {
-        "value": "Brie",
+      "name": {
+        "value": "Aaliyah amari Ncabe-Davis",
         "confidence": 1.0,
         "bounding_box": [
           [
-            273.99999126791954,
-            427.9999852180481
+            250.00000409781933,
+            232.00000002980232
           ],
           [
-            430.0000123679638,
-            427.9999852180481
+            1263.9999702572823,
+            232.00000002980232
           ],
           [
-            430.0000123679638,
-            486.99997812509537
+            1263.9999702572823,
+            335.9999991953373
           ],
           [
-            273.99999126791954,
-            486.99997812509537
+            250.00000409781933,
+            335.9999991953373
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Teacher Degree",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            262.0000071823597,
+            1743.9999103546143
+          ],
+          [
+            898.9999920129776,
+            1743.9999103546143
+          ],
+          [
+            898.9999920129776,
+            1831.0000240802765
+          ],
+          [
+            262.0000071823597,
+            1831.0000240802765
           ]
         ],
         "source": "docai",
@@ -1562,7 +1716,8 @@
         "source": "zip_validation",
         "notes": "City validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "state": {
         "value": "TX",
@@ -1570,28 +1725,29 @@
         "source": "zip_validation",
         "notes": "State validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "mapped_major": {
         "value": "",
         "edit_made": false,
         "edit_type": "mapped_value",
-        "original_value": "",
+        "original_value": "Teacher Degree",
         "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "",
+        "certainty": "uncertain",
+        "notes": "Could not map 'Teacher Degree' to a valid major",
         "requires_human_review": false,
         "review_notes": ""
       }
     }
   },
   {
-    "timestamp": "2025-06-07T18:23:58.982737+00:00",
+    "timestamp": "2025-06-08T16:59:05.178130+00:00",
     "message": "=== STEP 7: FETCH VALID MAJORS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-07T18:23:59.118534+00:00",
+    "timestamp": "2025-06-08T16:59:05.452857+00:00",
     "message": "Valid majors",
     "data": [
       "Undecided",
@@ -1662,173 +1818,33 @@
     ]
   },
   {
-    "timestamp": "2025-06-07T18:23:59.118613+00:00",
+    "timestamp": "2025-06-08T16:59:05.453132+00:00",
     "message": "=== STEP 8: GEMINI PROCESSING ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-07T18:24:18.862777+00:00",
+    "timestamp": "2025-06-08T16:59:24.592087+00:00",
     "message": "Gemini Output",
     "data": {
-      "entry_term": {
-        "value": "Fall 2024",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            890.9999772906303,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1642.0000076293945
-          ],
-          [
-            890.9999772906303,
-            1642.0000076293945
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "address": {
-        "value": "Western Pumes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            257.99999982118607,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            1001.0000288486481
-          ],
-          [
-            257.99999982118607,
-            1001.0000288486481
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": true,
-        "review_notes": "Required address field could not be validated by Google Maps",
-        "review_confidence": 0.3
-      },
-      "email": {
-        "value": "Samulbri29@wyliebulldogs.org",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            277.00000628829,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            670.0000002980232
-          ],
-          [
-            277.00000628829,
-            670.0000002980232
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "date_of_birth": {
-        "value": "01/14/2011",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            932.0000052452087,
-            430.99998235702515
-          ],
-          [
-            1201.0000348091125,
-            430.99998235702515
-          ],
-          [
-            1201.0000348091125,
-            479.9999848008156
-          ],
-          [
-            932.0000052452087,
-            479.9999848008156
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "name": {
-        "value": "Brielle Samulde",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            252.00000777840614,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            325.0000096857548
-          ],
-          [
-            252.00000777840614,
-            325.0000096857548
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
       "high_school": {
-        "value": "Wylie West Junior High",
+        "value": "Wylie High School",
         "confidence": 1.0,
         "bounding_box": [
           [
-            260.0000035017729,
-            1273.9999651908875
+            253.0000001192093,
+            1254.9999833106995
           ],
           [
-            1005.9999704360962,
-            1273.9999651908875
+            933.999989926815,
+            1254.9999833106995
           ],
           [
-            1005.9999704360962,
-            1345.9999948740005
+            933.999989926815,
+            1342.9999977350235
           ],
           [
-            260.0000035017729,
-            1345.9999948740005
+            253.0000001192093,
+            1342.9999977350235
           ]
         ],
         "source": "docai",
@@ -1839,24 +1855,24 @@
         "review_confidence": 0.0
       },
       "cell": {
-        "value": "325-338-7743",
+        "value": "325-439-8946",
         "confidence": 1.0,
         "bounding_box": [
           [
-            255.99999614059925,
-            771.0000023245811
+            240.00000469386578,
+            745.9999769926071
           ],
           [
-            719.0000027418137,
-            771.0000023245811
+            785.999983549118,
+            745.9999769926071
           ],
           [
-            719.0000027418137,
-            835.9999895095825
+            785.999983549118,
+            829.9999952316284
           ],
           [
-            255.99999614059925,
-            835.9999895095825
+            240.00000469386578,
+            829.9999952316284
           ]
         ],
         "source": "docai",
@@ -1866,30 +1882,30 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "zip_code": {
-        "value": "79606",
+      "city_state": {
+        "value": "Abilene",
         "confidence": 1.0,
         "bounding_box": [
           [
-            917.0000061392784,
-            1110.0000232458115
+            248.0000004172325,
+            1084.0000480413437
           ],
           [
-            1133.999978005886,
-            1110.0000232458115
+            580.0000034272671,
+            1084.0000480413437
           ],
           [
-            1133.999978005886,
-            1156.9999784231186
+            580.0000034272671,
+            1166.9999688863754
           ],
           [
-            917.0000061392784,
-            1156.9999784231186
+            248.0000004172325,
+            1166.9999688863754
           ]
         ],
         "source": "docai",
-        "enabled": true,
-        "required": true,
+        "enabled": false,
+        "required": false,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -1903,21 +1919,170 @@
             1611.0000371932983
           ],
           [
-            484.0000167489052,
+            476.99999436736107,
             1611.0000371932983
           ],
           [
-            484.0000167489052,
-            1637.000012397766
+            476.99999436736107,
+            1636.0000133514404
           ],
           [
             304.0000084787607,
-            1637.000012397766
+            1636.0000133514404
           ]
         ],
         "source": "docai",
         "enabled": true,
         "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "date_of_birth": {
+        "value": "08/24/2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            867.0000091195107,
+            397.9999892413616
+          ],
+          [
+            1277.0000606775284,
+            397.9999892413616
+          ],
+          [
+            1277.0000606775284,
+            490.00002443790436
+          ],
+          [
+            867.0000091195107,
+            490.00002443790436
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "email": {
+        "value": "aaliyahcarson2@Gmail.com",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            250.99999643862247,
+            579.9999877810478
+          ],
+          [
+            1225.0000029802322,
+            579.9999877810478
+          ],
+          [
+            1225.0000029802322,
+            674.9999955296516
+          ],
+          [
+            250.99999643862247,
+            674.9999955296516
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_term": {
+        "value": "fall 2029",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            870.9999784827232,
+            1557.9999893903732
+          ],
+          [
+            1181.9999903440475,
+            1557.9999893903732
+          ],
+          [
+            1181.9999903440475,
+            1650.9999990463257
+          ],
+          [
+            870.9999784827232,
+            1650.9999990463257
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "36 Pebble Beach Street",
+        "confidence": 0.95,
+        "source": "address_validation",
+        "notes": "Address validated from Google Maps",
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Liyah",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            258.9999921619892,
+            404.0000081062317
+          ],
+          [
+            486.0000014305115,
+            404.0000081062317
+          ],
+          [
+            486.0000014305115,
+            497.00001776218414
+          ],
+          [
+            258.9999921619892,
+            497.00001776218414
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            877.0000085234642,
+            1096.000036597252
+          ],
+          [
+            1148.9999771118164,
+            1096.000036597252
+          ],
+          [
+            1148.9999771118164,
+            1168.9999669790268
+          ],
+          [
+            877.0000085234642,
+            1168.9999669790268
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -1927,20 +2092,20 @@
         "confidence": 1.0,
         "bounding_box": [
           [
-            948.9999890327454,
-            766.0000070929527
+            948.0000346899033,
+            764.0000090003014
           ],
           [
-            1013.0000308156013,
-            766.0000070929527
+            1012.0000004768372,
+            764.0000090003014
           ],
           [
-            1013.0000308156013,
-            790.9999832510948
+            1012.0000004768372,
+            788.9999851584435
           ],
           [
-            948.9999890327454,
-            790.9999832510948
+            948.0000346899033,
+            788.9999851584435
           ]
         ],
         "source": "docai",
@@ -1950,25 +2115,53 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "preferred_first_name": {
-        "value": "Brie",
+      "name": {
+        "value": "Aaliyah amari Ncabe-Davis",
         "confidence": 1.0,
         "bounding_box": [
           [
-            273.99999126791954,
-            427.9999852180481
+            250.00000409781933,
+            232.00000002980232
           ],
           [
-            430.0000123679638,
-            427.9999852180481
+            1263.9999702572823,
+            232.00000002980232
           ],
           [
-            430.0000123679638,
-            486.99997812509537
+            1263.9999702572823,
+            335.9999991953373
           ],
           [
-            273.99999126791954,
-            486.99997812509537
+            250.00000409781933,
+            335.9999991953373
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Teacher Degree",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            262.0000071823597,
+            1743.9999103546143
+          ],
+          [
+            898.9999920129776,
+            1743.9999103546143
+          ],
+          [
+            898.9999920129776,
+            1831.0000240802765
+          ],
+          [
+            262.0000071823597,
+            1831.0000240802765
           ]
         ],
         "source": "docai",
@@ -1984,7 +2177,8 @@
         "source": "zip_validation",
         "notes": "City validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "state": {
         "value": "TX",
@@ -1992,189 +2186,68 @@
         "source": "zip_validation",
         "notes": "State validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "mapped_major": {
         "value": "",
         "edit_made": false,
         "edit_type": "mapped_value",
-        "original_value": "",
+        "original_value": "Teacher Degree",
         "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "",
+        "certainty": "uncertain",
+        "notes": "Could not map 'Teacher Degree' to a valid major",
         "requires_human_review": false,
         "review_notes": ""
       }
     }
   },
   {
-    "timestamp": "2025-06-07T18:24:18.863160+00:00",
-    "message": "=== STEP 9: FINAL VALIDATION ===",
+    "timestamp": "2025-06-08T16:59:24.595339+00:00",
+    "message": "=== STEP 9: MAJOR MAPPING ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-07T18:24:18.864054+00:00",
+    "timestamp": "2025-06-08T16:59:24.595358+00:00",
+    "message": "Original Major",
+    "data": "Teacher Degree"
+  },
+  {
+    "timestamp": "2025-06-08T16:59:24.595423+00:00",
+    "message": "Major Mapping Failed",
+    "data": {
+      "original": "Teacher Degree",
+      "reason": "No matching major found in valid majors list"
+    }
+  },
+  {
+    "timestamp": "2025-06-08T16:59:24.595465+00:00",
+    "message": "=== STEP 10: FINAL VALIDATION ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-08T16:59:24.596979+00:00",
     "message": "Final Fields",
     "data": {
-      "entry_term": {
-        "value": "Fall 2024",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            890.9999772906303,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1642.0000076293945
-          ],
-          [
-            890.9999772906303,
-            1642.0000076293945
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "address": {
-        "value": "Western Pumes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            257.99999982118607,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            1001.0000288486481
-          ],
-          [
-            257.99999982118607,
-            1001.0000288486481
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": true,
-        "review_notes": "Required address field could not be validated by Google Maps",
-        "review_confidence": 0.3
-      },
-      "email": {
-        "value": "Samulbri29@wyliebulldogs.org",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            277.00000628829,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            670.0000002980232
-          ],
-          [
-            277.00000628829,
-            670.0000002980232
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "date_of_birth": {
-        "value": "01/14/2011",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            932.0000052452087,
-            430.99998235702515
-          ],
-          [
-            1201.0000348091125,
-            430.99998235702515
-          ],
-          [
-            1201.0000348091125,
-            479.9999848008156
-          ],
-          [
-            932.0000052452087,
-            479.9999848008156
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "name": {
-        "value": "Brielle Samulde",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            252.00000777840614,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            325.0000096857548
-          ],
-          [
-            252.00000777840614,
-            325.0000096857548
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
       "high_school": {
-        "value": "Wylie West Junior High",
+        "value": "Wylie High School",
         "confidence": 1.0,
         "bounding_box": [
           [
-            260.0000035017729,
-            1273.9999651908875
+            253.0000001192093,
+            1254.9999833106995
           ],
           [
-            1005.9999704360962,
-            1273.9999651908875
+            933.999989926815,
+            1254.9999833106995
           ],
           [
-            1005.9999704360962,
-            1345.9999948740005
+            933.999989926815,
+            1342.9999977350235
           ],
           [
-            260.0000035017729,
-            1345.9999948740005
+            253.0000001192093,
+            1342.9999977350235
           ]
         ],
         "source": "docai",
@@ -2185,24 +2258,24 @@
         "review_confidence": 0.0
       },
       "cell": {
-        "value": "325-338-7743",
+        "value": "325-439-8946",
         "confidence": 1.0,
         "bounding_box": [
           [
-            255.99999614059925,
-            771.0000023245811
+            240.00000469386578,
+            745.9999769926071
           ],
           [
-            719.0000027418137,
-            771.0000023245811
+            785.999983549118,
+            745.9999769926071
           ],
           [
-            719.0000027418137,
-            835.9999895095825
+            785.999983549118,
+            829.9999952316284
           ],
           [
-            255.99999614059925,
-            835.9999895095825
+            240.00000469386578,
+            829.9999952316284
           ]
         ],
         "source": "docai",
@@ -2212,30 +2285,30 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "zip_code": {
-        "value": "79606",
+      "city_state": {
+        "value": "Abilene",
         "confidence": 1.0,
         "bounding_box": [
           [
-            917.0000061392784,
-            1110.0000232458115
+            248.0000004172325,
+            1084.0000480413437
           ],
           [
-            1133.999978005886,
-            1110.0000232458115
+            580.0000034272671,
+            1084.0000480413437
           ],
           [
-            1133.999978005886,
-            1156.9999784231186
+            580.0000034272671,
+            1166.9999688863754
           ],
           [
-            917.0000061392784,
-            1156.9999784231186
+            248.0000004172325,
+            1166.9999688863754
           ]
         ],
         "source": "docai",
-        "enabled": true,
-        "required": true,
+        "enabled": false,
+        "required": false,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -2249,21 +2322,170 @@
             1611.0000371932983
           ],
           [
-            484.0000167489052,
+            476.99999436736107,
             1611.0000371932983
           ],
           [
-            484.0000167489052,
-            1637.000012397766
+            476.99999436736107,
+            1636.0000133514404
           ],
           [
             304.0000084787607,
-            1637.000012397766
+            1636.0000133514404
           ]
         ],
         "source": "docai",
         "enabled": true,
         "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "date_of_birth": {
+        "value": "08/24/2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            867.0000091195107,
+            397.9999892413616
+          ],
+          [
+            1277.0000606775284,
+            397.9999892413616
+          ],
+          [
+            1277.0000606775284,
+            490.00002443790436
+          ],
+          [
+            867.0000091195107,
+            490.00002443790436
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "email": {
+        "value": "aaliyahcarson2@Gmail.com",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            250.99999643862247,
+            579.9999877810478
+          ],
+          [
+            1225.0000029802322,
+            579.9999877810478
+          ],
+          [
+            1225.0000029802322,
+            674.9999955296516
+          ],
+          [
+            250.99999643862247,
+            674.9999955296516
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_term": {
+        "value": "fall 2029",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            870.9999784827232,
+            1557.9999893903732
+          ],
+          [
+            1181.9999903440475,
+            1557.9999893903732
+          ],
+          [
+            1181.9999903440475,
+            1650.9999990463257
+          ],
+          [
+            870.9999784827232,
+            1650.9999990463257
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "36 Pebble Beach Street",
+        "confidence": 0.95,
+        "source": "address_validation",
+        "notes": "Address validated from Google Maps",
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Liyah",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            258.9999921619892,
+            404.0000081062317
+          ],
+          [
+            486.0000014305115,
+            404.0000081062317
+          ],
+          [
+            486.0000014305115,
+            497.00001776218414
+          ],
+          [
+            258.9999921619892,
+            497.00001776218414
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            877.0000085234642,
+            1096.000036597252
+          ],
+          [
+            1148.9999771118164,
+            1096.000036597252
+          ],
+          [
+            1148.9999771118164,
+            1168.9999669790268
+          ],
+          [
+            877.0000085234642,
+            1168.9999669790268
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -2273,20 +2495,20 @@
         "confidence": 1.0,
         "bounding_box": [
           [
-            948.9999890327454,
-            766.0000070929527
+            948.0000346899033,
+            764.0000090003014
           ],
           [
-            1013.0000308156013,
-            766.0000070929527
+            1012.0000004768372,
+            764.0000090003014
           ],
           [
-            1013.0000308156013,
-            790.9999832510948
+            1012.0000004768372,
+            788.9999851584435
           ],
           [
-            948.9999890327454,
-            790.9999832510948
+            948.0000346899033,
+            788.9999851584435
           ]
         ],
         "source": "docai",
@@ -2296,25 +2518,53 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "preferred_first_name": {
-        "value": "Brie",
+      "name": {
+        "value": "Aaliyah amari Ncabe-Davis",
         "confidence": 1.0,
         "bounding_box": [
           [
-            273.99999126791954,
-            427.9999852180481
+            250.00000409781933,
+            232.00000002980232
           ],
           [
-            430.0000123679638,
-            427.9999852180481
+            1263.9999702572823,
+            232.00000002980232
           ],
           [
-            430.0000123679638,
-            486.99997812509537
+            1263.9999702572823,
+            335.9999991953373
           ],
           [
-            273.99999126791954,
-            486.99997812509537
+            250.00000409781933,
+            335.9999991953373
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Teacher Degree",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            262.0000071823597,
+            1743.9999103546143
+          ],
+          [
+            898.9999920129776,
+            1743.9999103546143
+          ],
+          [
+            898.9999920129776,
+            1831.0000240802765
+          ],
+          [
+            262.0000071823597,
+            1831.0000240802765
           ]
         ],
         "source": "docai",
@@ -2330,7 +2580,8 @@
         "source": "zip_validation",
         "notes": "City validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "state": {
         "value": "TX",
@@ -2338,201 +2589,60 @@
         "source": "zip_validation",
         "notes": "State validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "mapped_major": {
         "value": "",
         "edit_made": false,
         "edit_type": "mapped_value",
-        "original_value": "",
+        "original_value": "Teacher Degree",
         "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "",
+        "certainty": "uncertain",
+        "notes": "Could not map 'Teacher Degree' to a valid major",
         "requires_human_review": false,
         "review_notes": ""
       }
     }
   },
   {
-    "timestamp": "2025-06-07T18:24:18.864635+00:00",
+    "timestamp": "2025-06-08T16:59:24.598134+00:00",
     "message": "Review Status",
     "data": {
-      "status": "needs_human_review",
-      "fields_needing_review": [
-        "address"
-      ]
+      "status": "reviewed",
+      "fields_needing_review": []
     }
   },
   {
-    "timestamp": "2025-06-07T18:24:18.864650+00:00",
-    "message": "=== STEP 10: REVIEW DATA ===",
+    "timestamp": "2025-06-08T16:59:24.598164+00:00",
+    "message": "=== STEP 11: REVIEW DATA ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-07T18:24:18.864655+00:00",
+    "timestamp": "2025-06-08T16:59:24.598177+00:00",
     "message": "Review Data to be Saved",
     "data": {
-      "document_id": "test-job-2025-06-07T18:24:18.864653+00:00",
+      "document_id": "test-job-2025-06-08T16:59:24.598172+00:00",
       "fields": {
-        "entry_term": {
-          "value": "Fall 2024",
-          "confidence": 1.0,
-          "bounding_box": [
-            [
-              890.9999772906303,
-              1571.9999760389328
-            ],
-            [
-              1168.9999759197235,
-              1571.9999760389328
-            ],
-            [
-              1168.9999759197235,
-              1642.0000076293945
-            ],
-            [
-              890.9999772906303,
-              1642.0000076293945
-            ]
-          ],
-          "source": "docai",
-          "enabled": true,
-          "required": false,
-          "requires_human_review": false,
-          "review_notes": "",
-          "review_confidence": 0.0
-        },
-        "address": {
-          "value": "Western Pumes",
-          "confidence": 1.0,
-          "bounding_box": [
-            [
-              257.99999982118607,
-              934.9999934434891
-            ],
-            [
-              717.9999724030495,
-              934.9999934434891
-            ],
-            [
-              717.9999724030495,
-              1001.0000288486481
-            ],
-            [
-              257.99999982118607,
-              1001.0000288486481
-            ]
-          ],
-          "source": "docai",
-          "enabled": true,
-          "required": true,
-          "requires_human_review": true,
-          "review_notes": "Required address field could not be validated by Google Maps",
-          "review_confidence": 0.3
-        },
-        "email": {
-          "value": "Samulbri29@wyliebulldogs.org",
-          "confidence": 1.0,
-          "bounding_box": [
-            [
-              277.00000628829,
-              597.0000207424164
-            ],
-            [
-              1161.0000371932983,
-              597.0000207424164
-            ],
-            [
-              1161.0000371932983,
-              670.0000002980232
-            ],
-            [
-              277.00000628829,
-              670.0000002980232
-            ]
-          ],
-          "source": "docai",
-          "enabled": true,
-          "required": true,
-          "requires_human_review": false,
-          "review_notes": "",
-          "review_confidence": 0.0
-        },
-        "date_of_birth": {
-          "value": "01/14/2011",
-          "confidence": 1.0,
-          "bounding_box": [
-            [
-              932.0000052452087,
-              430.99998235702515
-            ],
-            [
-              1201.0000348091125,
-              430.99998235702515
-            ],
-            [
-              1201.0000348091125,
-              479.9999848008156
-            ],
-            [
-              932.0000052452087,
-              479.9999848008156
-            ]
-          ],
-          "source": "docai",
-          "enabled": true,
-          "required": false,
-          "requires_human_review": false,
-          "review_notes": "",
-          "review_confidence": 0.0
-        },
-        "name": {
-          "value": "Brielle Samulde",
-          "confidence": 1.0,
-          "bounding_box": [
-            [
-              252.00000777840614,
-              250.0000074505806
-            ],
-            [
-              817.0000120997429,
-              250.0000074505806
-            ],
-            [
-              817.0000120997429,
-              325.0000096857548
-            ],
-            [
-              252.00000777840614,
-              325.0000096857548
-            ]
-          ],
-          "source": "docai",
-          "enabled": true,
-          "required": true,
-          "requires_human_review": false,
-          "review_notes": "",
-          "review_confidence": 0.0
-        },
         "high_school": {
-          "value": "Wylie West Junior High",
+          "value": "Wylie High School",
           "confidence": 1.0,
           "bounding_box": [
             [
-              260.0000035017729,
-              1273.9999651908875
+              253.0000001192093,
+              1254.9999833106995
             ],
             [
-              1005.9999704360962,
-              1273.9999651908875
+              933.999989926815,
+              1254.9999833106995
             ],
             [
-              1005.9999704360962,
-              1345.9999948740005
+              933.999989926815,
+              1342.9999977350235
             ],
             [
-              260.0000035017729,
-              1345.9999948740005
+              253.0000001192093,
+              1342.9999977350235
             ]
           ],
           "source": "docai",
@@ -2543,24 +2653,24 @@
           "review_confidence": 0.0
         },
         "cell": {
-          "value": "325-338-7743",
+          "value": "325-439-8946",
           "confidence": 1.0,
           "bounding_box": [
             [
-              255.99999614059925,
-              771.0000023245811
+              240.00000469386578,
+              745.9999769926071
             ],
             [
-              719.0000027418137,
-              771.0000023245811
+              785.999983549118,
+              745.9999769926071
             ],
             [
-              719.0000027418137,
-              835.9999895095825
+              785.999983549118,
+              829.9999952316284
             ],
             [
-              255.99999614059925,
-              835.9999895095825
+              240.00000469386578,
+              829.9999952316284
             ]
           ],
           "source": "docai",
@@ -2570,30 +2680,30 @@
           "review_notes": "",
           "review_confidence": 0.0
         },
-        "zip_code": {
-          "value": "79606",
+        "city_state": {
+          "value": "Abilene",
           "confidence": 1.0,
           "bounding_box": [
             [
-              917.0000061392784,
-              1110.0000232458115
+              248.0000004172325,
+              1084.0000480413437
             ],
             [
-              1133.999978005886,
-              1110.0000232458115
+              580.0000034272671,
+              1084.0000480413437
             ],
             [
-              1133.999978005886,
-              1156.9999784231186
+              580.0000034272671,
+              1166.9999688863754
             ],
             [
-              917.0000061392784,
-              1156.9999784231186
+              248.0000004172325,
+              1166.9999688863754
             ]
           ],
           "source": "docai",
-          "enabled": true,
-          "required": true,
+          "enabled": false,
+          "required": false,
           "requires_human_review": false,
           "review_notes": "",
           "review_confidence": 0.0
@@ -2607,21 +2717,170 @@
               1611.0000371932983
             ],
             [
-              484.0000167489052,
+              476.99999436736107,
               1611.0000371932983
             ],
             [
-              484.0000167489052,
-              1637.000012397766
+              476.99999436736107,
+              1636.0000133514404
             ],
             [
               304.0000084787607,
-              1637.000012397766
+              1636.0000133514404
             ]
           ],
           "source": "docai",
           "enabled": true,
           "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.0
+        },
+        "date_of_birth": {
+          "value": "08/24/2011",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              867.0000091195107,
+              397.9999892413616
+            ],
+            [
+              1277.0000606775284,
+              397.9999892413616
+            ],
+            [
+              1277.0000606775284,
+              490.00002443790436
+            ],
+            [
+              867.0000091195107,
+              490.00002443790436
+            ]
+          ],
+          "source": "docai",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.0
+        },
+        "email": {
+          "value": "aaliyahcarson2@Gmail.com",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              250.99999643862247,
+              579.9999877810478
+            ],
+            [
+              1225.0000029802322,
+              579.9999877810478
+            ],
+            [
+              1225.0000029802322,
+              674.9999955296516
+            ],
+            [
+              250.99999643862247,
+              674.9999955296516
+            ]
+          ],
+          "source": "docai",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.0
+        },
+        "entry_term": {
+          "value": "fall 2029",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              870.9999784827232,
+              1557.9999893903732
+            ],
+            [
+              1181.9999903440475,
+              1557.9999893903732
+            ],
+            [
+              1181.9999903440475,
+              1650.9999990463257
+            ],
+            [
+              870.9999784827232,
+              1650.9999990463257
+            ]
+          ],
+          "source": "docai",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.0
+        },
+        "address": {
+          "value": "36 Pebble Beach Street",
+          "confidence": 0.95,
+          "source": "address_validation",
+          "notes": "Address validated from Google Maps",
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.0
+        },
+        "preferred_first_name": {
+          "value": "Liyah",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              258.9999921619892,
+              404.0000081062317
+            ],
+            [
+              486.0000014305115,
+              404.0000081062317
+            ],
+            [
+              486.0000014305115,
+              497.00001776218414
+            ],
+            [
+              258.9999921619892,
+              497.00001776218414
+            ]
+          ],
+          "source": "docai",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.0
+        },
+        "zip_code": {
+          "value": "79606",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              877.0000085234642,
+              1096.000036597252
+            ],
+            [
+              1148.9999771118164,
+              1096.000036597252
+            ],
+            [
+              1148.9999771118164,
+              1168.9999669790268
+            ],
+            [
+              877.0000085234642,
+              1168.9999669790268
+            ]
+          ],
+          "source": "docai",
+          "enabled": true,
+          "required": true,
           "requires_human_review": false,
           "review_notes": "",
           "review_confidence": 0.0
@@ -2631,20 +2890,20 @@
           "confidence": 1.0,
           "bounding_box": [
             [
-              948.9999890327454,
-              766.0000070929527
+              948.0000346899033,
+              764.0000090003014
             ],
             [
-              1013.0000308156013,
-              766.0000070929527
+              1012.0000004768372,
+              764.0000090003014
             ],
             [
-              1013.0000308156013,
-              790.9999832510948
+              1012.0000004768372,
+              788.9999851584435
             ],
             [
-              948.9999890327454,
-              790.9999832510948
+              948.0000346899033,
+              788.9999851584435
             ]
           ],
           "source": "docai",
@@ -2654,25 +2913,53 @@
           "review_notes": "",
           "review_confidence": 0.0
         },
-        "preferred_first_name": {
-          "value": "Brie",
+        "name": {
+          "value": "Aaliyah amari Ncabe-Davis",
           "confidence": 1.0,
           "bounding_box": [
             [
-              273.99999126791954,
-              427.9999852180481
+              250.00000409781933,
+              232.00000002980232
             ],
             [
-              430.0000123679638,
-              427.9999852180481
+              1263.9999702572823,
+              232.00000002980232
             ],
             [
-              430.0000123679638,
-              486.99997812509537
+              1263.9999702572823,
+              335.9999991953373
             ],
             [
-              273.99999126791954,
-              486.99997812509537
+              250.00000409781933,
+              335.9999991953373
+            ]
+          ],
+          "source": "docai",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.0
+        },
+        "major": {
+          "value": "Teacher Degree",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              262.0000071823597,
+              1743.9999103546143
+            ],
+            [
+              898.9999920129776,
+              1743.9999103546143
+            ],
+            [
+              898.9999920129776,
+              1831.0000240802765
+            ],
+            [
+              262.0000071823597,
+              1831.0000240802765
             ]
           ],
           "source": "docai",
@@ -2688,7 +2975,8 @@
           "source": "zip_validation",
           "notes": "City validated from zip code",
           "requires_human_review": false,
-          "review_notes": ""
+          "review_notes": "",
+          "review_confidence": 0.0
         },
         "state": {
           "value": "TX",
@@ -2696,16 +2984,17 @@
           "source": "zip_validation",
           "notes": "State validated from zip code",
           "requires_human_review": false,
-          "review_notes": ""
+          "review_notes": "",
+          "review_confidence": 0.0
         },
         "mapped_major": {
           "value": "",
           "edit_made": false,
           "edit_type": "mapped_value",
-          "original_value": "",
+          "original_value": "Teacher Degree",
           "text_clarity": "clear",
-          "certainty": "certain",
-          "notes": "",
+          "certainty": "uncertain",
+          "notes": "Could not map 'Teacher Degree' to a valid major",
           "requires_human_review": false,
           "review_notes": ""
         }
@@ -2713,14 +3002,14 @@
       "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
       "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
       "event_id": null,
-      "image_path": "/Users/kregboyd/Applications/card-capture-api/test_images/page_10.png",
-      "review_status": "needs_human_review",
-      "created_at": "2025-06-07T18:24:18.864653+00:00",
-      "updated_at": "2025-06-07T18:24:18.864653+00:00"
+      "image_path": "/Users/kregboyd/Applications/card-capture-api/test_images/page_17.png",
+      "review_status": "reviewed",
+      "created_at": "2025-06-08T16:59:24.598172+00:00",
+      "updated_at": "2025-06-08T16:59:24.598172+00:00"
     }
   },
   {
-    "timestamp": "2025-06-07T18:24:18.865026+00:00",
+    "timestamp": "2025-06-08T16:59:24.600075+00:00",
     "message": "\u2705 Processing completed successfully",
     "data": null
   }
