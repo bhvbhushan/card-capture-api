@@ -64,7 +64,9 @@ For every field in the input, return this exact structure:
 
 **Checkboxes / Student Type** – Always read image directly. If marked, return that. If unclear, default to Freshman (or No for permission fields). Notes: "Checkbox clearly marked" or "Left unmarked – defaulted to Freshman."
 
-**Mapped Major** – Use the provided valid_majors list to match the `mapped_major` to the major on the card. Do not overwrite the original `major` field. If no close match, leave blank and explain. If `major` is empty, default `mapped_major` to "Undecided".
+**Major Field** – CRITICAL: Never change the `major` field value. Always preserve the exact text written on the card. If the card shows "Sports Management", keep it as "Sports Management". Do not set it to null or change it to a mapped value.
+
+**Mapped Major** – Use the provided valid_majors list to match the `mapped_major` to the major on the card. IMPORTANT: Always preserve the original `major` field value exactly as written on the card - do not change or null it out. Only update the separate `mapped_major` field. If no close match exists in valid_majors, leave `mapped_major` blank and explain. If the original `major` field is empty, default `mapped_major` to "Undecided".
 
 ---
 

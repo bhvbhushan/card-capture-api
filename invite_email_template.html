@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're Invited to Card Capture</title>
+    <style>
+        /* Reset and base styles */
+        body, table, td, p, a, li, blockquote {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        
+        table, td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+        
+        img {
+            -ms-interpolation-mode: bicubic;
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+        }
+        
+        /* Main styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        
+        .header {
+            background-color: #ffffff;
+            padding: 32px 32px 16px 32px;
+            text-align: center;
+        }
+        
+        .header img {
+            max-width: 160px;
+            height: auto;
+        }
+        
+        .logo-text {
+            color: #1e293b;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+        
+        .content {
+            padding: 16px 32px 48px 32px;
+        }
+        
+        .welcome-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 16px 0;
+            text-align: center;
+        }
+        
+        .welcome-subtitle {
+            font-size: 18px;
+            color: #64748b;
+            margin: 0 0 32px 0;
+            text-align: center;
+        }
+        
+        .body-text {
+            font-size: 16px;
+            color: #475569;
+            margin: 0 0 24px 0;
+            line-height: 1.7;
+        }
+        
+        .cta-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transition: all 0.2s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+        }
+        
+        .features {
+            margin: 32px 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin: 16px 0;
+            padding: 16px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+            color: #3b82f6;
+        }
+        
+        .feature-text {
+            font-size: 14px;
+            color: #475569;
+            margin: 0;
+        }
+        
+        .footer {
+            background-color: #f1f5f9;
+            padding: 32px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .footer-text {
+            font-size: 14px;
+            color: #64748b;
+            margin: 0 0 8px 0;
+        }
+        
+        .footer-link {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive styles */
+        @media screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+            }
+            
+            .content, .header, .footer {
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+            }
+            
+            .welcome-title {
+                font-size: 24px !important;
+            }
+            
+            .welcome-subtitle {
+                font-size: 16px !important;
+            }
+            
+            .cta-button {
+                display: block !important;
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+            
+            .feature-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .feature-icon {
+                margin-right: 0;
+                margin-bottom: 8px;
+            }
+            
+            .logo-text {
+                font-size: 28px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+            <td align="center">
+                <div class="email-container">
+                    <!-- Header -->
+                    <div class="header">
+                        <!-- Use existing Supabase-hosted logo -->
+                        <img src="https://assets.cardcapture.io/cc-logo-transparent-min.png" alt="Card Capture" style="display: block; margin: 0 auto;" />
+                        <!--[if !vml]><!-->
+                        <div style="display: none;">
+                            <h1 class="logo-text">Card Capture</h1>
+                        </div>
+                        <!--<![endif]-->
+                    </div>
+                    
+                    <!-- Main Content -->
+                    <div class="content">
+                        <h1 class="welcome-title">You're invited!</h1>
+                        <p class="welcome-subtitle">Join Card Capture and streamline your student onboarding process</p>
+                        
+                        <p class="body-text">
+                            You've been invited to join <strong>Card Capture</strong>, the smart solution for digitizing and processing student inquiry cards. Transform your manual data entry process into an automated, accurate, and efficient workflow.
+                        </p>
+                        
+                        <div class="features">
+                            <div class="feature-item">
+                                <svg class="feature-icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V8zm0 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z" clip-rule="evenodd"/>
+                                </svg>
+                                <p class="feature-text"><strong>Automated Data Extraction</strong> - AI-powered OCR technology captures student information with 95%+ accuracy</p>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <svg class="feature-icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                <p class="feature-text"><strong>Quality Review System</strong> - Built-in validation ensures data accuracy before integration</p>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <svg class="feature-icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                                <p class="feature-text"><strong>Seamless Integration</strong> - Direct integration with your existing CRM and student management systems</p>
+                            </div>
+                        </div>
+                        
+                        <p class="body-text">
+                            Ready to get started? Click the button below to accept your invitation and set up your account.
+                        </p>
+                        
+                        <div class="cta-container">
+                            <a href="https://staging.cardcapture.io/accept-invite" class="cta-button">Accept Invitation</a>
+                        </div>
+                        
+                        <p class="body-text" style="margin-top: 32px; font-size: 14px; color: #64748b; text-align: center;">
+                            If you have any questions, feel free to reach out to our support team. We're here to help!
+                        </p>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div class="footer">
+                        <p class="footer-text">© 2024 Card Capture. All rights reserved.</p>
+                        <p class="footer-text">
+                            <a href="https://staging.cardcapture.io/privacy" class="footer-link">Privacy Policy</a> | 
+                            <a href="https://staging.cardcapture.io/terms" class="footer-link">Terms of Service</a>
+                        </p>
+                        <p class="footer-text" style="margin-top: 16px;">
+                            If you didn't expect this invitation, you can safely ignore this email.
+                        </p>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html> 
