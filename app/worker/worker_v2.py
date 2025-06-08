@@ -167,6 +167,30 @@ def split_combined_address_fields(fields: dict) -> dict:
 
     return fields
 
+def prepare_docai_for_review(docai_fields: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Prepare DocAI fields for review system when Gemini fails.
+    Add required quality indicators so review system doesn't break.
+    """
+    prepared_fields = {}
+    
+    for field_name, field_data in docai_fields.items():
+        prepared_fields[field_name] = field_data.copy()
+        # Add minimal required indicators for review system compatibility
+        prepared_fields[field_name].update({
+            "edit_made": False,
+            "edit_type": "none",
+            "original_value": field_data.get("value", ""),
+            "text_clarity": "unclear",
+            "certainty": "uncertain", 
+            "notes": "AI processing failed - showing raw OCR data",
+            "review_confidence": field_data.get("confidence", 0.0),
+            "requires_human_review": False,
+            "review_notes": ""
+        })
+    
+    return prepared_fields
+
 def process_job_v2(job: Dict[str, Any]) -> None:
     """
     Simplified, reliable processing flow with atomic database operations
@@ -235,23 +259,49 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         valid_majors = majors_query.data.get("majors") if majors_query and majors_query.data and majors_query.data.get("majors") else []
         log_worker_debug("Valid majors", valid_majors, verbose=True)
         
-        # Step 9: Process with Gemini
+        # Step 9: Process with Gemini (with failure handling)
         log_worker_debug("=== STEP 9: GEMINI PROCESSING ===")
-        gemini_fields = process_card_with_gemini_v2(
-            cropped_image_path,
-            validated_fields,
-            valid_majors
-        )
-        log_worker_debug("Gemini Output", gemini_fields, verbose=True)
+        ai_processing_failed = False
+        ai_error_message = None
+        
+        try:
+            gemini_fields = process_card_with_gemini_v2(
+                cropped_image_path,
+                validated_fields,
+                valid_majors
+            )
+            log_worker_debug("Gemini Output", gemini_fields, verbose=True)
+            
+        except Exception as gemini_error:
+            log_worker_debug(f"⚠️ Gemini processing failed: {str(gemini_error)}")
+            log_worker_debug("Full Gemini error traceback:", traceback.format_exc())
+            
+            # Use DocAI fields with proper structure for review system
+            gemini_fields = prepare_docai_for_review(validated_fields)
+            ai_processing_failed = True
+            ai_error_message = str(gemini_error)
+            
+            log_worker_debug("Using DocAI fallback data", gemini_fields, verbose=True)
         
         # Step 10: Final validation and review determination
         log_worker_debug("=== STEP 10: FINAL VALIDATION ===")
-        final_fields = validate_field_data(gemini_fields)
+        
+        if ai_processing_failed:
+            # Set special review status for AI failures
+            final_fields = gemini_fields  # Already prepared fallback data
+            review_status = "ai_failed"
+            fields_needing_review = []
+            log_worker_debug("AI Processing Failed - Setting review_status to ai_failed")
+        else:
+            # Normal processing path
+            final_fields = validate_field_data(gemini_fields)
+            review_status, fields_needing_review = determine_review_status(final_fields)
+            
         log_worker_debug("Final Fields", final_fields, verbose=True)
-        review_status, fields_needing_review = determine_review_status(final_fields)
         log_worker_debug("Review Status", {
             "status": review_status,
-            "fields_needing_review": fields_needing_review
+            "fields_needing_review": fields_needing_review,
+            "ai_processing_failed": ai_processing_failed
         }, verbose=True)
         
         # Step 11: Trim and upload image
@@ -284,6 +334,10 @@ def process_job_v2(job: Dict[str, Any]) -> None:
             "created_at": now,
             "updated_at": now
         }
+        
+        # Add AI error information if processing failed
+        if ai_processing_failed:
+            review_data["ai_error_message"] = ai_error_message
         log_worker_debug("Review Data to be Saved", review_data, verbose=True)
         
         update_job_status_with_review(supabase_client, job_id, "complete", review_data)
@@ -390,6 +444,106 @@ async def process_job_endpoint(request: Request):
         log_worker_debug(f"Error in process_job_endpoint: {str(e)}")
         log_worker_debug("Full traceback", traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/retry-ai-processing/{document_id}")
+async def retry_ai_processing(document_id: str):
+    """
+    Retry Gemini processing for a card that failed AI processing
+    """
+    try:
+        log_worker_debug(f"=== RETRY AI PROCESSING FOR {document_id} ===")
+        
+        # Get the reviewed_data record
+        review_query = supabase_client.table("reviewed_data").select("*").eq("document_id", document_id).maybe_single().execute()
+        if not review_query.data:
+            log_worker_debug(f"Card {document_id} not found in reviewed_data")
+            raise HTTPException(status_code=404, detail="Card not found")
+            
+        review_data = review_query.data
+        log_worker_debug("Found review data", {
+            "document_id": document_id,
+            "review_status": review_data.get("review_status"),
+            "ai_error_message": review_data.get("ai_error_message")
+        })
+        
+        # Check if this card actually failed AI processing
+        if review_data.get("review_status") != "ai_failed":
+            log_worker_debug(f"Card {document_id} review_status is {review_data.get('review_status')}, not ai_failed")
+            raise HTTPException(status_code=400, detail="This card did not fail AI processing")
+            
+        # Get what we need for retry
+        trimmed_image_path = review_data["trimmed_image_path"]  # Cropped image
+        docai_fields = review_data["fields"]  # DocAI fields (stored when AI failed)
+        school_id = review_data["school_id"]
+        
+        log_worker_debug("Retry data extracted", {
+            "trimmed_image_path": trimmed_image_path,
+            "school_id": school_id,
+            "field_count": len(docai_fields)
+        })
+        
+        # Get valid majors for school
+        majors_query = supabase_client.table("schools").select("majors").eq("id", school_id).maybe_single().execute()
+        valid_majors = majors_query.data.get("majors") if majors_query and majors_query.data else []
+        log_worker_debug("Valid majors for retry", valid_majors)
+        
+        # Download the trimmed image to process with Gemini
+        # The trimmed_image_path is a storage path, we need to download it
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as tmp:
+            temp_image_path = tmp.name
+        
+        try:
+            download_from_supabase(trimmed_image_path, temp_image_path)
+            log_worker_debug(f"Downloaded trimmed image for retry: {temp_image_path}")
+            
+            # Retry Gemini processing
+            log_worker_debug("Retrying Gemini processing...")
+            gemini_fields = process_card_with_gemini_v2(
+                temp_image_path,    # Downloaded cropped image
+                docai_fields,       # Original DocAI fields 
+                valid_majors
+            )
+            log_worker_debug("Retry Gemini processing successful", verbose=True)
+            
+            # Determine new review status with successful Gemini data
+            final_fields = validate_field_data(gemini_fields)
+            new_review_status, fields_needing_review = determine_review_status(final_fields)
+            
+            log_worker_debug("New review status after retry", {
+                "status": new_review_status,
+                "fields_needing_review": fields_needing_review
+            })
+            
+            # Update reviewed_data with successful results
+            now = datetime.now(timezone.utc).isoformat()
+            update_result = supabase_client.table("reviewed_data").update({
+                "fields": final_fields,               # Now has proper Gemini data
+                "review_status": new_review_status,   # Proper review status
+                "ai_error_message": None,            # Clear the error
+                "updated_at": now
+            }).eq("document_id", document_id).execute()
+            
+            log_worker_debug("Updated reviewed_data successfully")
+            
+            return {
+                "status": "success", 
+                "message": "AI processing retry completed successfully",
+                "new_review_status": new_review_status,
+                "fields_updated": len(final_fields)
+            }
+            
+        finally:
+            # Clean up temporary image file
+            if os.path.exists(temp_image_path):
+                os.remove(temp_image_path)
+                log_worker_debug(f"Cleaned up temporary retry image: {temp_image_path}")
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        log_worker_debug(f"Error retrying AI processing for {document_id}: {str(e)}")
+        log_worker_debug("Full retry error traceback:", traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Retry failed: {str(e)}")
 
 
 if __name__ == "__main__":

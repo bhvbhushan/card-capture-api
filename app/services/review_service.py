@@ -121,8 +121,8 @@ def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
         
         # Clean up common issues
         if field_value:
-            # Remove "N/A" values
-            if field_value.upper() in ["N/A", "NA", "NONE", "NULL"]:
+            # Remove "N/A" values (only for string values)
+            if isinstance(field_value, str) and field_value.upper() in ["N/A", "NA", "NONE", "NULL"]:
                 field_data["value"] = ""
                 log_debug(f"Cleaned N/A value from {field_name}", service="review")
                 
