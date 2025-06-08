@@ -67,13 +67,20 @@ def trim_image_with_docai(input_path: str, output_path: str = None, percent_expa
 
 def ensure_vertical_orientation(image_path: str) -> str:
     """
-    Properly handle EXIF orientation using Pillow's modern ImageOps method.
+    Properly handle EXIF orientation using Pillow's modern ImageOps method,
+    then ensure the image is in portrait orientation.
     """
     img = Image.open(image_path)
     
     # This handles EXIF orientation automatically and strips EXIF data
     img = ImageOps.exif_transpose(img)
     print(f"✅ EXIF orientation applied successfully")
+    
+    # Force portrait orientation (like the original function did)
+    # This ensures compatibility with DocAI processing expectations
+    if img.width > img.height:
+        img = img.rotate(90, expand=True)
+        print(f"✅ Additional rotation applied to ensure portrait orientation")
     
     # Convert to RGB if needed
     if img.mode in ('RGBA', 'LA', 'P'):
