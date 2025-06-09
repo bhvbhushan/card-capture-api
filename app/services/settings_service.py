@@ -88,7 +88,7 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
 
 def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, Dict[str, bool]]:
     """
-    Sync detected fields with school settings, adding any new fields with defaults
+    Sync detected fields with school settings, adding any new fields with intelligent defaults
     """
     log_debug("=== SYNCING FIELD REQUIREMENTS ===", service="settings")
     log_debug(f"School ID: {school_id}", service="settings")
@@ -105,16 +105,22 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
         combined_fields = get_combined_fields_to_exclude()
         filtered_detected_fields = [f for f in detected_fields if f not in combined_fields]
 
+        # Define intelligent defaults based on field types
+        field_defaults = get_intelligent_field_defaults()
+
         # Add any new fields at the end (excluding combined fields)
         for field_name in filtered_detected_fields:
             if field_name not in existing_keys:
+                # Get intelligent defaults for this field
+                defaults = field_defaults.get(field_name, {"enabled": True, "required": False})
+                
                 card_fields_array.append({
                     "key": field_name,
-                    "enabled": True,
-                    "required": False
+                    "enabled": defaults["enabled"],
+                    "required": defaults["required"]
                 })
                 updated = True
-                log_debug(f"Added new field {field_name} with defaults", service="settings")
+                log_debug(f"Added new field {field_name} with intelligent defaults", defaults, service="settings")
 
         # Remove any combined fields from existing settings
         original_length = len(card_fields_array)
@@ -123,20 +129,100 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
             updated = True
             log_debug(f"Removed {original_length - len(card_fields_array)} combined fields from school settings", service="settings")
 
+        # Ensure essential fields are present with proper defaults
+        essential_fields = get_essential_fields()
+        for field_name, field_config in essential_fields.items():
+            if field_name not in existing_keys and field_name not in [f["key"] for f in card_fields_array]:
+                card_fields_array.append({
+                    "key": field_name,
+                    "enabled": field_config["enabled"],
+                    "required": field_config["required"]
+                })
+                updated = True
+                log_debug(f"Added essential field {field_name}", field_config, service="settings")
+
         if updated:
             update_payload = {
                 "id": school_id,
                 "card_fields": card_fields_array
             }
-            supabase_client.table("schools").update(update_payload).eq("id", school_id).execute()
-            log_debug("Updated school settings in database", service="settings")
+            result = supabase_client.table("schools").update(update_payload).eq("id", school_id).execute()
+            if result.data:
+                log_debug("Successfully updated school settings in database", service="settings")
+            else:
+                log_debug("Warning: School settings update returned no data", service="settings")
 
         # Return as dict for internal use (already filtered)
         return {f["key"]: {"enabled": f.get("enabled", True), "required": f.get("required", False)} for f in card_fields_array}
 
     except Exception as e:
         log_debug(f"ERROR syncing field requirements: {str(e)}", service="settings")
+        import traceback
+        log_debug("Full sync error traceback:", traceback.format_exc(), service="settings")
         return {}
+
+def get_intelligent_field_defaults() -> Dict[str, Dict[str, bool]]:
+    """
+    Get intelligent defaults for field types based on importance and common usage patterns
+    
+    Returns:
+        Dictionary mapping field names to their default enabled/required settings
+    """
+    return {
+        # Core identity fields - typically required
+        'name': {"enabled": True, "required": True},
+        'email': {"enabled": True, "required": True},
+        
+        # Contact fields - important but not always required
+        'cell': {"enabled": True, "required": False},
+        'phone': {"enabled": True, "required": False},
+        'preferred_first_name': {"enabled": True, "required": False},
+        
+        # Address fields - important for most schools
+        'address': {"enabled": True, "required": False},
+        'city': {"enabled": True, "required": False},
+        'state': {"enabled": True, "required": False},
+        'zip_code': {"enabled": True, "required": False},
+        
+        # Personal information - commonly used
+        'date_of_birth': {"enabled": True, "required": False},
+        'birthdate': {"enabled": True, "required": False},
+        'dob': {"enabled": True, "required": False},
+        'gender': {"enabled": True, "required": False},
+        
+        # Academic fields - depends on institution type
+        'high_school': {"enabled": True, "required": False},
+        'gpa': {"enabled": True, "required": False},
+        'class_rank': {"enabled": True, "required": False},
+        'students_in_class': {"enabled": True, "required": False},
+        'major': {"enabled": True, "required": False},
+        'student_type': {"enabled": True, "required": False},
+        'entry_term': {"enabled": True, "required": False},
+        'entry_year': {"enabled": True, "required": False},
+        
+        # Permission/consent fields
+        'permission_to_text': {"enabled": True, "required": False},
+        
+        # Default for unknown fields
+        'default': {"enabled": True, "required": False}
+    }
+
+def get_essential_fields() -> Dict[str, Dict[str, bool]]:
+    """
+    Get essential fields that should always be present in school configurations
+    
+    Returns:
+        Dictionary of essential fields with their settings
+    """
+    return {
+        'name': {"enabled": True, "required": True},
+        'email': {"enabled": True, "required": False},
+        'cell': {"enabled": True, "required": False},
+        'address': {"enabled": True, "required": False},
+        'city': {"enabled": True, "required": False},
+        'state': {"enabled": True, "required": False},
+        'zip_code': {"enabled": True, "required": False}
+    }
 
 def get_canonical_field_list() -> list:
     """

@@ -39,12 +39,27 @@ def process_image_with_docai(image_path: str, processor_id: str) -> Tuple[Dict[s
             content = image.read()
             log_debug(f"Read {len(content)} bytes from image", service="docai")
         
+        # Determine MIME type based on file extension
+        file_extension = os.path.splitext(image_path)[1].lower()
+        mime_type = {
+            '.pdf': 'application/pdf',
+            '.png': 'image/png',
+            '.jpg': 'image/jpeg',
+            '.jpeg': 'image/jpeg',
+            '.tiff': 'image/tiff',
+            '.tif': 'image/tiff',
+            '.gif': 'image/gif',
+            '.bmp': 'image/bmp'
+        }.get(file_extension, 'image/png')  # Default to PNG if unknown
+        
+        log_debug(f"Detected MIME type: {mime_type}", service="docai")
+        
         # Configure the process request
         request = documentai.ProcessRequest(
             name=name,
             raw_document=documentai.RawDocument(
                 content=content,
-                mime_type="image/png"
+                mime_type=mime_type
             )
         )
         

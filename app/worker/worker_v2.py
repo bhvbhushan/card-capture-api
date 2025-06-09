@@ -104,9 +104,10 @@ def download_from_supabase(file_url: str, local_path: str) -> None:
         log_worker_debug(f"ERROR downloading file: {str(e)}")
         raise
 
-def split_combined_address_fields(fields: dict) -> dict:
+def split_combined_address_fields(fields: dict, school_id: str = None) -> dict:
     """
     Detects and splits combined address/city/state/zip fields into separate fields.
+    Enhanced version that tracks split fields for school settings synchronization.
     Handles multiple formats:
     - "City, State, Zip"
     - "City, State Zip"
@@ -114,6 +115,8 @@ def split_combined_address_fields(fields: dict) -> dict:
     - "City, State"
     - "City State"
     """
+    split_fields = set()  # Track which fields were split
+    
     for key in ['city_state_zip', 'citystatezip', 'city_state', 'address_line']:
         field = fields.get(key)
         if field and isinstance(field, dict) and field.get('value'):
@@ -122,31 +125,99 @@ def split_combined_address_fields(fields: dict) -> dict:
             # Pattern 1: City, State, Zip
             match = re.match(r'^([^,]+),\s*([A-Z]{2})(?:,\s*|\s+)(\d{5}(?:-\d{4})?)$', value)
             if match:
-                fields['city'] = {'value': match.group(1).strip()}
-                fields['state'] = {'value': match.group(2).strip()}
-                fields['zip_code'] = {'value': match.group(3).strip()}
+                fields['city'] = {
+                    'value': match.group(1).strip(),
+                    'confidence': field.get('confidence', 0.8),
+                    'source': 'address_splitting',
+                    'enabled': True,
+                    'required': False
+                }
+                fields['state'] = {
+                    'value': match.group(2).strip(),
+                    'confidence': field.get('confidence', 0.8),
+                    'source': 'address_splitting',
+                    'enabled': True,
+                    'required': False
+                }
+                fields['zip_code'] = {
+                    'value': match.group(3).strip(),
+                    'confidence': field.get('confidence', 0.8),
+                    'source': 'address_splitting',
+                    'enabled': True,
+                    'required': False
+                }
+                split_fields.update(['city', 'state', 'zip_code'])
+                log_worker_debug(f"Split {key} into city/state/zip: {match.group(1).strip()}, {match.group(2).strip()}, {match.group(3).strip()}")
                 continue
 
             # Pattern 2: City, State (no zip)
             match = re.match(r'^([^,]+),\s*([A-Z]{2})$', value)
             if match:
-                fields['city'] = {'value': match.group(1).strip()}
-                fields['state'] = {'value': match.group(2).strip()}
+                fields['city'] = {
+                    'value': match.group(1).strip(),
+                    'confidence': field.get('confidence', 0.8),
+                    'source': 'address_splitting',
+                    'enabled': True,
+                    'required': False
+                }
+                fields['state'] = {
+                    'value': match.group(2).strip(),
+                    'confidence': field.get('confidence', 0.8),
+                    'source': 'address_splitting',
+                    'enabled': True,
+                    'required': False
+                }
+                split_fields.update(['city', 'state'])
+                log_worker_debug(f"Split {key} into city/state: {match.group(1).strip()}, {match.group(2).strip()}")
                 continue
 
             # Pattern 3: City State Zip (no commas)
             match = re.match(r'^([^,]+)\s+([A-Z]{2})\s+(\d{5}(?:-\d{4})?)$', value)
             if match:
-                fields['city'] = {'value': match.group(1).strip()}
-                fields['state'] = {'value': match.group(2).strip()}
-                fields['zip_code'] = {'value': match.group(3).strip()}
+                fields['city'] = {
+                    'value': match.group(1).strip(),
+                    'confidence': field.get('confidence', 0.8),
+                    'source': 'address_splitting',
+                    'enabled': True,
+                    'required': False
+                }
+                fields['state'] = {
+                    'value': match.group(2).strip(),
+                    'confidence': field.get('confidence', 0.8),
+                    'source': 'address_splitting',
+                    'enabled': True,
+                    'required': False
+                }
+                fields['zip_code'] = {
+                    'value': match.group(3).strip(),
+                    'confidence': field.get('confidence', 0.8),
+                    'source': 'address_splitting',
+                    'enabled': True,
+                    'required': False
+                }
+                split_fields.update(['city', 'state', 'zip_code'])
+                log_worker_debug(f"Split {key} into city/state/zip: {match.group(1).strip()}, {match.group(2).strip()}, {match.group(3).strip()}")
                 continue
 
             # Pattern 4: City State (no commas, no zip)
             match = re.match(r'^([^,]+)\s+([A-Z]{2})$', value)
             if match:
-                fields['city'] = {'value': match.group(1).strip()}
-                fields['state'] = {'value': match.group(2).strip()}
+                fields['city'] = {
+                    'value': match.group(1).strip(),
+                    'confidence': field.get('confidence', 0.8),
+                    'source': 'address_splitting',
+                    'enabled': True,
+                    'required': False
+                }
+                fields['state'] = {
+                    'value': match.group(2).strip(),
+                    'confidence': field.get('confidence', 0.8),
+                    'source': 'address_splitting',
+                    'enabled': True,
+                    'required': False
+                }
+                split_fields.update(['city', 'state'])
+                log_worker_debug(f"Split {key} into city/state: {match.group(1).strip()}, {match.group(2).strip()}")
                 continue
 
             # If no patterns match, try to extract just city and state
@@ -158,13 +229,45 @@ def split_combined_address_fields(fields: dict) -> dict:
                     if re.match(r'^[A-Z]{2}$', parts[i + 1]):
                         city = ' '.join(parts[:i + 1])
                         state = parts[i + 1]
-                        fields['city'] = {'value': city.strip()}
-                        fields['state'] = {'value': state.strip()}
+                        fields['city'] = {
+                            'value': city.strip(),
+                            'confidence': field.get('confidence', 0.6),
+                            'source': 'address_splitting_fallback',
+                            'enabled': True,
+                            'required': False
+                        }
+                        fields['state'] = {
+                            'value': state.strip(),
+                            'confidence': field.get('confidence', 0.6),
+                            'source': 'address_splitting_fallback',
+                            'enabled': True,
+                            'required': False
+                        }
+                        split_fields.update(['city', 'state'])
                         
                         # If there's a zip code after the state
                         if i + 2 < len(parts) and re.match(r'^\d{5}(?:-\d{4})?$', parts[i + 2]):
-                            fields['zip_code'] = {'value': parts[i + 2].strip()}
+                            fields['zip_code'] = {
+                                'value': parts[i + 2].strip(),
+                                'confidence': field.get('confidence', 0.6),
+                                'source': 'address_splitting_fallback',
+                                'enabled': True,
+                                'required': False
+                            }
+                            split_fields.add('zip_code')
+                        
+                        log_worker_debug(f"Split {key} using fallback into: {list(split_fields)}")
                         break
+
+    # If we split any fields and have a school_id, sync with school settings immediately
+    if split_fields and school_id:
+        log_worker_debug(f"Split address fields detected: {list(split_fields)}, syncing with school settings")
+        current_fields = list(fields.keys())
+        try:
+            sync_field_requirements(school_id, current_fields)
+            log_worker_debug("Successfully synced split address fields with school settings")
+        except Exception as e:
+            log_worker_debug(f"Warning: Failed to sync split fields with school settings: {str(e)}")
 
     return fields
 
@@ -235,7 +338,7 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         
         # Step 4: Split address fields
         log_worker_debug("=== STEP 4: SPLIT ADDRESS FIELDS ===")
-        docai_fields = split_combined_address_fields(docai_fields)
+        docai_fields = split_combined_address_fields(docai_fields, school_id)
         log_worker_debug("Fields After Address Splitting", docai_fields, verbose=True)
         
         # Step 5: Sync fields with school settings
