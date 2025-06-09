@@ -1,31 +1,31 @@
 [
   {
-    "timestamp": "2025-06-09T00:16:11.736365+00:00",
+    "timestamp": "2025-06-09T00:40:32.082277+00:00",
     "message": "=== TESTING WORKER FLOW ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:11.736391+00:00",
+    "timestamp": "2025-06-09T00:40:32.082302+00:00",
     "message": "Test Parameters",
     "data": {
-      "Image path": "/Users/kregboyd/Applications/card-capture-api/test_images/page_10.png",
+      "Image path": "/Users/kregboyd/Applications/card-capture-api/test_images/page_19.png",
       "School ID": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
       "User ID": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
       "Event ID": null
     }
   },
   {
-    "timestamp": "2025-06-09T00:16:11.736416+00:00",
+    "timestamp": "2025-06-09T00:40:32.082326+00:00",
     "message": "=== STEP 1: GET FIELD REQUIREMENTS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:11.994872+00:00",
+    "timestamp": "2025-06-09T00:40:32.370661+00:00",
     "message": "Using DocAI processor: 894b9758c2215ed6",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:12.102781+00:00",
+    "timestamp": "2025-06-09T00:40:32.509809+00:00",
     "message": "Current Field Requirements",
     "data": {
       "name": {
@@ -103,201 +103,33 @@
     }
   },
   {
-    "timestamp": "2025-06-09T00:16:12.102872+00:00",
+    "timestamp": "2025-06-09T00:40:32.509896+00:00",
     "message": "=== STEP 2: DOCAI PROCESSING ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:18.980856+00:00",
+    "timestamp": "2025-06-09T00:40:40.017637+00:00",
     "message": "Original DocAI Response",
     "data": {
-      "email": {
-        "value": "Samulbri29@wyliebulldogs.org",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            277.00000628829,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            670.0000002980232
-          ],
-          [
-            277.00000628829,
-            670.0000002980232
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "entry_term": {
-        "value": "Fall 2024",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            890.9999772906303,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1642.0000076293945
-          ],
-          [
-            890.9999772906303,
-            1642.0000076293945
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "cell": {
-        "value": "325-338-7743",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            255.99999614059925,
-            771.0000023245811
-          ],
-          [
-            719.0000027418137,
-            771.0000023245811
-          ],
-          [
-            719.0000027418137,
-            835.9999895095825
-          ],
-          [
-            255.99999614059925,
-            835.9999895095825
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "preferred_first_name": {
-        "value": "Brie",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            273.99999126791954,
-            427.9999852180481
-          ],
-          [
-            430.0000123679638,
-            427.9999852180481
-          ],
-          [
-            430.0000123679638,
-            486.99997812509537
-          ],
-          [
-            273.99999126791954,
-            486.99997812509537
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "name": {
-        "value": "Brielle Samulde",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            252.00000777840614,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            325.0000096857548
-          ],
-          [
-            252.00000777840614,
-            325.0000096857548
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "high_school": {
-        "value": "Wylie West Junior High",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            260.0000035017729,
-            1273.9999651908875
-          ],
-          [
-            1005.9999704360962,
-            1273.9999651908875
-          ],
-          [
-            1005.9999704360962,
-            1345.9999948740005
-          ],
-          [
-            260.0000035017729,
-            1345.9999948740005
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
       "date_of_birth": {
-        "value": "1-14-2011",
+        "value": "3/2/25",
         "confidence": 1.0,
         "bounding_box": [
           [
-            932.0000052452087,
-            430.99998235702515
+            897.0000073313713,
+            423.99998903274536
           ],
           [
-            1201.0000348091125,
-            430.99998235702515
+            1133.999978005886,
+            423.99998903274536
           ],
           [
-            1201.0000348091125,
-            479.9999848008156
+            1133.999978005886,
+            501.0000139474869
           ],
           [
-            932.0000052452087,
-            479.9999848008156
+            897.0000073313713,
+            501.0000139474869
           ]
         ],
         "source": "docai",
@@ -308,52 +140,228 @@
         "review_confidence": 0.0
       },
       "address": {
-        "value": "Western Pumes",
+        "value": "5210 Catclaw Drive",
+        "confidence": 0.95,
+        "source": "address_validation",
+        "notes": "Address validated from Google Maps",
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "city_state": {
+        "value": "Abilene/Texas",
         "confidence": 1.0,
         "bounding_box": [
           [
-            257.99999982118607,
-            934.9999934434891
+            243.00000071525574,
+            1086.000046133995
           ],
           [
-            717.9999724030495,
-            934.9999934434891
+            702.000018954277,
+            1086.000046133995
           ],
           [
-            717.9999724030495,
-            1001.0000288486481
+            702.000018954277,
+            1179.9999564886093
           ],
           [
-            257.99999982118607,
-            1001.0000288486481
+            243.00000071525574,
+            1179.9999564886093
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "permission_to_text": {
+        "value": "No",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1193.9999744296074,
+            768.0000051856041
+          ],
+          [
+            1243.000017106533,
+            768.0000051856041
+          ],
+          [
+            1243.000017106533,
+            791.9999822974205
+          ],
+          [
+            1193.9999744296074,
+            791.9999822974205
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "high_school": {
+        "value": "Wylie High School",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            235.99999733269215,
+            1256.9999814033508
+          ],
+          [
+            772.999969124794,
+            1256.9999814033508
+          ],
+          [
+            772.999969124794,
+            1349.9999910593033
+          ],
+          [
+            235.99999733269215,
+            1349.9999910593033
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "cell": {
+        "value": "325-725-0776",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            258.9999921619892,
+            755.0000175833702
+          ],
+          [
+            717.0000180602074,
+            755.0000175833702
+          ],
+          [
+            717.0000180602074,
+            825.9999990463257
+          ],
+          [
+            258.9999921619892,
+            825.9999990463257
           ]
         ],
         "source": "docai",
         "enabled": true,
         "required": true,
-        "requires_human_review": true,
-        "review_notes": "Required address field could not be validated by Google Maps",
-        "review_confidence": 0.3
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Unsue",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            270.9999952465296,
+            1738.9999151229858
+          ],
+          [
+            481.0000017285347,
+            1738.9999151229858
+          ],
+          [
+            481.0000017285347,
+            1837.0000183582306
+          ],
+          [
+            270.9999952465296,
+            1837.0000183582306
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Janvi Patel",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            250.99999643862247,
+            251.00000649690628
+          ],
+          [
+            655.0000369548798,
+            251.00000649690628
+          ],
+          [
+            655.0000369548798,
+            326.00000873208046
+          ],
+          [
+            250.99999643862247,
+            326.00000873208046
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "student_type": {
         "value": "Freshman",
         "confidence": 1.0,
         "bounding_box": [
           [
-            304.0000084787607,
-            1611.0000371932983
+            299.00000877678394,
+            1612.000036239624
           ],
           [
-            484.0000167489052,
-            1611.0000371932983
+            471.9999946653843,
+            1612.000036239624
           ],
           [
-            484.0000167489052,
+            471.9999946653843,
             1637.000012397766
           ],
           [
-            304.0000084787607,
+            299.00000877678394,
             1637.000012397766
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Janvi",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            265.9999955445528,
+            414.9999976158142
+          ],
+          [
+            396.99999913573265,
+            414.9999976158142
+          ],
+          [
+            396.99999913573265,
+            483.9999809861183
+          ],
+          [
+            265.9999955445528,
+            483.9999809861183
           ]
         ],
         "source": "docai",
@@ -368,20 +376,20 @@
         "confidence": 1.0,
         "bounding_box": [
           [
-            917.0000061392784,
-            1110.0000232458115
+            903.0000373721123,
+            1085.0000470876694
           ],
           [
-            1133.999978005886,
-            1110.0000232458115
+            1163.0000218749046,
+            1085.0000470876694
           ],
           [
-            1133.999978005886,
-            1156.9999784231186
+            1163.0000218749046,
+            1178.9999574422836
           ],
           [
-            917.0000061392784,
-            1156.9999784231186
+            903.0000373721123,
+            1178.9999574422836
           ]
         ],
         "source": "docai",
@@ -391,32 +399,15 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "permission_to_text": {
-        "value": "Yes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            948.9999890327454,
-            766.0000070929527
-          ],
-          [
-            1013.0000308156013,
-            766.0000070929527
-          ],
-          [
-            1013.0000308156013,
-            790.9999832510948
-          ],
-          [
-            948.9999890327454,
-            790.9999832510948
-          ]
-        ],
-        "source": "docai",
+      "email": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_required",
         "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
+        "required": true,
+        "requires_human_review": true,
+        "review_notes": "Required field not detected by DocAI",
         "review_confidence": 0.0
       },
       "city": {
@@ -425,7 +416,9 @@
         "source": "zip_validation",
         "notes": "City validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "enabled": true,
+        "required": true
       },
       "state": {
         "value": "TX",
@@ -433,206 +426,40 @@
         "source": "zip_validation",
         "notes": "State validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "enabled": true,
+        "required": true
       }
     }
   },
   {
-    "timestamp": "2025-06-09T00:16:18.981372+00:00",
+    "timestamp": "2025-06-09T00:40:40.018013+00:00",
     "message": "=== STEP 3: SPLIT ADDRESS FIELDS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:18.981382+00:00",
+    "timestamp": "2025-06-09T00:40:40.018433+00:00",
     "message": "Fields After Address Splitting",
     "data": {
-      "email": {
-        "value": "Samulbri29@wyliebulldogs.org",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            277.00000628829,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            670.0000002980232
-          ],
-          [
-            277.00000628829,
-            670.0000002980232
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "entry_term": {
-        "value": "Fall 2024",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            890.9999772906303,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1642.0000076293945
-          ],
-          [
-            890.9999772906303,
-            1642.0000076293945
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "cell": {
-        "value": "325-338-7743",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            255.99999614059925,
-            771.0000023245811
-          ],
-          [
-            719.0000027418137,
-            771.0000023245811
-          ],
-          [
-            719.0000027418137,
-            835.9999895095825
-          ],
-          [
-            255.99999614059925,
-            835.9999895095825
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "preferred_first_name": {
-        "value": "Brie",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            273.99999126791954,
-            427.9999852180481
-          ],
-          [
-            430.0000123679638,
-            427.9999852180481
-          ],
-          [
-            430.0000123679638,
-            486.99997812509537
-          ],
-          [
-            273.99999126791954,
-            486.99997812509537
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "name": {
-        "value": "Brielle Samulde",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            252.00000777840614,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            325.0000096857548
-          ],
-          [
-            252.00000777840614,
-            325.0000096857548
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "high_school": {
-        "value": "Wylie West Junior High",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            260.0000035017729,
-            1273.9999651908875
-          ],
-          [
-            1005.9999704360962,
-            1273.9999651908875
-          ],
-          [
-            1005.9999704360962,
-            1345.9999948740005
-          ],
-          [
-            260.0000035017729,
-            1345.9999948740005
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
       "date_of_birth": {
-        "value": "1-14-2011",
+        "value": "3/2/25",
         "confidence": 1.0,
         "bounding_box": [
           [
-            932.0000052452087,
-            430.99998235702515
+            897.0000073313713,
+            423.99998903274536
           ],
           [
-            1201.0000348091125,
-            430.99998235702515
+            1133.999978005886,
+            423.99998903274536
           ],
           [
-            1201.0000348091125,
-            479.9999848008156
+            1133.999978005886,
+            501.0000139474869
           ],
           [
-            932.0000052452087,
-            479.9999848008156
+            897.0000073313713,
+            501.0000139474869
           ]
         ],
         "source": "docai",
@@ -643,52 +470,228 @@
         "review_confidence": 0.0
       },
       "address": {
-        "value": "Western Pumes",
+        "value": "5210 Catclaw Drive",
+        "confidence": 0.95,
+        "source": "address_validation",
+        "notes": "Address validated from Google Maps",
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "city_state": {
+        "value": "Abilene/Texas",
         "confidence": 1.0,
         "bounding_box": [
           [
-            257.99999982118607,
-            934.9999934434891
+            243.00000071525574,
+            1086.000046133995
           ],
           [
-            717.9999724030495,
-            934.9999934434891
+            702.000018954277,
+            1086.000046133995
           ],
           [
-            717.9999724030495,
-            1001.0000288486481
+            702.000018954277,
+            1179.9999564886093
           ],
           [
-            257.99999982118607,
-            1001.0000288486481
+            243.00000071525574,
+            1179.9999564886093
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "permission_to_text": {
+        "value": "No",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1193.9999744296074,
+            768.0000051856041
+          ],
+          [
+            1243.000017106533,
+            768.0000051856041
+          ],
+          [
+            1243.000017106533,
+            791.9999822974205
+          ],
+          [
+            1193.9999744296074,
+            791.9999822974205
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "high_school": {
+        "value": "Wylie High School",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            235.99999733269215,
+            1256.9999814033508
+          ],
+          [
+            772.999969124794,
+            1256.9999814033508
+          ],
+          [
+            772.999969124794,
+            1349.9999910593033
+          ],
+          [
+            235.99999733269215,
+            1349.9999910593033
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "cell": {
+        "value": "325-725-0776",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            258.9999921619892,
+            755.0000175833702
+          ],
+          [
+            717.0000180602074,
+            755.0000175833702
+          ],
+          [
+            717.0000180602074,
+            825.9999990463257
+          ],
+          [
+            258.9999921619892,
+            825.9999990463257
           ]
         ],
         "source": "docai",
         "enabled": true,
         "required": true,
-        "requires_human_review": true,
-        "review_notes": "Required address field could not be validated by Google Maps",
-        "review_confidence": 0.3
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Unsue",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            270.9999952465296,
+            1738.9999151229858
+          ],
+          [
+            481.0000017285347,
+            1738.9999151229858
+          ],
+          [
+            481.0000017285347,
+            1837.0000183582306
+          ],
+          [
+            270.9999952465296,
+            1837.0000183582306
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Janvi Patel",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            250.99999643862247,
+            251.00000649690628
+          ],
+          [
+            655.0000369548798,
+            251.00000649690628
+          ],
+          [
+            655.0000369548798,
+            326.00000873208046
+          ],
+          [
+            250.99999643862247,
+            326.00000873208046
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "student_type": {
         "value": "Freshman",
         "confidence": 1.0,
         "bounding_box": [
           [
-            304.0000084787607,
-            1611.0000371932983
+            299.00000877678394,
+            1612.000036239624
           ],
           [
-            484.0000167489052,
-            1611.0000371932983
+            471.9999946653843,
+            1612.000036239624
           ],
           [
-            484.0000167489052,
+            471.9999946653843,
             1637.000012397766
           ],
           [
-            304.0000084787607,
+            299.00000877678394,
             1637.000012397766
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Janvi",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            265.9999955445528,
+            414.9999976158142
+          ],
+          [
+            396.99999913573265,
+            414.9999976158142
+          ],
+          [
+            396.99999913573265,
+            483.9999809861183
+          ],
+          [
+            265.9999955445528,
+            483.9999809861183
           ]
         ],
         "source": "docai",
@@ -703,20 +706,20 @@
         "confidence": 1.0,
         "bounding_box": [
           [
-            917.0000061392784,
-            1110.0000232458115
+            903.0000373721123,
+            1085.0000470876694
           ],
           [
-            1133.999978005886,
-            1110.0000232458115
+            1163.0000218749046,
+            1085.0000470876694
           ],
           [
-            1133.999978005886,
-            1156.9999784231186
+            1163.0000218749046,
+            1178.9999574422836
           ],
           [
-            917.0000061392784,
-            1156.9999784231186
+            903.0000373721123,
+            1178.9999574422836
           ]
         ],
         "source": "docai",
@@ -726,32 +729,15 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "permission_to_text": {
-        "value": "Yes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            948.9999890327454,
-            766.0000070929527
-          ],
-          [
-            1013.0000308156013,
-            766.0000070929527
-          ],
-          [
-            1013.0000308156013,
-            790.9999832510948
-          ],
-          [
-            948.9999890327454,
-            790.9999832510948
-          ]
-        ],
-        "source": "docai",
+      "email": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_required",
         "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
+        "required": true,
+        "requires_human_review": true,
+        "review_notes": "Required field not detected by DocAI",
         "review_confidence": 0.0
       },
       "city": {
@@ -760,7 +746,9 @@
         "source": "zip_validation",
         "notes": "City validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "enabled": true,
+        "required": true
       },
       "state": {
         "value": "TX",
@@ -768,17 +756,19 @@
         "source": "zip_validation",
         "notes": "State validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "enabled": true,
+        "required": true
       }
     }
   },
   {
-    "timestamp": "2025-06-09T00:16:18.981989+00:00",
+    "timestamp": "2025-06-09T00:40:40.019111+00:00",
     "message": "=== STEP 4: SYNC FIELDS WITH SCHOOL SETTINGS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:19.392936+00:00",
+    "timestamp": "2025-06-09T00:40:40.256031+00:00",
     "message": "Updated Field Requirements",
     "data": {
       "name": {
@@ -856,201 +846,33 @@
     }
   },
   {
-    "timestamp": "2025-06-09T00:16:19.393031+00:00",
+    "timestamp": "2025-06-09T00:40:40.256201+00:00",
     "message": "=== STEP 5: APPLY FIELD REQUIREMENTS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:19.394485+00:00",
+    "timestamp": "2025-06-09T00:40:40.258522+00:00",
     "message": "Fields After Applying Requirements",
     "data": {
-      "email": {
-        "value": "Samulbri29@wyliebulldogs.org",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            277.00000628829,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            670.0000002980232
-          ],
-          [
-            277.00000628829,
-            670.0000002980232
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "entry_term": {
-        "value": "Fall 2024",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            890.9999772906303,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1642.0000076293945
-          ],
-          [
-            890.9999772906303,
-            1642.0000076293945
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "cell": {
-        "value": "325-338-7743",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            255.99999614059925,
-            771.0000023245811
-          ],
-          [
-            719.0000027418137,
-            771.0000023245811
-          ],
-          [
-            719.0000027418137,
-            835.9999895095825
-          ],
-          [
-            255.99999614059925,
-            835.9999895095825
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "preferred_first_name": {
-        "value": "Brie",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            273.99999126791954,
-            427.9999852180481
-          ],
-          [
-            430.0000123679638,
-            427.9999852180481
-          ],
-          [
-            430.0000123679638,
-            486.99997812509537
-          ],
-          [
-            273.99999126791954,
-            486.99997812509537
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "name": {
-        "value": "Brielle Samulde",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            252.00000777840614,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            325.0000096857548
-          ],
-          [
-            252.00000777840614,
-            325.0000096857548
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "high_school": {
-        "value": "Wylie West Junior High",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            260.0000035017729,
-            1273.9999651908875
-          ],
-          [
-            1005.9999704360962,
-            1273.9999651908875
-          ],
-          [
-            1005.9999704360962,
-            1345.9999948740005
-          ],
-          [
-            260.0000035017729,
-            1345.9999948740005
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
       "date_of_birth": {
-        "value": "1-14-2011",
+        "value": "3/2/25",
         "confidence": 1.0,
         "bounding_box": [
           [
-            932.0000052452087,
-            430.99998235702515
+            897.0000073313713,
+            423.99998903274536
           ],
           [
-            1201.0000348091125,
-            430.99998235702515
+            1133.999978005886,
+            423.99998903274536
           ],
           [
-            1201.0000348091125,
-            479.9999848008156
+            1133.999978005886,
+            501.0000139474869
           ],
           [
-            932.0000052452087,
-            479.9999848008156
+            897.0000073313713,
+            501.0000139474869
           ]
         ],
         "source": "docai",
@@ -1061,52 +883,228 @@
         "review_confidence": 0.0
       },
       "address": {
-        "value": "Western Pumes",
+        "value": "5210 Catclaw Drive",
+        "confidence": 0.95,
+        "source": "address_validation",
+        "notes": "Address validated from Google Maps",
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "city_state": {
+        "value": "Abilene/Texas",
         "confidence": 1.0,
         "bounding_box": [
           [
-            257.99999982118607,
-            934.9999934434891
+            243.00000071525574,
+            1086.000046133995
           ],
           [
-            717.9999724030495,
-            934.9999934434891
+            702.000018954277,
+            1086.000046133995
           ],
           [
-            717.9999724030495,
-            1001.0000288486481
+            702.000018954277,
+            1179.9999564886093
           ],
           [
-            257.99999982118607,
-            1001.0000288486481
+            243.00000071525574,
+            1179.9999564886093
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "permission_to_text": {
+        "value": "No",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1193.9999744296074,
+            768.0000051856041
+          ],
+          [
+            1243.000017106533,
+            768.0000051856041
+          ],
+          [
+            1243.000017106533,
+            791.9999822974205
+          ],
+          [
+            1193.9999744296074,
+            791.9999822974205
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "high_school": {
+        "value": "Wylie High School",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            235.99999733269215,
+            1256.9999814033508
+          ],
+          [
+            772.999969124794,
+            1256.9999814033508
+          ],
+          [
+            772.999969124794,
+            1349.9999910593033
+          ],
+          [
+            235.99999733269215,
+            1349.9999910593033
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "cell": {
+        "value": "325-725-0776",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            258.9999921619892,
+            755.0000175833702
+          ],
+          [
+            717.0000180602074,
+            755.0000175833702
+          ],
+          [
+            717.0000180602074,
+            825.9999990463257
+          ],
+          [
+            258.9999921619892,
+            825.9999990463257
           ]
         ],
         "source": "docai",
         "enabled": true,
         "required": true,
-        "requires_human_review": true,
-        "review_notes": "Required address field could not be validated by Google Maps",
-        "review_confidence": 0.3
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Unsue",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            270.9999952465296,
+            1738.9999151229858
+          ],
+          [
+            481.0000017285347,
+            1738.9999151229858
+          ],
+          [
+            481.0000017285347,
+            1837.0000183582306
+          ],
+          [
+            270.9999952465296,
+            1837.0000183582306
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Janvi Patel",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            250.99999643862247,
+            251.00000649690628
+          ],
+          [
+            655.0000369548798,
+            251.00000649690628
+          ],
+          [
+            655.0000369548798,
+            326.00000873208046
+          ],
+          [
+            250.99999643862247,
+            326.00000873208046
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "student_type": {
         "value": "Freshman",
         "confidence": 1.0,
         "bounding_box": [
           [
-            304.0000084787607,
-            1611.0000371932983
+            299.00000877678394,
+            1612.000036239624
           ],
           [
-            484.0000167489052,
-            1611.0000371932983
+            471.9999946653843,
+            1612.000036239624
           ],
           [
-            484.0000167489052,
+            471.9999946653843,
             1637.000012397766
           ],
           [
-            304.0000084787607,
+            299.00000877678394,
             1637.000012397766
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Janvi",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            265.9999955445528,
+            414.9999976158142
+          ],
+          [
+            396.99999913573265,
+            414.9999976158142
+          ],
+          [
+            396.99999913573265,
+            483.9999809861183
+          ],
+          [
+            265.9999955445528,
+            483.9999809861183
           ]
         ],
         "source": "docai",
@@ -1121,20 +1119,20 @@
         "confidence": 1.0,
         "bounding_box": [
           [
-            917.0000061392784,
-            1110.0000232458115
+            903.0000373721123,
+            1085.0000470876694
           ],
           [
-            1133.999978005886,
-            1110.0000232458115
+            1163.0000218749046,
+            1085.0000470876694
           ],
           [
-            1133.999978005886,
-            1156.9999784231186
+            1163.0000218749046,
+            1178.9999574422836
           ],
           [
-            917.0000061392784,
-            1156.9999784231186
+            903.0000373721123,
+            1178.9999574422836
           ]
         ],
         "source": "docai",
@@ -1144,32 +1142,15 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "permission_to_text": {
-        "value": "Yes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            948.9999890327454,
-            766.0000070929527
-          ],
-          [
-            1013.0000308156013,
-            766.0000070929527
-          ],
-          [
-            1013.0000308156013,
-            790.9999832510948
-          ],
-          [
-            948.9999890327454,
-            790.9999832510948
-          ]
-        ],
-        "source": "docai",
+      "email": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_required",
         "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
+        "required": true,
+        "requires_human_review": true,
+        "review_notes": "Required field not detected by DocAI",
         "review_confidence": 0.0
       },
       "city": {
@@ -1178,7 +1159,9 @@
         "source": "zip_validation",
         "notes": "City validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "enabled": true,
+        "required": true
       },
       "state": {
         "value": "TX",
@@ -1186,206 +1169,40 @@
         "source": "zip_validation",
         "notes": "State validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "enabled": true,
+        "required": true
       }
     }
   },
   {
-    "timestamp": "2025-06-09T00:16:19.394993+00:00",
+    "timestamp": "2025-06-09T00:40:40.259034+00:00",
     "message": "=== STEP 6: ADDRESS VALIDATION ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:19.588961+00:00",
+    "timestamp": "2025-06-09T00:40:40.556760+00:00",
     "message": "Fields After Address Validation",
     "data": {
-      "email": {
-        "value": "Samulbri29@wyliebulldogs.org",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            277.00000628829,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            597.0000207424164
-          ],
-          [
-            1161.0000371932983,
-            670.0000002980232
-          ],
-          [
-            277.00000628829,
-            670.0000002980232
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "entry_term": {
-        "value": "Fall 2024",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            890.9999772906303,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1571.9999760389328
-          ],
-          [
-            1168.9999759197235,
-            1642.0000076293945
-          ],
-          [
-            890.9999772906303,
-            1642.0000076293945
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "cell": {
-        "value": "325-338-7743",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            255.99999614059925,
-            771.0000023245811
-          ],
-          [
-            719.0000027418137,
-            771.0000023245811
-          ],
-          [
-            719.0000027418137,
-            835.9999895095825
-          ],
-          [
-            255.99999614059925,
-            835.9999895095825
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "preferred_first_name": {
-        "value": "Brie",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            273.99999126791954,
-            427.9999852180481
-          ],
-          [
-            430.0000123679638,
-            427.9999852180481
-          ],
-          [
-            430.0000123679638,
-            486.99997812509537
-          ],
-          [
-            273.99999126791954,
-            486.99997812509537
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "name": {
-        "value": "Brielle Samulde",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            252.00000777840614,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            325.0000096857548
-          ],
-          [
-            252.00000777840614,
-            325.0000096857548
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "high_school": {
-        "value": "Wylie West Junior High",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            260.0000035017729,
-            1273.9999651908875
-          ],
-          [
-            1005.9999704360962,
-            1273.9999651908875
-          ],
-          [
-            1005.9999704360962,
-            1345.9999948740005
-          ],
-          [
-            260.0000035017729,
-            1345.9999948740005
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
       "date_of_birth": {
-        "value": "1-14-2011",
+        "value": "3/2/25",
         "confidence": 1.0,
         "bounding_box": [
           [
-            932.0000052452087,
-            430.99998235702515
+            897.0000073313713,
+            423.99998903274536
           ],
           [
-            1201.0000348091125,
-            430.99998235702515
+            1133.999978005886,
+            423.99998903274536
           ],
           [
-            1201.0000348091125,
-            479.9999848008156
+            1133.999978005886,
+            501.0000139474869
           ],
           [
-            932.0000052452087,
-            479.9999848008156
+            897.0000073313713,
+            501.0000139474869
           ]
         ],
         "source": "docai",
@@ -1396,52 +1213,228 @@
         "review_confidence": 0.0
       },
       "address": {
-        "value": "Western Pumes",
+        "value": "5210 Catclaw Drive",
+        "confidence": 0.95,
+        "source": "address_validation",
+        "notes": "Address validated from Google Maps",
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "city_state": {
+        "value": "Abilene/Texas",
         "confidence": 1.0,
         "bounding_box": [
           [
-            257.99999982118607,
-            934.9999934434891
+            243.00000071525574,
+            1086.000046133995
           ],
           [
-            717.9999724030495,
-            934.9999934434891
+            702.000018954277,
+            1086.000046133995
           ],
           [
-            717.9999724030495,
-            1001.0000288486481
+            702.000018954277,
+            1179.9999564886093
           ],
           [
-            257.99999982118607,
-            1001.0000288486481
+            243.00000071525574,
+            1179.9999564886093
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "permission_to_text": {
+        "value": "No",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1193.9999744296074,
+            768.0000051856041
+          ],
+          [
+            1243.000017106533,
+            768.0000051856041
+          ],
+          [
+            1243.000017106533,
+            791.9999822974205
+          ],
+          [
+            1193.9999744296074,
+            791.9999822974205
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "high_school": {
+        "value": "Wylie High School",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            235.99999733269215,
+            1256.9999814033508
+          ],
+          [
+            772.999969124794,
+            1256.9999814033508
+          ],
+          [
+            772.999969124794,
+            1349.9999910593033
+          ],
+          [
+            235.99999733269215,
+            1349.9999910593033
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "cell": {
+        "value": "325-725-0776",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            258.9999921619892,
+            755.0000175833702
+          ],
+          [
+            717.0000180602074,
+            755.0000175833702
+          ],
+          [
+            717.0000180602074,
+            825.9999990463257
+          ],
+          [
+            258.9999921619892,
+            825.9999990463257
           ]
         ],
         "source": "docai",
         "enabled": true,
         "required": true,
-        "requires_human_review": true,
-        "review_notes": "Required address field could not be validated by Google Maps",
-        "review_confidence": 0.3
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Unsue",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            270.9999952465296,
+            1738.9999151229858
+          ],
+          [
+            481.0000017285347,
+            1738.9999151229858
+          ],
+          [
+            481.0000017285347,
+            1837.0000183582306
+          ],
+          [
+            270.9999952465296,
+            1837.0000183582306
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Janvi Patel",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            250.99999643862247,
+            251.00000649690628
+          ],
+          [
+            655.0000369548798,
+            251.00000649690628
+          ],
+          [
+            655.0000369548798,
+            326.00000873208046
+          ],
+          [
+            250.99999643862247,
+            326.00000873208046
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
       },
       "student_type": {
         "value": "Freshman",
         "confidence": 1.0,
         "bounding_box": [
           [
-            304.0000084787607,
-            1611.0000371932983
+            299.00000877678394,
+            1612.000036239624
           ],
           [
-            484.0000167489052,
-            1611.0000371932983
+            471.9999946653843,
+            1612.000036239624
           ],
           [
-            484.0000167489052,
+            471.9999946653843,
             1637.000012397766
           ],
           [
-            304.0000084787607,
+            299.00000877678394,
             1637.000012397766
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Janvi",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            265.9999955445528,
+            414.9999976158142
+          ],
+          [
+            396.99999913573265,
+            414.9999976158142
+          ],
+          [
+            396.99999913573265,
+            483.9999809861183
+          ],
+          [
+            265.9999955445528,
+            483.9999809861183
           ]
         ],
         "source": "docai",
@@ -1456,20 +1449,20 @@
         "confidence": 1.0,
         "bounding_box": [
           [
-            917.0000061392784,
-            1110.0000232458115
+            903.0000373721123,
+            1085.0000470876694
           ],
           [
-            1133.999978005886,
-            1110.0000232458115
+            1163.0000218749046,
+            1085.0000470876694
           ],
           [
-            1133.999978005886,
-            1156.9999784231186
+            1163.0000218749046,
+            1178.9999574422836
           ],
           [
-            917.0000061392784,
-            1156.9999784231186
+            903.0000373721123,
+            1178.9999574422836
           ]
         ],
         "source": "docai",
@@ -1479,32 +1472,15 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
-      "permission_to_text": {
-        "value": "Yes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            948.9999890327454,
-            766.0000070929527
-          ],
-          [
-            1013.0000308156013,
-            766.0000070929527
-          ],
-          [
-            1013.0000308156013,
-            790.9999832510948
-          ],
-          [
-            948.9999890327454,
-            790.9999832510948
-          ]
-        ],
-        "source": "docai",
+      "email": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_required",
         "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
+        "required": true,
+        "requires_human_review": true,
+        "review_notes": "Required field not detected by DocAI",
         "review_confidence": 0.0
       },
       "city": {
@@ -1513,7 +1489,9 @@
         "source": "zip_validation",
         "notes": "City validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "enabled": true,
+        "required": true
       },
       "state": {
         "value": "TX",
@@ -1521,17 +1499,19 @@
         "source": "zip_validation",
         "notes": "State validated from zip code",
         "requires_human_review": false,
-        "review_notes": ""
+        "review_notes": "",
+        "enabled": true,
+        "required": true
       }
     }
   },
   {
-    "timestamp": "2025-06-09T00:16:19.589337+00:00",
+    "timestamp": "2025-06-09T00:40:40.557096+00:00",
     "message": "=== STEP 7: FETCH VALID MAJORS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:19.737929+00:00",
+    "timestamp": "2025-06-09T00:40:40.739785+00:00",
     "message": "Valid majors",
     "data": [
       "Undecided",
@@ -1602,67 +1582,115 @@
     ]
   },
   {
-    "timestamp": "2025-06-09T00:16:19.737998+00:00",
+    "timestamp": "2025-06-09T00:40:40.739904+00:00",
     "message": "=== STEP 8: GEMINI PROCESSING ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:38.830496+00:00",
+    "timestamp": "2025-06-09T00:40:59.317945+00:00",
     "message": "Gemini Output",
     "data": {
-      "email": {
-        "value": "samulbri29@wyliebulldogs.org",
+      "date_of_birth": {
+        "value": "03/02/2025",
         "confidence": 1.0,
         "bounding_box": [
           [
-            277.00000628829,
-            597.0000207424164
+            897.0000073313713,
+            423.99998903274536
           ],
           [
-            1161.0000371932983,
-            597.0000207424164
+            1133.999978005886,
+            423.99998903274536
           ],
           [
-            1161.0000371932983,
-            670.0000002980232
+            1133.999978005886,
+            501.0000139474869
           ],
           [
-            277.00000628829,
-            670.0000002980232
+            897.0000073313713,
+            501.0000139474869
           ]
         ],
         "source": "gemini",
         "enabled": true,
-        "required": true,
+        "required": false,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.95,
         "edit_made": true,
         "edit_type": "format_correction",
-        "original_value": "Samulbri29@wyliebulldogs.org",
+        "original_value": "3/2/25",
         "text_clarity": "clear",
         "certainty": "certain",
-        "notes": "Corrected capitalization in email address."
+        "notes": "Added century to DOB. Standardized date format."
       },
-      "entry_term": {
-        "value": "Fall 2024",
+      "address": {
+        "value": "5210 Catclaw Drive",
+        "confidence": 0.95,
+        "source": "gemini",
+        "notes": null,
+        "requires_human_review": false,
+        "review_notes": "",
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "5210 Catclaw Drive",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "review_confidence": 0.95
+      },
+      "city_state": {
+        "value": "Abilene, Texas",
         "confidence": 1.0,
         "bounding_box": [
           [
-            890.9999772906303,
-            1571.9999760389328
+            243.00000071525574,
+            1086.000046133995
           ],
           [
-            1168.9999759197235,
-            1571.9999760389328
+            702.000018954277,
+            1086.000046133995
           ],
           [
-            1168.9999759197235,
-            1642.0000076293945
+            702.000018954277,
+            1179.9999564886093
           ],
           [
-            890.9999772906303,
-            1642.0000076293945
+            243.00000071525574,
+            1179.9999564886093
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "Abilene/Texas",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Replaced slash with comma in city_state."
+      },
+      "permission_to_text": {
+        "value": "no",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1193.9999744296074,
+            768.0000051856041
+          ],
+          [
+            1243.000017106533,
+            768.0000051856041
+          ],
+          [
+            1243.000017106533,
+            791.9999822974205
+          ],
+          [
+            1193.9999744296074,
+            791.9999822974205
           ]
         ],
         "source": "gemini",
@@ -1673,132 +1701,30 @@
         "review_confidence": 0.95,
         "edit_made": false,
         "edit_type": "none",
-        "original_value": "Fall 2024",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "cell": {
-        "value": "325-338-7743",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            255.99999614059925,
-            771.0000023245811
-          ],
-          [
-            719.0000027418137,
-            771.0000023245811
-          ],
-          [
-            719.0000027418137,
-            835.9999895095825
-          ],
-          [
-            255.99999614059925,
-            835.9999895095825
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "325-338-7743",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "preferred_first_name": {
-        "value": "Brie",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            273.99999126791954,
-            427.9999852180481
-          ],
-          [
-            430.0000123679638,
-            427.9999852180481
-          ],
-          [
-            430.0000123679638,
-            486.99997812509537
-          ],
-          [
-            273.99999126791954,
-            486.99997812509537
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Brie",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "name": {
-        "value": "Brielle Samulde",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            252.00000777840614,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            325.0000096857548
-          ],
-          [
-            252.00000777840614,
-            325.0000096857548
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Brielle Samulde",
+        "original_value": "No",
         "text_clarity": "clear",
         "certainty": "certain",
         "notes": null
       },
       "high_school": {
-        "value": "Wylie West Junior High",
+        "value": "Wylie High School",
         "confidence": 1.0,
         "bounding_box": [
           [
-            260.0000035017729,
-            1273.9999651908875
+            235.99999733269215,
+            1256.9999814033508
           ],
           [
-            1005.9999704360962,
-            1273.9999651908875
+            772.999969124794,
+            1256.9999814033508
           ],
           [
-            1005.9999704360962,
-            1345.9999948740005
+            772.999969124794,
+            1349.9999910593033
           ],
           [
-            260.0000035017729,
-            1345.9999948740005
+            235.99999733269215,
+            1349.9999910593033
           ]
         ],
         "source": "gemini",
@@ -1809,97 +1735,131 @@
         "review_confidence": 0.95,
         "edit_made": false,
         "edit_type": "none",
-        "original_value": "Wylie West Junior High",
+        "original_value": "Wylie High School",
         "text_clarity": "clear",
         "certainty": "certain",
         "notes": null
       },
-      "date_of_birth": {
-        "value": "01/14/2011",
+      "cell": {
+        "value": "325-725-0776",
         "confidence": 1.0,
         "bounding_box": [
           [
-            932.0000052452087,
-            430.99998235702515
+            258.9999921619892,
+            755.0000175833702
           ],
           [
-            1201.0000348091125,
-            430.99998235702515
+            717.0000180602074,
+            755.0000175833702
           ],
           [
-            1201.0000348091125,
-            479.9999848008156
+            717.0000180602074,
+            825.9999990463257
           ],
           [
-            932.0000052452087,
-            479.9999848008156
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": true,
-        "edit_type": "format_correction",
-        "original_value": "1-14-2011",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Standardized date format."
-      },
-      "address": {
-        "value": "Western Pumes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            257.99999982118607,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            1001.0000288486481
-          ],
-          [
-            257.99999982118607,
-            1001.0000288486481
+            258.9999921619892,
+            825.9999990463257
           ]
         ],
         "source": "gemini",
         "enabled": true,
         "required": true,
-        "requires_human_review": true,
-        "review_notes": "Address may be incomplete or contain errors.",
-        "review_confidence": 0.475,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
         "edit_made": false,
         "edit_type": "none",
-        "original_value": "Western Pumes",
+        "original_value": "325-725-0776",
         "text_clarity": "clear",
-        "certainty": "uncertain",
-        "notes": "Address may be incomplete or contain errors."
+        "certainty": "certain",
+        "notes": null
       },
-      "student_type": {
-        "value": "Freshman",
+      "major": {
+        "value": "Unsue",
         "confidence": 1.0,
         "bounding_box": [
           [
-            304.0000084787607,
-            1611.0000371932983
+            270.9999952465296,
+            1738.9999151229858
           ],
           [
-            484.0000167489052,
-            1611.0000371932983
+            481.0000017285347,
+            1738.9999151229858
           ],
           [
-            484.0000167489052,
+            481.0000017285347,
+            1837.0000183582306
+          ],
+          [
+            270.9999952465296,
+            1837.0000183582306
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Unsue",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "name": {
+        "value": "Janvi Patel",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            250.99999643862247,
+            251.00000649690628
+          ],
+          [
+            655.0000369548798,
+            251.00000649690628
+          ],
+          [
+            655.0000369548798,
+            326.00000873208046
+          ],
+          [
+            250.99999643862247,
+            326.00000873208046
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Janvi Patel",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "student_type": {
+        "value": "freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            299.00000877678394,
+            1612.000036239624
+          ],
+          [
+            471.9999946653843,
+            1612.000036239624
+          ],
+          [
+            471.9999946653843,
             1637.000012397766
           ],
           [
-            304.0000084787607,
+            299.00000877678394,
             1637.000012397766
           ]
         ],
@@ -1916,25 +1876,59 @@
         "certainty": "certain",
         "notes": "Checkbox clearly marked."
       },
+      "preferred_first_name": {
+        "value": "Janvi",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            265.9999955445528,
+            414.9999976158142
+          ],
+          [
+            396.99999913573265,
+            414.9999976158142
+          ],
+          [
+            396.99999913573265,
+            483.9999809861183
+          ],
+          [
+            265.9999955445528,
+            483.9999809861183
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Janvi",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
       "zip_code": {
         "value": "79606",
         "confidence": 1.0,
         "bounding_box": [
           [
-            917.0000061392784,
-            1110.0000232458115
+            903.0000373721123,
+            1085.0000470876694
           ],
           [
-            1133.999978005886,
-            1110.0000232458115
+            1163.0000218749046,
+            1085.0000470876694
           ],
           [
-            1133.999978005886,
-            1156.9999784231186
+            1163.0000218749046,
+            1178.9999574422836
           ],
           [
-            917.0000061392784,
-            1156.9999784231186
+            903.0000373721123,
+            1178.9999574422836
           ]
         ],
         "source": "gemini",
@@ -1950,39 +1944,33 @@
         "certainty": "certain",
         "notes": null
       },
-      "permission_to_text": {
-        "value": "Yes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            948.9999890327454,
-            766.0000070929527
-          ],
-          [
-            1013.0000308156013,
-            766.0000070929527
-          ],
-          [
-            1013.0000308156013,
-            790.9999832510948
-          ],
-          [
-            948.9999890327454,
-            790.9999832510948
-          ]
-        ],
+      "email": {
+        "value": "pateljan29@wyliebulldogs.org",
+        "confidence": 0.0,
+        "bounding_box": [],
         "source": "gemini",
         "enabled": true,
-        "required": false,
+        "required": true,
         "requires_human_review": false,
         "review_notes": "",
-        "review_confidence": 0.95,
+        "review_confidence": 0.72675,
+        "edit_made": true,
+        "edit_type": "ocr_correction",
+        "original_value": "",
+        "text_clarity": "mostly_clear",
+        "certainty": "mostly_certain",
+        "notes": "Corrected OCR error for email address. Added missing email."
+      },
+      "mapped_major": {
+        "value": "",
         "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Yes",
+        "edit_type": "mapped_value",
+        "original_value": "Unsue",
         "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Checkbox clearly marked."
+        "certainty": "uncertain",
+        "notes": "Could not map 'Unsue' to a valid major",
+        "requires_human_review": false,
+        "review_notes": ""
       },
       "city": {
         "value": "Abilene",
@@ -1991,6 +1979,8 @@
         "notes": null,
         "requires_human_review": false,
         "review_notes": "",
+        "enabled": true,
+        "required": true,
         "edit_made": false,
         "edit_type": "none",
         "original_value": "Abilene",
@@ -2005,157 +1995,145 @@
         "notes": null,
         "requires_human_review": false,
         "review_notes": "",
+        "enabled": true,
+        "required": true,
         "edit_made": false,
         "edit_type": "none",
-        "original_value": "Texas",
+        "original_value": "TX",
         "text_clarity": "clear",
         "certainty": "certain",
         "review_confidence": 0.95
-      },
-      "major": {
-        "value": "Theatre & Art",
-        "confidence": 0.0,
-        "bounding_box": [],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Theatre & Art",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null,
-        "review_confidence": 0.95,
-        "requires_human_review": false,
-        "review_notes": ""
-      },
-      "mapped_major": {
-        "value": "Theatre",
-        "edit_made": true,
-        "edit_type": "mapped_value",
-        "original_value": "Theatre & Art",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Mapped from 'Theatre & Art' to 'Theatre'",
-        "requires_human_review": false,
-        "review_notes": ""
-      },
-      "gpa": {
-        "value": null,
-        "confidence": 0.0,
-        "bounding_box": [],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": null,
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null,
-        "review_confidence": 0.1,
-        "requires_human_review": false,
-        "review_notes": ""
-      },
-      "high_school_class_rank": {
-        "value": null,
-        "confidence": 0.0,
-        "bounding_box": [],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": null,
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null,
-        "review_confidence": 0.1,
-        "requires_human_review": false,
-        "review_notes": ""
       }
     }
   },
   {
-    "timestamp": "2025-06-09T00:16:38.830923+00:00",
+    "timestamp": "2025-06-09T00:40:59.318369+00:00",
     "message": "=== STEP 9: MAJOR MAPPING ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:38.830929+00:00",
+    "timestamp": "2025-06-09T00:40:59.318374+00:00",
     "message": "Original Major",
-    "data": "Theatre & Art"
+    "data": "Unsue"
   },
   {
-    "timestamp": "2025-06-09T00:16:38.830953+00:00",
-    "message": "Major Mapping Result",
+    "timestamp": "2025-06-09T00:40:59.318397+00:00",
+    "message": "Major Mapping Failed",
     "data": {
-      "original": "Theatre & Art",
-      "mapped": "Theatre"
+      "original": "Unsue",
+      "reason": "No matching major found in valid majors list"
     }
   },
   {
-    "timestamp": "2025-06-09T00:16:38.830967+00:00",
+    "timestamp": "2025-06-09T00:40:59.318410+00:00",
     "message": "=== STEP 10: FINAL VALIDATION ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:38.831547+00:00",
+    "timestamp": "2025-06-09T00:40:59.319137+00:00",
     "message": "Final Fields",
     "data": {
-      "email": {
-        "value": "samulbri29@wyliebulldogs.org",
+      "date_of_birth": {
+        "value": "03/02/2025",
         "confidence": 1.0,
         "bounding_box": [
           [
-            277.00000628829,
-            597.0000207424164
+            897.0000073313713,
+            423.99998903274536
           ],
           [
-            1161.0000371932983,
-            597.0000207424164
+            1133.999978005886,
+            423.99998903274536
           ],
           [
-            1161.0000371932983,
-            670.0000002980232
+            1133.999978005886,
+            501.0000139474869
           ],
           [
-            277.00000628829,
-            670.0000002980232
+            897.0000073313713,
+            501.0000139474869
           ]
         ],
         "source": "gemini",
         "enabled": true,
-        "required": true,
+        "required": false,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.95,
         "edit_made": true,
         "edit_type": "format_correction",
-        "original_value": "Samulbri29@wyliebulldogs.org",
+        "original_value": "3/2/25",
         "text_clarity": "clear",
         "certainty": "certain",
-        "notes": "Corrected capitalization in email address."
+        "notes": "Added century to DOB. Standardized date format."
       },
-      "entry_term": {
-        "value": "Fall 2024",
+      "address": {
+        "value": "5210 Catclaw Drive",
+        "confidence": 0.95,
+        "source": "gemini",
+        "notes": null,
+        "requires_human_review": false,
+        "review_notes": "",
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "5210 Catclaw Drive",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "review_confidence": 0.95
+      },
+      "city_state": {
+        "value": "Abilene, Texas",
         "confidence": 1.0,
         "bounding_box": [
           [
-            890.9999772906303,
-            1571.9999760389328
+            243.00000071525574,
+            1086.000046133995
           ],
           [
-            1168.9999759197235,
-            1571.9999760389328
+            702.000018954277,
+            1086.000046133995
           ],
           [
-            1168.9999759197235,
-            1642.0000076293945
+            702.000018954277,
+            1179.9999564886093
           ],
           [
-            890.9999772906303,
-            1642.0000076293945
+            243.00000071525574,
+            1179.9999564886093
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "Abilene/Texas",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Replaced slash with comma in city_state."
+      },
+      "permission_to_text": {
+        "value": "no",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1193.9999744296074,
+            768.0000051856041
+          ],
+          [
+            1243.000017106533,
+            768.0000051856041
+          ],
+          [
+            1243.000017106533,
+            791.9999822974205
+          ],
+          [
+            1193.9999744296074,
+            791.9999822974205
           ]
         ],
         "source": "gemini",
@@ -2166,132 +2144,30 @@
         "review_confidence": 0.95,
         "edit_made": false,
         "edit_type": "none",
-        "original_value": "Fall 2024",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "cell": {
-        "value": "325-338-7743",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            255.99999614059925,
-            771.0000023245811
-          ],
-          [
-            719.0000027418137,
-            771.0000023245811
-          ],
-          [
-            719.0000027418137,
-            835.9999895095825
-          ],
-          [
-            255.99999614059925,
-            835.9999895095825
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "325-338-7743",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "preferred_first_name": {
-        "value": "Brie",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            273.99999126791954,
-            427.9999852180481
-          ],
-          [
-            430.0000123679638,
-            427.9999852180481
-          ],
-          [
-            430.0000123679638,
-            486.99997812509537
-          ],
-          [
-            273.99999126791954,
-            486.99997812509537
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Brie",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "name": {
-        "value": "Brielle Samulde",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            252.00000777840614,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            325.0000096857548
-          ],
-          [
-            252.00000777840614,
-            325.0000096857548
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Brielle Samulde",
+        "original_value": "No",
         "text_clarity": "clear",
         "certainty": "certain",
         "notes": null
       },
       "high_school": {
-        "value": "Wylie West Junior High",
+        "value": "Wylie High School",
         "confidence": 1.0,
         "bounding_box": [
           [
-            260.0000035017729,
-            1273.9999651908875
+            235.99999733269215,
+            1256.9999814033508
           ],
           [
-            1005.9999704360962,
-            1273.9999651908875
+            772.999969124794,
+            1256.9999814033508
           ],
           [
-            1005.9999704360962,
-            1345.9999948740005
+            772.999969124794,
+            1349.9999910593033
           ],
           [
-            260.0000035017729,
-            1345.9999948740005
+            235.99999733269215,
+            1349.9999910593033
           ]
         ],
         "source": "gemini",
@@ -2302,97 +2178,131 @@
         "review_confidence": 0.95,
         "edit_made": false,
         "edit_type": "none",
-        "original_value": "Wylie West Junior High",
+        "original_value": "Wylie High School",
         "text_clarity": "clear",
         "certainty": "certain",
         "notes": null
       },
-      "date_of_birth": {
-        "value": "01/14/2011",
+      "cell": {
+        "value": "325-725-0776",
         "confidence": 1.0,
         "bounding_box": [
           [
-            932.0000052452087,
-            430.99998235702515
+            258.9999921619892,
+            755.0000175833702
           ],
           [
-            1201.0000348091125,
-            430.99998235702515
+            717.0000180602074,
+            755.0000175833702
           ],
           [
-            1201.0000348091125,
-            479.9999848008156
+            717.0000180602074,
+            825.9999990463257
           ],
           [
-            932.0000052452087,
-            479.9999848008156
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": true,
-        "edit_type": "format_correction",
-        "original_value": "1-14-2011",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Standardized date format."
-      },
-      "address": {
-        "value": "Western Pumes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            257.99999982118607,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            1001.0000288486481
-          ],
-          [
-            257.99999982118607,
-            1001.0000288486481
+            258.9999921619892,
+            825.9999990463257
           ]
         ],
         "source": "gemini",
         "enabled": true,
         "required": true,
-        "requires_human_review": true,
-        "review_notes": "Address may be incomplete or contain errors.",
-        "review_confidence": 0.475,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
         "edit_made": false,
         "edit_type": "none",
-        "original_value": "Western Pumes",
+        "original_value": "325-725-0776",
         "text_clarity": "clear",
-        "certainty": "uncertain",
-        "notes": "Address may be incomplete or contain errors."
+        "certainty": "certain",
+        "notes": null
       },
-      "student_type": {
-        "value": "Freshman",
+      "major": {
+        "value": "Unsue",
         "confidence": 1.0,
         "bounding_box": [
           [
-            304.0000084787607,
-            1611.0000371932983
+            270.9999952465296,
+            1738.9999151229858
           ],
           [
-            484.0000167489052,
-            1611.0000371932983
+            481.0000017285347,
+            1738.9999151229858
           ],
           [
-            484.0000167489052,
+            481.0000017285347,
+            1837.0000183582306
+          ],
+          [
+            270.9999952465296,
+            1837.0000183582306
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Unsue",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "name": {
+        "value": "Janvi Patel",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            250.99999643862247,
+            251.00000649690628
+          ],
+          [
+            655.0000369548798,
+            251.00000649690628
+          ],
+          [
+            655.0000369548798,
+            326.00000873208046
+          ],
+          [
+            250.99999643862247,
+            326.00000873208046
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Janvi Patel",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "student_type": {
+        "value": "freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            299.00000877678394,
+            1612.000036239624
+          ],
+          [
+            471.9999946653843,
+            1612.000036239624
+          ],
+          [
+            471.9999946653843,
             1637.000012397766
           ],
           [
-            304.0000084787607,
+            299.00000877678394,
             1637.000012397766
           ]
         ],
@@ -2409,25 +2319,59 @@
         "certainty": "certain",
         "notes": "Checkbox clearly marked."
       },
+      "preferred_first_name": {
+        "value": "Janvi",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            265.9999955445528,
+            414.9999976158142
+          ],
+          [
+            396.99999913573265,
+            414.9999976158142
+          ],
+          [
+            396.99999913573265,
+            483.9999809861183
+          ],
+          [
+            265.9999955445528,
+            483.9999809861183
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Janvi",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
       "zip_code": {
         "value": "79606",
         "confidence": 1.0,
         "bounding_box": [
           [
-            917.0000061392784,
-            1110.0000232458115
+            903.0000373721123,
+            1085.0000470876694
           ],
           [
-            1133.999978005886,
-            1110.0000232458115
+            1163.0000218749046,
+            1085.0000470876694
           ],
           [
-            1133.999978005886,
-            1156.9999784231186
+            1163.0000218749046,
+            1178.9999574422836
           ],
           [
-            917.0000061392784,
-            1156.9999784231186
+            903.0000373721123,
+            1178.9999574422836
           ]
         ],
         "source": "gemini",
@@ -2443,39 +2387,33 @@
         "certainty": "certain",
         "notes": null
       },
-      "permission_to_text": {
-        "value": "Yes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            948.9999890327454,
-            766.0000070929527
-          ],
-          [
-            1013.0000308156013,
-            766.0000070929527
-          ],
-          [
-            1013.0000308156013,
-            790.9999832510948
-          ],
-          [
-            948.9999890327454,
-            790.9999832510948
-          ]
-        ],
+      "email": {
+        "value": "pateljan29@wyliebulldogs.org",
+        "confidence": 0.0,
+        "bounding_box": [],
         "source": "gemini",
         "enabled": true,
-        "required": false,
+        "required": true,
         "requires_human_review": false,
         "review_notes": "",
-        "review_confidence": 0.95,
+        "review_confidence": 0.72675,
+        "edit_made": true,
+        "edit_type": "ocr_correction",
+        "original_value": "",
+        "text_clarity": "mostly_clear",
+        "certainty": "mostly_certain",
+        "notes": "Corrected OCR error for email address. Added missing email."
+      },
+      "mapped_major": {
+        "value": "",
         "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Yes",
+        "edit_type": "mapped_value",
+        "original_value": "Unsue",
         "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Checkbox clearly marked."
+        "certainty": "uncertain",
+        "notes": "Could not map 'Unsue' to a valid major",
+        "requires_human_review": false,
+        "review_notes": ""
       },
       "city": {
         "value": "Abilene",
@@ -2484,6 +2422,8 @@
         "notes": null,
         "requires_human_review": false,
         "review_notes": "",
+        "enabled": true,
+        "required": true,
         "edit_made": false,
         "edit_type": "none",
         "original_value": "Abilene",
@@ -2498,159 +2438,111 @@
         "notes": null,
         "requires_human_review": false,
         "review_notes": "",
+        "enabled": true,
+        "required": true,
         "edit_made": false,
         "edit_type": "none",
-        "original_value": "Texas",
+        "original_value": "TX",
         "text_clarity": "clear",
         "certainty": "certain",
         "review_confidence": 0.95
-      },
-      "major": {
-        "value": "Theatre & Art",
-        "confidence": 0.0,
-        "bounding_box": [],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Theatre & Art",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null,
-        "review_confidence": 0.95,
-        "requires_human_review": false,
-        "review_notes": ""
-      },
-      "mapped_major": {
-        "value": "Theatre",
-        "edit_made": true,
-        "edit_type": "mapped_value",
-        "original_value": "Theatre & Art",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Mapped from 'Theatre & Art' to 'Theatre'",
-        "requires_human_review": false,
-        "review_notes": ""
-      },
-      "gpa": {
-        "value": null,
-        "confidence": 0.0,
-        "bounding_box": [],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": null,
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null,
-        "review_confidence": 0.1,
-        "requires_human_review": false,
-        "review_notes": ""
-      },
-      "high_school_class_rank": {
-        "value": null,
-        "confidence": 0.0,
-        "bounding_box": [],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": null,
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null,
-        "review_confidence": 0.1,
-        "requires_human_review": false,
-        "review_notes": ""
       }
     }
   },
   {
-    "timestamp": "2025-06-09T00:16:38.832270+00:00",
+    "timestamp": "2025-06-09T00:40:59.319908+00:00",
     "message": "Review Status",
     "data": {
-      "status": "needs_human_review",
-      "fields_needing_review": [
-        "address"
-      ]
+      "status": "reviewed",
+      "fields_needing_review": []
     }
   },
   {
-    "timestamp": "2025-06-09T00:16:38.832287+00:00",
+    "timestamp": "2025-06-09T00:40:59.319922+00:00",
     "message": "=== STEP 11: FILTER COMBINED FIELDS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:38.832290+00:00",
+    "timestamp": "2025-06-09T00:40:59.319925+00:00",
     "message": "Filtering combined fields before saving",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:38.832298+00:00",
-    "message": "Fields before filtering: 17, after filtering: 16",
+    "timestamp": "2025-06-09T00:40:59.319933+00:00",
+    "message": "Fields before filtering: 15, after filtering: 14",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:38.832301+00:00",
+    "timestamp": "2025-06-09T00:40:59.319936+00:00",
     "message": "Filtered Fields",
     "data": {
-      "email": {
-        "value": "samulbri29@wyliebulldogs.org",
+      "date_of_birth": {
+        "value": "03/02/2025",
         "confidence": 1.0,
         "bounding_box": [
           [
-            277.00000628829,
-            597.0000207424164
+            897.0000073313713,
+            423.99998903274536
           ],
           [
-            1161.0000371932983,
-            597.0000207424164
+            1133.999978005886,
+            423.99998903274536
           ],
           [
-            1161.0000371932983,
-            670.0000002980232
+            1133.999978005886,
+            501.0000139474869
           ],
           [
-            277.00000628829,
-            670.0000002980232
+            897.0000073313713,
+            501.0000139474869
           ]
         ],
         "source": "gemini",
         "enabled": true,
-        "required": true,
+        "required": false,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.95,
         "edit_made": true,
         "edit_type": "format_correction",
-        "original_value": "Samulbri29@wyliebulldogs.org",
+        "original_value": "3/2/25",
         "text_clarity": "clear",
         "certainty": "certain",
-        "notes": "Corrected capitalization in email address."
+        "notes": "Added century to DOB. Standardized date format."
       },
-      "entry_term": {
-        "value": "Fall 2024",
+      "address": {
+        "value": "5210 Catclaw Drive",
+        "confidence": 0.95,
+        "source": "gemini",
+        "notes": null,
+        "requires_human_review": false,
+        "review_notes": "",
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "5210 Catclaw Drive",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "review_confidence": 0.95
+      },
+      "permission_to_text": {
+        "value": "no",
         "confidence": 1.0,
         "bounding_box": [
           [
-            890.9999772906303,
-            1571.9999760389328
+            1193.9999744296074,
+            768.0000051856041
           ],
           [
-            1168.9999759197235,
-            1571.9999760389328
+            1243.000017106533,
+            768.0000051856041
           ],
           [
-            1168.9999759197235,
-            1642.0000076293945
+            1243.000017106533,
+            791.9999822974205
           ],
           [
-            890.9999772906303,
-            1642.0000076293945
+            1193.9999744296074,
+            791.9999822974205
           ]
         ],
         "source": "gemini",
@@ -2661,132 +2553,30 @@
         "review_confidence": 0.95,
         "edit_made": false,
         "edit_type": "none",
-        "original_value": "Fall 2024",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "cell": {
-        "value": "325-338-7743",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            255.99999614059925,
-            771.0000023245811
-          ],
-          [
-            719.0000027418137,
-            771.0000023245811
-          ],
-          [
-            719.0000027418137,
-            835.9999895095825
-          ],
-          [
-            255.99999614059925,
-            835.9999895095825
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "325-338-7743",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "preferred_first_name": {
-        "value": "Brie",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            273.99999126791954,
-            427.9999852180481
-          ],
-          [
-            430.0000123679638,
-            427.9999852180481
-          ],
-          [
-            430.0000123679638,
-            486.99997812509537
-          ],
-          [
-            273.99999126791954,
-            486.99997812509537
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Brie",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "name": {
-        "value": "Brielle Samulde",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            252.00000777840614,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            250.0000074505806
-          ],
-          [
-            817.0000120997429,
-            325.0000096857548
-          ],
-          [
-            252.00000777840614,
-            325.0000096857548
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Brielle Samulde",
+        "original_value": "No",
         "text_clarity": "clear",
         "certainty": "certain",
         "notes": null
       },
       "high_school": {
-        "value": "Wylie West Junior High",
+        "value": "Wylie High School",
         "confidence": 1.0,
         "bounding_box": [
           [
-            260.0000035017729,
-            1273.9999651908875
+            235.99999733269215,
+            1256.9999814033508
           ],
           [
-            1005.9999704360962,
-            1273.9999651908875
+            772.999969124794,
+            1256.9999814033508
           ],
           [
-            1005.9999704360962,
-            1345.9999948740005
+            772.999969124794,
+            1349.9999910593033
           ],
           [
-            260.0000035017729,
-            1345.9999948740005
+            235.99999733269215,
+            1349.9999910593033
           ]
         ],
         "source": "gemini",
@@ -2797,97 +2587,131 @@
         "review_confidence": 0.95,
         "edit_made": false,
         "edit_type": "none",
-        "original_value": "Wylie West Junior High",
+        "original_value": "Wylie High School",
         "text_clarity": "clear",
         "certainty": "certain",
         "notes": null
       },
-      "date_of_birth": {
-        "value": "01/14/2011",
+      "cell": {
+        "value": "325-725-0776",
         "confidence": 1.0,
         "bounding_box": [
           [
-            932.0000052452087,
-            430.99998235702515
+            258.9999921619892,
+            755.0000175833702
           ],
           [
-            1201.0000348091125,
-            430.99998235702515
+            717.0000180602074,
+            755.0000175833702
           ],
           [
-            1201.0000348091125,
-            479.9999848008156
+            717.0000180602074,
+            825.9999990463257
           ],
           [
-            932.0000052452087,
-            479.9999848008156
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": true,
-        "edit_type": "format_correction",
-        "original_value": "1-14-2011",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Standardized date format."
-      },
-      "address": {
-        "value": "Western Pumes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            257.99999982118607,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            934.9999934434891
-          ],
-          [
-            717.9999724030495,
-            1001.0000288486481
-          ],
-          [
-            257.99999982118607,
-            1001.0000288486481
+            258.9999921619892,
+            825.9999990463257
           ]
         ],
         "source": "gemini",
         "enabled": true,
         "required": true,
-        "requires_human_review": true,
-        "review_notes": "Address may be incomplete or contain errors.",
-        "review_confidence": 0.475,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
         "edit_made": false,
         "edit_type": "none",
-        "original_value": "Western Pumes",
+        "original_value": "325-725-0776",
         "text_clarity": "clear",
-        "certainty": "uncertain",
-        "notes": "Address may be incomplete or contain errors."
+        "certainty": "certain",
+        "notes": null
       },
-      "student_type": {
-        "value": "Freshman",
+      "major": {
+        "value": "Unsue",
         "confidence": 1.0,
         "bounding_box": [
           [
-            304.0000084787607,
-            1611.0000371932983
+            270.9999952465296,
+            1738.9999151229858
           ],
           [
-            484.0000167489052,
-            1611.0000371932983
+            481.0000017285347,
+            1738.9999151229858
           ],
           [
-            484.0000167489052,
+            481.0000017285347,
+            1837.0000183582306
+          ],
+          [
+            270.9999952465296,
+            1837.0000183582306
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Unsue",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "name": {
+        "value": "Janvi Patel",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            250.99999643862247,
+            251.00000649690628
+          ],
+          [
+            655.0000369548798,
+            251.00000649690628
+          ],
+          [
+            655.0000369548798,
+            326.00000873208046
+          ],
+          [
+            250.99999643862247,
+            326.00000873208046
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Janvi Patel",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "student_type": {
+        "value": "freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            299.00000877678394,
+            1612.000036239624
+          ],
+          [
+            471.9999946653843,
+            1612.000036239624
+          ],
+          [
+            471.9999946653843,
             1637.000012397766
           ],
           [
-            304.0000084787607,
+            299.00000877678394,
             1637.000012397766
           ]
         ],
@@ -2904,25 +2728,59 @@
         "certainty": "certain",
         "notes": "Checkbox clearly marked."
       },
+      "preferred_first_name": {
+        "value": "Janvi",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            265.9999955445528,
+            414.9999976158142
+          ],
+          [
+            396.99999913573265,
+            414.9999976158142
+          ],
+          [
+            396.99999913573265,
+            483.9999809861183
+          ],
+          [
+            265.9999955445528,
+            483.9999809861183
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Janvi",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
       "zip_code": {
         "value": "79606",
         "confidence": 1.0,
         "bounding_box": [
           [
-            917.0000061392784,
-            1110.0000232458115
+            903.0000373721123,
+            1085.0000470876694
           ],
           [
-            1133.999978005886,
-            1110.0000232458115
+            1163.0000218749046,
+            1085.0000470876694
           ],
           [
-            1133.999978005886,
-            1156.9999784231186
+            1163.0000218749046,
+            1178.9999574422836
           ],
           [
-            917.0000061392784,
-            1156.9999784231186
+            903.0000373721123,
+            1178.9999574422836
           ]
         ],
         "source": "gemini",
@@ -2938,39 +2796,33 @@
         "certainty": "certain",
         "notes": null
       },
-      "permission_to_text": {
-        "value": "Yes",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            948.9999890327454,
-            766.0000070929527
-          ],
-          [
-            1013.0000308156013,
-            766.0000070929527
-          ],
-          [
-            1013.0000308156013,
-            790.9999832510948
-          ],
-          [
-            948.9999890327454,
-            790.9999832510948
-          ]
-        ],
+      "email": {
+        "value": "pateljan29@wyliebulldogs.org",
+        "confidence": 0.0,
+        "bounding_box": [],
         "source": "gemini",
         "enabled": true,
-        "required": false,
+        "required": true,
         "requires_human_review": false,
         "review_notes": "",
-        "review_confidence": 0.95,
+        "review_confidence": 0.72675,
+        "edit_made": true,
+        "edit_type": "ocr_correction",
+        "original_value": "",
+        "text_clarity": "mostly_clear",
+        "certainty": "mostly_certain",
+        "notes": "Corrected OCR error for email address. Added missing email."
+      },
+      "mapped_major": {
+        "value": "",
         "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Yes",
+        "edit_type": "mapped_value",
+        "original_value": "Unsue",
         "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Checkbox clearly marked."
+        "certainty": "uncertain",
+        "notes": "Could not map 'Unsue' to a valid major",
+        "requires_human_review": false,
+        "review_notes": ""
       },
       "city": {
         "value": "Abilene",
@@ -2979,6 +2831,8 @@
         "notes": null,
         "requires_human_review": false,
         "review_notes": "",
+        "enabled": true,
+        "required": true,
         "edit_made": false,
         "edit_type": "none",
         "original_value": "Abilene",
@@ -2993,124 +2847,95 @@
         "notes": null,
         "requires_human_review": false,
         "review_notes": "",
+        "enabled": true,
+        "required": true,
         "edit_made": false,
         "edit_type": "none",
-        "original_value": "Texas",
+        "original_value": "TX",
         "text_clarity": "clear",
         "certainty": "certain",
         "review_confidence": 0.95
-      },
-      "major": {
-        "value": "Theatre & Art",
-        "confidence": 0.0,
-        "bounding_box": [],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Theatre & Art",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null,
-        "review_confidence": 0.95,
-        "requires_human_review": false,
-        "review_notes": ""
-      },
-      "mapped_major": {
-        "value": "Theatre",
-        "edit_made": true,
-        "edit_type": "mapped_value",
-        "original_value": "Theatre & Art",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Mapped from 'Theatre & Art' to 'Theatre'",
-        "requires_human_review": false,
-        "review_notes": ""
-      },
-      "gpa": {
-        "value": null,
-        "confidence": 0.0,
-        "bounding_box": [],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": null,
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null,
-        "review_confidence": 0.1,
-        "requires_human_review": false,
-        "review_notes": ""
       }
     }
   },
   {
-    "timestamp": "2025-06-09T00:16:38.832689+00:00",
+    "timestamp": "2025-06-09T00:40:59.320258+00:00",
     "message": "=== STEP 12: REVIEW DATA ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T00:16:38.832698+00:00",
+    "timestamp": "2025-06-09T00:40:59.320265+00:00",
     "message": "Review Data to be Saved",
     "data": {
-      "document_id": "test-job-2025-06-09T00:16:38.832696+00:00",
+      "document_id": "test-job-2025-06-09T00:40:59.320263+00:00",
       "fields": {
-        "email": {
-          "value": "samulbri29@wyliebulldogs.org",
+        "date_of_birth": {
+          "value": "03/02/2025",
           "confidence": 1.0,
           "bounding_box": [
             [
-              277.00000628829,
-              597.0000207424164
+              897.0000073313713,
+              423.99998903274536
             ],
             [
-              1161.0000371932983,
-              597.0000207424164
+              1133.999978005886,
+              423.99998903274536
             ],
             [
-              1161.0000371932983,
-              670.0000002980232
+              1133.999978005886,
+              501.0000139474869
             ],
             [
-              277.00000628829,
-              670.0000002980232
+              897.0000073313713,
+              501.0000139474869
             ]
           ],
           "source": "gemini",
           "enabled": true,
-          "required": true,
+          "required": false,
           "requires_human_review": false,
           "review_notes": "",
           "review_confidence": 0.95,
           "edit_made": true,
           "edit_type": "format_correction",
-          "original_value": "Samulbri29@wyliebulldogs.org",
+          "original_value": "3/2/25",
           "text_clarity": "clear",
           "certainty": "certain",
-          "notes": "Corrected capitalization in email address."
+          "notes": "Added century to DOB. Standardized date format."
         },
-        "entry_term": {
-          "value": "Fall 2024",
+        "address": {
+          "value": "5210 Catclaw Drive",
+          "confidence": 0.95,
+          "source": "gemini",
+          "notes": null,
+          "requires_human_review": false,
+          "review_notes": "",
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "5210 Catclaw Drive",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "review_confidence": 0.95
+        },
+        "permission_to_text": {
+          "value": "no",
           "confidence": 1.0,
           "bounding_box": [
             [
-              890.9999772906303,
-              1571.9999760389328
+              1193.9999744296074,
+              768.0000051856041
             ],
             [
-              1168.9999759197235,
-              1571.9999760389328
+              1243.000017106533,
+              768.0000051856041
             ],
             [
-              1168.9999759197235,
-              1642.0000076293945
+              1243.000017106533,
+              791.9999822974205
             ],
             [
-              890.9999772906303,
-              1642.0000076293945
+              1193.9999744296074,
+              791.9999822974205
             ]
           ],
           "source": "gemini",
@@ -3121,132 +2946,30 @@
           "review_confidence": 0.95,
           "edit_made": false,
           "edit_type": "none",
-          "original_value": "Fall 2024",
-          "text_clarity": "clear",
-          "certainty": "certain",
-          "notes": null
-        },
-        "cell": {
-          "value": "325-338-7743",
-          "confidence": 1.0,
-          "bounding_box": [
-            [
-              255.99999614059925,
-              771.0000023245811
-            ],
-            [
-              719.0000027418137,
-              771.0000023245811
-            ],
-            [
-              719.0000027418137,
-              835.9999895095825
-            ],
-            [
-              255.99999614059925,
-              835.9999895095825
-            ]
-          ],
-          "source": "gemini",
-          "enabled": true,
-          "required": true,
-          "requires_human_review": false,
-          "review_notes": "",
-          "review_confidence": 0.95,
-          "edit_made": false,
-          "edit_type": "none",
-          "original_value": "325-338-7743",
-          "text_clarity": "clear",
-          "certainty": "certain",
-          "notes": null
-        },
-        "preferred_first_name": {
-          "value": "Brie",
-          "confidence": 1.0,
-          "bounding_box": [
-            [
-              273.99999126791954,
-              427.9999852180481
-            ],
-            [
-              430.0000123679638,
-              427.9999852180481
-            ],
-            [
-              430.0000123679638,
-              486.99997812509537
-            ],
-            [
-              273.99999126791954,
-              486.99997812509537
-            ]
-          ],
-          "source": "gemini",
-          "enabled": true,
-          "required": false,
-          "requires_human_review": false,
-          "review_notes": "",
-          "review_confidence": 0.95,
-          "edit_made": false,
-          "edit_type": "none",
-          "original_value": "Brie",
-          "text_clarity": "clear",
-          "certainty": "certain",
-          "notes": null
-        },
-        "name": {
-          "value": "Brielle Samulde",
-          "confidence": 1.0,
-          "bounding_box": [
-            [
-              252.00000777840614,
-              250.0000074505806
-            ],
-            [
-              817.0000120997429,
-              250.0000074505806
-            ],
-            [
-              817.0000120997429,
-              325.0000096857548
-            ],
-            [
-              252.00000777840614,
-              325.0000096857548
-            ]
-          ],
-          "source": "gemini",
-          "enabled": true,
-          "required": true,
-          "requires_human_review": false,
-          "review_notes": "",
-          "review_confidence": 0.95,
-          "edit_made": false,
-          "edit_type": "none",
-          "original_value": "Brielle Samulde",
+          "original_value": "No",
           "text_clarity": "clear",
           "certainty": "certain",
           "notes": null
         },
         "high_school": {
-          "value": "Wylie West Junior High",
+          "value": "Wylie High School",
           "confidence": 1.0,
           "bounding_box": [
             [
-              260.0000035017729,
-              1273.9999651908875
+              235.99999733269215,
+              1256.9999814033508
             ],
             [
-              1005.9999704360962,
-              1273.9999651908875
+              772.999969124794,
+              1256.9999814033508
             ],
             [
-              1005.9999704360962,
-              1345.9999948740005
+              772.999969124794,
+              1349.9999910593033
             ],
             [
-              260.0000035017729,
-              1345.9999948740005
+              235.99999733269215,
+              1349.9999910593033
             ]
           ],
           "source": "gemini",
@@ -3257,97 +2980,131 @@
           "review_confidence": 0.95,
           "edit_made": false,
           "edit_type": "none",
-          "original_value": "Wylie West Junior High",
+          "original_value": "Wylie High School",
           "text_clarity": "clear",
           "certainty": "certain",
           "notes": null
         },
-        "date_of_birth": {
-          "value": "01/14/2011",
+        "cell": {
+          "value": "325-725-0776",
           "confidence": 1.0,
           "bounding_box": [
             [
-              932.0000052452087,
-              430.99998235702515
+              258.9999921619892,
+              755.0000175833702
             ],
             [
-              1201.0000348091125,
-              430.99998235702515
+              717.0000180602074,
+              755.0000175833702
             ],
             [
-              1201.0000348091125,
-              479.9999848008156
+              717.0000180602074,
+              825.9999990463257
             ],
             [
-              932.0000052452087,
-              479.9999848008156
-            ]
-          ],
-          "source": "gemini",
-          "enabled": true,
-          "required": false,
-          "requires_human_review": false,
-          "review_notes": "",
-          "review_confidence": 0.95,
-          "edit_made": true,
-          "edit_type": "format_correction",
-          "original_value": "1-14-2011",
-          "text_clarity": "clear",
-          "certainty": "certain",
-          "notes": "Standardized date format."
-        },
-        "address": {
-          "value": "Western Pumes",
-          "confidence": 1.0,
-          "bounding_box": [
-            [
-              257.99999982118607,
-              934.9999934434891
-            ],
-            [
-              717.9999724030495,
-              934.9999934434891
-            ],
-            [
-              717.9999724030495,
-              1001.0000288486481
-            ],
-            [
-              257.99999982118607,
-              1001.0000288486481
+              258.9999921619892,
+              825.9999990463257
             ]
           ],
           "source": "gemini",
           "enabled": true,
           "required": true,
-          "requires_human_review": true,
-          "review_notes": "Address may be incomplete or contain errors.",
-          "review_confidence": 0.475,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
           "edit_made": false,
           "edit_type": "none",
-          "original_value": "Western Pumes",
+          "original_value": "325-725-0776",
           "text_clarity": "clear",
-          "certainty": "uncertain",
-          "notes": "Address may be incomplete or contain errors."
+          "certainty": "certain",
+          "notes": null
         },
-        "student_type": {
-          "value": "Freshman",
+        "major": {
+          "value": "Unsue",
           "confidence": 1.0,
           "bounding_box": [
             [
-              304.0000084787607,
-              1611.0000371932983
+              270.9999952465296,
+              1738.9999151229858
             ],
             [
-              484.0000167489052,
-              1611.0000371932983
+              481.0000017285347,
+              1738.9999151229858
             ],
             [
-              484.0000167489052,
+              481.0000017285347,
+              1837.0000183582306
+            ],
+            [
+              270.9999952465296,
+              1837.0000183582306
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Unsue",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "name": {
+          "value": "Janvi Patel",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              250.99999643862247,
+              251.00000649690628
+            ],
+            [
+              655.0000369548798,
+              251.00000649690628
+            ],
+            [
+              655.0000369548798,
+              326.00000873208046
+            ],
+            [
+              250.99999643862247,
+              326.00000873208046
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Janvi Patel",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "student_type": {
+          "value": "freshman",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              299.00000877678394,
+              1612.000036239624
+            ],
+            [
+              471.9999946653843,
+              1612.000036239624
+            ],
+            [
+              471.9999946653843,
               1637.000012397766
             ],
             [
-              304.0000084787607,
+              299.00000877678394,
               1637.000012397766
             ]
           ],
@@ -3364,25 +3121,59 @@
           "certainty": "certain",
           "notes": "Checkbox clearly marked."
         },
+        "preferred_first_name": {
+          "value": "Janvi",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              265.9999955445528,
+              414.9999976158142
+            ],
+            [
+              396.99999913573265,
+              414.9999976158142
+            ],
+            [
+              396.99999913573265,
+              483.9999809861183
+            ],
+            [
+              265.9999955445528,
+              483.9999809861183
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Janvi",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
         "zip_code": {
           "value": "79606",
           "confidence": 1.0,
           "bounding_box": [
             [
-              917.0000061392784,
-              1110.0000232458115
+              903.0000373721123,
+              1085.0000470876694
             ],
             [
-              1133.999978005886,
-              1110.0000232458115
+              1163.0000218749046,
+              1085.0000470876694
             ],
             [
-              1133.999978005886,
-              1156.9999784231186
+              1163.0000218749046,
+              1178.9999574422836
             ],
             [
-              917.0000061392784,
-              1156.9999784231186
+              903.0000373721123,
+              1178.9999574422836
             ]
           ],
           "source": "gemini",
@@ -3398,39 +3189,33 @@
           "certainty": "certain",
           "notes": null
         },
-        "permission_to_text": {
-          "value": "Yes",
-          "confidence": 1.0,
-          "bounding_box": [
-            [
-              948.9999890327454,
-              766.0000070929527
-            ],
-            [
-              1013.0000308156013,
-              766.0000070929527
-            ],
-            [
-              1013.0000308156013,
-              790.9999832510948
-            ],
-            [
-              948.9999890327454,
-              790.9999832510948
-            ]
-          ],
+        "email": {
+          "value": "pateljan29@wyliebulldogs.org",
+          "confidence": 0.0,
+          "bounding_box": [],
           "source": "gemini",
           "enabled": true,
-          "required": false,
+          "required": true,
           "requires_human_review": false,
           "review_notes": "",
-          "review_confidence": 0.95,
+          "review_confidence": 0.72675,
+          "edit_made": true,
+          "edit_type": "ocr_correction",
+          "original_value": "",
+          "text_clarity": "mostly_clear",
+          "certainty": "mostly_certain",
+          "notes": "Corrected OCR error for email address. Added missing email."
+        },
+        "mapped_major": {
+          "value": "",
           "edit_made": false,
-          "edit_type": "none",
-          "original_value": "Yes",
+          "edit_type": "mapped_value",
+          "original_value": "Unsue",
           "text_clarity": "clear",
-          "certainty": "certain",
-          "notes": "Checkbox clearly marked."
+          "certainty": "uncertain",
+          "notes": "Could not map 'Unsue' to a valid major",
+          "requires_human_review": false,
+          "review_notes": ""
         },
         "city": {
           "value": "Abilene",
@@ -3439,6 +3224,8 @@
           "notes": null,
           "requires_human_review": false,
           "review_notes": "",
+          "enabled": true,
+          "required": true,
           "edit_made": false,
           "edit_type": "none",
           "original_value": "Abilene",
@@ -3453,70 +3240,27 @@
           "notes": null,
           "requires_human_review": false,
           "review_notes": "",
+          "enabled": true,
+          "required": true,
           "edit_made": false,
           "edit_type": "none",
-          "original_value": "Texas",
+          "original_value": "TX",
           "text_clarity": "clear",
           "certainty": "certain",
           "review_confidence": 0.95
-        },
-        "major": {
-          "value": "Theatre & Art",
-          "confidence": 0.0,
-          "bounding_box": [],
-          "source": "gemini",
-          "enabled": true,
-          "required": false,
-          "edit_made": false,
-          "edit_type": "none",
-          "original_value": "Theatre & Art",
-          "text_clarity": "clear",
-          "certainty": "certain",
-          "notes": null,
-          "review_confidence": 0.95,
-          "requires_human_review": false,
-          "review_notes": ""
-        },
-        "mapped_major": {
-          "value": "Theatre",
-          "edit_made": true,
-          "edit_type": "mapped_value",
-          "original_value": "Theatre & Art",
-          "text_clarity": "clear",
-          "certainty": "certain",
-          "notes": "Mapped from 'Theatre & Art' to 'Theatre'",
-          "requires_human_review": false,
-          "review_notes": ""
-        },
-        "gpa": {
-          "value": null,
-          "confidence": 0.0,
-          "bounding_box": [],
-          "source": "gemini",
-          "enabled": true,
-          "required": false,
-          "edit_made": false,
-          "edit_type": "none",
-          "original_value": null,
-          "text_clarity": "clear",
-          "certainty": "certain",
-          "notes": null,
-          "review_confidence": 0.1,
-          "requires_human_review": false,
-          "review_notes": ""
         }
       },
       "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
       "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
       "event_id": null,
-      "image_path": "/Users/kregboyd/Applications/card-capture-api/test_images/page_10.png",
-      "review_status": "needs_human_review",
-      "created_at": "2025-06-09T00:16:38.832696+00:00",
-      "updated_at": "2025-06-09T00:16:38.832696+00:00"
+      "image_path": "/Users/kregboyd/Applications/card-capture-api/test_images/page_19.png",
+      "review_status": "reviewed",
+      "created_at": "2025-06-09T00:40:59.320263+00:00",
+      "updated_at": "2025-06-09T00:40:59.320263+00:00"
     }
   },
   {
-    "timestamp": "2025-06-09T00:16:38.836165+00:00",
+    "timestamp": "2025-06-09T00:40:59.320611+00:00",
     "message": "\u2705 Processing completed successfully",
     "data": null
   }

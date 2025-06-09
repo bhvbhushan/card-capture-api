@@ -58,10 +58,12 @@ def validate_and_enhance_address(fields: Dict[str, Any]) -> Dict[str, Any]:
                 # Enhance city if missing or low confidence
                 if 'city' in zip_validation and _should_enhance_field(fields.get('city', {}), zip_validation['city']):
                     log_debug(f"Enhancing city: '{city}' -> '{zip_validation['city']}'", service="address")
+                    original_city = fields.get('city', {})
                     fields['city'] = _create_enhanced_field(
                         zip_validation['city'],
                         "zip_validation",
-                        "City validated from zip code"
+                        "City validated from zip code",
+                        preserve_field_requirements=original_city
                     )
                     # Clear review flag since we validated it
                     fields['city']['requires_human_review'] = False
@@ -70,10 +72,12 @@ def validate_and_enhance_address(fields: Dict[str, Any]) -> Dict[str, Any]:
                 # Enhance state if missing or low confidence
                 if 'state' in zip_validation and _should_enhance_field(fields.get('state', {}), zip_validation['state']):
                     log_debug(f"Enhancing state: '{state}' -> '{zip_validation['state']}'", service="address")
+                    original_state = fields.get('state', {})
                     fields['state'] = _create_enhanced_field(
                         zip_validation['state'],
                         "zip_validation",
-                        "State validated from zip code"
+                        "State validated from zip code",
+                        preserve_field_requirements=original_state
                     )
                     # Clear review flag since we validated it
                     fields['state']['requires_human_review'] = False
@@ -165,7 +169,7 @@ def _should_enhance_field(current_field: Dict[str, Any], new_value: str) -> bool
     # Don't enhance if we have good data
     return False
 
-def _create_enhanced_field(value: str, source: str, notes: str) -> Dict[str, Any]:
+def _create_enhanced_field(value: str, source: str, notes: str, preserve_field_requirements: Dict[str, Any] = None) -> Dict[str, Any]:
     """
     Create a field with enhanced data
     
@@ -173,11 +177,12 @@ def _create_enhanced_field(value: str, source: str, notes: str) -> Dict[str, Any
         value: The enhanced value
         source: Where the enhancement came from
         notes: Notes about the enhancement
+        preserve_field_requirements: Original field data to preserve enabled/required status
         
     Returns:
         Enhanced field data
     """
-    return {
+    enhanced_field = {
         'value': value,
         'confidence': 0.95,  # High confidence for validated data
         'source': source,
@@ -185,6 +190,15 @@ def _create_enhanced_field(value: str, source: str, notes: str) -> Dict[str, Any
         'requires_human_review': False,
         'review_notes': ""
     }
+    
+    # Preserve enabled and required status from original field
+    if preserve_field_requirements:
+        if 'enabled' in preserve_field_requirements:
+            enhanced_field['enabled'] = preserve_field_requirements['enabled']
+        if 'required' in preserve_field_requirements:
+            enhanced_field['required'] = preserve_field_requirements['required']
+    
+    return enhanced_field
 
 def _mark_address_fields_for_review_if_missing(fields: Dict[str, Any]) -> None:
     """
@@ -230,7 +244,8 @@ def _check_for_invalid_addresses(fields: Dict[str, Any]) -> None:
     if raw_address_value is None:
         return
         
-    address_value = raw_address_value.lower()
+    address_value = raw_address_value.strip()
+    address_lower = address_value.lower()
     
     # Common patterns that indicate invalid addresses
     invalid_patterns = [
@@ -242,11 +257,35 @@ def _check_for_invalid_addresses(fields: Dict[str, Any]) -> None:
     
     # Check if address contains invalid patterns
     for pattern in invalid_patterns:
-        if pattern in address_value:
+        if pattern in address_lower:
             address_field['requires_human_review'] = True
-            address_field['review_notes'] = f"Address appears to be placeholder or invalid: '{address_field.get('value', '')}'"
+            address_field['review_notes'] = f"Address appears to be placeholder or invalid: '{address_value}'"
             address_field['review_confidence'] = 0.2
-            break
+            log_debug(f"Address flagged for invalid pattern '{pattern}': {address_value}", service="address")
+            return
+    
+    # Check for incomplete addresses missing street numbers
+    import re
+    
+    # Look for street number at the beginning of the address
+    # Street number patterns: digits (possibly followed by letter like 123A)
+    street_number_pattern = r'^\s*\d+[A-Za-z]?\s+'
+    
+    if not re.match(street_number_pattern, address_value):
+        # No street number found - this is likely an incomplete address
+        address_field['requires_human_review'] = True
+        address_field['review_notes'] = f"Address appears incomplete - missing street number: '{address_value}'"
+        address_field['review_confidence'] = 0.3
+        log_debug(f"Address flagged for missing street number: {address_value}", service="address")
+        return
+    
+    # Additional check for very short addresses that are likely incomplete
+    if len(address_value.strip()) < 5:
+        address_field['requires_human_review'] = True
+        address_field['review_notes'] = f"Address too short or incomplete: '{address_value}'"
+        address_field['review_confidence'] = 0.2
+        log_debug(f"Address flagged for being too short: {address_value}", service="address")
+        return
 
 def validate_address_with_google_maps(address: str, city: str, state: str, zip_code: str):
     if not gmaps_client:
