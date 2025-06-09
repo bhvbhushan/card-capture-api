@@ -1,11 +1,11 @@
 [
   {
-    "timestamp": "2025-06-09T16:19:49.121573+00:00",
+    "timestamp": "2025-06-09T22:21:39.072193+00:00",
     "message": "=== TESTING WORKER FLOW ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:19:49.121606+00:00",
+    "timestamp": "2025-06-09T22:21:39.072218+00:00",
     "message": "Test Parameters",
     "data": {
       "Image path": "/Users/kregboyd/Applications/card-capture-api/UMHB/card_8.pdf",
@@ -15,17 +15,17 @@
     }
   },
   {
-    "timestamp": "2025-06-09T16:19:49.121631+00:00",
+    "timestamp": "2025-06-09T22:21:39.072247+00:00",
     "message": "=== STEP 1: GET FIELD REQUIREMENTS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:19:49.382385+00:00",
+    "timestamp": "2025-06-09T22:21:39.313558+00:00",
     "message": "Using DocAI processor: 894b9758c2215ed6",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:19:49.576990+00:00",
+    "timestamp": "2025-06-09T22:21:39.430203+00:00",
     "message": "Current Field Requirements",
     "data": {
       "name": {
@@ -99,16 +99,20 @@
       "mapped_major": {
         "enabled": true,
         "required": false
+      },
+      "gender": {
+        "enabled": true,
+        "required": false
       }
     }
   },
   {
-    "timestamp": "2025-06-09T16:19:49.577186+00:00",
+    "timestamp": "2025-06-09T22:21:39.430295+00:00",
     "message": "=== STEP 2: DOCAI PROCESSING ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:19:57.809596+00:00",
+    "timestamp": "2025-06-09T22:21:48.030186+00:00",
     "message": "Original DocAI Response",
     "data": {
       "date_of_birth": {
@@ -139,6 +143,118 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
+      "major": {
+        "value": "Engineering",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            462.99999564886093,
+            2108.0000262260437
+          ],
+          [
+            820.9999820590019,
+            2108.0000262260437
+          ],
+          [
+            820.9999820590019,
+            2183.0000054836273
+          ],
+          [
+            462.99999564886093,
+            2183.0000054836273
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city_state": {
+        "value": "Little River, TX",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            690.0000247359276,
+            1327.999931693077
+          ],
+          [
+            1130.9999829530716,
+            1327.999931693077
+          ],
+          [
+            1130.9999829530716,
+            1395.000009059906
+          ],
+          [
+            690.0000247359276,
+            1395.000009059906
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "student_type": {
+        "value": "New Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            483.00000220537186,
+            1775.9999375343323
+          ],
+          [
+            703.9999890327454,
+            1775.9999375343323
+          ],
+          [
+            703.9999890327454,
+            1800.000066280365
+          ],
+          [
+            483.00000220537186,
+            1800.000066280365
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Mark upton",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            569.999985396862,
+            1144.0000023245811
+          ],
+          [
+            991.0000377893448,
+            1144.0000023245811
+          ],
+          [
+            991.0000377893448,
+            1196.0000697374344
+          ],
+          [
+            569.999985396862,
+            1196.0000697374344
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
       "cell": {
         "value": "982-913-0607",
         "confidence": 1.0,
@@ -191,118 +307,6 @@
         "source": "docai",
         "enabled": true,
         "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "student_type": {
-        "value": "New Freshman",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            483.00000220537186,
-            1775.9999375343323
-          ],
-          [
-            703.9999890327454,
-            1775.9999375343323
-          ],
-          [
-            703.9999890327454,
-            1800.000066280365
-          ],
-          [
-            483.00000220537186,
-            1800.000066280365
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "city_state": {
-        "value": "Little River, TX",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            690.0000247359276,
-            1327.999931693077
-          ],
-          [
-            1130.9999829530716,
-            1327.999931693077
-          ],
-          [
-            1130.9999829530716,
-            1395.000009059906
-          ],
-          [
-            690.0000247359276,
-            1395.000009059906
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "major": {
-        "value": "Engineering",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            462.99999564886093,
-            2108.0000262260437
-          ],
-          [
-            820.9999820590019,
-            2108.0000262260437
-          ],
-          [
-            820.9999820590019,
-            2183.0000054836273
-          ],
-          [
-            462.99999564886093,
-            2183.0000054836273
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "name": {
-        "value": "Mark upton",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            569.999985396862,
-            1144.0000023245811
-          ],
-          [
-            991.0000377893448,
-            1144.0000023245811
-          ],
-          [
-            991.0000377893448,
-            1196.0000697374344
-          ],
-          [
-            569.999985396862,
-            1196.0000697374344
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -377,6 +381,17 @@
         "enabled": true,
         "required": true
       },
+      "preferred_first_name": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
       "email": {
         "value": "",
         "confidence": 0.0,
@@ -387,16 +402,93 @@
         "requires_human_review": true,
         "review_notes": "Required field not detected by DocAI",
         "review_confidence": 0.0
+      },
+      "permission_to_text": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "high_school": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "class_rank": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "students_in_class": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "gpa": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "mapped_major": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "gender": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
       }
     }
   },
   {
-    "timestamp": "2025-06-09T16:19:57.810012+00:00",
+    "timestamp": "2025-06-09T22:21:48.030446+00:00",
     "message": "=== STEP 3: SPLIT ADDRESS FIELDS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:19:57.810871+00:00",
+    "timestamp": "2025-06-09T22:21:48.031332+00:00",
     "message": "Fields After Address Splitting",
     "data": {
       "date_of_birth": {
@@ -427,6 +519,118 @@
         "review_notes": "",
         "review_confidence": 0.0
       },
+      "major": {
+        "value": "Engineering",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            462.99999564886093,
+            2108.0000262260437
+          ],
+          [
+            820.9999820590019,
+            2108.0000262260437
+          ],
+          [
+            820.9999820590019,
+            2183.0000054836273
+          ],
+          [
+            462.99999564886093,
+            2183.0000054836273
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city_state": {
+        "value": "Little River, TX",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            690.0000247359276,
+            1327.999931693077
+          ],
+          [
+            1130.9999829530716,
+            1327.999931693077
+          ],
+          [
+            1130.9999829530716,
+            1395.000009059906
+          ],
+          [
+            690.0000247359276,
+            1395.000009059906
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "student_type": {
+        "value": "New Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            483.00000220537186,
+            1775.9999375343323
+          ],
+          [
+            703.9999890327454,
+            1775.9999375343323
+          ],
+          [
+            703.9999890327454,
+            1800.000066280365
+          ],
+          [
+            483.00000220537186,
+            1800.000066280365
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Mark upton",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            569.999985396862,
+            1144.0000023245811
+          ],
+          [
+            991.0000377893448,
+            1144.0000023245811
+          ],
+          [
+            991.0000377893448,
+            1196.0000697374344
+          ],
+          [
+            569.999985396862,
+            1196.0000697374344
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
       "cell": {
         "value": "982-913-0607",
         "confidence": 1.0,
@@ -479,118 +683,6 @@
         "source": "docai",
         "enabled": true,
         "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "student_type": {
-        "value": "New Freshman",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            483.00000220537186,
-            1775.9999375343323
-          ],
-          [
-            703.9999890327454,
-            1775.9999375343323
-          ],
-          [
-            703.9999890327454,
-            1800.000066280365
-          ],
-          [
-            483.00000220537186,
-            1800.000066280365
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "city_state": {
-        "value": "Little River, TX",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            690.0000247359276,
-            1327.999931693077
-          ],
-          [
-            1130.9999829530716,
-            1327.999931693077
-          ],
-          [
-            1130.9999829530716,
-            1395.000009059906
-          ],
-          [
-            690.0000247359276,
-            1395.000009059906
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "major": {
-        "value": "Engineering",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            462.99999564886093,
-            2108.0000262260437
-          ],
-          [
-            820.9999820590019,
-            2108.0000262260437
-          ],
-          [
-            820.9999820590019,
-            2183.0000054836273
-          ],
-          [
-            462.99999564886093,
-            2183.0000054836273
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "name": {
-        "value": "Mark upton",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            569.999985396862,
-            1144.0000023245811
-          ],
-          [
-            991.0000377893448,
-            1144.0000023245811
-          ],
-          [
-            991.0000377893448,
-            1196.0000697374344
-          ],
-          [
-            569.999985396862,
-            1196.0000697374344
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -665,6 +757,17 @@
         "enabled": true,
         "required": true
       },
+      "preferred_first_name": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
       "email": {
         "value": "",
         "confidence": 0.0,
@@ -675,16 +778,93 @@
         "requires_human_review": true,
         "review_notes": "Required field not detected by DocAI",
         "review_confidence": 0.0
+      },
+      "permission_to_text": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "high_school": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "class_rank": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "students_in_class": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "gpa": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "mapped_major": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "gender": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
       }
     }
   },
   {
-    "timestamp": "2025-06-09T16:19:57.811218+00:00",
+    "timestamp": "2025-06-09T22:21:48.031592+00:00",
     "message": "=== STEP 4: SYNC FIELDS WITH SCHOOL SETTINGS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:19:58.052934+00:00",
+    "timestamp": "2025-06-09T22:21:48.356211+00:00",
     "message": "Updated Field Requirements",
     "data": {
       "name": {
@@ -758,16 +938,20 @@
       "mapped_major": {
         "enabled": true,
         "required": false
+      },
+      "gender": {
+        "enabled": true,
+        "required": false
       }
     }
   },
   {
-    "timestamp": "2025-06-09T16:19:58.053081+00:00",
+    "timestamp": "2025-06-09T22:21:48.356313+00:00",
     "message": "=== STEP 5: APPLY FIELD REQUIREMENTS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:19:58.055057+00:00",
+    "timestamp": "2025-06-09T22:21:48.358120+00:00",
     "message": "Fields After Applying Requirements",
     "data": {
       "date_of_birth": {
@@ -794,6 +978,118 @@
         "source": "docai",
         "enabled": true,
         "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Engineering",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            462.99999564886093,
+            2108.0000262260437
+          ],
+          [
+            820.9999820590019,
+            2108.0000262260437
+          ],
+          [
+            820.9999820590019,
+            2183.0000054836273
+          ],
+          [
+            462.99999564886093,
+            2183.0000054836273
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city_state": {
+        "value": "Little River, TX",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            690.0000247359276,
+            1327.999931693077
+          ],
+          [
+            1130.9999829530716,
+            1327.999931693077
+          ],
+          [
+            1130.9999829530716,
+            1395.000009059906
+          ],
+          [
+            690.0000247359276,
+            1395.000009059906
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "student_type": {
+        "value": "New Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            483.00000220537186,
+            1775.9999375343323
+          ],
+          [
+            703.9999890327454,
+            1775.9999375343323
+          ],
+          [
+            703.9999890327454,
+            1800.000066280365
+          ],
+          [
+            483.00000220537186,
+            1800.000066280365
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Mark upton",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            569.999985396862,
+            1144.0000023245811
+          ],
+          [
+            991.0000377893448,
+            1144.0000023245811
+          ],
+          [
+            991.0000377893448,
+            1196.0000697374344
+          ],
+          [
+            569.999985396862,
+            1196.0000697374344
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -850,118 +1146,6 @@
         "source": "docai",
         "enabled": true,
         "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "student_type": {
-        "value": "New Freshman",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            483.00000220537186,
-            1775.9999375343323
-          ],
-          [
-            703.9999890327454,
-            1775.9999375343323
-          ],
-          [
-            703.9999890327454,
-            1800.000066280365
-          ],
-          [
-            483.00000220537186,
-            1800.000066280365
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "city_state": {
-        "value": "Little River, TX",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            690.0000247359276,
-            1327.999931693077
-          ],
-          [
-            1130.9999829530716,
-            1327.999931693077
-          ],
-          [
-            1130.9999829530716,
-            1395.000009059906
-          ],
-          [
-            690.0000247359276,
-            1395.000009059906
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "major": {
-        "value": "Engineering",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            462.99999564886093,
-            2108.0000262260437
-          ],
-          [
-            820.9999820590019,
-            2108.0000262260437
-          ],
-          [
-            820.9999820590019,
-            2183.0000054836273
-          ],
-          [
-            462.99999564886093,
-            2183.0000054836273
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.0
-      },
-      "name": {
-        "value": "Mark upton",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            569.999985396862,
-            1144.0000023245811
-          ],
-          [
-            991.0000377893448,
-            1144.0000023245811
-          ],
-          [
-            991.0000377893448,
-            1196.0000697374344
-          ],
-          [
-            569.999985396862,
-            1196.0000697374344
-          ]
-        ],
-        "source": "docai",
-        "enabled": true,
-        "required": true,
         "requires_human_review": false,
         "review_notes": "",
         "review_confidence": 0.0
@@ -1036,6 +1220,17 @@
         "enabled": true,
         "required": true
       },
+      "preferred_first_name": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
       "email": {
         "value": "",
         "confidence": 0.0,
@@ -1046,16 +1241,93 @@
         "requires_human_review": true,
         "review_notes": "Required field not detected by DocAI",
         "review_confidence": 0.0
+      },
+      "permission_to_text": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "high_school": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "class_rank": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "students_in_class": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "gpa": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "mapped_major": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "gender": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
       }
     }
   },
   {
-    "timestamp": "2025-06-09T16:19:58.055460+00:00",
+    "timestamp": "2025-06-09T22:21:48.358546+00:00",
     "message": "=== STEP 6: FETCH VALID MAJORS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:19:58.208645+00:00",
+    "timestamp": "2025-06-09T22:21:48.510381+00:00",
     "message": "Valid majors",
     "data": [
       "Undecided",
@@ -1126,12 +1398,12 @@
     ]
   },
   {
-    "timestamp": "2025-06-09T16:19:58.208798+00:00",
+    "timestamp": "2025-06-09T22:21:48.510443+00:00",
     "message": "=== STEP 7: GEMINI PROCESSING ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:20:14.845070+00:00",
+    "timestamp": "2025-06-09T22:22:09.474081+00:00",
     "message": "Gemini Output",
     "data": {
       "date_of_birth": {
@@ -1168,6 +1440,142 @@
         "certainty": "certain",
         "notes": "Added century to birthdate."
       },
+      "major": {
+        "value": "Engineering",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            462.99999564886093,
+            2108.0000262260437
+          ],
+          [
+            820.9999820590019,
+            2108.0000262260437
+          ],
+          [
+            820.9999820590019,
+            2183.0000054836273
+          ],
+          [
+            462.99999564886093,
+            2183.0000054836273
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Engineering",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "city_state": {
+        "value": "Little River, TX",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            690.0000247359276,
+            1327.999931693077
+          ],
+          [
+            1130.9999829530716,
+            1327.999931693077
+          ],
+          [
+            1130.9999829530716,
+            1395.000009059906
+          ],
+          [
+            690.0000247359276,
+            1395.000009059906
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Little River, TX",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            483.00000220537186,
+            1775.9999375343323
+          ],
+          [
+            703.9999890327454,
+            1775.9999375343323
+          ],
+          [
+            703.9999890327454,
+            1800.000066280365
+          ],
+          [
+            483.00000220537186,
+            1800.000066280365
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "New Freshman",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "name": {
+        "value": "Mark Upton",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            569.999985396862,
+            1144.0000023245811
+          ],
+          [
+            991.0000377893448,
+            1144.0000023245811
+          ],
+          [
+            991.0000377893448,
+            1196.0000697374344
+          ],
+          [
+            569.999985396862,
+            1196.0000697374344
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "Mark upton",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Capitalized last name initial."
+      },
       "cell": {
         "value": "982-913-0607",
         "confidence": 1.0,
@@ -1234,143 +1642,7 @@
         "original_value": "Fall Year: 25",
         "text_clarity": "clear",
         "certainty": "certain",
-        "notes": "Standardized term format."
-      },
-      "student_type": {
-        "value": "Freshman",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            483.00000220537186,
-            1775.9999375343323
-          ],
-          [
-            703.9999890327454,
-            1775.9999375343323
-          ],
-          [
-            703.9999890327454,
-            1800.000066280365
-          ],
-          [
-            483.00000220537186,
-            1800.000066280365
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "New Freshman",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Checkbox clearly marked."
-      },
-      "city_state": {
-        "value": "Little River, TX",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            690.0000247359276,
-            1327.999931693077
-          ],
-          [
-            1130.9999829530716,
-            1327.999931693077
-          ],
-          [
-            1130.9999829530716,
-            1395.000009059906
-          ],
-          [
-            690.0000247359276,
-            1395.000009059906
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Little River, TX",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "major": {
-        "value": "Engineering",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            462.99999564886093,
-            2108.0000262260437
-          ],
-          [
-            820.9999820590019,
-            2108.0000262260437
-          ],
-          [
-            820.9999820590019,
-            2183.0000054836273
-          ],
-          [
-            462.99999564886093,
-            2183.0000054836273
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Engineering",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "name": {
-        "value": "Mark Upton",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            569.999985396862,
-            1144.0000023245811
-          ],
-          [
-            991.0000377893448,
-            1144.0000023245811
-          ],
-          [
-            991.0000377893448,
-            1196.0000697374344
-          ],
-          [
-            569.999985396862,
-            1196.0000697374344
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": true,
-        "edit_type": "format_correction",
-        "original_value": "Mark upton",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Capitalized last name."
+        "notes": "Standardized term format to Fall YYYY."
       },
       "address": {
         "value": "111 South Buchanan Rd.",
@@ -1472,8 +1744,25 @@
         "requires_human_review": false,
         "review_notes": ""
       },
+      "preferred_first_name": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
       "email": {
-        "value": "Mark.Upton@yahoo.com",
+        "value": "mark.upton@yahoo.com",
         "confidence": 0.0,
         "bounding_box": [],
         "source": "gemini",
@@ -1487,7 +1776,92 @@
         "original_value": null,
         "text_clarity": "clear",
         "certainty": "certain",
-        "notes": "Corrected OCR error."
+        "notes": "email extracted and corrected based on image"
+      },
+      "permission_to_text": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "high_school": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "class_rank": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "students_in_class": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "gpa": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
       },
       "mapped_major": {
         "value": "Engineering Physics",
@@ -1499,16 +1873,33 @@
         "notes": "Mapped from 'Engineering' to 'Engineering Physics'",
         "requires_human_review": false,
         "review_notes": ""
+      },
+      "gender": {
+        "value": "Male",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Extracted gender from selection box."
       }
     }
   },
   {
-    "timestamp": "2025-06-09T16:20:14.845781+00:00",
+    "timestamp": "2025-06-09T22:22:09.474559+00:00",
     "message": "=== STEP 8: ADDRESS VALIDATION ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:20:14.846508+00:00",
+    "timestamp": "2025-06-09T22:22:09.475061+00:00",
     "message": "Fields After Address Validation",
     "data": {
       "date_of_birth": {
@@ -1545,6 +1936,142 @@
         "certainty": "certain",
         "notes": "Added century to birthdate."
       },
+      "major": {
+        "value": "Engineering",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            462.99999564886093,
+            2108.0000262260437
+          ],
+          [
+            820.9999820590019,
+            2108.0000262260437
+          ],
+          [
+            820.9999820590019,
+            2183.0000054836273
+          ],
+          [
+            462.99999564886093,
+            2183.0000054836273
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Engineering",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "city_state": {
+        "value": "Little River, TX",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            690.0000247359276,
+            1327.999931693077
+          ],
+          [
+            1130.9999829530716,
+            1327.999931693077
+          ],
+          [
+            1130.9999829530716,
+            1395.000009059906
+          ],
+          [
+            690.0000247359276,
+            1395.000009059906
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Little River, TX",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            483.00000220537186,
+            1775.9999375343323
+          ],
+          [
+            703.9999890327454,
+            1775.9999375343323
+          ],
+          [
+            703.9999890327454,
+            1800.000066280365
+          ],
+          [
+            483.00000220537186,
+            1800.000066280365
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "New Freshman",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "name": {
+        "value": "Mark Upton",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            569.999985396862,
+            1144.0000023245811
+          ],
+          [
+            991.0000377893448,
+            1144.0000023245811
+          ],
+          [
+            991.0000377893448,
+            1196.0000697374344
+          ],
+          [
+            569.999985396862,
+            1196.0000697374344
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "Mark upton",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Capitalized last name initial."
+      },
       "cell": {
         "value": "982-913-0607",
         "confidence": 1.0,
@@ -1611,143 +2138,7 @@
         "original_value": "Fall Year: 25",
         "text_clarity": "clear",
         "certainty": "certain",
-        "notes": "Standardized term format."
-      },
-      "student_type": {
-        "value": "Freshman",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            483.00000220537186,
-            1775.9999375343323
-          ],
-          [
-            703.9999890327454,
-            1775.9999375343323
-          ],
-          [
-            703.9999890327454,
-            1800.000066280365
-          ],
-          [
-            483.00000220537186,
-            1800.000066280365
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "New Freshman",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Checkbox clearly marked."
-      },
-      "city_state": {
-        "value": "Little River, TX",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            690.0000247359276,
-            1327.999931693077
-          ],
-          [
-            1130.9999829530716,
-            1327.999931693077
-          ],
-          [
-            1130.9999829530716,
-            1395.000009059906
-          ],
-          [
-            690.0000247359276,
-            1395.000009059906
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Little River, TX",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "major": {
-        "value": "Engineering",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            462.99999564886093,
-            2108.0000262260437
-          ],
-          [
-            820.9999820590019,
-            2108.0000262260437
-          ],
-          [
-            820.9999820590019,
-            2183.0000054836273
-          ],
-          [
-            462.99999564886093,
-            2183.0000054836273
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Engineering",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "name": {
-        "value": "Mark Upton",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            569.999985396862,
-            1144.0000023245811
-          ],
-          [
-            991.0000377893448,
-            1144.0000023245811
-          ],
-          [
-            991.0000377893448,
-            1196.0000697374344
-          ],
-          [
-            569.999985396862,
-            1196.0000697374344
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": true,
-        "edit_type": "format_correction",
-        "original_value": "Mark upton",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Capitalized last name."
+        "notes": "Standardized term format to Fall YYYY."
       },
       "address": {
         "value": "111 South Buchanan Rd.",
@@ -1849,8 +2240,25 @@
         "requires_human_review": false,
         "review_notes": ""
       },
+      "preferred_first_name": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
       "email": {
-        "value": "Mark.Upton@yahoo.com",
+        "value": "mark.upton@yahoo.com",
         "confidence": 0.0,
         "bounding_box": [],
         "source": "gemini",
@@ -1864,7 +2272,92 @@
         "original_value": null,
         "text_clarity": "clear",
         "certainty": "certain",
-        "notes": "Corrected OCR error."
+        "notes": "email extracted and corrected based on image"
+      },
+      "permission_to_text": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "high_school": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "class_rank": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "students_in_class": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "gpa": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
       },
       "mapped_major": {
         "value": "Engineering Physics",
@@ -1876,21 +2369,38 @@
         "notes": "Mapped from 'Engineering' to 'Engineering Physics'",
         "requires_human_review": false,
         "review_notes": ""
+      },
+      "gender": {
+        "value": "Male",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Extracted gender from selection box."
       }
     }
   },
   {
-    "timestamp": "2025-06-09T16:20:14.849730+00:00",
+    "timestamp": "2025-06-09T22:22:09.475492+00:00",
     "message": "=== STEP 9: MAJOR MAPPING ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:20:14.849750+00:00",
+    "timestamp": "2025-06-09T22:22:09.475498+00:00",
     "message": "Original Major",
     "data": "Engineering"
   },
   {
-    "timestamp": "2025-06-09T16:20:14.849778+00:00",
+    "timestamp": "2025-06-09T22:22:09.475512+00:00",
     "message": "Major Mapping Result",
     "data": {
       "original": "Engineering",
@@ -1898,12 +2408,12 @@
     }
   },
   {
-    "timestamp": "2025-06-09T16:20:14.849813+00:00",
+    "timestamp": "2025-06-09T22:22:09.475529+00:00",
     "message": "=== STEP 10: FINAL VALIDATION ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:20:14.850454+00:00",
+    "timestamp": "2025-06-09T22:22:09.476100+00:00",
     "message": "Final Fields",
     "data": {
       "date_of_birth": {
@@ -1940,6 +2450,142 @@
         "certainty": "certain",
         "notes": "Added century to birthdate."
       },
+      "major": {
+        "value": "Engineering",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            462.99999564886093,
+            2108.0000262260437
+          ],
+          [
+            820.9999820590019,
+            2108.0000262260437
+          ],
+          [
+            820.9999820590019,
+            2183.0000054836273
+          ],
+          [
+            462.99999564886093,
+            2183.0000054836273
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Engineering",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "city_state": {
+        "value": "Little River, TX",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            690.0000247359276,
+            1327.999931693077
+          ],
+          [
+            1130.9999829530716,
+            1327.999931693077
+          ],
+          [
+            1130.9999829530716,
+            1395.000009059906
+          ],
+          [
+            690.0000247359276,
+            1395.000009059906
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Little River, TX",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            483.00000220537186,
+            1775.9999375343323
+          ],
+          [
+            703.9999890327454,
+            1775.9999375343323
+          ],
+          [
+            703.9999890327454,
+            1800.000066280365
+          ],
+          [
+            483.00000220537186,
+            1800.000066280365
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "New Freshman",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "name": {
+        "value": "Mark Upton",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            569.999985396862,
+            1144.0000023245811
+          ],
+          [
+            991.0000377893448,
+            1144.0000023245811
+          ],
+          [
+            991.0000377893448,
+            1196.0000697374344
+          ],
+          [
+            569.999985396862,
+            1196.0000697374344
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "Mark upton",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Capitalized last name initial."
+      },
       "cell": {
         "value": "982-913-0607",
         "confidence": 1.0,
@@ -2006,143 +2652,7 @@
         "original_value": "Fall Year: 25",
         "text_clarity": "clear",
         "certainty": "certain",
-        "notes": "Standardized term format."
-      },
-      "student_type": {
-        "value": "Freshman",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            483.00000220537186,
-            1775.9999375343323
-          ],
-          [
-            703.9999890327454,
-            1775.9999375343323
-          ],
-          [
-            703.9999890327454,
-            1800.000066280365
-          ],
-          [
-            483.00000220537186,
-            1800.000066280365
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "New Freshman",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Checkbox clearly marked."
-      },
-      "city_state": {
-        "value": "Little River, TX",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            690.0000247359276,
-            1327.999931693077
-          ],
-          [
-            1130.9999829530716,
-            1327.999931693077
-          ],
-          [
-            1130.9999829530716,
-            1395.000009059906
-          ],
-          [
-            690.0000247359276,
-            1395.000009059906
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Little River, TX",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "major": {
-        "value": "Engineering",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            462.99999564886093,
-            2108.0000262260437
-          ],
-          [
-            820.9999820590019,
-            2108.0000262260437
-          ],
-          [
-            820.9999820590019,
-            2183.0000054836273
-          ],
-          [
-            462.99999564886093,
-            2183.0000054836273
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Engineering",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "name": {
-        "value": "Mark Upton",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            569.999985396862,
-            1144.0000023245811
-          ],
-          [
-            991.0000377893448,
-            1144.0000023245811
-          ],
-          [
-            991.0000377893448,
-            1196.0000697374344
-          ],
-          [
-            569.999985396862,
-            1196.0000697374344
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": true,
-        "edit_type": "format_correction",
-        "original_value": "Mark upton",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Capitalized last name."
+        "notes": "Standardized term format to Fall YYYY."
       },
       "address": {
         "value": "111 South Buchanan Rd.",
@@ -2244,8 +2754,25 @@
         "requires_human_review": false,
         "review_notes": ""
       },
+      "preferred_first_name": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
       "email": {
-        "value": "Mark.Upton@yahoo.com",
+        "value": "mark.upton@yahoo.com",
         "confidence": 0.0,
         "bounding_box": [],
         "source": "gemini",
@@ -2259,7 +2786,92 @@
         "original_value": null,
         "text_clarity": "clear",
         "certainty": "certain",
-        "notes": "Corrected OCR error."
+        "notes": "email extracted and corrected based on image"
+      },
+      "permission_to_text": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "high_school": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "class_rank": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "students_in_class": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "gpa": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
       },
       "mapped_major": {
         "value": "Engineering Physics",
@@ -2271,11 +2883,28 @@
         "notes": "Mapped from 'Engineering' to 'Engineering Physics'",
         "requires_human_review": false,
         "review_notes": ""
+      },
+      "gender": {
+        "value": "Male",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Extracted gender from selection box."
       }
     }
   },
   {
-    "timestamp": "2025-06-09T16:20:14.851960+00:00",
+    "timestamp": "2025-06-09T22:22:09.476800+00:00",
     "message": "Review Status",
     "data": {
       "status": "needs_human_review",
@@ -2285,22 +2914,22 @@
     }
   },
   {
-    "timestamp": "2025-06-09T16:20:14.852073+00:00",
+    "timestamp": "2025-06-09T22:22:09.476818+00:00",
     "message": "=== STEP 11: FILTER COMBINED FIELDS ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:20:14.852079+00:00",
+    "timestamp": "2025-06-09T22:22:09.476821+00:00",
     "message": "Filtering combined fields before saving",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:20:14.852091+00:00",
-    "message": "Fields before filtering: 13, after filtering: 12",
+    "timestamp": "2025-06-09T22:22:09.476829+00:00",
+    "message": "Fields before filtering: 20, after filtering: 19",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:20:14.852096+00:00",
+    "timestamp": "2025-06-09T22:22:09.476832+00:00",
     "message": "Filtered Fields",
     "data": {
       "date_of_birth": {
@@ -2337,6 +2966,108 @@
         "certainty": "certain",
         "notes": "Added century to birthdate."
       },
+      "major": {
+        "value": "Engineering",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            462.99999564886093,
+            2108.0000262260437
+          ],
+          [
+            820.9999820590019,
+            2108.0000262260437
+          ],
+          [
+            820.9999820590019,
+            2183.0000054836273
+          ],
+          [
+            462.99999564886093,
+            2183.0000054836273
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Engineering",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            483.00000220537186,
+            1775.9999375343323
+          ],
+          [
+            703.9999890327454,
+            1775.9999375343323
+          ],
+          [
+            703.9999890327454,
+            1800.000066280365
+          ],
+          [
+            483.00000220537186,
+            1800.000066280365
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "New Freshman",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "name": {
+        "value": "Mark Upton",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            569.999985396862,
+            1144.0000023245811
+          ],
+          [
+            991.0000377893448,
+            1144.0000023245811
+          ],
+          [
+            991.0000377893448,
+            1196.0000697374344
+          ],
+          [
+            569.999985396862,
+            1196.0000697374344
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "Mark upton",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Capitalized last name initial."
+      },
       "cell": {
         "value": "982-913-0607",
         "confidence": 1.0,
@@ -2403,109 +3134,7 @@
         "original_value": "Fall Year: 25",
         "text_clarity": "clear",
         "certainty": "certain",
-        "notes": "Standardized term format."
-      },
-      "student_type": {
-        "value": "Freshman",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            483.00000220537186,
-            1775.9999375343323
-          ],
-          [
-            703.9999890327454,
-            1775.9999375343323
-          ],
-          [
-            703.9999890327454,
-            1800.000066280365
-          ],
-          [
-            483.00000220537186,
-            1800.000066280365
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "New Freshman",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Checkbox clearly marked."
-      },
-      "major": {
-        "value": "Engineering",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            462.99999564886093,
-            2108.0000262260437
-          ],
-          [
-            820.9999820590019,
-            2108.0000262260437
-          ],
-          [
-            820.9999820590019,
-            2183.0000054836273
-          ],
-          [
-            462.99999564886093,
-            2183.0000054836273
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": false,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": false,
-        "edit_type": "none",
-        "original_value": "Engineering",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": null
-      },
-      "name": {
-        "value": "Mark Upton",
-        "confidence": 1.0,
-        "bounding_box": [
-          [
-            569.999985396862,
-            1144.0000023245811
-          ],
-          [
-            991.0000377893448,
-            1144.0000023245811
-          ],
-          [
-            991.0000377893448,
-            1196.0000697374344
-          ],
-          [
-            569.999985396862,
-            1196.0000697374344
-          ]
-        ],
-        "source": "gemini",
-        "enabled": true,
-        "required": true,
-        "requires_human_review": false,
-        "review_notes": "",
-        "review_confidence": 0.95,
-        "edit_made": true,
-        "edit_type": "format_correction",
-        "original_value": "Mark upton",
-        "text_clarity": "clear",
-        "certainty": "certain",
-        "notes": "Capitalized last name."
+        "notes": "Standardized term format to Fall YYYY."
       },
       "address": {
         "value": "111 South Buchanan Rd.",
@@ -2607,8 +3236,25 @@
         "requires_human_review": false,
         "review_notes": ""
       },
+      "preferred_first_name": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
       "email": {
-        "value": "Mark.Upton@yahoo.com",
+        "value": "mark.upton@yahoo.com",
         "confidence": 0.0,
         "bounding_box": [],
         "source": "gemini",
@@ -2622,7 +3268,92 @@
         "original_value": null,
         "text_clarity": "clear",
         "certainty": "certain",
-        "notes": "Corrected OCR error."
+        "notes": "email extracted and corrected based on image"
+      },
+      "permission_to_text": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "high_school": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "class_rank": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "students_in_class": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "gpa": {
+        "value": null,
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
       },
       "mapped_major": {
         "value": "Engineering Physics",
@@ -2634,19 +3365,36 @@
         "notes": "Mapped from 'Engineering' to 'Engineering Physics'",
         "requires_human_review": false,
         "review_notes": ""
+      },
+      "gender": {
+        "value": "Male",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": null,
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Extracted gender from selection box."
       }
     }
   },
   {
-    "timestamp": "2025-06-09T16:20:14.852597+00:00",
+    "timestamp": "2025-06-09T22:22:09.477701+00:00",
     "message": "=== STEP 12: REVIEW DATA ===",
     "data": null
   },
   {
-    "timestamp": "2025-06-09T16:20:14.852611+00:00",
+    "timestamp": "2025-06-09T22:22:09.477729+00:00",
     "message": "Review Data to be Saved",
     "data": {
-      "document_id": "test-job-2025-06-09T16:20:14.852607+00:00",
+      "document_id": "test-job-2025-06-09T22:22:09.477726+00:00",
       "fields": {
         "date_of_birth": {
           "value": "04/28/2006",
@@ -2681,6 +3429,108 @@
           "text_clarity": "clear",
           "certainty": "certain",
           "notes": "Added century to birthdate."
+        },
+        "major": {
+          "value": "Engineering",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              462.99999564886093,
+              2108.0000262260437
+            ],
+            [
+              820.9999820590019,
+              2108.0000262260437
+            ],
+            [
+              820.9999820590019,
+              2183.0000054836273
+            ],
+            [
+              462.99999564886093,
+              2183.0000054836273
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Engineering",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "student_type": {
+          "value": "Freshman",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              483.00000220537186,
+              1775.9999375343323
+            ],
+            [
+              703.9999890327454,
+              1775.9999375343323
+            ],
+            [
+              703.9999890327454,
+              1800.000066280365
+            ],
+            [
+              483.00000220537186,
+              1800.000066280365
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "New Freshman",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "name": {
+          "value": "Mark Upton",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              569.999985396862,
+              1144.0000023245811
+            ],
+            [
+              991.0000377893448,
+              1144.0000023245811
+            ],
+            [
+              991.0000377893448,
+              1196.0000697374344
+            ],
+            [
+              569.999985396862,
+              1196.0000697374344
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": true,
+          "edit_type": "format_correction",
+          "original_value": "Mark upton",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Capitalized last name initial."
         },
         "cell": {
           "value": "982-913-0607",
@@ -2748,109 +3598,7 @@
           "original_value": "Fall Year: 25",
           "text_clarity": "clear",
           "certainty": "certain",
-          "notes": "Standardized term format."
-        },
-        "student_type": {
-          "value": "Freshman",
-          "confidence": 1.0,
-          "bounding_box": [
-            [
-              483.00000220537186,
-              1775.9999375343323
-            ],
-            [
-              703.9999890327454,
-              1775.9999375343323
-            ],
-            [
-              703.9999890327454,
-              1800.000066280365
-            ],
-            [
-              483.00000220537186,
-              1800.000066280365
-            ]
-          ],
-          "source": "gemini",
-          "enabled": true,
-          "required": false,
-          "requires_human_review": false,
-          "review_notes": "",
-          "review_confidence": 0.95,
-          "edit_made": false,
-          "edit_type": "none",
-          "original_value": "New Freshman",
-          "text_clarity": "clear",
-          "certainty": "certain",
-          "notes": "Checkbox clearly marked."
-        },
-        "major": {
-          "value": "Engineering",
-          "confidence": 1.0,
-          "bounding_box": [
-            [
-              462.99999564886093,
-              2108.0000262260437
-            ],
-            [
-              820.9999820590019,
-              2108.0000262260437
-            ],
-            [
-              820.9999820590019,
-              2183.0000054836273
-            ],
-            [
-              462.99999564886093,
-              2183.0000054836273
-            ]
-          ],
-          "source": "gemini",
-          "enabled": true,
-          "required": false,
-          "requires_human_review": false,
-          "review_notes": "",
-          "review_confidence": 0.95,
-          "edit_made": false,
-          "edit_type": "none",
-          "original_value": "Engineering",
-          "text_clarity": "clear",
-          "certainty": "certain",
-          "notes": null
-        },
-        "name": {
-          "value": "Mark Upton",
-          "confidence": 1.0,
-          "bounding_box": [
-            [
-              569.999985396862,
-              1144.0000023245811
-            ],
-            [
-              991.0000377893448,
-              1144.0000023245811
-            ],
-            [
-              991.0000377893448,
-              1196.0000697374344
-            ],
-            [
-              569.999985396862,
-              1196.0000697374344
-            ]
-          ],
-          "source": "gemini",
-          "enabled": true,
-          "required": true,
-          "requires_human_review": false,
-          "review_notes": "",
-          "review_confidence": 0.95,
-          "edit_made": true,
-          "edit_type": "format_correction",
-          "original_value": "Mark upton",
-          "text_clarity": "clear",
-          "certainty": "certain",
-          "notes": "Capitalized last name."
+          "notes": "Standardized term format to Fall YYYY."
         },
         "address": {
           "value": "111 South Buchanan Rd.",
@@ -2952,8 +3700,25 @@
           "requires_human_review": false,
           "review_notes": ""
         },
+        "preferred_first_name": {
+          "value": null,
+          "confidence": 0.0,
+          "bounding_box": [],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.1,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": null,
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
         "email": {
-          "value": "Mark.Upton@yahoo.com",
+          "value": "mark.upton@yahoo.com",
           "confidence": 0.0,
           "bounding_box": [],
           "source": "gemini",
@@ -2967,7 +3732,92 @@
           "original_value": null,
           "text_clarity": "clear",
           "certainty": "certain",
-          "notes": "Corrected OCR error."
+          "notes": "email extracted and corrected based on image"
+        },
+        "permission_to_text": {
+          "value": null,
+          "confidence": 0.0,
+          "bounding_box": [],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.1,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": null,
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "high_school": {
+          "value": null,
+          "confidence": 0.0,
+          "bounding_box": [],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.1,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": null,
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "class_rank": {
+          "value": null,
+          "confidence": 0.0,
+          "bounding_box": [],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.1,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": null,
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "students_in_class": {
+          "value": null,
+          "confidence": 0.0,
+          "bounding_box": [],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.1,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": null,
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "gpa": {
+          "value": null,
+          "confidence": 0.0,
+          "bounding_box": [],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.1,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": null,
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
         },
         "mapped_major": {
           "value": "Engineering Physics",
@@ -2979,6 +3829,23 @@
           "notes": "Mapped from 'Engineering' to 'Engineering Physics'",
           "requires_human_review": false,
           "review_notes": ""
+        },
+        "gender": {
+          "value": "Male",
+          "confidence": 0.0,
+          "bounding_box": [],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.7124999999999999,
+          "edit_made": true,
+          "edit_type": "missing_data",
+          "original_value": null,
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Extracted gender from selection box."
         }
       },
       "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
@@ -2986,12 +3853,12 @@
       "event_id": null,
       "image_path": "/Users/kregboyd/Applications/card-capture-api/UMHB/card_8.pdf",
       "review_status": "needs_human_review",
-      "created_at": "2025-06-09T16:20:14.852607+00:00",
-      "updated_at": "2025-06-09T16:20:14.852607+00:00"
+      "created_at": "2025-06-09T22:22:09.477726+00:00",
+      "updated_at": "2025-06-09T22:22:09.477726+00:00"
     }
   },
   {
-    "timestamp": "2025-06-09T16:20:14.853265+00:00",
+    "timestamp": "2025-06-09T22:22:09.479776+00:00",
     "message": "\u2705 Processing completed successfully",
     "data": null
   }

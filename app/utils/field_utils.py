@@ -64,4 +64,42 @@ def get_combined_fields_to_exclude():
         'city_state_country',
         'full_address',
         'address_combined',
-    ] 
+    ]
+
+def generate_field_label(field_key: str) -> str:
+    """Convert field keys to user-friendly display labels"""
+    
+    # Special cases for common field mappings
+    special_mappings = {
+        'cell': 'Phone Number',
+        'date_of_birth': 'Birthday', 
+        'zip_code': 'Zip Code',
+        'high_school': 'High School',
+        'entry_term': 'Entry Term',
+        'permission_to_text': 'Permission to Text',
+        'preferred_first_name': 'Preferred Name',
+        'students_in_class': 'Students in Class',
+        'class_rank': 'Class Rank',
+        'student_type': 'Student Type',
+        'mapped_major': 'Mapped Major',
+        'gpa': 'GPA'
+    }
+    
+    # Return special mapping if it exists
+    if field_key in special_mappings:
+        return special_mappings[field_key]
+    
+    # Convert snake_case to Title Case
+    # Replace underscores with spaces and capitalize each word
+    words = field_key.replace('_', ' ').split()
+    return ' '.join(word.capitalize() for word in words)
+
+
+def validate_field_key(field_key: str) -> bool:
+    """Validate that a field key is properly formatted"""
+    if not field_key or not isinstance(field_key, str):
+        return False
+    
+    # Field keys should be lowercase, alphanumeric, with underscores
+    import re
+    return bool(re.match(r'^[a-z][a-z0-9_]*$', field_key)) 
