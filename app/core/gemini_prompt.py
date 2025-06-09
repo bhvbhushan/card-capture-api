@@ -56,7 +56,7 @@ For every field in the input, return this exact structure:
 
 **Dates** – Use MM/DD/YYYY. For entry_term, include season (fall/spring) "Spring YYYY", "Fall YYYY" default to Fall YYYY if only year is present.
 
-**Addresses** – Include full street, city, state, ZIP. Prefer 2-letter states. ZIP+4 is fine. If messy, mark clarity as unclear.
+**Addresses** – Clean up OCR errors and formatting. Correct obvious typos (e.g., "Steet" → "Street"). Do not assess address completeness or validity - only focus on text cleanup.
 
 **Schools** – Expand abbreviations like HS → High School, MS or Middle to Middle School etc. Use full names if clear.
 

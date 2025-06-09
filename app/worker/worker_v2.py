@@ -249,26 +249,21 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         docai_fields = apply_field_requirements(docai_fields, updated_requirements)
         log_worker_debug("Fields After Applying Requirements", docai_fields, verbose=True)
         
-        # Step 7: Validate addresses
-        log_worker_debug("=== STEP 7: ADDRESS VALIDATION ===")
-        validated_fields = validate_and_enhance_address(docai_fields)
-        log_worker_debug("Fields After Address Validation", validated_fields, verbose=True)
-        
-        # Step 8: Fetch valid majors
-        log_worker_debug("=== STEP 8: FETCH VALID MAJORS ===")
+        # Step 7: Fetch valid majors
+        log_worker_debug("=== STEP 7: FETCH VALID MAJORS ===")
         majors_query = supabase_client.table("schools").select("majors").eq("id", school_id).maybe_single().execute()
         valid_majors = majors_query.data.get("majors") if majors_query and majors_query.data and majors_query.data.get("majors") else []
         log_worker_debug("Valid majors", valid_majors, verbose=True)
         
-        # Step 9: Process with Gemini (with failure handling)
-        log_worker_debug("=== STEP 9: GEMINI PROCESSING ===")
+        # Step 8: Process with Gemini (with failure handling)
+        log_worker_debug("=== STEP 8: GEMINI PROCESSING ===")
         ai_processing_failed = False
         ai_error_message = None
         
         try:
             gemini_fields = process_card_with_gemini_v2(
                 cropped_image_path,
-                validated_fields,
+                docai_fields,  # Pass DocAI fields directly (not pre-validated)
                 valid_majors
             )
             log_worker_debug("Gemini Output", gemini_fields, verbose=True)
@@ -278,24 +273,35 @@ def process_job_v2(job: Dict[str, Any]) -> None:
             log_worker_debug("Full Gemini error traceback:", traceback.format_exc())
             
             # Use DocAI fields with proper structure for review system
-            gemini_fields = prepare_docai_for_review(validated_fields)
+            gemini_fields = prepare_docai_for_review(docai_fields)
             ai_processing_failed = True
             ai_error_message = str(gemini_error)
             
             log_worker_debug("Using DocAI fallback data", gemini_fields, verbose=True)
+        
+        # Step 9: Address validation on cleaned Gemini data
+        log_worker_debug("=== STEP 9: ADDRESS VALIDATION ===")
+        if not ai_processing_failed:
+            # Only validate addresses if Gemini processing succeeded
+            validated_fields = validate_and_enhance_address(gemini_fields)
+            log_worker_debug("Fields After Address Validation", validated_fields, verbose=True)
+        else:
+            # Skip address validation if AI failed
+            validated_fields = gemini_fields
+            log_worker_debug("Skipping address validation due to AI failure")
         
         # Step 10: Final validation and review determination
         log_worker_debug("=== STEP 10: FINAL VALIDATION ===")
         
         if ai_processing_failed:
             # Set special review status for AI failures
-            final_fields = gemini_fields  # Already prepared fallback data
+            final_fields = validated_fields  # Use the fallback data (same as gemini_fields in this case)
             review_status = "ai_failed"
             fields_needing_review = []
             log_worker_debug("AI Processing Failed - Setting review_status to ai_failed")
         else:
-            # Normal processing path
-            final_fields = validate_field_data(gemini_fields)
+            # Normal processing path - use address-validated fields
+            final_fields = validate_field_data(validated_fields)
             review_status, fields_needing_review = determine_review_status(final_fields)
             
         log_worker_debug("Final Fields", final_fields, verbose=True)
@@ -512,8 +518,13 @@ async def retry_ai_processing(document_id: str):
             )
             log_worker_debug("Retry Gemini processing successful", verbose=True)
             
-            # Determine new review status with successful Gemini data
-            final_fields = validate_field_data(gemini_fields)
+            # Apply address validation to cleaned Gemini data (same as main pipeline)
+            log_worker_debug("Applying address validation to retry results...")
+            validated_fields = validate_and_enhance_address(gemini_fields)
+            log_worker_debug("Retry address validation complete", verbose=True)
+            
+            # Determine new review status with address-validated data
+            final_fields = validate_field_data(validated_fields)
             new_review_status, fields_needing_review = determine_review_status(final_fields)
             
             log_worker_debug("New review status after retry", {

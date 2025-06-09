@@ -1,0 +1,3575 @@
+[
+  {
+    "timestamp": "2025-06-09T01:22:02.633839+00:00",
+    "message": "=== TESTING WORKER FLOW ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:02.633849+00:00",
+    "message": "Test Parameters",
+    "data": {
+      "Image path": "/Users/kregboyd/Applications/card-capture-api/test_images/page_10.png",
+      "School ID": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+      "User ID": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+      "Event ID": null
+    }
+  },
+  {
+    "timestamp": "2025-06-09T01:22:02.633867+00:00",
+    "message": "=== STEP 1: GET FIELD REQUIREMENTS ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:03.014860+00:00",
+    "message": "Using DocAI processor: 894b9758c2215ed6",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:03.178934+00:00",
+    "message": "Current Field Requirements",
+    "data": {
+      "name": {
+        "enabled": true,
+        "required": true
+      },
+      "preferred_first_name": {
+        "enabled": true,
+        "required": false
+      },
+      "date_of_birth": {
+        "enabled": true,
+        "required": false
+      },
+      "email": {
+        "enabled": true,
+        "required": true
+      },
+      "cell": {
+        "enabled": true,
+        "required": true
+      },
+      "permission_to_text": {
+        "enabled": true,
+        "required": false
+      },
+      "address": {
+        "enabled": true,
+        "required": true
+      },
+      "city": {
+        "enabled": true,
+        "required": true
+      },
+      "state": {
+        "enabled": true,
+        "required": true
+      },
+      "zip_code": {
+        "enabled": true,
+        "required": true
+      },
+      "high_school": {
+        "enabled": true,
+        "required": false
+      },
+      "class_rank": {
+        "enabled": true,
+        "required": false
+      },
+      "students_in_class": {
+        "enabled": true,
+        "required": false
+      },
+      "gpa": {
+        "enabled": true,
+        "required": false
+      },
+      "student_type": {
+        "enabled": true,
+        "required": false
+      },
+      "entry_term": {
+        "enabled": true,
+        "required": false
+      },
+      "major": {
+        "enabled": true,
+        "required": false
+      },
+      "mapped_major": {
+        "enabled": true,
+        "required": false
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-09T01:22:03.178986+00:00",
+    "message": "=== STEP 2: DOCAI PROCESSING ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:09.717075+00:00",
+    "message": "Original DocAI Response",
+    "data": {
+      "email": {
+        "value": "Samulbri29@wyliebulldogs.org",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            277.00000628829,
+            597.0000207424164
+          ],
+          [
+            1161.0000371932983,
+            597.0000207424164
+          ],
+          [
+            1161.0000371932983,
+            670.0000002980232
+          ],
+          [
+            277.00000628829,
+            670.0000002980232
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Brielle Samulde",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            252.00000777840614,
+            250.0000074505806
+          ],
+          [
+            817.0000120997429,
+            250.0000074505806
+          ],
+          [
+            817.0000120997429,
+            325.0000096857548
+          ],
+          [
+            252.00000777840614,
+            325.0000096857548
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "cell": {
+        "value": "325-338-7743",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            255.99999614059925,
+            771.0000023245811
+          ],
+          [
+            719.0000027418137,
+            771.0000023245811
+          ],
+          [
+            719.0000027418137,
+            835.9999895095825
+          ],
+          [
+            255.99999614059925,
+            835.9999895095825
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "permission_to_text": {
+        "value": "Yes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            948.9999890327454,
+            766.0000070929527
+          ],
+          [
+            1013.0000308156013,
+            766.0000070929527
+          ],
+          [
+            1013.0000308156013,
+            790.9999832510948
+          ],
+          [
+            948.9999890327454,
+            790.9999832510948
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "high_school": {
+        "value": "Wylie West Junior High",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            260.0000035017729,
+            1273.9999651908875
+          ],
+          [
+            1005.9999704360962,
+            1273.9999651908875
+          ],
+          [
+            1005.9999704360962,
+            1345.9999948740005
+          ],
+          [
+            260.0000035017729,
+            1345.9999948740005
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "date_of_birth": {
+        "value": "1-14-2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            932.0000052452087,
+            430.99998235702515
+          ],
+          [
+            1201.0000348091125,
+            430.99998235702515
+          ],
+          [
+            1201.0000348091125,
+            479.9999848008156
+          ],
+          [
+            932.0000052452087,
+            479.9999848008156
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_term": {
+        "value": "Fall 2024",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            890.9999772906303,
+            1571.9999760389328
+          ],
+          [
+            1168.9999759197235,
+            1571.9999760389328
+          ],
+          [
+            1168.9999759197235,
+            1642.0000076293945
+          ],
+          [
+            890.9999772906303,
+            1642.0000076293945
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "Western Pumes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            257.99999982118607,
+            934.9999934434891
+          ],
+          [
+            717.9999724030495,
+            934.9999934434891
+          ],
+          [
+            717.9999724030495,
+            1001.0000288486481
+          ],
+          [
+            257.99999982118607,
+            1001.0000288486481
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            304.0000084787607,
+            1611.0000371932983
+          ],
+          [
+            484.0000167489052,
+            1611.0000371932983
+          ],
+          [
+            484.0000167489052,
+            1637.000012397766
+          ],
+          [
+            304.0000084787607,
+            1637.000012397766
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Brie",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            273.99999126791954,
+            427.9999852180481
+          ],
+          [
+            430.0000123679638,
+            427.9999852180481
+          ],
+          [
+            430.0000123679638,
+            486.99997812509537
+          ],
+          [
+            273.99999126791954,
+            486.99997812509537
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            917.0000061392784,
+            1110.0000232458115
+          ],
+          [
+            1133.999978005886,
+            1110.0000232458115
+          ],
+          [
+            1133.999978005886,
+            1156.9999784231186
+          ],
+          [
+            917.0000061392784,
+            1156.9999784231186
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_required",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": true,
+        "review_notes": "Required field not detected by DocAI",
+        "review_confidence": 0.0
+      },
+      "state": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_required",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": true,
+        "review_notes": "Required field not detected by DocAI",
+        "review_confidence": 0.0
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-09T01:22:09.717306+00:00",
+    "message": "=== STEP 3: SPLIT ADDRESS FIELDS ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:09.717311+00:00",
+    "message": "Fields After Address Splitting",
+    "data": {
+      "email": {
+        "value": "Samulbri29@wyliebulldogs.org",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            277.00000628829,
+            597.0000207424164
+          ],
+          [
+            1161.0000371932983,
+            597.0000207424164
+          ],
+          [
+            1161.0000371932983,
+            670.0000002980232
+          ],
+          [
+            277.00000628829,
+            670.0000002980232
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Brielle Samulde",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            252.00000777840614,
+            250.0000074505806
+          ],
+          [
+            817.0000120997429,
+            250.0000074505806
+          ],
+          [
+            817.0000120997429,
+            325.0000096857548
+          ],
+          [
+            252.00000777840614,
+            325.0000096857548
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "cell": {
+        "value": "325-338-7743",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            255.99999614059925,
+            771.0000023245811
+          ],
+          [
+            719.0000027418137,
+            771.0000023245811
+          ],
+          [
+            719.0000027418137,
+            835.9999895095825
+          ],
+          [
+            255.99999614059925,
+            835.9999895095825
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "permission_to_text": {
+        "value": "Yes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            948.9999890327454,
+            766.0000070929527
+          ],
+          [
+            1013.0000308156013,
+            766.0000070929527
+          ],
+          [
+            1013.0000308156013,
+            790.9999832510948
+          ],
+          [
+            948.9999890327454,
+            790.9999832510948
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "high_school": {
+        "value": "Wylie West Junior High",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            260.0000035017729,
+            1273.9999651908875
+          ],
+          [
+            1005.9999704360962,
+            1273.9999651908875
+          ],
+          [
+            1005.9999704360962,
+            1345.9999948740005
+          ],
+          [
+            260.0000035017729,
+            1345.9999948740005
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "date_of_birth": {
+        "value": "1-14-2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            932.0000052452087,
+            430.99998235702515
+          ],
+          [
+            1201.0000348091125,
+            430.99998235702515
+          ],
+          [
+            1201.0000348091125,
+            479.9999848008156
+          ],
+          [
+            932.0000052452087,
+            479.9999848008156
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_term": {
+        "value": "Fall 2024",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            890.9999772906303,
+            1571.9999760389328
+          ],
+          [
+            1168.9999759197235,
+            1571.9999760389328
+          ],
+          [
+            1168.9999759197235,
+            1642.0000076293945
+          ],
+          [
+            890.9999772906303,
+            1642.0000076293945
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "Western Pumes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            257.99999982118607,
+            934.9999934434891
+          ],
+          [
+            717.9999724030495,
+            934.9999934434891
+          ],
+          [
+            717.9999724030495,
+            1001.0000288486481
+          ],
+          [
+            257.99999982118607,
+            1001.0000288486481
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            304.0000084787607,
+            1611.0000371932983
+          ],
+          [
+            484.0000167489052,
+            1611.0000371932983
+          ],
+          [
+            484.0000167489052,
+            1637.000012397766
+          ],
+          [
+            304.0000084787607,
+            1637.000012397766
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Brie",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            273.99999126791954,
+            427.9999852180481
+          ],
+          [
+            430.0000123679638,
+            427.9999852180481
+          ],
+          [
+            430.0000123679638,
+            486.99997812509537
+          ],
+          [
+            273.99999126791954,
+            486.99997812509537
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            917.0000061392784,
+            1110.0000232458115
+          ],
+          [
+            1133.999978005886,
+            1110.0000232458115
+          ],
+          [
+            1133.999978005886,
+            1156.9999784231186
+          ],
+          [
+            917.0000061392784,
+            1156.9999784231186
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_required",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": true,
+        "review_notes": "Required field not detected by DocAI",
+        "review_confidence": 0.0
+      },
+      "state": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_required",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": true,
+        "review_notes": "Required field not detected by DocAI",
+        "review_confidence": 0.0
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-09T01:22:09.717502+00:00",
+    "message": "=== STEP 4: SYNC FIELDS WITH SCHOOL SETTINGS ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:09.936482+00:00",
+    "message": "Updated Field Requirements",
+    "data": {
+      "name": {
+        "enabled": true,
+        "required": true
+      },
+      "preferred_first_name": {
+        "enabled": true,
+        "required": false
+      },
+      "date_of_birth": {
+        "enabled": true,
+        "required": false
+      },
+      "email": {
+        "enabled": true,
+        "required": true
+      },
+      "cell": {
+        "enabled": true,
+        "required": true
+      },
+      "permission_to_text": {
+        "enabled": true,
+        "required": false
+      },
+      "address": {
+        "enabled": true,
+        "required": true
+      },
+      "city": {
+        "enabled": true,
+        "required": true
+      },
+      "state": {
+        "enabled": true,
+        "required": true
+      },
+      "zip_code": {
+        "enabled": true,
+        "required": true
+      },
+      "high_school": {
+        "enabled": true,
+        "required": false
+      },
+      "class_rank": {
+        "enabled": true,
+        "required": false
+      },
+      "students_in_class": {
+        "enabled": true,
+        "required": false
+      },
+      "gpa": {
+        "enabled": true,
+        "required": false
+      },
+      "student_type": {
+        "enabled": true,
+        "required": false
+      },
+      "entry_term": {
+        "enabled": true,
+        "required": false
+      },
+      "major": {
+        "enabled": true,
+        "required": false
+      },
+      "mapped_major": {
+        "enabled": true,
+        "required": false
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-09T01:22:09.936548+00:00",
+    "message": "=== STEP 5: APPLY FIELD REQUIREMENTS ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:09.938340+00:00",
+    "message": "Fields After Applying Requirements",
+    "data": {
+      "email": {
+        "value": "Samulbri29@wyliebulldogs.org",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            277.00000628829,
+            597.0000207424164
+          ],
+          [
+            1161.0000371932983,
+            597.0000207424164
+          ],
+          [
+            1161.0000371932983,
+            670.0000002980232
+          ],
+          [
+            277.00000628829,
+            670.0000002980232
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Brielle Samulde",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            252.00000777840614,
+            250.0000074505806
+          ],
+          [
+            817.0000120997429,
+            250.0000074505806
+          ],
+          [
+            817.0000120997429,
+            325.0000096857548
+          ],
+          [
+            252.00000777840614,
+            325.0000096857548
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "cell": {
+        "value": "325-338-7743",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            255.99999614059925,
+            771.0000023245811
+          ],
+          [
+            719.0000027418137,
+            771.0000023245811
+          ],
+          [
+            719.0000027418137,
+            835.9999895095825
+          ],
+          [
+            255.99999614059925,
+            835.9999895095825
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "permission_to_text": {
+        "value": "Yes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            948.9999890327454,
+            766.0000070929527
+          ],
+          [
+            1013.0000308156013,
+            766.0000070929527
+          ],
+          [
+            1013.0000308156013,
+            790.9999832510948
+          ],
+          [
+            948.9999890327454,
+            790.9999832510948
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "high_school": {
+        "value": "Wylie West Junior High",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            260.0000035017729,
+            1273.9999651908875
+          ],
+          [
+            1005.9999704360962,
+            1273.9999651908875
+          ],
+          [
+            1005.9999704360962,
+            1345.9999948740005
+          ],
+          [
+            260.0000035017729,
+            1345.9999948740005
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "date_of_birth": {
+        "value": "1-14-2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            932.0000052452087,
+            430.99998235702515
+          ],
+          [
+            1201.0000348091125,
+            430.99998235702515
+          ],
+          [
+            1201.0000348091125,
+            479.9999848008156
+          ],
+          [
+            932.0000052452087,
+            479.9999848008156
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_term": {
+        "value": "Fall 2024",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            890.9999772906303,
+            1571.9999760389328
+          ],
+          [
+            1168.9999759197235,
+            1571.9999760389328
+          ],
+          [
+            1168.9999759197235,
+            1642.0000076293945
+          ],
+          [
+            890.9999772906303,
+            1642.0000076293945
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "Western Pumes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            257.99999982118607,
+            934.9999934434891
+          ],
+          [
+            717.9999724030495,
+            934.9999934434891
+          ],
+          [
+            717.9999724030495,
+            1001.0000288486481
+          ],
+          [
+            257.99999982118607,
+            1001.0000288486481
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            304.0000084787607,
+            1611.0000371932983
+          ],
+          [
+            484.0000167489052,
+            1611.0000371932983
+          ],
+          [
+            484.0000167489052,
+            1637.000012397766
+          ],
+          [
+            304.0000084787607,
+            1637.000012397766
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "preferred_first_name": {
+        "value": "Brie",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            273.99999126791954,
+            427.9999852180481
+          ],
+          [
+            430.0000123679638,
+            427.9999852180481
+          ],
+          [
+            430.0000123679638,
+            486.99997812509537
+          ],
+          [
+            273.99999126791954,
+            486.99997812509537
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            917.0000061392784,
+            1110.0000232458115
+          ],
+          [
+            1133.999978005886,
+            1110.0000232458115
+          ],
+          [
+            1133.999978005886,
+            1156.9999784231186
+          ],
+          [
+            917.0000061392784,
+            1156.9999784231186
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_required",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": true,
+        "review_notes": "Required field not detected by DocAI",
+        "review_confidence": 0.0
+      },
+      "state": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_required",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": true,
+        "review_notes": "Required field not detected by DocAI",
+        "review_confidence": 0.0
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-09T01:22:09.938553+00:00",
+    "message": "=== STEP 6: FETCH VALID MAJORS ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:10.059057+00:00",
+    "message": "Valid majors",
+    "data": [
+      "Undecided",
+      "Accounting",
+      "Art Education",
+      "Biochemistry",
+      "Biology",
+      "Biomedical Science",
+      "Business Administration",
+      "Chemistry",
+      "Chemistry Grades 7-12",
+      "Communication",
+      "Computer Science",
+      "Computer Science Grades 6-12",
+      "Criminology",
+      "Cybersecurity",
+      "Dual Credit/Concurrent",
+      "Early Childhood Education",
+      "Engineering Physics",
+      "English and Writing",
+      "English Language Arts/Reading Grades 4-8",
+      "English Language Arts/Reading Grades 7-12",
+      "Entrepreneurship",
+      "Environmental Science",
+      "Exercise Science & Human Performance",
+      "FasTrack Education -  Elementary",
+      "FasTrack Education -  Secondary",
+      "Finance",
+      "Graphic Design and Multimedia",
+      "History",
+      "History Grades 7-12",
+      "History w/ Social Studies Grades 7-12",
+      "Human Health Science",
+      "Information Technology",
+      "Interdisciplinary Studies",
+      "Life Science",
+      "Life Science Grades 7-12",
+      "Management",
+      "Marketing",
+      "Mathematics",
+      "Mathematics Grades 4-8",
+      "Mathematics Grades 7-12",
+      "MSN Education Track",
+      "MSN Family Nurse Practitioner Track",
+      "Music",
+      "Music Education/Choral",
+      "Music Education/Instrumental",
+      "Non Degree",
+      "Nursing",
+      "Nursing RN to BSN",
+      "Online Criminal Justice",
+      "Online General Business",
+      "Online General Business Associate",
+      "Physical Education",
+      "Physics",
+      "Political Science",
+      "Psychology",
+      "Public Health and Wellness",
+      "Religion",
+      "Sociology",
+      "Sports Industry",
+      "Sports Leadership & Management",
+      "Studio Art",
+      "Theatre",
+      "Theatre Education",
+      "Transient",
+      "Undecided"
+    ]
+  },
+  {
+    "timestamp": "2025-06-09T01:22:10.059100+00:00",
+    "message": "=== STEP 7: GEMINI PROCESSING ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.836846+00:00",
+    "message": "Gemini Output",
+    "data": {
+      "email": {
+        "value": "samulbri29@wyliebulldogs.org",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            277.00000628829,
+            597.0000207424164
+          ],
+          [
+            1161.0000371932983,
+            597.0000207424164
+          ],
+          [
+            1161.0000371932983,
+            670.0000002980232
+          ],
+          [
+            277.00000628829,
+            670.0000002980232
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Samulbri29@wyliebulldogs.org",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "name": {
+        "value": "Brielle Samulde",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            252.00000777840614,
+            250.0000074505806
+          ],
+          [
+            817.0000120997429,
+            250.0000074505806
+          ],
+          [
+            817.0000120997429,
+            325.0000096857548
+          ],
+          [
+            252.00000777840614,
+            325.0000096857548
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Brielle Samulde",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "cell": {
+        "value": "325-338-7743",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            255.99999614059925,
+            771.0000023245811
+          ],
+          [
+            719.0000027418137,
+            771.0000023245811
+          ],
+          [
+            719.0000027418137,
+            835.9999895095825
+          ],
+          [
+            255.99999614059925,
+            835.9999895095825
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "325-338-7743",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "permission_to_text": {
+        "value": "Yes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            948.9999890327454,
+            766.0000070929527
+          ],
+          [
+            1013.0000308156013,
+            766.0000070929527
+          ],
+          [
+            1013.0000308156013,
+            790.9999832510948
+          ],
+          [
+            948.9999890327454,
+            790.9999832510948
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Yes",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked"
+      },
+      "high_school": {
+        "value": "Wylie West Junior High",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            260.0000035017729,
+            1273.9999651908875
+          ],
+          [
+            1005.9999704360962,
+            1273.9999651908875
+          ],
+          [
+            1005.9999704360962,
+            1345.9999948740005
+          ],
+          [
+            260.0000035017729,
+            1345.9999948740005
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Wylie West Junior High",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "date_of_birth": {
+        "value": "01/14/2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            932.0000052452087,
+            430.99998235702515
+          ],
+          [
+            1201.0000348091125,
+            430.99998235702515
+          ],
+          [
+            1201.0000348091125,
+            479.9999848008156
+          ],
+          [
+            932.0000052452087,
+            479.9999848008156
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "1-14-2011",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "entry_term": {
+        "value": "Fall 2024",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            890.9999772906303,
+            1571.9999760389328
+          ],
+          [
+            1168.9999759197235,
+            1571.9999760389328
+          ],
+          [
+            1168.9999759197235,
+            1642.0000076293945
+          ],
+          [
+            890.9999772906303,
+            1642.0000076293945
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Fall 2024",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "address": {
+        "value": "Western Pumes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            257.99999982118607,
+            934.9999934434891
+          ],
+          [
+            717.9999724030495,
+            934.9999934434891
+          ],
+          [
+            717.9999724030495,
+            1001.0000288486481
+          ],
+          [
+            257.99999982118607,
+            1001.0000288486481
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": true,
+        "review_notes": "Address appears incomplete - missing street number: 'Western Pumes'",
+        "review_confidence": 0.3,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Western Pumes",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            304.0000084787607,
+            1611.0000371932983
+          ],
+          [
+            484.0000167489052,
+            1611.0000371932983
+          ],
+          [
+            484.0000167489052,
+            1637.000012397766
+          ],
+          [
+            304.0000084787607,
+            1637.000012397766
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Freshman",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked"
+      },
+      "preferred_first_name": {
+        "value": "Brie",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            273.99999126791954,
+            427.9999852180481
+          ],
+          [
+            430.0000123679638,
+            427.9999852180481
+          ],
+          [
+            430.0000123679638,
+            486.99997812509537
+          ],
+          [
+            273.99999126791954,
+            486.99997812509537
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Brie",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            917.0000061392784,
+            1110.0000232458115
+          ],
+          [
+            1133.999978005886,
+            1110.0000232458115
+          ],
+          [
+            1133.999978005886,
+            1156.9999784231186
+          ],
+          [
+            917.0000061392784,
+            1156.9999784231186
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "79606",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "city": {
+        "value": "Abilene",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Added city from image"
+      },
+      "state": {
+        "value": "Texas",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Added state from image."
+      },
+      "major": {
+        "value": "Theatre & Art",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Theatre & Art",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null,
+        "review_confidence": 0.95,
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "mapped_major": {
+        "value": "Theatre",
+        "edit_made": true,
+        "edit_type": "mapped_value",
+        "original_value": "Theatre & Art",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Mapped from 'Theatre & Art' to 'Theatre'",
+        "requires_human_review": false,
+        "review_notes": ""
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.837093+00:00",
+    "message": "=== STEP 8: ADDRESS VALIDATION ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.838005+00:00",
+    "message": "Fields After Address Validation",
+    "data": {
+      "email": {
+        "value": "samulbri29@wyliebulldogs.org",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            277.00000628829,
+            597.0000207424164
+          ],
+          [
+            1161.0000371932983,
+            597.0000207424164
+          ],
+          [
+            1161.0000371932983,
+            670.0000002980232
+          ],
+          [
+            277.00000628829,
+            670.0000002980232
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Samulbri29@wyliebulldogs.org",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "name": {
+        "value": "Brielle Samulde",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            252.00000777840614,
+            250.0000074505806
+          ],
+          [
+            817.0000120997429,
+            250.0000074505806
+          ],
+          [
+            817.0000120997429,
+            325.0000096857548
+          ],
+          [
+            252.00000777840614,
+            325.0000096857548
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Brielle Samulde",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "cell": {
+        "value": "325-338-7743",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            255.99999614059925,
+            771.0000023245811
+          ],
+          [
+            719.0000027418137,
+            771.0000023245811
+          ],
+          [
+            719.0000027418137,
+            835.9999895095825
+          ],
+          [
+            255.99999614059925,
+            835.9999895095825
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "325-338-7743",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "permission_to_text": {
+        "value": "Yes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            948.9999890327454,
+            766.0000070929527
+          ],
+          [
+            1013.0000308156013,
+            766.0000070929527
+          ],
+          [
+            1013.0000308156013,
+            790.9999832510948
+          ],
+          [
+            948.9999890327454,
+            790.9999832510948
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Yes",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked"
+      },
+      "high_school": {
+        "value": "Wylie West Junior High",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            260.0000035017729,
+            1273.9999651908875
+          ],
+          [
+            1005.9999704360962,
+            1273.9999651908875
+          ],
+          [
+            1005.9999704360962,
+            1345.9999948740005
+          ],
+          [
+            260.0000035017729,
+            1345.9999948740005
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Wylie West Junior High",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "date_of_birth": {
+        "value": "01/14/2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            932.0000052452087,
+            430.99998235702515
+          ],
+          [
+            1201.0000348091125,
+            430.99998235702515
+          ],
+          [
+            1201.0000348091125,
+            479.9999848008156
+          ],
+          [
+            932.0000052452087,
+            479.9999848008156
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "1-14-2011",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "entry_term": {
+        "value": "Fall 2024",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            890.9999772906303,
+            1571.9999760389328
+          ],
+          [
+            1168.9999759197235,
+            1571.9999760389328
+          ],
+          [
+            1168.9999759197235,
+            1642.0000076293945
+          ],
+          [
+            890.9999772906303,
+            1642.0000076293945
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Fall 2024",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "address": {
+        "value": "Western Pumes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            257.99999982118607,
+            934.9999934434891
+          ],
+          [
+            717.9999724030495,
+            934.9999934434891
+          ],
+          [
+            717.9999724030495,
+            1001.0000288486481
+          ],
+          [
+            257.99999982118607,
+            1001.0000288486481
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": true,
+        "review_notes": "Address appears incomplete - missing street number: 'Western Pumes'",
+        "review_confidence": 0.3,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Western Pumes",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            304.0000084787607,
+            1611.0000371932983
+          ],
+          [
+            484.0000167489052,
+            1611.0000371932983
+          ],
+          [
+            484.0000167489052,
+            1637.000012397766
+          ],
+          [
+            304.0000084787607,
+            1637.000012397766
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Freshman",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked"
+      },
+      "preferred_first_name": {
+        "value": "Brie",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            273.99999126791954,
+            427.9999852180481
+          ],
+          [
+            430.0000123679638,
+            427.9999852180481
+          ],
+          [
+            430.0000123679638,
+            486.99997812509537
+          ],
+          [
+            273.99999126791954,
+            486.99997812509537
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Brie",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            917.0000061392784,
+            1110.0000232458115
+          ],
+          [
+            1133.999978005886,
+            1110.0000232458115
+          ],
+          [
+            1133.999978005886,
+            1156.9999784231186
+          ],
+          [
+            917.0000061392784,
+            1156.9999784231186
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "79606",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "city": {
+        "value": "Abilene",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Added city from image"
+      },
+      "state": {
+        "value": "Texas",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Added state from image."
+      },
+      "major": {
+        "value": "Theatre & Art",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Theatre & Art",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null,
+        "review_confidence": 0.95,
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "mapped_major": {
+        "value": "Theatre",
+        "edit_made": true,
+        "edit_type": "mapped_value",
+        "original_value": "Theatre & Art",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Mapped from 'Theatre & Art' to 'Theatre'",
+        "requires_human_review": false,
+        "review_notes": ""
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.838280+00:00",
+    "message": "=== STEP 9: MAJOR MAPPING ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.838283+00:00",
+    "message": "Original Major",
+    "data": "Theatre & Art"
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.838304+00:00",
+    "message": "Major Mapping Result",
+    "data": {
+      "original": "Theatre & Art",
+      "mapped": "Theatre"
+    }
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.838314+00:00",
+    "message": "=== STEP 10: FINAL VALIDATION ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.838889+00:00",
+    "message": "Final Fields",
+    "data": {
+      "email": {
+        "value": "samulbri29@wyliebulldogs.org",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            277.00000628829,
+            597.0000207424164
+          ],
+          [
+            1161.0000371932983,
+            597.0000207424164
+          ],
+          [
+            1161.0000371932983,
+            670.0000002980232
+          ],
+          [
+            277.00000628829,
+            670.0000002980232
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Samulbri29@wyliebulldogs.org",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "name": {
+        "value": "Brielle Samulde",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            252.00000777840614,
+            250.0000074505806
+          ],
+          [
+            817.0000120997429,
+            250.0000074505806
+          ],
+          [
+            817.0000120997429,
+            325.0000096857548
+          ],
+          [
+            252.00000777840614,
+            325.0000096857548
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Brielle Samulde",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "cell": {
+        "value": "325-338-7743",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            255.99999614059925,
+            771.0000023245811
+          ],
+          [
+            719.0000027418137,
+            771.0000023245811
+          ],
+          [
+            719.0000027418137,
+            835.9999895095825
+          ],
+          [
+            255.99999614059925,
+            835.9999895095825
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "325-338-7743",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "permission_to_text": {
+        "value": "Yes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            948.9999890327454,
+            766.0000070929527
+          ],
+          [
+            1013.0000308156013,
+            766.0000070929527
+          ],
+          [
+            1013.0000308156013,
+            790.9999832510948
+          ],
+          [
+            948.9999890327454,
+            790.9999832510948
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Yes",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked"
+      },
+      "high_school": {
+        "value": "Wylie West Junior High",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            260.0000035017729,
+            1273.9999651908875
+          ],
+          [
+            1005.9999704360962,
+            1273.9999651908875
+          ],
+          [
+            1005.9999704360962,
+            1345.9999948740005
+          ],
+          [
+            260.0000035017729,
+            1345.9999948740005
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Wylie West Junior High",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "date_of_birth": {
+        "value": "01/14/2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            932.0000052452087,
+            430.99998235702515
+          ],
+          [
+            1201.0000348091125,
+            430.99998235702515
+          ],
+          [
+            1201.0000348091125,
+            479.9999848008156
+          ],
+          [
+            932.0000052452087,
+            479.9999848008156
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "1-14-2011",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "entry_term": {
+        "value": "Fall 2024",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            890.9999772906303,
+            1571.9999760389328
+          ],
+          [
+            1168.9999759197235,
+            1571.9999760389328
+          ],
+          [
+            1168.9999759197235,
+            1642.0000076293945
+          ],
+          [
+            890.9999772906303,
+            1642.0000076293945
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Fall 2024",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "address": {
+        "value": "Western Pumes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            257.99999982118607,
+            934.9999934434891
+          ],
+          [
+            717.9999724030495,
+            934.9999934434891
+          ],
+          [
+            717.9999724030495,
+            1001.0000288486481
+          ],
+          [
+            257.99999982118607,
+            1001.0000288486481
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": true,
+        "review_notes": "Address appears incomplete - missing street number: 'Western Pumes'",
+        "review_confidence": 0.3,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Western Pumes",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            304.0000084787607,
+            1611.0000371932983
+          ],
+          [
+            484.0000167489052,
+            1611.0000371932983
+          ],
+          [
+            484.0000167489052,
+            1637.000012397766
+          ],
+          [
+            304.0000084787607,
+            1637.000012397766
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Freshman",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked"
+      },
+      "preferred_first_name": {
+        "value": "Brie",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            273.99999126791954,
+            427.9999852180481
+          ],
+          [
+            430.0000123679638,
+            427.9999852180481
+          ],
+          [
+            430.0000123679638,
+            486.99997812509537
+          ],
+          [
+            273.99999126791954,
+            486.99997812509537
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Brie",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            917.0000061392784,
+            1110.0000232458115
+          ],
+          [
+            1133.999978005886,
+            1110.0000232458115
+          ],
+          [
+            1133.999978005886,
+            1156.9999784231186
+          ],
+          [
+            917.0000061392784,
+            1156.9999784231186
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "79606",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "city": {
+        "value": "Abilene",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Added city from image"
+      },
+      "state": {
+        "value": "Texas",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Added state from image."
+      },
+      "major": {
+        "value": "Theatre & Art",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Theatre & Art",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null,
+        "review_confidence": 0.95,
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "mapped_major": {
+        "value": "Theatre",
+        "edit_made": true,
+        "edit_type": "mapped_value",
+        "original_value": "Theatre & Art",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Mapped from 'Theatre & Art' to 'Theatre'",
+        "requires_human_review": false,
+        "review_notes": ""
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.839428+00:00",
+    "message": "Review Status",
+    "data": {
+      "status": "needs_human_review",
+      "fields_needing_review": [
+        "address"
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.839439+00:00",
+    "message": "=== STEP 11: FILTER COMBINED FIELDS ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.839441+00:00",
+    "message": "Filtering combined fields before saving",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.839447+00:00",
+    "message": "Fields before filtering: 15, after filtering: 15",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.839448+00:00",
+    "message": "Filtered Fields",
+    "data": {
+      "email": {
+        "value": "samulbri29@wyliebulldogs.org",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            277.00000628829,
+            597.0000207424164
+          ],
+          [
+            1161.0000371932983,
+            597.0000207424164
+          ],
+          [
+            1161.0000371932983,
+            670.0000002980232
+          ],
+          [
+            277.00000628829,
+            670.0000002980232
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Samulbri29@wyliebulldogs.org",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "name": {
+        "value": "Brielle Samulde",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            252.00000777840614,
+            250.0000074505806
+          ],
+          [
+            817.0000120997429,
+            250.0000074505806
+          ],
+          [
+            817.0000120997429,
+            325.0000096857548
+          ],
+          [
+            252.00000777840614,
+            325.0000096857548
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Brielle Samulde",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "cell": {
+        "value": "325-338-7743",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            255.99999614059925,
+            771.0000023245811
+          ],
+          [
+            719.0000027418137,
+            771.0000023245811
+          ],
+          [
+            719.0000027418137,
+            835.9999895095825
+          ],
+          [
+            255.99999614059925,
+            835.9999895095825
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "325-338-7743",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "permission_to_text": {
+        "value": "Yes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            948.9999890327454,
+            766.0000070929527
+          ],
+          [
+            1013.0000308156013,
+            766.0000070929527
+          ],
+          [
+            1013.0000308156013,
+            790.9999832510948
+          ],
+          [
+            948.9999890327454,
+            790.9999832510948
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Yes",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked"
+      },
+      "high_school": {
+        "value": "Wylie West Junior High",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            260.0000035017729,
+            1273.9999651908875
+          ],
+          [
+            1005.9999704360962,
+            1273.9999651908875
+          ],
+          [
+            1005.9999704360962,
+            1345.9999948740005
+          ],
+          [
+            260.0000035017729,
+            1345.9999948740005
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Wylie West Junior High",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "date_of_birth": {
+        "value": "01/14/2011",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            932.0000052452087,
+            430.99998235702515
+          ],
+          [
+            1201.0000348091125,
+            430.99998235702515
+          ],
+          [
+            1201.0000348091125,
+            479.9999848008156
+          ],
+          [
+            932.0000052452087,
+            479.9999848008156
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "1-14-2011",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "entry_term": {
+        "value": "Fall 2024",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            890.9999772906303,
+            1571.9999760389328
+          ],
+          [
+            1168.9999759197235,
+            1571.9999760389328
+          ],
+          [
+            1168.9999759197235,
+            1642.0000076293945
+          ],
+          [
+            890.9999772906303,
+            1642.0000076293945
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Fall 2024",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "address": {
+        "value": "Western Pumes",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            257.99999982118607,
+            934.9999934434891
+          ],
+          [
+            717.9999724030495,
+            934.9999934434891
+          ],
+          [
+            717.9999724030495,
+            1001.0000288486481
+          ],
+          [
+            257.99999982118607,
+            1001.0000288486481
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": true,
+        "review_notes": "Address appears incomplete - missing street number: 'Western Pumes'",
+        "review_confidence": 0.3,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Western Pumes",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "student_type": {
+        "value": "Freshman",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            304.0000084787607,
+            1611.0000371932983
+          ],
+          [
+            484.0000167489052,
+            1611.0000371932983
+          ],
+          [
+            484.0000167489052,
+            1637.000012397766
+          ],
+          [
+            304.0000084787607,
+            1637.000012397766
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Freshman",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked"
+      },
+      "preferred_first_name": {
+        "value": "Brie",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            273.99999126791954,
+            427.9999852180481
+          ],
+          [
+            430.0000123679638,
+            427.9999852180481
+          ],
+          [
+            430.0000123679638,
+            486.99997812509537
+          ],
+          [
+            273.99999126791954,
+            486.99997812509537
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Brie",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "zip_code": {
+        "value": "79606",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            917.0000061392784,
+            1110.0000232458115
+          ],
+          [
+            1133.999978005886,
+            1110.0000232458115
+          ],
+          [
+            1133.999978005886,
+            1156.9999784231186
+          ],
+          [
+            917.0000061392784,
+            1156.9999784231186
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "79606",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "city": {
+        "value": "Abilene",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Added city from image"
+      },
+      "state": {
+        "value": "Texas",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": true,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Added state from image."
+      },
+      "major": {
+        "value": "Theatre & Art",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Theatre & Art",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null,
+        "review_confidence": 0.95,
+        "requires_human_review": false,
+        "review_notes": ""
+      },
+      "mapped_major": {
+        "value": "Theatre",
+        "edit_made": true,
+        "edit_type": "mapped_value",
+        "original_value": "Theatre & Art",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Mapped from 'Theatre & Art' to 'Theatre'",
+        "requires_human_review": false,
+        "review_notes": ""
+      }
+    }
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.839694+00:00",
+    "message": "=== STEP 12: REVIEW DATA ===",
+    "data": null
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.839698+00:00",
+    "message": "Review Data to be Saved",
+    "data": {
+      "document_id": "test-job-2025-06-09T01:22:27.839696+00:00",
+      "fields": {
+        "email": {
+          "value": "samulbri29@wyliebulldogs.org",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              277.00000628829,
+              597.0000207424164
+            ],
+            [
+              1161.0000371932983,
+              597.0000207424164
+            ],
+            [
+              1161.0000371932983,
+              670.0000002980232
+            ],
+            [
+              277.00000628829,
+              670.0000002980232
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Samulbri29@wyliebulldogs.org",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "name": {
+          "value": "Brielle Samulde",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              252.00000777840614,
+              250.0000074505806
+            ],
+            [
+              817.0000120997429,
+              250.0000074505806
+            ],
+            [
+              817.0000120997429,
+              325.0000096857548
+            ],
+            [
+              252.00000777840614,
+              325.0000096857548
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Brielle Samulde",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "cell": {
+          "value": "325-338-7743",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              255.99999614059925,
+              771.0000023245811
+            ],
+            [
+              719.0000027418137,
+              771.0000023245811
+            ],
+            [
+              719.0000027418137,
+              835.9999895095825
+            ],
+            [
+              255.99999614059925,
+              835.9999895095825
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "325-338-7743",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "permission_to_text": {
+          "value": "Yes",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              948.9999890327454,
+              766.0000070929527
+            ],
+            [
+              1013.0000308156013,
+              766.0000070929527
+            ],
+            [
+              1013.0000308156013,
+              790.9999832510948
+            ],
+            [
+              948.9999890327454,
+              790.9999832510948
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Yes",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Checkbox clearly marked"
+        },
+        "high_school": {
+          "value": "Wylie West Junior High",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              260.0000035017729,
+              1273.9999651908875
+            ],
+            [
+              1005.9999704360962,
+              1273.9999651908875
+            ],
+            [
+              1005.9999704360962,
+              1345.9999948740005
+            ],
+            [
+              260.0000035017729,
+              1345.9999948740005
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Wylie West Junior High",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "date_of_birth": {
+          "value": "01/14/2011",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              932.0000052452087,
+              430.99998235702515
+            ],
+            [
+              1201.0000348091125,
+              430.99998235702515
+            ],
+            [
+              1201.0000348091125,
+              479.9999848008156
+            ],
+            [
+              932.0000052452087,
+              479.9999848008156
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": true,
+          "edit_type": "format_correction",
+          "original_value": "1-14-2011",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "entry_term": {
+          "value": "Fall 2024",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              890.9999772906303,
+              1571.9999760389328
+            ],
+            [
+              1168.9999759197235,
+              1571.9999760389328
+            ],
+            [
+              1168.9999759197235,
+              1642.0000076293945
+            ],
+            [
+              890.9999772906303,
+              1642.0000076293945
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Fall 2024",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "address": {
+          "value": "Western Pumes",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              257.99999982118607,
+              934.9999934434891
+            ],
+            [
+              717.9999724030495,
+              934.9999934434891
+            ],
+            [
+              717.9999724030495,
+              1001.0000288486481
+            ],
+            [
+              257.99999982118607,
+              1001.0000288486481
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": true,
+          "review_notes": "Address appears incomplete - missing street number: 'Western Pumes'",
+          "review_confidence": 0.3,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Western Pumes",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "student_type": {
+          "value": "Freshman",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              304.0000084787607,
+              1611.0000371932983
+            ],
+            [
+              484.0000167489052,
+              1611.0000371932983
+            ],
+            [
+              484.0000167489052,
+              1637.000012397766
+            ],
+            [
+              304.0000084787607,
+              1637.000012397766
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Freshman",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Checkbox clearly marked"
+        },
+        "preferred_first_name": {
+          "value": "Brie",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              273.99999126791954,
+              427.9999852180481
+            ],
+            [
+              430.0000123679638,
+              427.9999852180481
+            ],
+            [
+              430.0000123679638,
+              486.99997812509537
+            ],
+            [
+              273.99999126791954,
+              486.99997812509537
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Brie",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "zip_code": {
+          "value": "79606",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              917.0000061392784,
+              1110.0000232458115
+            ],
+            [
+              1133.999978005886,
+              1110.0000232458115
+            ],
+            [
+              1133.999978005886,
+              1156.9999784231186
+            ],
+            [
+              917.0000061392784,
+              1156.9999784231186
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "79606",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "city": {
+          "value": "Abilene",
+          "confidence": 0.0,
+          "bounding_box": [],
+          "source": "gemini",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.7124999999999999,
+          "edit_made": true,
+          "edit_type": "missing_data",
+          "original_value": "",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Added city from image"
+        },
+        "state": {
+          "value": "Texas",
+          "confidence": 0.0,
+          "bounding_box": [],
+          "source": "gemini",
+          "enabled": true,
+          "required": true,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.7124999999999999,
+          "edit_made": true,
+          "edit_type": "missing_data",
+          "original_value": "",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Added state from image."
+        },
+        "major": {
+          "value": "Theatre & Art",
+          "confidence": 0.0,
+          "bounding_box": [],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Theatre & Art",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null,
+          "review_confidence": 0.95,
+          "requires_human_review": false,
+          "review_notes": ""
+        },
+        "mapped_major": {
+          "value": "Theatre",
+          "edit_made": true,
+          "edit_type": "mapped_value",
+          "original_value": "Theatre & Art",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Mapped from 'Theatre & Art' to 'Theatre'",
+          "requires_human_review": false,
+          "review_notes": ""
+        }
+      },
+      "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+      "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+      "event_id": null,
+      "image_path": "/Users/kregboyd/Applications/card-capture-api/test_images/page_10.png",
+      "review_status": "needs_human_review",
+      "created_at": "2025-06-09T01:22:27.839696+00:00",
+      "updated_at": "2025-06-09T01:22:27.839696+00:00"
+    }
+  },
+  {
+    "timestamp": "2025-06-09T01:22:27.839965+00:00",
+    "message": "\u2705 Processing completed successfully",
+    "data": null
+  }
+]

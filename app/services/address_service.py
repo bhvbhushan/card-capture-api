@@ -17,6 +17,10 @@ def validate_and_enhance_address(fields: Dict[str, Any]) -> Dict[str, Any]:
     """
     log_debug("=== ADDRESS VALIDATION START ===", service="address")
     
+    # Add unique session ID for tracking this specific validation run  
+    import uuid
+    session_id = str(uuid.uuid4())[:8]
+    
     # Extract current address components
     address = fields.get('address', {}).get('value', '')
     city = fields.get('city', {}).get('value', '')
@@ -48,6 +52,14 @@ def validate_and_enhance_address(fields: Dict[str, Any]) -> Dict[str, Any]:
                 # Clear any review flags for non-required fields
                 field_data['requires_human_review'] = False
                 field_data['review_notes'] = ""
+    
+    # Check for obviously invalid addresses FIRST, regardless of zip code
+    _check_for_invalid_addresses(fields)
+    
+    # If address was flagged as invalid, don't proceed with Google validation
+    if fields.get('address', {}).get('requires_human_review', False):
+        log_debug("Address was flagged as invalid, skipping Google validation", service="address")
+        return fields
     
     # Only proceed with Google Maps validation if we have a zip code
     if zip_code:
@@ -231,21 +243,26 @@ def _check_for_invalid_addresses(fields: Dict[str, Any]) -> None:
         fields: Field data to check and update
     """
     if 'address' not in fields:
+        log_debug("No address field found", service="address")
         return
         
     address_field = fields['address']
     
     # Handle case where address_field is None
     if address_field is None:
+        log_debug("Address field is None", service="address")
         return
         
     # Get the address value and handle None case
     raw_address_value = address_field.get('value', '')
     if raw_address_value is None:
+        log_debug("Address value is None", service="address")
         return
         
     address_value = raw_address_value.strip()
     address_lower = address_value.lower()
+    
+    log_debug(f"Checking address for invalid patterns: '{address_value}'", service="address")
     
     # Common patterns that indicate invalid addresses
     invalid_patterns = [
@@ -276,8 +293,10 @@ def _check_for_invalid_addresses(fields: Dict[str, Any]) -> None:
         address_field['requires_human_review'] = True
         address_field['review_notes'] = f"Address appears incomplete - missing street number: '{address_value}'"
         address_field['review_confidence'] = 0.3
-        log_debug(f"Address flagged for missing street number: {address_value}", service="address")
+        log_debug(f"Address flagged: missing street number - '{address_value}'", service="address")
         return
+    else:
+        log_debug(f"Address passed: has street number - '{address_value}'", service="address")
     
     # Additional check for very short addresses that are likely incomplete
     if len(address_value.strip()) < 5:
