@@ -1343,3 +1343,47 @@
 [2025-06-08T23:42:43.397452+00:00] SFTP functionality loaded successfully
 
 [2025-06-08T23:42:53.788086+00:00] SFTP functionality loaded successfully
+
+[2025-06-09T00:03:00.456467+00:00] SFTP functionality loaded successfully
+
+[2025-06-09T00:03:10.321168+00:00] Received upload request for file: page_15.png
+{
+  "size": "2717.5KB",
+  "type": "image/png",
+  "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+  "event_id": "88eae0f2-cd17-416a-8ee8-625ab435adf5"
+}
+
+[2025-06-09T00:03:10.322550+00:00] Compressing image before upload: page_15.png
+
+[2025-06-09T00:03:10.535384+00:00] File sizes - Original: 2717.5KB, Compressed: 231.0KB
+
+[2025-06-09T00:03:10.535580+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/1dbb2618564347f8a1872377b05c76c0.jpg
+
+[2025-06-09T00:03:16.774269+00:00] Received upload request for file: page_40.png
+{
+  "size": "2903.3KB",
+  "type": "image/png",
+  "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+  "event_id": "88eae0f2-cd17-416a-8ee8-625ab435adf5"
+}
+
+[2025-06-09T00:03:16.775901+00:00] Compressing image before upload: page_40.png
+
+[2025-06-09T00:03:16.980553+00:00] File sizes - Original: 2903.3KB, Compressed: 245.1KB
+
+[2025-06-09T00:03:16.980730+00:00] File uploaded to storage: /Users/kregboyd/Applications/card-capture-api/app/uploads/trimmed/a8e331318e144017acc329ce95f55c9d.jpg
+
+[2025-06-09T00:06:52.873014+00:00] SFTP functionality loaded successfully
+
+[2025-06-09T00:07:13.585566+00:00] SFTP functionality loaded successfully
+
+[2025-06-09T00:08:26.764084+00:00] SFTP functionality loaded successfully
+
+[2025-06-09T00:08:38.860494+00:00] SFTP functionality loaded successfully
+
+[2025-06-09T00:14:09.174020+00:00] SFTP functionality loaded successfully
+
+[2025-06-09T00:14:19.992226+00:00] SFTP functionality loaded successfully
+
+[2025-06-09T00:14:35.504289+00:00] SFTP functionality loaded successfully

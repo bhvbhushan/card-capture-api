@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from typing import Dict, Any
 from app.core.clients import supabase_client
 from app.utils.retry_utils import log_debug
+from app.utils.field_utils import get_combined_fields_to_exclude
 
 def get_field_requirements(school_id: str) -> Dict[str, Dict[str, bool]]:
     """
@@ -15,9 +16,18 @@ def get_field_requirements(school_id: str) -> Dict[str, Dict[str, bool]]:
         school_query = supabase_client.table("schools").select("card_fields").eq("id", school_id).maybe_single().execute()
         if school_query and school_query.data:
             card_fields_array = school_query.data.get("card_fields") or []
+            
+            # Filter out combined fields that should not be in final data
+            combined_fields = get_combined_fields_to_exclude()
+            filtered_card_fields_array = [f for f in card_fields_array if f["key"] not in combined_fields]
+            
             # Convert array to dict for internal use
-            card_fields = {f["key"]: {"enabled": f.get("enabled", True), "required": f.get("required", False)} for f in card_fields_array}
-            log_debug("Found school settings", card_fields, service="settings")
+            card_fields = {f["key"]: {"enabled": f.get("enabled", True), "required": f.get("required", False)} for f in filtered_card_fields_array}
+            
+            log_debug("Found school settings (after filtering combined fields)", card_fields, service="settings")
+            if len(card_fields_array) != len(filtered_card_fields_array):
+                log_debug(f"Filtered out {len(card_fields_array) - len(filtered_card_fields_array)} combined fields", service="settings")
+            
             return card_fields
         else:
             log_debug("No school settings found, returning empty dict", service="settings")
@@ -91,8 +101,12 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
         existing_keys = {f["key"] for f in card_fields_array}
         updated = False
 
-        # Add any new fields at the end
-        for field_name in detected_fields:
+        # Filter detected fields to exclude combined fields
+        combined_fields = get_combined_fields_to_exclude()
+        filtered_detected_fields = [f for f in detected_fields if f not in combined_fields]
+
+        # Add any new fields at the end (excluding combined fields)
+        for field_name in filtered_detected_fields:
             if field_name not in existing_keys:
                 card_fields_array.append({
                     "key": field_name,
@@ -102,8 +116,12 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
                 updated = True
                 log_debug(f"Added new field {field_name} with defaults", service="settings")
 
-        # Optionally, remove fields not in detected_fields (if you want to prune)
-        # card_fields_array = [f for f in card_fields_array if f["key"] in detected_fields]
+        # Remove any combined fields from existing settings
+        original_length = len(card_fields_array)
+        card_fields_array = [f for f in card_fields_array if f["key"] not in combined_fields]
+        if len(card_fields_array) < original_length:
+            updated = True
+            log_debug(f"Removed {original_length - len(card_fields_array)} combined fields from school settings", service="settings")
 
         if updated:
             update_payload = {
@@ -113,7 +131,7 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
             supabase_client.table("schools").update(update_payload).eq("id", school_id).execute()
             log_debug("Updated school settings in database", service="settings")
 
-        # Return as dict for internal use
+        # Return as dict for internal use (already filtered)
         return {f["key"]: {"enabled": f.get("enabled", True), "required": f.get("required", False)} for f in card_fields_array}
 
     except Exception as e:
