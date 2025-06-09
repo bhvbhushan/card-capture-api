@@ -73,10 +73,28 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
         
         # Create prompt
         log_debug("Creating prompt for Gemini...", service="gemini")
-        prompt = GEMINI_PROMPT_TEMPLATE.format(
-            all_fields_json=json.dumps(gemini_input["fields"], indent=2).replace("{", "{{").replace("}", "}}"),
-            list_of_valid_majors=json.dumps(valid_majors, indent=2).replace("{", "{{").replace("}", "}}")
-        )
+        
+        # Conditionally modify prompt based on whether school has majors
+        if valid_majors:
+            # Use full prompt with mapped_major instructions
+            prompt = GEMINI_PROMPT_TEMPLATE.format(
+                all_fields_json=json.dumps(gemini_input["fields"], indent=2).replace("{", "{{").replace("}", "}}"),
+                list_of_valid_majors=json.dumps(valid_majors, indent=2).replace("{", "{{").replace("}", "}}")
+            )
+        else:
+            # Use modified prompt without mapped_major instructions
+            modified_template = GEMINI_PROMPT_TEMPLATE.replace(
+                "✅ Always include the mapped_major field.", 
+                "✅ Only include fields that are relevant to this card."
+            ).replace(
+                "**Mapped Major** – Use the provided valid_majors list to match the `mapped_major` to the major on the card. IMPORTANT: Always preserve the original `major` field value exactly as written on the card - do not change or null it out. Only update the separate `mapped_major` field. If no close match exists in valid_majors, leave `mapped_major` blank and explain. If the original `major` field is empty, default `mapped_major` to \"Undecided\".",
+                "**Major Field** – Extract the major exactly as written on the card. Do not modify or map the value."
+            )
+            prompt = modified_template.format(
+                all_fields_json=json.dumps(gemini_input["fields"], indent=2).replace("{", "{{").replace("}", "}}"),
+                list_of_valid_majors="[]"
+            )
+        
         log_debug("Prompt created successfully", service="gemini")
         
         # Upload image with retry logic and explicit MIME type
@@ -145,8 +163,8 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
             log_debug("Parsing Gemini response...", service="gemini")
             enhanced_fields = parse_gemini_quality_response(response.text, docai_fields)
             log_debug("Successfully parsed Gemini response", service="gemini")
-            # Backend safeguard: ensure mapped_major is always present
-            if 'mapped_major' not in enhanced_fields:
+            # Backend safeguard: ensure mapped_major is present only if school has majors configured
+            if valid_majors and 'mapped_major' not in enhanced_fields:
                 enhanced_fields['mapped_major'] = {
                     "value": "",
                     "edit_made": False,
@@ -159,8 +177,8 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
                     "requires_human_review": False,
                     "review_notes": ""
                 }
-            # Backend safeguard: ensure major is user's input, not mapped value
-            if 'major' in enhanced_fields and 'mapped_major' in enhanced_fields and valid_majors:
+            # Backend safeguard: ensure major is user's input, not mapped value (only if school has majors)
+            if valid_majors and 'major' in enhanced_fields and 'mapped_major' in enhanced_fields:
                 user_major_original = (docai_fields.get('major', {}).get('value') or '').strip().lower()
                 gemini_major = (enhanced_fields['major'].get('value') or '').strip().lower()
                 mapped_major = (enhanced_fields['mapped_major'].get('value') or '').strip().lower()
