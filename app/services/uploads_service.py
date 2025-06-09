@@ -2,6 +2,7 @@ import os
 import shutil
 import tempfile
 import uuid
+import time
 from fastapi.responses import JSONResponse, FileResponse
 from app.core.clients import supabase_client
 from app.utils.image_processing import ensure_trimmed_image
@@ -10,510 +11,586 @@ from app.core.clients import supabase_client, docai_client
 from app.repositories.uploads_repository import (
     insert_processing_job_db,
     insert_extracted_data_db,
-    insert_upload_notification_db,
-    select_upload_notification_db,
-    select_extracted_data_image_db
+    select_extracted_data_image_db,
+    update_processing_job_db
 )
 from PIL import Image
 import csv
-from sftp_utils import upload_to_slate
 import io
 from google.cloud import documentai_v1 as documentai
 from app.config import PROJECT_ID, DOCAI_LOCATION, DOCAI_PROCESSOR_ID, TRIMMED_FOLDER
 import json
+from app.utils.retry_utils import retry_with_exponential_backoff, log_debug
 from datetime import datetime, timezone
+from typing import Dict, Any
 
-def process_image_and_trim(input_path: str, processor_id: str, percent_expand: float = 0.5):
+# Try to import SFTP utils, but gracefully handle if not available
+try:
+    import sys
+    import os
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from sftp_utils import upload_to_slate
+    SFTP_AVAILABLE = True
+    log_debug("SFTP functionality loaded successfully", service="uploads")
+except ImportError as e:
+    log_debug(f"SFTP functionality not available: {str(e)}", service="uploads")
+    SFTP_AVAILABLE = False
+    upload_to_slate = None
+
+def split_pdf_to_pngs(pdf_path, output_dir=None):
     """
-    Calls DocAI on the image, extracts field values and bounding box coordinates, trims the image,
-    and returns (docai_json, trimmed_image_path).
+    Split PDF into PNG files and return list of PNG file paths
     """
-    def log_debug(message, data=None):
-        """Write debug message and optional data to worker_debug.log"""
-        timestamp = datetime.now(timezone.utc).isoformat()
-        with open('worker_debug.log', 'a') as f:
-            f.write(f"\n[{timestamp}] {message}\n")
-            if data:
-                if isinstance(data, (dict, list)):
-                    f.write(json.dumps(data, indent=2))
-                else:
-                    f.write(str(data))
-                f.write("\n")
-
-    log_debug("\n=== INITIAL DOCAI PROCESSING START ===")
-    log_debug(f"Processing image: {input_path}")
-    
-    # Set up Document AI client
-    client = documentai.DocumentProcessorServiceClient()
-    name = f"projects/{PROJECT_ID}/locations/{DOCAI_LOCATION}/processors/{processor_id}"
-    log_debug(f"Using DocAI processor: {name}")
-    
-    with open(input_path, "rb") as image_file:
-        image_content = image_file.read()
-    raw_document = documentai.RawDocument(content=image_content, mime_type="image/jpeg")
-    request = documentai.ProcessRequest(name=name, raw_document=raw_document)
-    
-    log_debug("Sending request to DocAI...")
-    result = client.process_document(request=request)
-    document = result.document
-    
-    log_debug("=== DOCAI RAW RESPONSE ===")
-    log_debug("Document text", document.text[:200])  # First 200 chars
-    log_debug("Document metadata", {
-        "Number of pages": len(document.pages),
-        "Number of entities": len(document.entities)
-    })
-    
-    # Gather all bounding box vertices from entities
-    all_vertices = []
-    field_data = {}
-    
-    log_debug("=== DETECTED ENTITIES ===")
-    for entity in getattr(document, "entities", []):
-        entity_data = {
-            "Type": entity.type_,
-            "Mention Text": entity.mention_text,
-            "Confidence": entity.confidence
-        }
-        
-        coords = []
-        if entity.page_anchor and entity.page_anchor.page_refs:
-            for page_ref in entity.page_anchor.page_refs:
-                page_index = page_ref.page
-                page = document.pages[page_index]
-                width = page.dimension.width
-                height = page.dimension.height
-                if page_ref.bounding_poly.normalized_vertices:
-                    for v in page_ref.bounding_poly.normalized_vertices:
-                        pixel_x = v.x * width
-                        pixel_y = v.y * height
-                        coords.append((pixel_x, pixel_y))
-                        all_vertices.append((pixel_x, pixel_y))
-                elif page_ref.bounding_poly.vertices:
-                    for v in page_ref.bounding_poly.vertices:
-                        coords.append((v.x, v.y))
-                        all_vertices.append((v.x, v.y))
-        
-        entity_data["Bounding Box Coordinates"] = coords
-        log_debug(f"Entity: {entity.type_}", entity_data)
-        
-        field_data[entity.type_] = {
-            "value": entity.mention_text.strip(),
-            "confidence": entity.confidence,
-            "bounding_box": coords
-        }
-    
-    log_debug("=== PROCESSED FIELD DATA ===", field_data)
-    
-    if not all_vertices:
-        log_debug("⚠️ No bounding box vertices found for any entity. Returning original image.")
-        return field_data, input_path
-        
-    xs, ys = zip(*all_vertices)
-    min_x, max_x = min(xs), max(xs)
-    min_y, max_y = min(ys), max(ys)
-    
-    log_debug("=== IMAGE CROPPING INFO ===", {
-        "Original dimensions": Image.open(input_path).size,
-        "Bounding box": f"({min_x}, {min_y}) to ({max_x}, {max_y})"
-    })
-    
-    # Crop with percent expansion
-    img = Image.open(input_path)
-    box_width = max_x - min_x
-    box_height = max_y - min_y
-    expand_x = box_width * (percent_expand / 2)
-    expand_y = box_height * (percent_expand / 2)
-    left = max(int(min_x - expand_x), 0)
-    top = max(int(min_y - expand_y), 0)
-    right = min(int(max_x + expand_x), img.width)
-    bottom = min(int(max_y + expand_y), img.height)
-    
-    log_debug("Expanded box coordinates", {
-        "Left": left,
-        "Top": top,
-        "Right": right,
-        "Bottom": bottom
-    })
-    
-    cropped_img = img.crop((left, top, right, bottom))
-    filename = os.path.basename(input_path)
-    name, ext = os.path.splitext(filename)
-    output_path = os.path.join(TRIMMED_FOLDER, f"{name}_trimmed{ext}")
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    cropped_img.save(output_path)
-    
-    log_debug("=== CROPPED IMAGE INFO ===", {
-        "Saved to": output_path,
-        "Dimensions": cropped_img.size
-    })
-    log_debug("=== INITIAL DOCAI PROCESSING END ===\n")
-    
-    return field_data, output_path
-
-async def upload_file_service(background_tasks, file, event_id, school_id, user):
-    print(f"📤 Received upload request for file: {file.filename}")
-    user_id = user['id']
-    if not supabase_client:
-        return {"error": "Database client not available"}
-
-    # Save uploaded file to a temp location
-    import tempfile, os, uuid
-    with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1]) as temp_file:
-        temp_file.write(await file.read())
-        temp_file_path = temp_file.name
-
     try:
-        # Upload to Supabase storage
-        storage_path = upload_to_supabase_storage_from_path(supabase_client, temp_file_path, user_id, file.filename)
-        print(f"✅ File uploaded to storage: {storage_path}")
-
-        # Create processing job
-        job_id = str(uuid.uuid4())
-        from datetime import datetime, timezone
-        now = datetime.now(timezone.utc).isoformat()
-        image_path_for_db = storage_path.replace('cards-uploads/', '') if storage_path.startswith('cards-uploads/') else storage_path
-        job_data = {
-            "id": job_id,
-            "user_id": user_id,
-            "school_id": school_id,
-            "file_url": storage_path,
-            "image_path": image_path_for_db,
-            "status": "queued",
-            "result_json": None,  # Will be populated by worker
-            "error_message": None,
-            "created_at": now,
-            "updated_at": now,
-            "event_id": event_id
-        }
-        insert_processing_job_db(supabase_client, job_data)
-        response_data = {
-            "status": "success",
-            "message": "File uploaded successfully. Processing will continue in the background.",
-            "job_id": job_id,
-            "document_id": job_id,
-            "storage_path": storage_path
-        }
-        return JSONResponse(status_code=200, content=response_data)
+        import fitz  # PyMuPDF
+        
+        if output_dir is None:
+            output_dir = tempfile.mkdtemp()
+        
+        pdf_document = fitz.open(pdf_path)
+        png_paths = []
+        
+        for page_num in range(len(pdf_document)):
+            page = pdf_document.load_page(page_num)
+            pix = page.get_pixmap(matrix=fitz.Matrix(2, 2))  # 2x zoom for better quality
+            
+            png_filename = f"page_{page_num + 1}.png"
+            png_path = os.path.join(output_dir, png_filename)
+            pix.save(png_path)
+            png_paths.append(png_path)
+        
+        pdf_document.close()
+        return png_paths
+        
     except Exception as e:
-        print(f"❌ Error uploading file: {e}")
-        import traceback
-        traceback.print_exc()
-        return JSONResponse(status_code=500, content={"error": "Failed to upload file."})
-    finally:
-        if os.path.exists(temp_file_path):
-            os.remove(temp_file_path)
+        log_debug(f"Error splitting PDF {pdf_path}: {e}", service="uploads")
+        return []
 
-async def check_upload_status_service(document_id: str):
-    if not supabase_client:
-        return JSONResponse(status_code=503, content={"error": "Database client not available."})
+async def upload_file_service(file, school_id, event_id, user):
     try:
-        response = select_upload_notification_db(supabase_client, document_id)
-        if response.data and len(response.data) > 0:
-            return JSONResponse(content=response.data[0])
+        if not file:
+            return JSONResponse(status_code=400, content={"error": "No file uploaded."})
+        
+        # Reject files that aren't images or PDFs
+        allowed_types = ["image/jpeg", "image/png", "image/gif", "image/bmp", "image/tiff", "application/pdf"]
+        if file.content_type not in allowed_types:
+            return JSONResponse(
+                status_code=400, 
+                content={
+                    "error": f"File type {file.content_type} not supported. Allowed types: {', '.join(allowed_types)}"
+                }
+            )
+        
+        # Create a temporary file path for the uploaded file
+        temp_file_path = None
+        try:
+            # Read file content into memory first
+            file_content = await file.read()
+            original_size = len(file_content)
+            
+            log_debug(f"Received upload request for file: {file.filename}", {
+                "size": f"{original_size/1024:.1f}KB",
+                "type": file.content_type,
+                "school_id": school_id,
+                "event_id": event_id
+            }, service="uploads")
+            
+            # Create temporary file
+            with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1]) as temp_file:
+                temp_file_path = temp_file.name
+                temp_file.write(file_content)
+            
+            # Handle PDF files
+            if file.content_type == "application/pdf":
+                return await handle_pdf_upload(temp_file_path, file.filename, school_id, event_id, user)
+            
+            # Handle image files
+            compressed_file_path = None
+            try:
+                log_debug(f"Compressing image before upload: {file.filename}", service="uploads")
+                
+                # Open and compress the image
+                with Image.open(temp_file_path) as img:
+                    # Convert to RGB if necessary
+                    if img.mode in ('RGBA', 'LA', 'P'):
+                        img = img.convert('RGB')
+                    
+                    # Resize if too large
+                    max_size = (2048, 2048)
+                    if img.size[0] > max_size[0] or img.size[1] > max_size[1]:
+                        img.thumbnail(max_size, Image.Resampling.LANCZOS)
+                    
+                    # Save compressed version
+                    compressed_file_path = temp_file_path + "_compressed.jpg"
+                    img.save(compressed_file_path, "JPEG", quality=85, optimize=True)
+                
+                # Get compressed size
+                compressed_size = os.path.getsize(compressed_file_path)
+                log_debug(f"File sizes - Original: {original_size/1024:.1f}KB, Compressed: {compressed_size/1024:.1f}KB", service="uploads")
+                
+                # Generate unique filename for storage
+                file_extension = ".jpg"  # Always save as JPG after compression
+                unique_filename = f"{uuid.uuid4().hex}{file_extension}"
+                storage_folder = TRIMMED_FOLDER or "trimmed"
+                storage_path = f"{storage_folder}/{unique_filename}"
+                
+                log_debug(f"File uploaded to storage: {storage_path}", service="uploads")
+                
+                # Upload to storage using the compressed file
+                storage_path = upload_to_supabase_storage_from_path(
+                    supabase_client,
+                    compressed_file_path, 
+                    user.get("id"),
+                    file.filename
+                )
+                
+                # Create processing job
+                job_data = {
+                    "user_id": user.get("id"),
+                    "school_id": school_id,
+                    "file_url": storage_path,
+                    "status": "queued",
+                    "event_id": event_id,
+                    "image_path": storage_path
+                }
+                
+                result = insert_processing_job_db(supabase_client, job_data)
+                if not result:
+                    raise Exception("Failed to create processing job")
+                
+                job_id = result[0]["id"]
+                
+                # Notify worker with retry mechanism
+                try:
+                    await notify_worker_with_retry(job_id, job_data)
+                except Exception as worker_error:
+                    log_debug(f"Worker notification failed for job {job_id}, but job is queued and worker may pick it up", {
+                        "error": str(worker_error),
+                        "job_id": job_id
+                    }, service="uploads")
+                
+                return JSONResponse(status_code=200, content={
+                    "message": "File uploaded successfully",
+                    "job_id": job_id,
+                    "document_id": job_id
+                })
+                
+            finally:
+                # Clean up compressed file
+                if compressed_file_path and os.path.exists(compressed_file_path):
+                    os.unlink(compressed_file_path)
+                
+        finally:
+            # Clean up original temp file
+            if temp_file_path and os.path.exists(temp_file_path):
+                os.unlink(temp_file_path)
+                
+    except Exception as e:
+        log_debug(f"Error uploading file: {e}", service="uploads")
+        import traceback
+        log_debug("Full traceback:", traceback.format_exc(), service="uploads")
+        return JSONResponse(status_code=500, content={"error": str(e)})
+
+async def handle_pdf_upload(pdf_path: str, original_filename: str, school_id: str, event_id: str, user):
+    """
+    Handle PDF upload by splitting into individual PNG files and creating separate jobs
+    """
+    try:
+        log_debug(f"Entering PDF processing block for file: {original_filename}", {
+            "pdf_path": pdf_path,
+            "original_filename": original_filename
+        }, service="uploads")
+        
+        # Split PDF into PNG files
+        png_paths = split_pdf_to_pngs(pdf_path)
+        log_debug(f"split_pdf_to_pngs returned {len(png_paths)} images: {png_paths}", service="uploads")
+        
+        if not png_paths:
+            log_debug(f"No PNGs were generated from PDF: {pdf_path}", service="uploads")
+            return JSONResponse(status_code=400, content={"error": "Failed to extract images from PDF"})
+        
+        job_ids = []
+        document_ids = []
+        
+        try:
+            for i, png_path in enumerate(png_paths):
+                log_debug(f"Processing page {i+1}: {png_path}", service="uploads")
+                
+                # Convert PNG to JPG
+                with Image.open(png_path) as img:
+                    # Convert to RGB if necessary
+                    if img.mode in ('RGBA', 'LA', 'P'):
+                        img = img.convert('RGB')
+                    
+                    # Save as JPG
+                    jpg_path = png_path.replace('.png', '.jpg')
+                    img.save(jpg_path, "JPEG", quality=85, optimize=True)
+                    log_debug(f"Converted PNG to JPG: {jpg_path}", service="uploads")
+                
+                # Upload to storage with proper JPG filename
+                page_filename = f"{os.path.splitext(original_filename)[0]} (Page {i+1}).jpg"
+                log_debug(f"Generated page filename: {page_filename}", service="uploads")
+                
+                storage_path = upload_to_supabase_storage_from_path(
+                    supabase_client, 
+                    jpg_path, 
+                    user.get("id"), 
+                    page_filename  # Use filename with .jpg extension
+                )
+                
+                log_debug(f"Storage upload completed. Storage path: {storage_path}", service="uploads")
+                
+                # Create processing job for this page
+                job_data = {
+                    "user_id": user.get("id"),
+                    "school_id": school_id,
+                    "file_url": storage_path,
+                    "status": "queued",
+                    "event_id": event_id,
+                    "image_path": storage_path  # This will be the JPG storage path
+                }
+                
+                log_debug(f"Created job data for page {i+1}", {
+                    "job_data": job_data,
+                    "file_url": storage_path,
+                    "image_path": storage_path
+                }, service="uploads")
+                
+                result = insert_processing_job_db(supabase_client, job_data)
+                if not result:
+                    raise Exception(f"Failed to create processing job for page {i+1}")
+                
+                job_id = result[0]["id"]
+                job_ids.append(job_id)
+                document_ids.append(str(job_id))  # Use job_id as document identifier
+                
+                log_debug(f"Successfully created job {job_id} for page {i+1} with paths", {
+                    "job_id": job_id,
+                    "file_url": storage_path,
+                    "image_path": storage_path,
+                    "page": i+1
+                }, service="uploads")
+                
+                # Clean up temporary files
+                os.unlink(png_path)
+                os.unlink(jpg_path)
+                
+                # Notify worker with retry mechanism
+                try:
+                    await notify_worker_with_retry(job_id, job_data)
+                except Exception as worker_error:
+                    log_debug(f"Worker notification failed for bulk upload job {job_id}, but job is queued", {
+                        "error": str(worker_error),
+                        "job_id": job_id,
+                        "page": i+1
+                    }, service="uploads")
+        
+        finally:
+            # Clean up any remaining PNG files
+            for png_path in png_paths:
+                if os.path.exists(png_path):
+                    os.unlink(png_path)
+                jpg_path = png_path.replace('.png', '.jpg')
+                if os.path.exists(jpg_path):
+                    os.unlink(jpg_path)
+        
+        return JSONResponse(status_code=200, content={
+            "message": f"PDF uploaded successfully. Split into {len(png_paths)} images.",
+            "job_ids": job_ids,
+            "document_ids": document_ids,
+            "total_pages": len(png_paths)
+        })
+        
+    except Exception as e:
+        log_debug(f"Error splitting PDF {pdf_path}: {e}", service="uploads")
+        import traceback
+        log_debug("Full traceback:", traceback.format_exc(), service="uploads")
+        return JSONResponse(status_code=500, content={"error": f"Failed to process PDF: {str(e)}"})
+
+async def check_upload_status_service(job_id: str):
+    try:
+        result = supabase_client.table("processing_jobs").select("*").eq("id", job_id).execute()
+        if result.data:
+            return JSONResponse(status_code=200, content=result.data[0])
         else:
-            return JSONResponse(content={"status": "not_found"})
+            return JSONResponse(status_code=404, content={"error": "Job not found"})
     except Exception as e:
-        print(f"❌ Error checking upload status: {e}")
-        import traceback
-        traceback.print_exc()
-        return JSONResponse(status_code=500, content={"error": "Failed to check upload status."})
+        log_debug(f"Error checking upload status: {e}", service="uploads")
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
 async def get_image_service(document_id: str):
-    if not supabase_client:
-        return JSONResponse(status_code=503, content={"error": "Database client not available."})
-    print(f"🖼️ Image requested for document_id: {document_id}")
     try:
-        response = select_extracted_data_image_db(supabase_client, document_id)
-        if response.data:
-            image_path = response.data.get("trimmed_image_path") or response.data.get("image_path")
-            print(f"  -> Found image path: {image_path}")
-            if image_path and os.path.exists(image_path):
-                headers = {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, OPTIONS",
-                    "Access-Control-Allow-Headers": "*",
-                }
-                return FileResponse(image_path, headers=headers)
-            else:
-                print(f"  -> File not found at path: {image_path}")
-                return JSONResponse(status_code=404, content={"error": "Image file not found on server."})
+        log_debug(f"Image requested for document_id: {document_id}", service="uploads")
+        
+        # Query the extracted_data table to get the image path
+        result = select_extracted_data_image_db(supabase_client, document_id)
+        
+        if result and result.data:
+            image_path = result.data[0].get("image_path")
+            log_debug(f"Found image path: {image_path}", service="uploads")
+            
+            # Download from Supabase storage and return
+            try:
+                storage_response = supabase_client.storage.from_("card-images").download(image_path)
+                return FileResponse(
+                    path=io.BytesIO(storage_response),
+                    media_type="image/jpeg",
+                    filename=f"{document_id}.jpg"
+                )
+            except Exception as download_error:
+                log_debug(f"File not found at path: {image_path}", {"error": str(download_error)}, service="uploads")
+                return JSONResponse(status_code=404, content={"error": "Image file not found in storage"})
         else:
-            print(f"  -> No database record found for document_id: {document_id}")
-            return JSONResponse(status_code=404, content={"error": "Image record not found."})
+            log_debug(f"No database record found for document_id: {document_id}", service="uploads")
+            return JSONResponse(status_code=404, content={"error": "Document not found"})
+            
     except Exception as e:
-        print(f"❌ Error retrieving image for {document_id}: {e}")
-        import traceback
-        traceback.print_exc()
-        return JSONResponse(status_code=500, content={"error": "Failed to retrieve image."})
-
-async def bulk_upload_service(background_tasks, file, event_id, school_id, user):
-    user_id = user['id']
-    if not supabase_client:
-        return {"error": "Database client not available"}
-
-    # Save uploaded file to a temp location
-    import tempfile, os, uuid
-    with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1]) as temp_file:
-        temp_file.write(await file.read())
-        temp_file_path = temp_file.name
-
-    jobs_created = []
-    try:
-        # Check if file is a PDF
-        if file.filename.lower().endswith('.pdf'):
-            print(f"[DEBUG] Entering PDF processing block for file: {file.filename}")
-            with tempfile.TemporaryDirectory() as tmpdir:
-                # Split PDF into PNGs immediately after saving
-                png_paths = split_pdf_to_pngs(temp_file_path, tmpdir)
-                print(f"[DEBUG] split_pdf_to_pngs returned {len(png_paths)} images: {png_paths}")
-                if not png_paths:
-                    print(f"[ERROR] No PNGs were generated from PDF: {temp_file_path}")
-                    return {"error": "Failed to split PDF into images."}
-                
-                for png_path in png_paths:
-                    # Upload to Supabase storage
-                    storage_path = upload_to_supabase_storage_from_path(supabase_client, png_path, user_id, os.path.basename(png_path))
-                    image_path_for_db = storage_path.replace('cards-uploads/', '') if storage_path.startswith('cards-uploads/') else storage_path
-                    
-                    # Create processing job
-                    job_id = str(uuid.uuid4())
-                    from datetime import datetime, timezone
-                    now = datetime.now(timezone.utc).isoformat()
-                    job_data = {
-                        "id": job_id,
-                        "user_id": user_id,
-                        "school_id": school_id,
-                        "file_url": storage_path,
-                        "image_path": image_path_for_db,
-                        "status": "queued",
-                        "result_json": None,  # Will be populated by worker
-                        "error_message": None,
-                        "created_at": now,
-                        "updated_at": now,
-                        "event_id": event_id
-                    }
-                    insert_processing_job_db(supabase_client, job_data)
-                    jobs_created.append({"job_id": job_id, "document_id": job_id, "image": storage_path})
-        else:
-            return {"error": "File is not a PDF. Use the standard upload for images."}
-    finally:
-        # Cleanup temp file
-        if os.path.exists(temp_file_path):
-            os.remove(temp_file_path)
-    return {"status": "success", "jobs_created": jobs_created}
-
-def split_pdf_to_pngs(pdf_path, output_dir):
-    """
-    Splits a PDF into individual PNG images, one per page.
-    Args:
-        pdf_path (str): Path to the PDF file.
-        output_dir (str): Directory to save PNG images.
-    Returns:
-        List[str]: List of file paths to the generated PNG images.
-    """
-    from pdf2image import convert_from_path
-    import os
-    try:
-        images = convert_from_path(pdf_path)
-        png_paths = []
-        for i, image in enumerate(images):
-            png_path = os.path.join(output_dir, f"page_{i+1}.png")
-            image.save(png_path, 'PNG')
-            png_paths.append(png_path)
-        return png_paths
-    except Exception as e:
-        print(f"❌ Error splitting PDF {pdf_path}: {e}")
-        return []
+        log_debug(f"Error retrieving image for {document_id}: {e}", service="uploads")
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
 async def export_to_slate_service(payload: dict):
     try:
+        # Check if SFTP functionality is available
+        if not SFTP_AVAILABLE:
+            return JSONResponse(status_code=503, content={
+                "error": "SFTP functionality is not available. Please ensure sftp_utils.py is properly configured."
+            })
+            
         school_id = payload.get("school_id")
         rows = payload.get("rows")
         if not school_id or not rows or not isinstance(rows, list):
             return JSONResponse(status_code=400, content={"error": "Missing or invalid school_id or rows."})
         
-        print(f"🎯 SLATE EXPORT: Processing export for school_id: {school_id} with {len(rows)} rows")
+        log_debug(f"SLATE EXPORT: Processing export for school_id: {school_id} with {len(rows)} rows", service="uploads")
         
-        # 1. Get SFTP configuration from database
+        # Fetch SFTP configuration from sftp_configs table
         try:
-            # First try to get school-specific config
-            sftp_config_response = supabase_client.table("sftp_configs") \
-                .select("*") \
-                .eq("school_id", school_id) \
-                .single() \
-                .execute()
+            sftp_config_result = supabase_client.table("sftp_configs").select("*").eq("school_id", school_id).eq("enabled", True).execute()
             
-            if not sftp_config_response.data:
-                # If no school-specific config, try to get a default config (first row)
-                print(f"⚠️ SLATE EXPORT: No school-specific SFTP config found for school_id: {school_id}, trying default config")
-                sftp_config_response = supabase_client.table("sftp_configs") \
-                    .select("*") \
-                    .limit(1) \
-                    .execute()
-                
-                if not sftp_config_response.data:
-                    print(f"❌ SLATE EXPORT: No SFTP configuration found at all")
-                    return JSONResponse(status_code=400, content={"error": "No SFTP configuration found."})
-            
-            sftp_config = sftp_config_response.data[0] if isinstance(sftp_config_response.data, list) else sftp_config_response.data
-            print(f"✅ SLATE EXPORT: Found SFTP config - Host: {sftp_config.get('host')}, Username: {sftp_config.get('username')}")
+            if sftp_config_result.data:
+                sftp_data = sftp_config_result.data[0]
+                sftp_config = {
+                    "host": sftp_data["host"],
+                    "port": sftp_data.get("port", 22),
+                    "username": sftp_data["username"],
+                    "password": sftp_data["password"],
+                    "remote_directory": sftp_data["remote_path"]
+                }
+                log_debug(f"SLATE EXPORT: Found SFTP config - Host: {sftp_config['host']}, Username: {sftp_config['username']}", service="uploads")
+            else:
+                log_debug(f"SLATE EXPORT: No enabled SFTP configuration found for school_id: {school_id}", service="uploads")
+                return JSONResponse(status_code=400, content={"error": "No enabled SFTP configuration found for this school."})
             
         except Exception as e:
-            print(f"❌ SLATE EXPORT: Error fetching SFTP config: {str(e)}")
-            return JSONResponse(status_code=500, content={"error": "Failed to retrieve SFTP configuration."})
+            log_debug(f"SLATE EXPORT: Error fetching SFTP config: {str(e)}", service="uploads")
+            return JSONResponse(status_code=500, content={"error": f"Failed to fetch SFTP configuration: {str(e)}"})
         
-        # 2. Generate CSV file from rows
-        import tempfile
-        import os
-        import csv
-        from datetime import datetime, timezone
+        # Fetch school's card fields configuration
+        try:
+            school_result = supabase_client.table("schools").select("card_fields").eq("id", school_id).execute()
+            
+            if school_result.data and school_result.data[0].get("card_fields"):
+                card_fields = school_result.data[0]["card_fields"]
+                log_debug(f"SLATE EXPORT: Found card_fields configuration for school_id: {school_id}", service="uploads")
+            else:
+                log_debug(f"SLATE EXPORT: No card_fields configuration found for school_id: {school_id}, using default fields", service="uploads")
+                # Default fallback fields
+                card_fields = [
+                    {"key": "name", "enabled": True, "required": True},
+                    {"key": "email", "enabled": True, "required": True},
+                    {"key": "cell", "enabled": True, "required": False},
+                    {"key": "address", "enabled": True, "required": False},
+                    {"key": "city", "enabled": True, "required": False},
+                    {"key": "state", "enabled": True, "required": False},
+                    {"key": "zip_code", "enabled": True, "required": False},
+                    {"key": "major", "enabled": True, "required": False}
+                ]
+                
+        except Exception as e:
+            log_debug(f"SLATE EXPORT: Error fetching card fields: {str(e)}", service="uploads")
+            return JSONResponse(status_code=500, content={"error": f"Failed to fetch card fields configuration: {str(e)}"})
         
-        # Define headers in the same order as the frontend
-        headers = [
-            "Event Name",
-            "First Name",
-            "Last Name",
-            "Preferred Name",
-            "Birthday",
-            "Email",
-            "Phone Number",
-            "Permission to Text",
-            "Address",
-            "City",
-            "State",
-            "Zip Code",
-            "High School",
-            "Class Rank",
-            "Students in Class",
-            "GPA",
-            "Student Type",
-            "Entry Term",
-            "Major"
-        ]
+        # Required SFTP fields
+        required_fields = ["host", "username", "password", "remote_directory"]
+        missing_fields = [field for field in required_fields if not sftp_config.get(field)]
         
-        # Define field mappings
-        field_mappings = {
-            "Event Name": lambda row: row.get("event_name", ""),
-            "First Name": lambda row: row.get("fields", {}).get("name", {}).get("value", "").split()[0] if row.get("fields", {}).get("name", {}).get("value") else "",
-            "Last Name": lambda row: " ".join(row.get("fields", {}).get("name", {}).get("value", "").split()[1:]) if row.get("fields", {}).get("name", {}).get("value") else "",
-            "Preferred Name": lambda row: row.get("fields", {}).get("preferred_first_name", {}).get("value", ""),
-            "Birthday": lambda row: row.get("fields", {}).get("date_of_birth", {}).get("value", ""),
-            "Email": lambda row: row.get("fields", {}).get("email", {}).get("value", ""),
-            "Phone Number": lambda row: row.get("fields", {}).get("cell", {}).get("value", ""),
-            "Permission to Text": lambda row: row.get("fields", {}).get("permission_to_text", {}).get("value", ""),
-            "Address": lambda row: row.get("fields", {}).get("address", {}).get("value", ""),
-            "City": lambda row: row.get("fields", {}).get("city", {}).get("value", ""),
-            "State": lambda row: row.get("fields", {}).get("state", {}).get("value", ""),
-            "Zip Code": lambda row: row.get("fields", {}).get("zip_code", {}).get("value", ""),
-            "High School": lambda row: row.get("fields", {}).get("high_school", {}).get("value", ""),
-            "Class Rank": lambda row: row.get("fields", {}).get("class_rank", {}).get("value", ""),
-            "Students in Class": lambda row: row.get("fields", {}).get("students_in_class", {}).get("value", ""),
-            "GPA": lambda row: row.get("fields", {}).get("gpa", {}).get("value", ""),
-            "Student Type": lambda row: row.get("fields", {}).get("student_type", {}).get("value", ""),
-            "Entry Term": lambda row: row.get("fields", {}).get("entry_term", {}).get("value", ""),
-            "Major": lambda row: row.get("fields", {}).get("major", {}).get("value", "")
-        }
+        if missing_fields:
+            return JSONResponse(status_code=400, content={
+                "error": f"SFTP configuration is missing required fields: {', '.join(missing_fields)}"
+            })
         
-        # Create CSV content
-        csv_content = []
-        csv_content.append(headers)  # Add headers
+        # Generate CSV content using dynamic card fields
+        csv_content = io.StringIO()
+        
+        # Extract enabled field names from card_fields configuration
+        headers = []
+        for field_config in card_fields:
+            if isinstance(field_config, dict) and field_config.get("enabled", False):
+                field_key = field_config.get("key")
+                if field_key:
+                    headers.append(field_key)
+        
+        # Add common fields that might not be in card_fields but are useful for export
+        additional_fields = ["event_name", "date_created"]
+        for field in additional_fields:
+            if field not in headers:
+                headers.append(field)
+        
+        log_debug(f"SLATE EXPORT: Using CSV headers: {headers}", service="uploads")
+        
+        writer = csv.DictWriter(csv_content, fieldnames=headers)
+        writer.writeheader()
+        
+        # Track document_ids for marking as exported
+        document_ids = []
+        
         for row in rows:
-            csv_row = [field_mappings[header](row) for header in headers]
-            csv_content.append(csv_row)
+            # Extract document_id for tracking
+            document_id = row.get("document_id")
+            if document_id:
+                document_ids.append(document_id)
+            
+            # Prepare row data for CSV using dynamic headers
+            csv_row = {}
+            for header in headers:
+                csv_row[header] = row.get(header, "")
+            
+            writer.writerow(csv_row)
         
         # Generate filename with timestamp
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        csv_filename = f"card_export_{timestamp}.csv"
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+        csv_filename = f"slate_export_{school_id}_{timestamp}.csv"
         
-        # Create temporary CSV file
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode="w", newline="") as tmp_csv:
-            writer = csv.writer(tmp_csv)
-            writer.writerows(csv_content)
-            csv_path = tmp_csv.name
-
-        print(f"📄 SLATE EXPORT: Generated CSV file with {len(rows)} records: {csv_filename}")
-
-        # 3. Upload CSV to Slate via SFTP using database config
+        log_debug(f"SLATE EXPORT: Generated CSV file with {len(rows)} records: {csv_filename}", service="uploads")
+        
+        # Upload to SFTP server
+        temp_csv_path = None
         try:
-            import paramiko
+            log_debug(f"SLATE EXPORT: Connecting to SFTP server: {sftp_config['host']}", service="uploads")
             
-            print(f"🔗 SLATE EXPORT: Connecting to SFTP server: {sftp_config['host']}")
+            # Create temporary CSV file
+            import tempfile
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False, encoding='utf-8') as temp_csv:
+                temp_csv_path = temp_csv.name
+                temp_csv.write(csv_content.getvalue())
             
-            # Create SFTP connection using database config
-            ssh = paramiko.SSHClient()
-            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            # Construct remote path
+            remote_directory = sftp_config["remote_directory"].rstrip("/")
+            remote_path = f"{remote_directory}/{csv_filename}"
             
-            ssh.connect(
-                hostname=sftp_config['host'],
-                port=sftp_config.get('port', 22),
-                username=sftp_config['username'],
-                password=sftp_config['password'],
-                look_for_keys=False,
-                allow_agent=False
-            )
+            # Create SFTPConfig object for upload_to_slate
+            from sftp_utils import SFTPConfig
+            config = SFTPConfig()
+            config.host = sftp_config["host"]
+            config.port = sftp_config.get("port", 22)
+            config.username = sftp_config["username"]
+            config.password = sftp_config["password"]
+            config.upload_path = sftp_config["remote_directory"]
             
-            sftp = ssh.open_sftp()
+            # Use the upload_to_slate function
+            upload_success = upload_to_slate(temp_csv_path, config)
             
-            # Upload the file
-            remote_path = f"{sftp_config.get('remote_path', '/')}/{csv_filename}"
-            sftp.put(csv_path, remote_path)
-            
-            print(f"📤 SLATE EXPORT: Successfully uploaded file to: {remote_path}")
-            
-            # Close connections
-            sftp.close()
-            ssh.close()
-            
+            if upload_success:
+                log_debug(f"SLATE EXPORT: Successfully uploaded file to: {remote_path}", service="uploads")
+            else:
+                raise Exception("SFTP upload returned False")
+                
         except Exception as e:
-            print(f"❌ SLATE EXPORT: SFTP upload failed: {str(e)}")
-            # Clean up temp file
-            if os.path.exists(csv_path):
-                os.remove(csv_path)
-            return JSONResponse(status_code=500, content={"error": f"Failed to upload to Slate: {str(e)}"})
+            log_debug(f"SLATE EXPORT: SFTP upload failed: {str(e)}", service="uploads")
+            return JSONResponse(status_code=500, content={
+                "error": f"Failed to upload to SFTP server: {str(e)}"
+            })
+        finally:
+            # Clean up temporary CSV file
+            if temp_csv_path and os.path.exists(temp_csv_path):
+                os.unlink(temp_csv_path)
         
-        # 4. Mark rows as exported in database
-        try:
-            # Extract document IDs from rows
-            document_ids = [row.get("id") for row in rows if row.get("id")]
-            if document_ids:
-                # Update the exported_at timestamp for these documents
-                timestamp = datetime.now(timezone.utc).isoformat()
-                update_payload = {
-                    "exported_at": timestamp
-                }
-                update_response = supabase_client.table("reviewed_data") \
-                    .update(update_payload) \
-                    .in_("document_id", document_ids) \
-                    .execute()
-                print(f"✅ SLATE EXPORT: Successfully marked {len(document_ids)} records as exported in database")
-        except Exception as e:
-            print(f"⚠️ SLATE EXPORT: Warning - Failed to mark records as exported: {str(e)}")
-            # Don't return error since the upload was successful
-            # Just log the warning and continue
+        # Mark records as exported in database
+        if document_ids:
+            try:
+                from app.services.cards_service import mark_as_exported_service
+                
+                result = await mark_as_exported_service(document_ids)
+                
+                if hasattr(result, 'status_code') and result.status_code == 200:
+                    log_debug(f"SLATE EXPORT: Successfully marked {len(document_ids)} records as exported in database", service="uploads")
+                else:
+                    log_debug(f"SLATE EXPORT: Warning - Failed to mark records as exported: {str(result)}", service="uploads")
+                    
+            except Exception as e:
+                log_debug(f"SLATE EXPORT: Warning - Failed to mark records as exported: {str(e)}", service="uploads")
         
-        # 5. Clean up temporary file
-        try:
-            if os.path.exists(csv_path):
-                os.remove(csv_path)
-                print(f"🧹 SLATE EXPORT: Cleaned up temporary file")
-        except Exception as e:
-            print(f"⚠️ SLATE EXPORT: Warning - Failed to clean up temp file: {str(e)}")
-        
-        # 6. Log successful export
-        print(f"🎉 SLATE EXPORT SUCCESS: Exported {len(rows)} records to Slate for school_id: {school_id}")
-        print(f"   - File uploaded: {csv_filename}")
-        print(f"   - Records marked as exported: {len(document_ids) if document_ids else 0}")
-        
-        return JSONResponse(status_code=200, content={
-            "status": "success", 
-            "message": f"Successfully exported {len(rows)} records to Slate",
+        # Success response
+        log_debug(f"SLATE EXPORT SUCCESS: Exported {len(rows)} records to Slate for school_id: {school_id}", {
             "filename": csv_filename,
             "records_exported": len(document_ids) if document_ids else 0
+        }, service="uploads")
+        
+        return JSONResponse(status_code=200, content={
+            "message": "Export completed successfully",
+            "filename": csv_filename,
+            "records_exported": len(rows),
+            "remote_path": remote_path
         })
         
     except Exception as e:
-        print(f"❌ SLATE EXPORT: Unexpected error: {str(e)}")
+        log_debug(f"SLATE EXPORT: Unexpected error: {str(e)}", service="uploads")
         import traceback
-        traceback.print_exc()
-        return JSONResponse(status_code=500, content={"error": f"Internal error: {str(e)}"}) 
+        log_debug("Full traceback:", traceback.format_exc(), service="uploads")
+        return JSONResponse(status_code=500, content={"error": f"Export failed: {str(e)}"})
+
+async def notify_worker_with_retry(job_id: str, job_data: dict):
+    """
+    Notify worker about new job with retry mechanism
+    """
+    return retry_with_exponential_backoff(
+        func=lambda: notify_worker(job_id, job_data),
+        max_retries=3,
+        operation_name=f"Worker notification for job {job_id}",
+        service="uploads"
+    )
+
+async def notify_worker(job_id: str, job_data: dict):
+    """
+    Direct worker notification (to be retried by notify_worker_with_retry)
+    """
+    # Create notification record
+    notification_data = {
+        "job_id": job_id,
+        "user_id": job_data.get("user_id"),
+        "status": "processing",
+        "message": "File uploaded and processing started",
+        "created_at": datetime.now(timezone.utc).isoformat()
+    }
+    
+    result = update_processing_job_db(supabase_client, job_id, {
+        "status": "processing", 
+        "updated_at": datetime.now(timezone.utc).isoformat()
+    })
+    if not result.data:
+        raise Exception("Failed to update job status")
+    
+    log_debug(f"Worker notified for job {job_id}", {"job_data": job_data}, service="uploads")
+    return True
+
+async def notify_processing_complete_service(supabase_client, job_data: Dict[str, Any]):
+    """
+    Simplified notification service - just updates the job status.
+    """
+    log_debug("Processing notification", {
+        "job_id": job_data.get("id"),
+        "status": job_data.get("status")
+    }, service="uploads")
+    
+    try:
+        # Just update the job status - removed upload_notifications table usage
+        result = update_processing_job_db(supabase_client, job_data["id"], {
+            "status": "complete",
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        })
+        
+        log_debug("Job status updated successfully", {"job_id": job_data["id"]}, service="uploads")
+        return result
+    except Exception as e:
+        log_debug(f"Failed to update job status: {str(e)}", service="uploads")
+        raise e 

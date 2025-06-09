@@ -1,5 +1,5 @@
 import os
-from PIL import Image
+from PIL import Image, ExifTags, ImageOps
 from google.cloud import documentai_v1 as documentai
 from app.config import PROJECT_ID, DOCAI_LOCATION, DOCAI_PROCESSOR_ID, TRIMMED_FOLDER
 
@@ -65,15 +65,58 @@ def trim_image_with_docai(input_path: str, output_path: str = None, percent_expa
         print(f"[DocAI] Error in trim_image_with_docai: {e}")
         return input_path
 
+def ensure_vertical_orientation(image_path: str) -> str:
+    """
+    Properly handle EXIF orientation using Pillow's modern ImageOps method,
+    then ensure the image is in portrait orientation.
+    """
+    img = Image.open(image_path)
+    
+    # This handles EXIF orientation automatically and strips EXIF data
+    img = ImageOps.exif_transpose(img)
+    print(f"✅ EXIF orientation applied successfully")
+    
+    # Force portrait orientation (like the original function did)
+    # This ensures compatibility with DocAI processing expectations
+    if img.width > img.height:
+        img = img.rotate(90, expand=True)
+        print(f"✅ Additional rotation applied to ensure portrait orientation")
+    
+    # Convert to RGB if needed
+    if img.mode in ('RGBA', 'LA', 'P'):
+        img = img.convert('RGB')
+        
+    # Save processed image
+    rotated_path = image_path.replace('.', '_vertical.', 1)
+    img.save(rotated_path, format='JPEG', quality=100, optimize=True)
+    print(f"✅ Processed image saved to: {rotated_path}")
+    
+    return rotated_path
+
 def ensure_trimmed_image(original_image_path: str) -> str:
     print(f"🔄 Processing image: {original_image_path}")
     try:
-        trimmed_path = trim_image_with_docai(original_image_path)
+        # Ensure vertical orientation first
+        vertical_path = ensure_vertical_orientation(original_image_path)
+        
+        # Open image with high quality settings
+        img = Image.open(vertical_path)
+        
+        # Save with high quality
+        trimmed_path = trim_image_with_docai(vertical_path, percent_expand=0.30)
         if not os.path.exists(trimmed_path):
             print(f"⚠️ Trimmed image not found at: {trimmed_path}")
             return original_image_path
-        print(f"✅ Image processed and saved at: {trimmed_path}")
-        return trimmed_path
+            
+        # Ensure high quality output and always save as JPEG (RGB)
+        output_img = Image.open(trimmed_path)
+        if output_img.mode != 'RGB':
+            output_img = output_img.convert('RGB')
+        # Always save as .jpg
+        jpeg_path = os.path.splitext(trimmed_path)[0] + '.jpg'
+        output_img.save(jpeg_path, format='JPEG', quality=100, optimize=True)
+        print(f"✅ Image processed and saved at: {jpeg_path}")
+        return jpeg_path
     except Exception as e:
         print(f"❌ Error processing image: {e}")
         return original_image_path 

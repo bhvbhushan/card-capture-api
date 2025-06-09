@@ -1,6 +1,8 @@
 from fastapi import HTTPException
 from app.core.clients import supabase_client
 import re
+from typing import List
+import os
 
 def get_user_profile_by_id(supabase_client, user_id: str):
     response = supabase_client.table("profiles").select("id, email, first_name, last_name, role").eq("id", user_id).maybe_single().execute()
@@ -26,48 +28,87 @@ def list_users_db(supabase_client):
         # If already a list, leave as is
     return users
 
-async def invite_user_db(email: str, first_name: str, last_name: str, role: list[str], school_id: str) -> dict:
-    """Invite a user via Supabase Auth."""
+def invite_user_db(email: str, first_name: str, last_name: str, role: List[str], school_id: str):
+    """Invite a new user to the system"""
+    print(f"📧 Inviting user: {email} to school: {school_id}")
+    
+    # Prepare user metadata
+    user_metadata = {
+        "first_name": first_name,
+        "last_name": last_name,
+        "role": role,
+        "school_id": school_id,
+        "email_verified": False
+    }
+    
     try:
-        # Create the user metadata
-        user_metadata = {
-            "first_name": first_name,
-            "last_name": last_name,
-            "role": role,  # Store the array of roles
-            "school_id": school_id
-        }
-
-        print("📝 Inviting user with metadata:", user_metadata)
-
-        # Invite the user via Supabase Auth (sync call)
+        # Get the frontend URL from environment or use default
+        frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+        # Include necessary query parameters that the frontend expects
+        redirect_url = f"{frontend_url}/accept-invite?email={email}&school_id={school_id}"
+        
+        # Use invite_user_by_email to send the invitation email
         response = supabase_client.auth.admin.invite_user_by_email(
             email,
             options={
-                "data": user_metadata
+                "data": user_metadata,  # This adds the metadata to the user
+                "redirect_to": redirect_url  # Where they go after clicking the link
             }
         )
-
-        if not response or not response.user:
-            raise Exception("Failed to create user")
-
-        print("✅ User created successfully:", response.user)
-
-        # Return the user data in a consistent format
-        return {
+        
+        if hasattr(response, 'error') and response.error:
+            print(f"❌ Supabase error: {response.error}")
+            raise Exception(f"Failed to invite user: {response.error}")
+        
+        # After invite, we need to update app_metadata separately if needed
+        if response and response.user:
+            print(f"🔄 Creating user profile and metadata for {response.user.id}")
+            
+            # Update app_metadata
+            supabase_client.auth.admin.update_user_by_id(
+                response.user.id,
+                {
+                    "app_metadata": {
+                        "school_id": school_id
+                    }
+                }
+            )
+            
+            # Create profile record in the profiles table
+            profile_data = {
+                "id": response.user.id,
+                "email": email,
+                "first_name": first_name,
+                "last_name": last_name,
+                "role": role,
+                "school_id": school_id
+            }
+            
+            # Use upsert to handle potential conflicts
+            supabase_client.table("profiles").upsert(profile_data).execute()
+            print(f"✅ User profile created successfully")
+        
+        # Format the return value properly
+        user_data = {
             "id": response.user.id,
             "email": response.user.email,
             "first_name": first_name,
             "last_name": last_name,
             "role": role,
             "school_id": school_id,
-            "user_metadata": response.user.user_metadata,
-            "app_metadata": response.user.app_metadata
+            "created_at": str(response.user.created_at),
+            "email_confirmed": response.user.email_confirmed_at is not None,
+            "invite_sent": True
         }
+            
+        print(f"✅ Invitation email sent to: {email}")
+        return user_data
+        
     except Exception as e:
         print(f"❌ Error inviting user: {str(e)}")
-        print(f"❌ Error type: {type(e)}")
-        print(f"❌ Error details: {e.__dict__ if hasattr(e, '__dict__') else 'No details available'}")
-        raise Exception(f"Failed to invite user: {str(e)}")
+        import traceback
+        print(f"❌ Stack trace: {traceback.format_exc()}")
+        raise Exception(f"Error inviting user: {str(e)}")
 
 def update_user_db(supabase_client, user_id, update):
     result = supabase_client.table("profiles").update({

@@ -16,6 +16,8 @@ from app.services.cards_service import (
 )
 from app.core.clients import supabase_client
 from app.repositories.reviewed_data_repository import upsert_reviewed_data
+from app.services.review_service import canonicalize_fields
+from app.utils.field_utils import filter_combined_fields
 
 router = APIRouter()
 
@@ -78,7 +80,7 @@ async def delete_cards(payload: BulkActionPayload):
     if not payload.document_ids:
         return JSONResponse(status_code=400, content={"error": "No document_ids provided"})
     
-    return await delete_cards_service(payload.document_ids)
+    return delete_cards_service(payload.document_ids)
 
 @router.post("/move-cards")
 async def move_cards(payload: BulkActionPayload):
@@ -91,7 +93,7 @@ async def move_cards(payload: BulkActionPayload):
         return JSONResponse(status_code=400, content={"error": "No document_ids provided"})
     
     status = payload.status or "reviewed"
-    return await move_cards_service(payload.document_ids, status)
+    return move_cards_service(payload.document_ids, status)
 
 @router.post("/save-review/{document_id}")
 async def save_manual_review(document_id: str, payload: Dict[str, Any] = Body(...)):
@@ -107,6 +109,9 @@ async def save_manual_review(document_id: str, payload: Dict[str, Any] = Body(..
         current_fields_data = current_card.data.get("fields", {})
         updated_fields = payload.get("fields", {})
         frontend_status = payload.get("status")
+
+        # Canonicalize updated_fields before merging
+        updated_fields = canonicalize_fields(updated_fields)
 
         # Update fields based on user input
         for key, field_data in updated_fields.items():
@@ -145,10 +150,13 @@ async def save_manual_review(document_id: str, payload: Dict[str, Any] = Body(..
         # Use the frontend status if provided, otherwise determine based on fields
         review_status = frontend_status if frontend_status else ("needs_human_review" if any_required_field_needs_review else "reviewed")
 
+        # Filter out combined fields before saving
+        filtered_fields = filter_combined_fields(current_fields_data)
+
         # Update the card
         update_data = {
             "document_id": document_id,
-            "fields": current_fields_data,
+            "fields": filtered_fields,  # Use filtered fields without combined address fields
             "review_status": review_status,
             "updated_at": datetime.now(timezone.utc).isoformat(),
             "school_id": current_card.data.get("school_id"),  # Preserve school_id
@@ -163,7 +171,7 @@ async def save_manual_review(document_id: str, payload: Dict[str, Any] = Body(..
         print(f"Error saving review: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/manual-entry")
+@router.post("/cards/manual")
 async def manual_entry(payload: Dict[str, Any] = Body(...)):
     """
     Create a new manual entry in reviewed_data with review_status='reviewed' and no image.
@@ -176,8 +184,8 @@ async def manual_entry(payload: Dict[str, Any] = Body(...)):
         event_id = payload.get("event_id")
         school_id = payload.get("school_id")
         fields = payload.get("fields", {})
-        if not event_id or not fields:
-            return JSONResponse(status_code=400, content={"error": "event_id and fields are required."})
+        if not event_id or not school_id or not fields:
+            return JSONResponse(status_code=400, content={"error": "event_id, school_id, and fields are required."})
 
         # Generate a new document_id
         document_id = str(uuid.uuid4())
@@ -195,9 +203,12 @@ async def manual_entry(payload: Dict[str, Any] = Body(...)):
                 "review_notes": "Manually entered"
             }
 
+        # Filter out combined fields before saving
+        filtered_fields = filter_combined_fields(reviewed_fields)
+
         record = {
             "document_id": document_id,
-            "fields": reviewed_fields,
+            "fields": filtered_fields,  # Use filtered fields without combined address fields
             "review_status": "reviewed",
             "reviewed_at": now,
             "event_id": event_id,

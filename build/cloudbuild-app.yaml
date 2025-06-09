@@ -1,75 +1,58 @@
-# gcloud builds submit --config cloudbuild.yaml .
-
 steps:
-  # Build the FastAPI Docker image
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
         "build",
         "-t",
-        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/card-capture-be",
+        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_BE_IMAGE_NAME_SUFFIX",
         "-f",
         "Dockerfile",
         ".",
       ]
-
-  # Build the Worker Docker image
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
         "build",
         "-t",
-        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/card-capture-worker",
+        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_WORKER_IMAGE_NAME_SUFFIX",
         "-f",
         "Dockerfile.worker",
         ".",
       ]
-
-  # Configure Docker to use gcloud for authentication
-  - name: "gcr.io/cloud-builders/gcloud"
-    args: ["auth", "configure-docker", "--quiet"]
-
-  # Push the FastAPI Docker image to Google Artifact Registry
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
         "push",
-        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/card-capture-be",
+        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_BE_IMAGE_NAME_SUFFIX",
       ]
-
-  # Push the Worker Docker image to Google Artifact Registry
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
         "push",
-        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/card-capture-worker",
+        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_WORKER_IMAGE_NAME_SUFFIX",
       ]
-
-  # Deploy the FastAPI application using Cloud Run
   - name: "gcr.io/cloud-builders/gcloud"
     args:
       [
         "run",
         "deploy",
-        "card-capture-be",
+        "$_BE_CLOUD_RUN_SERVICE",
         "--image",
-        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/card-capture-be",
+        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_BE_IMAGE_NAME_SUFFIX",
         "--platform",
         "managed",
         "--region",
         "us-central1",
         "--allow-unauthenticated",
       ]
-
-  # Deploy the Worker application using Cloud Run
   - name: "gcr.io/cloud-builders/gcloud"
     args:
       [
         "run",
         "deploy",
-        "card-capture-worker-v2",
+        "$_WORKER_CLOUD_RUN_SERVICE",
         "--image",
-        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/card-capture-worker",
+        "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_WORKER_IMAGE_NAME_SUFFIX",
         "--platform",
         "managed",
         "--region",
@@ -81,9 +64,8 @@ steps:
       ]
 
 images:
-  - "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/card-capture-be"
-  - "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/card-capture-worker"
+  - "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_BE_IMAGE_NAME_SUFFIX"
+  - "us-central1-docker.pkg.dev/$PROJECT_ID/card-capture/$_WORKER_IMAGE_NAME_SUFFIX"
 
-#required
 options:
   logging: CLOUD_LOGGING_ONLY

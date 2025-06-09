@@ -1,156 +1,90 @@
 from typing import List, Dict, Any, Union
 from datetime import datetime, timezone
 from app.utils.archive_logging import log_archive_debug
+from app.utils.db_utils import (
+    ensure_atomic_updates,
+    safe_db_operation,
+    validate_db_response,
+    handle_db_error
+)
+from fastapi import HTTPException
 
+@safe_db_operation("Get cards")
 def get_cards_db(supabase_client, event_id: Union[str, None] = None) -> List[Dict[str, Any]]:
-    print(" Rcvd /cards request")
+    """Get cards with proper error handling."""
+    query = supabase_client.table("reviewed_data").select("*")
     if event_id:
-        print(f" Filtering by event_id: {event_id}")
-    reviewed_query = supabase_client.table("reviewed_data").select("*")
-    if event_id:
-        reviewed_query = reviewed_query.eq("event_id", event_id)
-    reviewed_response = reviewed_query.execute()
-    reviewed_data = reviewed_response.data
-    print(f" Found {len(reviewed_data)} reviewed records.")
-    filtered_data = [card for card in reviewed_data if card.get("review_status") != "deleted"]
-    print(f" Returning {len(filtered_data)} non-deleted records.")
+        query = query.eq("event_id", event_id)
+    response = query.execute()
+    
+    if not validate_db_response(response, "Get cards"):
+        return []
+        
+    filtered_data = [card for card in response.data if card.get("review_status") != "deleted"]
     return filtered_data
 
-def archive_cards_db(supabase_client, document_ids: List[str]):
-    log_archive_debug("=== ARCHIVE CARDS DB START ===")
-    log_archive_debug("Document IDs to archive", document_ids)
-    
-    # First check if records exist and their current status
-    log_archive_debug("Checking existing records...")
-    existing_query = supabase_client.table("reviewed_data").select("*").in_("document_id", document_ids).execute()
-    existing_records = existing_query.data
-    
-    # Log if no records were found
-    if not existing_records:
-        log_archive_debug("No records found with the provided document IDs")
-        return {"data": [], "count": 0}
-    
-    # Log the full state of each record
-    for record in existing_records:
-        log_archive_debug(f"Record {record['document_id']} full state:", {
-            "document_id": record.get("document_id"),
-            "review_status": record.get("review_status"),
-            "status": record.get("status"),
-            "deleted": record.get("deleted"),
-            "reviewed_at": record.get("reviewed_at")
-        })
-    
-    # Filter out records that are already archived
-    records_to_archive = [r for r in existing_records if r.get("review_status") != "archived"]
-    log_archive_debug("Records to archive (excluding already archived)", [
-        {
-            "document_id": r.get("document_id"),
-            "current_status": r.get("review_status")
-        } for r in records_to_archive
-    ])
-    
-    if not records_to_archive:
-        log_archive_debug("No records need archiving - all are already archived")
-        return {"data": [], "count": 0}
-    
-    timestamp = datetime.now(timezone.utc).isoformat()
-    update_payload = {
-        "review_status": "archived",
-        "reviewed_at": timestamp
-    }
-    log_archive_debug("Update payload", update_payload)
-    
-    try:
-        result = supabase_client.table('reviewed_data') \
-            .update(update_payload) \
-            .in_("document_id", [r["document_id"] for r in records_to_archive]) \
-            .execute()
-        
-        # Log the updated records
-        updated_query = supabase_client.table("reviewed_data").select("*").in_("document_id", [r["document_id"] for r in records_to_archive]).execute()
-        for record in updated_query.data:
-            log_archive_debug(f"Record {record['document_id']} after archive:", {
-                "review_status": record.get("review_status"),
-                "reviewed_at": record.get("reviewed_at")
-            })
-        
-        log_archive_debug("Archive operation result", result)
-        log_archive_debug("=== ARCHIVE CARDS DB END ===")
-        return result
-    except Exception as e:
-        log_archive_debug(f"Error during archive operation: {str(e)}")
-        log_archive_debug("=== ARCHIVE CARDS DB END WITH ERROR ===")
-        raise e
-
+@safe_db_operation("Mark cards as exported")
 def mark_as_exported_db(supabase_client, document_ids: List[str]):
-    print(f"📤 mark_as_exported_db: Starting export for {len(document_ids)} document IDs")
-    print(f"📤 Document IDs to export: {document_ids}")
-    
+    """
+    Mark cards as exported - simplified to only use existing columns.
+    """
     timestamp = datetime.now(timezone.utc).isoformat()
-    update_payload = {"exported_at": timestamp, "review_status": "exported"}
     
-    print(f"📤 Update payload: {update_payload}")
-    
-    try:
-        # First, check the current status of these records
-        current_records = supabase_client.table('reviewed_data') \
-            .select("document_id, review_status, exported_at") \
-            .in_("document_id", document_ids) \
-            .execute()
-        
-        print(f"📤 Current records before update:")
-        for record in current_records.data:
-            print(f"   - {record['document_id']}: review_status={record.get('review_status')}, exported_at={record.get('exported_at')}")
-        
-        # Perform the update
-        result = supabase_client.table('reviewed_data') \
-            .update(update_payload) \
-            .in_("document_id", document_ids) \
-            .execute()
-        
-        print(f"📤 Update result: {result}")
-        print(f"📤 Updated {len(result.data) if result.data else 0} records")
-        
-        # Verify the update by checking the records again
-        updated_records = supabase_client.table('reviewed_data') \
-            .select("document_id, review_status, exported_at") \
-            .in_("document_id", document_ids) \
-            .execute()
-        
-        print(f"📤 Records after update:")
-        for record in updated_records.data:
-            print(f"   - {record['document_id']}: review_status={record.get('review_status')}, exported_at={record.get('exported_at')}")
-        
-        return result
-        
-    except Exception as e:
-        print(f"❌ Error in mark_as_exported_db: {e}")
-        raise e
+    # Update reviewed_data status - only use columns that exist
+    return supabase_client.table("reviewed_data").update({
+        "exported_at": timestamp,
+        "review_status": "exported",
+        "updated_at": timestamp
+    }).in_("document_id", document_ids).execute()
 
+@safe_db_operation("Archive cards")
+def archive_cards_db(supabase_client, document_ids: List[str]):
+    """
+    Archive cards - simplified to only use existing columns.
+    """
+    timestamp = datetime.now(timezone.utc).isoformat()
+    
+    # Update reviewed_data status - removed archived_at as it doesn't exist
+    return supabase_client.table("reviewed_data").update({
+        "review_status": "archived",
+        "updated_at": timestamp
+    }).in_("document_id", document_ids).execute()
+
+@safe_db_operation("Delete cards")
 def delete_cards_db(supabase_client, document_ids: List[str]):
+    """
+    Delete cards (mark as deleted) - simplified to only use existing columns.
+    """
     timestamp = datetime.now(timezone.utc).isoformat()
-    # Use review_status to mark as deleted instead of a deleted column
-    reviewed_response = supabase_client.table('reviewed_data') \
-        .update({"review_status": "deleted", "reviewed_at": timestamp}) \
-        .in_("document_id", document_ids) \
-        .execute()
     
-    # Try to update extracted_data if it exists, but don't fail if it doesn't
-    try:
-        extracted_response = supabase_client.table('extracted_data') \
-            .update({"review_status": "deleted", "updated_at": timestamp}) \
-            .in_("document_id", document_ids) \
-            .execute()
-    except Exception as e:
-        print(f"Warning: Could not update extracted_data table: {e}")
-        extracted_response = None
-    
-    return reviewed_response, extracted_response
+    # Update reviewed_data status - removed deleted_at as it doesn't exist
+    return supabase_client.table("reviewed_data").update({
+        "review_status": "deleted",
+        "updated_at": timestamp
+    }).in_("document_id", document_ids).execute()
 
+@safe_db_operation("Move cards")
 def move_cards_db(supabase_client, document_ids: List[str], status: str):
-    """Move cards to a different review status"""
+    """
+    Move cards to a different status - simplified to only use existing columns.
+    """
     timestamp = datetime.now(timezone.utc).isoformat()
-    return supabase_client.table('reviewed_data') \
-        .update({"review_status": status, "reviewed_at": timestamp}) \
-        .in_("document_id", document_ids) \
-        .execute() 
+    
+    # Update reviewed_data status
+    return supabase_client.table("reviewed_data").update({
+        "review_status": status,
+        "updated_at": timestamp
+    }).in_("document_id", document_ids).execute()
+
+@safe_db_operation("Save manual review")
+def save_manual_review_db(supabase_client, document_id: str, review_data: Dict[str, Any]):
+    """
+    Save manual review changes - simplified to only use existing columns.
+    """
+    timestamp = datetime.now(timezone.utc).isoformat()
+    
+    # Update reviewed_data - removed last_reviewed_by as it doesn't exist
+    return supabase_client.table("reviewed_data").update({
+        **review_data,
+        "updated_at": timestamp
+    }).eq("document_id", document_id).execute() 

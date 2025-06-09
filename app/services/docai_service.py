@@ -5,18 +5,7 @@ from typing import Dict, Any, Tuple
 from google.cloud import documentai_v1 as documentai
 from PIL import Image
 from app.config import PROJECT_ID, DOCAI_LOCATION, TRIMMED_FOLDER
-
-def log_docai_debug(message: str, data: Any = None):
-    """Write debug message and optional data to docai_debug.log"""
-    timestamp = datetime.now(timezone.utc).isoformat()
-    with open('docai_debug.log', 'a') as f:
-        f.write(f"\n[{timestamp}] {message}\n")
-        if data:
-            if isinstance(data, (dict, list)):
-                f.write(json.dumps(data, indent=2))
-            else:
-                f.write(str(data))
-            f.write("\n")
+from app.utils.retry_utils import retry_with_exponential_backoff, log_debug
 
 def process_image_with_docai(image_path: str, processor_id: str) -> Tuple[Dict[str, Any], str]:
     """
@@ -33,46 +22,87 @@ def process_image_with_docai(image_path: str, processor_id: str) -> Tuple[Dict[s
     Returns:
         Tuple of (field_data_dict, cropped_image_path)
     """
-    log_docai_debug("=== DOCAI PROCESSING START ===")
-    log_docai_debug(f"Processing image: {image_path}")
-    log_docai_debug(f"Using processor: {processor_id}")
-    
     try:
-        # Set up Document AI client
+        # Log image details
+        log_debug(f"Processing image: {image_path}", service="docai")
+        log_debug(f"Image exists: {os.path.exists(image_path)}", service="docai")
+        log_debug(f"Image size: {os.path.getsize(image_path)} bytes", service="docai")
+        
+        # Initialize DocAI client
         client = documentai.DocumentProcessorServiceClient()
         name = f"projects/{PROJECT_ID}/locations/{DOCAI_LOCATION}/processors/{processor_id}"
         
-        # Read and process image
-        with open(image_path, "rb") as image_file:
-            image_content = image_file.read()
+        log_debug(f"Using DocAI processor: {name}", service="docai")
         
-        raw_document = documentai.RawDocument(content=image_content, mime_type="image/jpeg")
-        request = documentai.ProcessRequest(name=name, raw_document=raw_document)
+        # Read the file into memory
+        with open(image_path, "rb") as image:
+            content = image.read()
+            log_debug(f"Read {len(content)} bytes from image", service="docai")
         
-        log_docai_debug("Sending request to DocAI...")
-        result = client.process_document(request=request)
+        # Determine MIME type based on file extension
+        file_extension = os.path.splitext(image_path)[1].lower()
+        mime_type = {
+            '.pdf': 'application/pdf',
+            '.png': 'image/png',
+            '.jpg': 'image/jpeg',
+            '.jpeg': 'image/jpeg',
+            '.tiff': 'image/tiff',
+            '.tif': 'image/tiff',
+            '.gif': 'image/gif',
+            '.bmp': 'image/bmp'
+        }.get(file_extension, 'image/png')  # Default to PNG if unknown
+        
+        log_debug(f"Detected MIME type: {mime_type}", service="docai")
+        
+        # Configure the process request
+        request = documentai.ProcessRequest(
+            name=name,
+            raw_document=documentai.RawDocument(
+                content=content,
+                mime_type=mime_type
+            )
+        )
+        
+        log_debug("Sending request to DocAI...", service="docai")
+        
+        # Process the document with retry logic
+        try:
+            result = retry_with_exponential_backoff(
+                func=lambda: client.process_document(request=request),
+                max_retries=3,
+                operation_name="DocAI document processing",
+                service="docai"
+            )
+            log_debug("DocAI processing successful", service="docai")
+        except Exception as e:
+            log_debug(f"DocAI error details: {str(e)}", service="docai")
+            log_debug(f"Error type: {type(e)}", service="docai")
+            if hasattr(e, 'response'):
+                log_debug(f"Response: {e.response}", service="docai")
+            raise
+        
         document = result.document
         
-        log_docai_debug("DocAI response received", {
+        log_debug("DocAI response received", {
             "text_length": len(document.text),
             "num_pages": len(document.pages),
             "num_entities": len(document.entities)
-        })
+        }, service="docai")
         
         # Extract field data and bounding boxes
         field_data = {}
         all_vertices = []
         
-        log_docai_debug("=== EXTRACTING ENTITIES ===")
+        log_debug("=== EXTRACTING ENTITIES ===", service="docai")
         for entity in document.entities:
             field_name = entity.type_.lower().replace(" ", "_")
             field_value = entity.mention_text.strip() if entity.mention_text else ""
             confidence = float(entity.confidence) if entity.confidence else 0.0
             
-            log_docai_debug(f"Entity: {field_name}", {
+            log_debug(f"Entity: {field_name}", {
                 "value": field_value,
                 "confidence": confidence
-            })
+            }, service="docai")
             
             # Extract bounding box coordinates
             bounding_box = []
@@ -108,18 +138,18 @@ def process_image_with_docai(image_path: str, processor_id: str) -> Tuple[Dict[s
                 "review_confidence": 0.0  # Will be set by Gemini
             }
         
-        log_docai_debug("Extracted fields", list(field_data.keys()))
+        log_debug("Extracted fields", list(field_data.keys()), service="docai")
         
         # Crop image based on detected entities
         cropped_image_path = _crop_image_from_entities(image_path, all_vertices)
         
-        log_docai_debug("=== DOCAI PROCESSING COMPLETE ===")
-        log_docai_debug(f"Cropped image saved to: {cropped_image_path}")
+        log_debug("=== DOCAI PROCESSING COMPLETE ===", service="docai")
+        log_debug(f"Cropped image saved to: {cropped_image_path}", service="docai")
         
         return field_data, cropped_image_path
         
     except Exception as e:
-        log_docai_debug(f"ERROR in DocAI processing: {str(e)}")
+        log_debug(f"ERROR in DocAI processing: {str(e)}", service="docai")
         raise Exception(f"DocAI processing failed: {str(e)}")
 
 def _crop_image_from_entities(input_path: str, all_vertices: list, percent_expand: float = 0.5) -> str:
@@ -136,7 +166,7 @@ def _crop_image_from_entities(input_path: str, all_vertices: list, percent_expan
     """
     try:
         if not all_vertices:
-            log_docai_debug("No vertices found, returning original image")
+            log_debug("No vertices found, returning original image", service="docai")
             return input_path
         
         # Calculate bounding box
@@ -144,10 +174,10 @@ def _crop_image_from_entities(input_path: str, all_vertices: list, percent_expan
         min_x, max_x = min(xs), max(xs)
         min_y, max_y = min(ys), max(ys)
         
-        log_docai_debug("Bounding box coordinates", {
+        log_debug("Bounding box coordinates", {
             "min_x": min_x, "max_x": max_x,
             "min_y": min_y, "max_y": max_y
-        })
+        }, service="docai")
         
         # Open image and calculate crop area with expansion
         img = Image.open(input_path)
@@ -161,9 +191,9 @@ def _crop_image_from_entities(input_path: str, all_vertices: list, percent_expan
         right = min(int(max_x + expand_x), img.width)
         bottom = min(int(max_y + expand_y), img.height)
         
-        log_docai_debug("Crop coordinates", {
+        log_debug("Crop coordinates", {
             "left": left, "top": top, "right": right, "bottom": bottom
-        })
+        }, service="docai")
         
         # Crop and save image
         cropped_img = img.crop((left, top, right, bottom))
@@ -174,9 +204,9 @@ def _crop_image_from_entities(input_path: str, all_vertices: list, percent_expan
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         cropped_img.save(output_path)
         
-        log_docai_debug(f"Image cropped and saved to: {output_path}")
+        log_debug(f"Image cropped and saved to: {output_path}", service="docai")
         return output_path
         
     except Exception as e:
-        log_docai_debug(f"ERROR in image cropping: {str(e)}")
+        log_debug(f"ERROR in image cropping: {str(e)}", service="docai")
         return input_path  # Return original if cropping fails 

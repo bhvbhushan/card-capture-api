@@ -18,6 +18,9 @@ MIME_TYPE = "image/png"
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
+SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET")
+SUPABASE_JWT_ALGORITHM = os.getenv("SUPABASE_JWT_ALGORITHM", "HS256")
+SUPABASE_JWT_AUDIENCE = os.getenv("SUPABASE_JWT_AUDIENCE", "authenticated")
 
 # API Keys
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -54,10 +57,15 @@ ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "https://cardcapture.io",
     "https://gen-lang-client-0493571343.web.app",
-    "https://gen-lang-client-0493571343.firebaseapp.com"
+    "https://gen-lang-client-0493571343.firebaseapp.com",
+    "https://staging.cardcapture.io",
+    "https://gen-lang-client-0493571343-staging.web.app"
 ]
 
 GEMINI_MODEL = " gemini-1.5-pro-latest"
+
+# Frontend URL for invitation links
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
 
 # Export for compatibility
 PROJECT_ID = GOOGLE_PROJECT_ID

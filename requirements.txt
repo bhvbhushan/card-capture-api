@@ -8,7 +8,9 @@ charset-normalizer==3.4.2
 click==8.1.8
 cryptography==44.0.3
 deprecation==2.1.0
+dnspython==2.7.0
 ecdsa==0.19.1
+email-validator==2.2.0
 exceptiongroup==1.2.2
 fastapi==0.109.1
 google-ai-generativelanguage==0.6.15
@@ -19,6 +21,7 @@ google-auth-httplib2==0.2.0
 google-cloud-documentai==2.24.1
 google-cloud-vision==3.5.0
 google-generativeai==0.8.5
+googleapis-common-protos==1.70.0
 googlemaps==4.10.0
 gotrue==1.3.1
 grpcio==1.71.0
@@ -34,7 +37,7 @@ packaging==25.0
 paramiko==3.5.1
 pdf2image==1.17.0
 pillow==11.2.1
-postgrest<0.12.0,>=0.10.8
+postgrest==0.11.0
 proto-plus==1.26.1
 protobuf==4.25.7
 pyasn1==0.6.1
@@ -42,12 +45,12 @@ pyasn1_modules==0.4.2
 pycparser==2.22
 pydantic==2.6.1
 pydantic_core==2.16.2
+PyMuPDF==1.26.0
 PyNaCl==1.5.0
 pyparsing==3.2.3
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 python-jose==3.3.0
-python-magic>=0.4.27
 python-multipart==0.0.9
 realtime==1.0.3
 requests==2.31.0
@@ -61,7 +64,7 @@ stripe==12.1.0
 supabase==1.2.0
 supafunc==0.2.3
 tqdm==4.67.1
-typing-extensions==4.9.0
+typing_extensions==4.9.0
 uritemplate==4.1.1
 urllib3==2.4.0
 uvicorn==0.27.0

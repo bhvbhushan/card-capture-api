@@ -2,46 +2,38 @@ import json
 from datetime import datetime, timezone
 from typing import Dict, Any
 from app.core.clients import supabase_client
-
-def log_settings_debug(message: str, data: Any = None):
-    """Write debug message and optional data to settings_debug.log"""
-    timestamp = datetime.now(timezone.utc).isoformat()
-    with open('settings_debug.log', 'a') as f:
-        f.write(f"\n[{timestamp}] {message}\n")
-        if data:
-            if isinstance(data, (dict, list)):
-                f.write(json.dumps(data, indent=2))
-            else:
-                f.write(str(data))
-            f.write("\n")
+from app.utils.retry_utils import log_debug
+from app.utils.field_utils import get_combined_fields_to_exclude
 
 def get_field_requirements(school_id: str) -> Dict[str, Dict[str, bool]]:
     """
-    Get field requirements from school settings
-    
-    Args:
-        school_id: School ID to get settings for
-        
-    Returns:
-        Dict with format: {"field_name": {"enabled": bool, "required": bool}}
+    Get field requirements from school settings (now as an array)
     """
-    log_settings_debug("=== GETTING FIELD REQUIREMENTS ===")
-    log_settings_debug(f"School ID: {school_id}")
-    
+    log_debug("=== GETTING FIELD REQUIREMENTS ===", service="settings")
+    log_debug(f"School ID: {school_id}", service="settings")
+
     try:
-        # Get school settings from database
         school_query = supabase_client.table("schools").select("card_fields").eq("id", school_id).maybe_single().execute()
-        
         if school_query and school_query.data:
-            card_fields = school_query.data.get("card_fields", {})
-            log_settings_debug("Found school settings", card_fields)
+            card_fields_array = school_query.data.get("card_fields") or []
+            
+            # Filter out combined fields that should not be in final data
+            combined_fields = get_combined_fields_to_exclude()
+            filtered_card_fields_array = [f for f in card_fields_array if f["key"] not in combined_fields]
+            
+            # Convert array to dict for internal use
+            card_fields = {f["key"]: {"enabled": f.get("enabled", True), "required": f.get("required", False)} for f in filtered_card_fields_array}
+            
+            log_debug("Found school settings (after filtering combined fields)", card_fields, service="settings")
+            if len(card_fields_array) != len(filtered_card_fields_array):
+                log_debug(f"Filtered out {len(card_fields_array) - len(filtered_card_fields_array)} combined fields", service="settings")
+            
             return card_fields
         else:
-            log_settings_debug("No school settings found, returning empty dict")
+            log_debug("No school settings found, returning empty dict", service="settings")
             return {}
-            
     except Exception as e:
-        log_settings_debug(f"ERROR getting field requirements: {str(e)}")
+        log_debug(f"ERROR getting field requirements: {str(e)}", service="settings")
         return {}
 
 def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dict[str, bool]]) -> Dict[str, Any]:
@@ -55,9 +47,9 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
     Returns:
         Updated field data with requirements applied
     """
-    log_settings_debug("=== APPLYING FIELD REQUIREMENTS ===")
-    log_settings_debug("Input fields", list(fields.keys()))
-    log_settings_debug("Requirements", requirements)
+    log_debug("=== APPLYING FIELD REQUIREMENTS ===", service="settings")
+    log_debug("Input fields", list(fields.keys()), service="settings")
+    log_debug("Requirements", requirements, service="settings")
     
     # Update existing fields with requirements
     for field_name, field_data in fields.items():
@@ -65,20 +57,20 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
             field_settings = requirements[field_name]
             field_data["enabled"] = field_settings.get("enabled", True)
             field_data["required"] = field_settings.get("required", False)
-            log_settings_debug(f"Updated {field_name}", {
+            log_debug(f"Updated {field_name}", {
                 "enabled": field_data["enabled"],
                 "required": field_data["required"]
-            })
+            }, service="settings")
         else:
             # Default settings for fields not in requirements
             field_data["enabled"] = True
             field_data["required"] = False
-            log_settings_debug(f"Default settings for {field_name}")
+            log_debug(f"Default settings for {field_name}", service="settings")
     
     # Add missing required fields
     for field_name, field_settings in requirements.items():
         if field_settings.get("required", False) and field_name not in fields:
-            log_settings_debug(f"Adding missing required field: {field_name}")
+            log_debug(f"Adding missing required field: {field_name}", service="settings")
             fields[field_name] = {
                 "value": "",
                 "confidence": 0.0,
@@ -91,54 +83,146 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
                 "review_confidence": 0.0
             }
     
-    log_settings_debug("Final fields", list(fields.keys()))
+    log_debug("Final fields", list(fields.keys()), service="settings")
     return fields
 
 def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, Dict[str, bool]]:
     """
-    Sync detected fields with school settings, adding any new fields with defaults
-    
-    Args:
-        school_id: School ID to update
-        detected_fields: List of field names detected by DocAI
-        
-    Returns:
-        Updated field requirements
+    Sync detected fields with school settings, adding any new fields with intelligent defaults
     """
-    log_settings_debug("=== SYNCING FIELD REQUIREMENTS ===")
-    log_settings_debug(f"School ID: {school_id}")
-    log_settings_debug("Detected fields", detected_fields)
-    
+    log_debug("=== SYNCING FIELD REQUIREMENTS ===", service="settings")
+    log_debug(f"School ID: {school_id}", service="settings")
+    log_debug("Detected fields", detected_fields, service="settings")
+
     try:
-        # Get current school settings
-        current_requirements = get_field_requirements(school_id)
-        
-        # Add any new fields with default settings
+        # Get current school settings as array
+        school_query = supabase_client.table("schools").select("card_fields").eq("id", school_id).maybe_single().execute()
+        card_fields_array = school_query.data.get("card_fields") or []
+        existing_keys = {f["key"] for f in card_fields_array}
         updated = False
-        for field_name in detected_fields:
-            if field_name not in current_requirements:
-                current_requirements[field_name] = {
-                    "enabled": True,
-                    "required": False
-                }
+
+        # Filter detected fields to exclude combined fields
+        combined_fields = get_combined_fields_to_exclude()
+        filtered_detected_fields = [f for f in detected_fields if f not in combined_fields]
+
+        # Define intelligent defaults based on field types
+        field_defaults = get_intelligent_field_defaults()
+
+        # Add any new fields at the end (excluding combined fields)
+        for field_name in filtered_detected_fields:
+            if field_name not in existing_keys:
+                # Get intelligent defaults for this field
+                defaults = field_defaults.get(field_name, {"enabled": True, "required": False})
+                
+                card_fields_array.append({
+                    "key": field_name,
+                    "enabled": defaults["enabled"],
+                    "required": defaults["required"]
+                })
                 updated = True
-                log_settings_debug(f"Added new field {field_name} with defaults")
-        
-        # Update school record if we added new fields
+                log_debug(f"Added new field {field_name} with intelligent defaults", defaults, service="settings")
+
+        # Remove any combined fields from existing settings
+        original_length = len(card_fields_array)
+        card_fields_array = [f for f in card_fields_array if f["key"] not in combined_fields]
+        if len(card_fields_array) < original_length:
+            updated = True
+            log_debug(f"Removed {original_length - len(card_fields_array)} combined fields from school settings", service="settings")
+
+        # Ensure essential fields are present with proper defaults
+        essential_fields = get_essential_fields()
+        for field_name, field_config in essential_fields.items():
+            if field_name not in existing_keys and field_name not in [f["key"] for f in card_fields_array]:
+                card_fields_array.append({
+                    "key": field_name,
+                    "enabled": field_config["enabled"],
+                    "required": field_config["required"]
+                })
+                updated = True
+                log_debug(f"Added essential field {field_name}", field_config, service="settings")
+
         if updated:
             update_payload = {
                 "id": school_id,
-                "card_fields": current_requirements
+                "card_fields": card_fields_array
             }
-            
-            supabase_client.table("schools").update(update_payload).eq("id", school_id).execute()
-            log_settings_debug("Updated school settings in database")
-        
-        return current_requirements
-        
+            result = supabase_client.table("schools").update(update_payload).eq("id", school_id).execute()
+            if result.data:
+                log_debug("Successfully updated school settings in database", service="settings")
+            else:
+                log_debug("Warning: School settings update returned no data", service="settings")
+
+        # Return as dict for internal use (already filtered)
+        return {f["key"]: {"enabled": f.get("enabled", True), "required": f.get("required", False)} for f in card_fields_array}
+
     except Exception as e:
-        log_settings_debug(f"ERROR syncing field requirements: {str(e)}")
+        log_debug(f"ERROR syncing field requirements: {str(e)}", service="settings")
+        import traceback
+        log_debug("Full sync error traceback:", traceback.format_exc(), service="settings")
         return {}
+
+def get_intelligent_field_defaults() -> Dict[str, Dict[str, bool]]:
+    """
+    Get intelligent defaults for field types based on importance and common usage patterns
+    
+    Returns:
+        Dictionary mapping field names to their default enabled/required settings
+    """
+    return {
+        # Core identity fields - typically required
+        'name': {"enabled": True, "required": True},
+        'email': {"enabled": True, "required": True},
+        
+        # Contact fields - important but not always required
+        'cell': {"enabled": True, "required": False},
+        'phone': {"enabled": True, "required": False},
+        'preferred_first_name': {"enabled": True, "required": False},
+        
+        # Address fields - important for most schools
+        'address': {"enabled": True, "required": False},
+        'city': {"enabled": True, "required": False},
+        'state': {"enabled": True, "required": False},
+        'zip_code': {"enabled": True, "required": False},
+        
+        # Personal information - commonly used
+        'date_of_birth': {"enabled": True, "required": False},
+        'birthdate': {"enabled": True, "required": False},
+        'dob': {"enabled": True, "required": False},
+        'gender': {"enabled": True, "required": False},
+        
+        # Academic fields - depends on institution type
+        'high_school': {"enabled": True, "required": False},
+        'gpa': {"enabled": True, "required": False},
+        'class_rank': {"enabled": True, "required": False},
+        'students_in_class': {"enabled": True, "required": False},
+        'major': {"enabled": True, "required": False},
+        'student_type': {"enabled": True, "required": False},
+        'entry_term': {"enabled": True, "required": False},
+        'entry_year': {"enabled": True, "required": False},
+        
+        # Permission/consent fields
+        'permission_to_text': {"enabled": True, "required": False},
+        
+        # Default for unknown fields
+        'default': {"enabled": True, "required": False}
+    }
+
+def get_essential_fields() -> Dict[str, Dict[str, bool]]:
+    """
+    Get essential fields that should always be present in school configurations
+    
+    Returns:
+        Dictionary of essential fields with their settings
+    """
+    return {
+        'name': {"enabled": True, "required": True},
+        'email': {"enabled": True, "required": False},
+        'cell': {"enabled": True, "required": False},
+        'address': {"enabled": True, "required": False},
+        'city': {"enabled": True, "required": False},
+        'state': {"enabled": True, "required": False},
+        'zip_code': {"enabled": True, "required": False}
+    }
 
 def get_canonical_field_list() -> list:
     """

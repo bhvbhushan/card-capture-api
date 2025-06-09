@@ -3,41 +3,46 @@ from app.core.clients import supabase_auth, supabase_client
 import os
 from jose import jwt, JWTError
 from app.repositories.auth_repository import login_db, get_user_profile_db
+from app.utils.retry_utils import log_debug
 
 async def login_service(credentials: dict):
     try:
-        print("🔐 Login attempt for:", credentials.get("email"))
+        log_debug("Login attempt for:", credentials.get("email"), service="auth")
         response = login_db(supabase_auth, credentials)
-        print("✅ Login successful")
+        log_debug("Login successful", service="auth")
         return response
     except Exception as e:
-        print("❌ Login error:", str(e))
-        raise HTTPException(status_code=401, detail=str(e))
+        log_debug("Login error:", str(e), service="auth")
+        raise HTTPException(status_code=401, detail="Invalid credentials")
 
 async def read_current_user_service(request: Request):
-    auth_header = request.headers.get("Authorization")
-    if not auth_header or not auth_header.startswith("Bearer "):
-        print("❌ Missing or invalid Authorization header")
-        raise HTTPException(status_code=401, detail="Missing or invalid Authorization header")
-    token = auth_header.split(" ", 1)[1]
     try:
-        payload = jwt.decode(
-            token,
-            os.getenv("SUPABASE_JWT_SECRET"),
-            algorithms=[os.getenv("SUPABASE_JWT_ALGORITHM")],
-            audience=os.getenv("SUPABASE_JWT_AUDIENCE", "authenticated")
-        )
-        user_id = payload.get("sub")
+        auth_header = request.headers.get("Authorization")
+        if not auth_header or not auth_header.startswith("Bearer "):
+            log_debug("Missing or invalid Authorization header", service="auth")
+            raise HTTPException(status_code=401, detail="Missing or invalid Authorization header")
+        
+        token = auth_header.split(" ")[1]
+        
+        # Get user from token
+        user_response = supabase_client.auth.get_user(token)
+        if not user_response.user:
+            raise HTTPException(status_code=401, detail="Invalid or expired token")
+        
+        user_id = user_response.user.id
         if not user_id:
-            print("❌ User ID not found in token")
-            raise HTTPException(status_code=400, detail="User ID not found in token")
-        print(f"🔍 Fetching user profile for user_id: {user_id}")
-        profile = get_user_profile_db(supabase_client, user_id)
-        print(f"✅ User profile fetched for user_id: {user_id}")
-        return {"profile": profile}
-    except JWTError as e:
-        print("❌ Invalid or expired token")
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
+            log_debug("User ID not found in token", service="auth")
+            raise HTTPException(status_code=401, detail="User ID not found in token")
+        
+        log_debug(f"Fetching user profile for user_id: {user_id}", service="auth")
+        profile_response = supabase_client.table("users").select("*").eq("id", user_id).execute()
+        log_debug(f"User profile fetched for user_id: {user_id}", service="auth")
+        
+        return profile_response.data[0] if profile_response.data else None
+        
+    except HTTPException:
+        log_debug("Invalid or expired token", service="auth")
+        raise
     except Exception as e:
-        print(f"❌ Error fetching user profile: {e}")
-        raise HTTPException(status_code=500, detail=f"Error fetching user profile: {e}") 
+        log_debug(f"Error fetching user profile: {e}", service="auth")
+        raise HTTPException(status_code=500, detail="Internal server error") 

@@ -8,8 +8,15 @@ load_dotenv()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
-supabase_client = create_client(SUPABASE_URL, SUPABASE_KEY)
-supabase_auth = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise ValueError("Missing required Supabase environment variables")
+
+try:
+    supabase_client = create_client(SUPABASE_URL, SUPABASE_KEY)
+    supabase_auth = create_client(SUPABASE_URL, SUPABASE_KEY)
+except Exception as e:
+    raise
 
 # Document AI
 try:
@@ -30,4 +37,4 @@ except Exception:
 
 mime_type = "image/png"
 
-print(f"SUPABASE_URL: {SUPABASE_URL}") 
+# print(f"SUPABASE_URL: {SUPABASE_URL}") 
