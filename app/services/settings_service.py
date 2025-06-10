@@ -51,15 +51,54 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
     log_debug("Input fields", list(fields.keys()), service="settings")
     log_debug("Requirements", requirements, service="settings")
     
+    # Validate inputs to prevent errors
+    if not isinstance(fields, dict):
+        log_debug("ERROR: fields is not a dict", {"type": type(fields)}, service="settings")
+        fields = {}
+        
+    if not isinstance(requirements, dict):
+        log_debug("ERROR: requirements is not a dict", {"type": type(requirements)}, service="settings")
+        requirements = {}
+    
     # Update existing fields with requirements
     for field_name, field_data in fields.items():
+        # Ensure field_data is a dict
+        if not isinstance(field_data, dict):
+            log_debug(f"WARNING: field_data for {field_name} is not a dict, converting", {"type": type(field_data)}, service="settings")
+            fields[field_name] = {
+                "value": str(field_data) if field_data is not None else "",
+                "confidence": 0.0,
+                "bounding_box": [],
+                "source": "converted",
+                "enabled": True,
+                "required": False,
+                "requires_human_review": False,
+                "review_notes": "",
+                "review_confidence": 0.0
+            }
+            field_data = fields[field_name]
+        
         if field_name in requirements:
             field_settings = requirements[field_name]
+            # Preserve original field data while updating requirements
+            original_value = field_data.get("value", "")
+            original_confidence = field_data.get("confidence", 0.0)
+            
             field_data["enabled"] = field_settings.get("enabled", True)
             field_data["required"] = field_settings.get("required", False)
+            
+            # Log if we're about to overwrite existing field values (this should not happen)
+            if original_value and field_data.get("value", "") != original_value:
+                log_debug(f"WARNING: Field value changed during requirements application", {
+                    "field": field_name,
+                    "original_value": original_value,
+                    "new_value": field_data.get("value", "")
+                }, service="settings")
+            
             log_debug(f"Updated {field_name}", {
                 "enabled": field_data["enabled"],
-                "required": field_data["required"]
+                "required": field_data["required"],
+                "value_preserved": bool(original_value)
             }, service="settings")
         else:
             # Default settings for fields not in requirements

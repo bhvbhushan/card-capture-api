@@ -299,6 +299,55 @@ def prepare_docai_for_review(docai_fields: Dict[str, Any]) -> Dict[str, Any]:
     
     return prepared_fields
 
+def detect_field_value_discrepancies(before_fields: dict, after_fields: dict, step_name: str) -> None:
+    """
+    Helper function to detect and log field value discrepancies between processing steps
+    
+    Args:
+        before_fields: Field data before processing step
+        after_fields: Field data after processing step
+        step_name: Name of the processing step for logging
+    """
+    discrepancies = []
+    
+    # Check for value changes in existing fields
+    for field_name in before_fields.keys():
+        if field_name in after_fields:
+            before_value = before_fields[field_name].get("value", "") if isinstance(before_fields[field_name], dict) else ""
+            after_value = after_fields[field_name].get("value", "") if isinstance(after_fields[field_name], dict) else ""
+            
+            # Check if a non-empty value became empty
+            if before_value and not after_value:
+                discrepancies.append({
+                    "field": field_name,
+                    "issue": "value_lost",
+                    "before": before_value,
+                    "after": after_value
+                })
+            # Check if value changed unexpectedly
+            elif before_value != after_value and before_value and after_value:
+                discrepancies.append({
+                    "field": field_name,
+                    "issue": "value_changed",
+                    "before": before_value,
+                    "after": after_value
+                })
+        else:
+            # Field disappeared entirely
+            before_value = before_fields[field_name].get("value", "") if isinstance(before_fields[field_name], dict) else ""
+            if before_value:
+                discrepancies.append({
+                    "field": field_name,
+                    "issue": "field_removed",
+                    "before": before_value,
+                    "after": "FIELD_MISSING"
+                })
+    
+    if discrepancies:
+        log_worker_debug(f"⚠️  FIELD VALUE DISCREPANCIES DETECTED in {step_name}", discrepancies)
+    else:
+        log_worker_debug(f"✅ No field value discrepancies detected in {step_name}")
+
 def process_job_v2(job: Dict[str, Any]) -> None:
     """
     Simplified, reliable processing flow with atomic database operations
@@ -339,22 +388,59 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         log_worker_debug("=== STEP 3: DOCAI PROCESSING ===")
         docai_fields, cropped_image_path = process_image_with_docai(tmp_file, processor_id)
         log_worker_debug("Original DocAI Response", docai_fields, verbose=True)
+        log_worker_debug("DocAI field names extracted", list(docai_fields.keys()))
+        
+        # Track field values from DocAI
+        docai_field_values = {}
+        for field_name, field_data in docai_fields.items():
+            if isinstance(field_data, dict):
+                docai_field_values[field_name] = {
+                    "value": field_data.get("value", ""),
+                    "confidence": field_data.get("confidence", 0.0)
+                }
+        log_worker_debug("DocAI field values summary", docai_field_values)
         
         # Step 4: Split address fields
         log_worker_debug("=== STEP 4: SPLIT ADDRESS FIELDS ===")
+        pre_split_fields = docai_fields.copy()
         docai_fields = split_combined_address_fields(docai_fields, school_id)
+        detect_field_value_discrepancies(pre_split_fields, docai_fields, "Address Splitting")
         log_worker_debug("Fields After Address Splitting", docai_fields, verbose=True)
+        log_worker_debug("Field names after address splitting", list(docai_fields.keys()))
+        
+        # Track field values after address splitting
+        split_field_values = {}
+        for field_name, field_data in docai_fields.items():
+            if isinstance(field_data, dict):
+                split_field_values[field_name] = {
+                    "value": field_data.get("value", ""),
+                    "confidence": field_data.get("confidence", 0.0)
+                }
+        log_worker_debug("Field values after address splitting", split_field_values)
         
         # Step 5: Sync fields with school settings
-        log_worker_debug("=== STEP 5: SYNC FIELDS WITH SCHOOL SETTINGS ===")
-        all_field_names = list(docai_fields.keys())
-        updated_requirements = sync_field_requirements(school_id, all_field_names)
-        log_worker_debug("Updated Field Requirements", updated_requirements, verbose=True)
+        log_worker_debug("=== STEP 5: SYNC WITH SCHOOL SETTINGS ===")
+        field_requirements = sync_field_requirements(school_id, list(docai_fields.keys()))
+        log_worker_debug("Field Requirements", field_requirements, verbose=True)
         
         # Step 6: Apply requirements to fields
         log_worker_debug("=== STEP 6: APPLY FIELD REQUIREMENTS ===")
-        docai_fields = apply_field_requirements(docai_fields, updated_requirements)
-        log_worker_debug("Fields After Applying Requirements", docai_fields, verbose=True)
+        pre_requirements_fields = docai_fields.copy()
+        docai_fields = apply_field_requirements(docai_fields, field_requirements)
+        detect_field_value_discrepancies(pre_requirements_fields, docai_fields, "Field Requirements Application")
+        log_worker_debug("Fields After Requirements", docai_fields, verbose=True)
+        
+        # Track field values after requirements application
+        requirements_field_values = {}
+        for field_name, field_data in docai_fields.items():
+            if isinstance(field_data, dict):
+                requirements_field_values[field_name] = {
+                    "value": field_data.get("value", ""),
+                    "confidence": field_data.get("confidence", 0.0),
+                    "enabled": field_data.get("enabled", True),
+                    "required": field_data.get("required", False)
+                }
+        log_worker_debug("Field values after requirements applied", requirements_field_values)
         
         # Step 7: Fetch valid majors
         log_worker_debug("=== STEP 7: FETCH VALID MAJORS ===")
@@ -367,13 +453,42 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         ai_processing_failed = False
         ai_error_message = None
         
+        log_worker_debug("Fields being sent to Gemini", list(docai_fields.keys()))
+        
+        # Track field values being sent to Gemini
+        gemini_input_values = {}
+        for field_name, field_data in docai_fields.items():
+            if isinstance(field_data, dict):
+                gemini_input_values[field_name] = {
+                    "value": field_data.get("value", ""),
+                    "confidence": field_data.get("confidence", 0.0),
+                    "enabled": field_data.get("enabled", True),
+                    "required": field_data.get("required", False)
+                }
+        log_worker_debug("Field values sent to Gemini", gemini_input_values)
+        
         try:
+            pre_gemini_fields = docai_fields.copy()
             gemini_fields = process_card_with_gemini_v2(
                 cropped_image_path,
                 docai_fields,  # Pass DocAI fields directly (not pre-validated)
                 valid_majors
             )
+            detect_field_value_discrepancies(pre_gemini_fields, gemini_fields, "Gemini Processing")
             log_worker_debug("Gemini Output", gemini_fields, verbose=True)
+            log_worker_debug("Gemini output field names", list(gemini_fields.keys()))
+            
+            # Track field values from Gemini output
+            gemini_output_values = {}
+            for field_name, field_data in gemini_fields.items():
+                if isinstance(field_data, dict):
+                    gemini_output_values[field_name] = {
+                        "value": field_data.get("value", ""),
+                        "confidence": field_data.get("confidence", 0.0),
+                        "enabled": field_data.get("enabled", True),
+                        "required": field_data.get("required", False)
+                    }
+            log_worker_debug("Field values from Gemini output", gemini_output_values)
             
         except Exception as gemini_error:
             log_worker_debug(f"⚠️ Gemini processing failed: {str(gemini_error)}")
