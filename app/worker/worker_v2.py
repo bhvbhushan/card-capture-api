@@ -551,15 +551,38 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         # Step 12: Update job status and create review data
         log_worker_debug("=== STEP 12: UPDATE JOB STATUS ===")
         
-        # Filter out combined fields before saving to reviewed_data
-        log_worker_debug("Filtering combined fields before saving")
-        filtered_fields = filter_combined_fields(final_fields)
-        log_worker_debug(f"Fields before filtering: {len(final_fields)}, after filtering: {len(filtered_fields)}")
+        # Track critical fields before database save
+        critical_fields = ["cell", "date_of_birth"]
+        log_worker_debug("🔍 CRITICAL FIELDS BEFORE DB SAVE", {
+            field: {
+                "value": final_fields.get(field, {}).get("value"),
+                "original_value": final_fields.get(field, {}).get("original_value"),
+                "source": final_fields.get(field, {}).get("source"),
+                "enabled": final_fields.get(field, {}).get("enabled"),
+                "required": final_fields.get(field, {}).get("required")
+            }
+            for field in critical_fields
+        })
+        
+        # Filter out combined fields before saving
+        final_fields = filter_combined_fields(final_fields)
+        
+        # Track critical fields after filtering
+        log_worker_debug("🔍 CRITICAL FIELDS AFTER FILTERING", {
+            field: {
+                "value": final_fields.get(field, {}).get("value"),
+                "original_value": final_fields.get(field, {}).get("original_value"),
+                "source": final_fields.get(field, {}).get("source"),
+                "enabled": final_fields.get(field, {}).get("enabled"),
+                "required": final_fields.get(field, {}).get("required")
+            }
+            for field in critical_fields
+        })
         
         now = datetime.now(timezone.utc).isoformat()
         review_data = {
             "document_id": job_id,
-            "fields": filtered_fields,  # Use filtered fields without combined address fields
+            "fields": final_fields,
             "school_id": school_id,
             "user_id": user_id,
             "event_id": event_id,
@@ -573,6 +596,13 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         # Add AI error information if processing failed
         if ai_processing_failed:
             review_data["ai_error_message"] = ai_error_message
+            
+        # 🔍 TRACK CRITICAL FIELDS: Log what's about to be saved to database
+        log_worker_debug("🔍 CRITICAL FIELDS BEING SAVED TO DATABASE", {
+            field_name: review_data["fields"].get(field_name, "FIELD_NOT_FOUND")
+            for field_name in critical_fields
+        })
+        
         log_worker_debug("Review Data to be Saved", review_data, verbose=True)
         
         update_job_status_with_review(supabase_client, job_id, "complete", review_data)

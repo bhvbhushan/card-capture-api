@@ -181,6 +181,10 @@ def consolidate_field_keys(fields: list) -> list:
     consolidation_map = get_field_consolidation_mapping()
     canonical_fields = {}
     
+    # 🔍 TRACK CRITICAL FIELDS: Check for critical field consolidation
+    critical_fields = ["cell", "date_of_birth", "cell_phone", "birthday", "birthdate", "phone", "phone_number"]
+    critical_consolidation_info = {}
+    
     log_debug("Starting field consolidation", {
         "input_fields": [f.get('key') for f in fields],
         "consolidation_rules": len(consolidation_map)
@@ -196,6 +200,16 @@ def consolidate_field_keys(fields: list) -> list:
         
         # Get canonical field name
         canonical_key = consolidation_map.get(field_key, field_key)
+        
+        # Track critical field consolidations
+        if field_key in critical_fields or canonical_key in critical_fields:
+            critical_consolidation_info[field_key] = {
+                "original_key": field_key,
+                "canonical_key": canonical_key,
+                "was_consolidated": field_key != canonical_key,
+                "enabled": field.get('enabled', False),
+                "required": field.get('required', False)
+            }
         
         if canonical_key in canonical_fields:
             # Merge with existing canonical field
@@ -231,6 +245,9 @@ def consolidate_field_keys(fields: list) -> list:
                 log_debug(f"Normalized field {field_key} to {canonical_key}", service="field_consolidation")
     
     result = list(canonical_fields.values())
+    
+    # 🔍 TRACK CRITICAL FIELDS: Log consolidation results
+    log_debug("🔍 CRITICAL FIELD CONSOLIDATION RESULTS", critical_consolidation_info, service="field_consolidation")
     
     log_debug("Field consolidation complete", {
         "input_count": len(fields),

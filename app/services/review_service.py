@@ -92,10 +92,31 @@ def canonicalize_fields(fields: dict) -> dict:
     """
     Map alternate field names to canonical field names.
     """
+    log_debug("=== CANONICALIZING FIELDS ===", service="review")
+    log_debug("Original field names", list(fields.keys()), service="review")
+    
+    # 🔍 TRACK CRITICAL FIELDS: Check if they're being transformed
+    critical_fields = ["cell", "date_of_birth", "cell_phone", "birthday", "birthdate"]
+    critical_mapping_info = {}
+    
     new_fields = {}
     for key, value in fields.items():
         canonical_key = CANONICAL_FIELD_MAP.get(key, key)
         new_fields[canonical_key] = value
+        
+        # Track critical field transformations
+        if key in critical_fields or canonical_key in critical_fields:
+            critical_mapping_info[key] = {
+                "original_key": key,
+                "canonical_key": canonical_key,
+                "was_transformed": key != canonical_key,
+                "has_value": isinstance(value, dict) and bool(value.get("value")),
+                "original_value": value.get("value") if isinstance(value, dict) else str(value)
+            }
+    
+    log_debug("🔍 CRITICAL FIELD CANONICALIZATION", critical_mapping_info, service="review")
+    log_debug("Canonical field names", list(new_fields.keys()), service="review")
+    
     return new_fields
 
 def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
@@ -110,14 +131,39 @@ def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
     """
     log_debug("=== VALIDATING FIELD DATA ===", service="review")
     
+    # 🔍 TRACK CRITICAL FIELDS: Log before validation
+    critical_fields = ["cell", "date_of_birth"]
+    log_debug("🔍 CRITICAL FIELDS BEFORE VALIDATION", {
+        field_name: {
+            "value": fields.get(field_name, {}).get("value") if isinstance(fields.get(field_name), dict) else fields.get(field_name),
+            "exists": field_name in fields,
+            "type": str(type(fields.get(field_name))),
+            "is_dict": isinstance(fields.get(field_name), dict)
+        }
+        for field_name in critical_fields
+    }, service="review")
+    
     # Canonicalize field keys before validation
+    fields_before_canon = fields.copy()
     fields = canonicalize_fields(fields)
+    
+    # 🔍 TRACK CRITICAL FIELDS: Log after canonicalization
+    log_debug("🔍 CRITICAL FIELDS AFTER CANONICALIZATION", {
+        field_name: {
+            "value": fields.get(field_name, {}).get("value") if isinstance(fields.get(field_name), dict) else fields.get(field_name),
+            "exists": field_name in fields,
+            "was_in_original": field_name in fields_before_canon,
+            "type": str(type(fields.get(field_name)))
+        }
+        for field_name in critical_fields
+    }, service="review")
     
     for field_name, field_data in fields.items():
         if not isinstance(field_data, dict):
             continue
             
         field_value = field_data.get("value", "")
+        original_value = field_value
         
         # Clean up common issues
         if field_value:
@@ -126,6 +172,10 @@ def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
                 field_data["value"] = ""
                 log_debug(f"Cleaned N/A value from {field_name}", service="review")
                 
+                # 🔍 TRACK CRITICAL FIELDS: Log N/A cleaning
+                if field_name in critical_fields:
+                    log_debug(f"🔍 CRITICAL FIELD {field_name} CLEANED N/A: '{original_value}' -> ''", service="review")
+                
             # Validate phone format
             elif field_name == "cell" and field_value:
                 cleaned_phone = _validate_phone_format(field_value)
@@ -133,12 +183,29 @@ def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
                     field_data["value"] = cleaned_phone
                     log_debug(f"Formatted phone: {field_value} -> {cleaned_phone}", service="review")
                     
+                # 🔍 TRACK CRITICAL FIELDS: Log phone validation
+                log_debug(f"🔍 CRITICAL FIELD {field_name} PHONE VALIDATION: '{original_value}' -> '{field_data.get('value')}'", service="review")
+                    
             # Validate date format
             elif field_name == "date_of_birth" and field_value:
                 cleaned_date = _validate_date_format(field_value)
                 if cleaned_date != field_value:
                     field_data["value"] = cleaned_date
                     log_debug(f"Formatted date: {field_value} -> {cleaned_date}", service="review")
+                    
+                # 🔍 TRACK CRITICAL FIELDS: Log date validation
+                log_debug(f"🔍 CRITICAL FIELD {field_name} DATE VALIDATION: '{original_value}' -> '{field_data.get('value')}'", service="review")
+    
+    # 🔍 TRACK CRITICAL FIELDS: Log final state
+    log_debug("🔍 CRITICAL FIELDS AFTER VALIDATION", {
+        field_name: {
+            "value": fields.get(field_name, {}).get("value") if isinstance(fields.get(field_name), dict) else fields.get(field_name),
+            "exists": field_name in fields,
+            "original_value": fields.get(field_name, {}).get("original_value") if isinstance(fields.get(field_name), dict) else None,
+            "type": str(type(fields.get(field_name)))
+        }
+        for field_name in critical_fields
+    }, service="review")
     
     log_debug("Field validation complete", service="review")
     return fields
