@@ -122,8 +122,8 @@ def split_combined_address_fields(fields: dict, school_id: str = None) -> dict:
         if field and isinstance(field, dict) and field.get('value'):
             value = field['value'].replace('\n', ' ').replace('\r', ' ').strip()
             
-            # Pattern 1: City, State, Zip
-            match = re.match(r'^([^,]+),\s*([A-Z]{2})(?:,\s*|\s+)(\d{5}(?:-\d{4})?)$', value)
+            # Pattern 1: City, State, Zip (with optional trailing punctuation)
+            match = re.match(r'^([^,]+),\s*([A-Z]{2})(?:,\s*|\s+)(\d{5}(?:-\d{4})?)[.,;:]*?$', value)
             if match:
                 fields['city'] = {
                     'value': match.group(1).strip(),
@@ -150,8 +150,8 @@ def split_combined_address_fields(fields: dict, school_id: str = None) -> dict:
                 log_worker_debug(f"Split {key} into city/state/zip: {match.group(1).strip()}, {match.group(2).strip()}, {match.group(3).strip()}")
                 continue
 
-            # Pattern 2: City, State (no zip)
-            match = re.match(r'^([^,]+),\s*([A-Z]{2})$', value)
+            # Pattern 2: City, State (no zip, with optional trailing punctuation)
+            match = re.match(r'^([^,]+),\s*([A-Z]{2})[.,;:]*?$', value)
             if match:
                 fields['city'] = {
                     'value': match.group(1).strip(),
@@ -171,8 +171,8 @@ def split_combined_address_fields(fields: dict, school_id: str = None) -> dict:
                 log_worker_debug(f"Split {key} into city/state: {match.group(1).strip()}, {match.group(2).strip()}")
                 continue
 
-            # Pattern 3: City State Zip (no commas)
-            match = re.match(r'^([^,]+)\s+([A-Z]{2})\s+(\d{5}(?:-\d{4})?)$', value)
+            # Pattern 3: City State Zip (no commas, with optional trailing punctuation)
+            match = re.match(r'^([^,]+)\s+([A-Z]{2})\s+(\d{5}(?:-\d{4})?)[.,;:]*?$', value)
             if match:
                 fields['city'] = {
                     'value': match.group(1).strip(),
@@ -199,8 +199,8 @@ def split_combined_address_fields(fields: dict, school_id: str = None) -> dict:
                 log_worker_debug(f"Split {key} into city/state/zip: {match.group(1).strip()}, {match.group(2).strip()}, {match.group(3).strip()}")
                 continue
 
-            # Pattern 4: City State (no commas, no zip)
-            match = re.match(r'^([^,]+)\s+([A-Z]{2})$', value)
+            # Pattern 4: City State (no commas, no zip, with optional trailing punctuation)
+            match = re.match(r'^([^,]+)\s+([A-Z]{2})[.,;:]*?$', value)
             if match:
                 fields['city'] = {
                     'value': match.group(1).strip(),
@@ -226,9 +226,11 @@ def split_combined_address_fields(fields: dict, school_id: str = None) -> dict:
             if len(parts) >= 2:
                 # Look for a two-letter state code
                 for i in range(len(parts) - 1):
-                    if re.match(r'^[A-Z]{2}$', parts[i + 1]):
+                    # Remove punctuation from the potential state part for matching
+                    state_part = parts[i + 1].rstrip('.,;:')
+                    if re.match(r'^[A-Z]{2}$', state_part):
                         city = ' '.join(parts[:i + 1])
-                        state = parts[i + 1]
+                        state = state_part
                         fields['city'] = {
                             'value': city.strip(),
                             'confidence': field.get('confidence', 0.6),
@@ -246,9 +248,11 @@ def split_combined_address_fields(fields: dict, school_id: str = None) -> dict:
                         split_fields.update(['city', 'state'])
                         
                         # If there's a zip code after the state
-                        if i + 2 < len(parts) and re.match(r'^\d{5}(?:-\d{4})?$', parts[i + 2]):
-                            fields['zip_code'] = {
-                                'value': parts[i + 2].strip(),
+                        if i + 2 < len(parts):
+                            zip_part = parts[i + 2].rstrip('.,;:')
+                            if re.match(r'^\d{5}(?:-\d{4})?$', zip_part):
+                                fields['zip_code'] = {
+                                    'value': zip_part.strip(),
                                 'confidence': field.get('confidence', 0.6),
                                 'source': 'address_splitting_fallback',
                                 'enabled': True,

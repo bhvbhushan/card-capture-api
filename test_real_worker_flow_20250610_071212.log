@@ -1,0 +1,3106 @@
+[
+  {
+    "step": 1,
+    "timestamp": "2025-06-10T12:12:12.236984+00:00",
+    "step_name": "Creating test job",
+    "data": {
+      "image_path": "/Users/kregboyd/Applications/card-capture-api/UMHB/card_7.pdf",
+      "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+      "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+      "event_id": null
+    }
+  },
+  {
+    "step": 2,
+    "timestamp": "2025-06-10T12:12:13.235742+00:00",
+    "step_name": "Test job created",
+    "data": {
+      "job_id": "dab4c1a5-dce2-4a77-a290-76168501b445",
+      "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-10/ac4b426f-1198-479c-89fb-1adb271e9e15.pdf",
+      "status": "queued"
+    }
+  },
+  {
+    "step": 3,
+    "timestamp": "2025-06-10T12:12:13.235827+00:00",
+    "step_name": "Starting real worker processing",
+    "data": {
+      "job_id": "dab4c1a5-dce2-4a77-a290-76168501b445",
+      "worker_function": "process_job_v2"
+    }
+  },
+  {
+    "step": 4,
+    "timestamp": "2025-06-10T12:12:13.235875+00:00",
+    "step_name": "=== PROCESSING JOB V2 START ===",
+    "data": null
+  },
+  {
+    "step": 5,
+    "timestamp": "2025-06-10T12:12:13.237902+00:00",
+    "step_name": "Job Details",
+    "data": {
+      "Job ID": "dab4c1a5-dce2-4a77-a290-76168501b445",
+      "User ID": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+      "School ID": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+      "Event ID": null,
+      "File URL": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-10/ac4b426f-1198-479c-89fb-1adb271e9e15.pdf"
+    }
+  },
+  {
+    "step": 6,
+    "timestamp": "2025-06-10T12:12:13.238140+00:00",
+    "step_name": "=== STEP 1: GET FIELD REQUIREMENTS ===",
+    "data": null
+  },
+  {
+    "step": 7,
+    "timestamp": "2025-06-10T12:12:13.389628+00:00",
+    "step_name": "Using DocAI processor: 894b9758c2215ed6",
+    "data": null
+  },
+  {
+    "step": 8,
+    "timestamp": "2025-06-10T12:12:13.543179+00:00",
+    "step_name": "Current Field Requirements",
+    "data": {
+      "name": {
+        "enabled": true,
+        "required": false
+      },
+      "email": {
+        "enabled": true,
+        "required": false
+      },
+      "cell": {
+        "enabled": true,
+        "required": false
+      },
+      "date_of_birth": {
+        "enabled": true,
+        "required": false
+      },
+      "address": {
+        "enabled": true,
+        "required": false
+      },
+      "city": {
+        "enabled": true,
+        "required": false
+      },
+      "state": {
+        "enabled": true,
+        "required": false
+      },
+      "zip_code": {
+        "enabled": true,
+        "required": false
+      },
+      "major": {
+        "enabled": true,
+        "required": false
+      },
+      "student_type": {
+        "enabled": true,
+        "required": false
+      },
+      "entry_term": {
+        "enabled": true,
+        "required": false
+      },
+      "entry_year": {
+        "enabled": true,
+        "required": false
+      },
+      "gender": {
+        "enabled": true,
+        "required": false
+      },
+      "mapped_major": {
+        "enabled": true,
+        "required": false
+      }
+    }
+  },
+  {
+    "step": 9,
+    "timestamp": "2025-06-10T12:12:13.543804+00:00",
+    "step_name": "=== STEP 2: DOWNLOAD IMAGE ===",
+    "data": null
+  },
+  {
+    "step": 10,
+    "timestamp": "2025-06-10T12:12:13.545365+00:00",
+    "step_name": "Downloading from bucket: cards-uploads, path: f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-10/ac4b426f-1198-479c-89fb-1adb271e9e15.pdf",
+    "data": null
+  },
+  {
+    "step": 11,
+    "timestamp": "2025-06-10T12:12:14.235792+00:00",
+    "step_name": "Downloaded file from cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-10/ac4b426f-1198-479c-89fb-1adb271e9e15.pdf to /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpw5sk_2v4.pdf",
+    "data": null
+  },
+  {
+    "step": 12,
+    "timestamp": "2025-06-10T12:12:14.236028+00:00",
+    "step_name": "=== STEP 3: DOCAI PROCESSING ===",
+    "data": null
+  },
+  {
+    "step": 13,
+    "timestamp": "2025-06-10T12:12:22.731128+00:00",
+    "step_name": "Original DocAI Response",
+    "data": {
+      "date_of_birth": {
+        "value": "3/23/1998",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            919.9999994039536,
+            1571.9999713897705
+          ],
+          [
+            1275.9999549388885,
+            1571.9999713897705
+          ],
+          [
+            1275.9999549388885,
+            1631.0000058412552
+          ],
+          [
+            919.9999994039536,
+            1631.0000058412552
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "800 Brazos",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            865.0000065565109,
+            1210.0000038146973
+          ],
+          [
+            1242.9999995231628,
+            1210.0000038146973
+          ],
+          [
+            1242.9999995231628,
+            1256.9999738931656
+          ],
+          [
+            865.0000065565109,
+            1256.9999738931656
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "cell": {
+        "value": "800-564-1999",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            914.9999725818634,
+            1454.0000435113907
+          ],
+          [
+            1415.0000357627869,
+            1454.0000435113907
+          ],
+          [
+            1415.0000357627869,
+            1511.0000672340393
+          ],
+          [
+            914.9999725818634,
+            1511.0000672340393
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Emma Stroup",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            840.9999886155128,
+            1139.999980866909
+          ],
+          [
+            1346.9999933242798,
+            1139.999980866909
+          ],
+          [
+            1346.9999933242798,
+            1220.0000574588776
+          ],
+          [
+            840.9999886155128,
+            1220.0000574588776
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_term": {
+        "value": "20277",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1285.0000435113907,
+            1918.9999995231628
+          ],
+          [
+            1459.9999749660492,
+            1918.9999995231628
+          ],
+          [
+            1459.9999749660492,
+            1981.0000500679016
+          ],
+          [
+            1285.0000435113907,
+            1981.0000500679016
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "email": {
+        "value": "estroup@me.com",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            839.0000081062317,
+            1507.0000457763672
+          ],
+          [
+            1424.9999886751175,
+            1507.0000457763672
+          ],
+          [
+            1424.9999886751175,
+            1585.000041127205
+          ],
+          [
+            839.0000081062317,
+            1585.000041127205
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Basket Making",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            713.9999923110008,
+            2108.0000262260437
+          ],
+          [
+            1312.000007033348,
+            2108.0000262260437
+          ],
+          [
+            1312.000007033348,
+            2196.99993956089
+          ],
+          [
+            713.9999923110008,
+            2196.99993956089
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city_state": {
+        "value": "Graham, TX.",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            977.0000231266022,
+            1326.0000619888306
+          ],
+          [
+            1430.9999805688858,
+            1326.0000619888306
+          ],
+          [
+            1430.9999805688858,
+            1390.999987602234
+          ],
+          [
+            977.0000231266022,
+            1390.999987602234
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "76513",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            752.9999899864197,
+            1395.000009059906
+          ],
+          [
+            969.999965429306,
+            1395.000009059906
+          ],
+          [
+            969.999965429306,
+            1443.9999898672104
+          ],
+          [
+            752.9999899864197,
+            1443.9999898672104
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "student_type": {
+        "value": "Transfer Student",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1159.999977350235,
+            1776.9999428987503
+          ],
+          [
+            1407.0000129938126,
+            1776.9999428987503
+          ],
+          [
+            1407.0000129938126,
+            1802.9999413490295
+          ],
+          [
+            1159.999977350235,
+            1802.9999413490295
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "state": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_year": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "gender": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "mapped_major": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      }
+    }
+  },
+  {
+    "step": 14,
+    "timestamp": "2025-06-10T12:12:22.731602+00:00",
+    "step_name": "=== STEP 4: SPLIT ADDRESS FIELDS ===",
+    "data": null
+  },
+  {
+    "step": 15,
+    "timestamp": "2025-06-10T12:12:22.732081+00:00",
+    "step_name": "Fields After Address Splitting",
+    "data": {
+      "date_of_birth": {
+        "value": "3/23/1998",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            919.9999994039536,
+            1571.9999713897705
+          ],
+          [
+            1275.9999549388885,
+            1571.9999713897705
+          ],
+          [
+            1275.9999549388885,
+            1631.0000058412552
+          ],
+          [
+            919.9999994039536,
+            1631.0000058412552
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "800 Brazos",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            865.0000065565109,
+            1210.0000038146973
+          ],
+          [
+            1242.9999995231628,
+            1210.0000038146973
+          ],
+          [
+            1242.9999995231628,
+            1256.9999738931656
+          ],
+          [
+            865.0000065565109,
+            1256.9999738931656
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "cell": {
+        "value": "800-564-1999",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            914.9999725818634,
+            1454.0000435113907
+          ],
+          [
+            1415.0000357627869,
+            1454.0000435113907
+          ],
+          [
+            1415.0000357627869,
+            1511.0000672340393
+          ],
+          [
+            914.9999725818634,
+            1511.0000672340393
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Emma Stroup",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            840.9999886155128,
+            1139.999980866909
+          ],
+          [
+            1346.9999933242798,
+            1139.999980866909
+          ],
+          [
+            1346.9999933242798,
+            1220.0000574588776
+          ],
+          [
+            840.9999886155128,
+            1220.0000574588776
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_term": {
+        "value": "20277",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1285.0000435113907,
+            1918.9999995231628
+          ],
+          [
+            1459.9999749660492,
+            1918.9999995231628
+          ],
+          [
+            1459.9999749660492,
+            1981.0000500679016
+          ],
+          [
+            1285.0000435113907,
+            1981.0000500679016
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "email": {
+        "value": "estroup@me.com",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            839.0000081062317,
+            1507.0000457763672
+          ],
+          [
+            1424.9999886751175,
+            1507.0000457763672
+          ],
+          [
+            1424.9999886751175,
+            1585.000041127205
+          ],
+          [
+            839.0000081062317,
+            1585.000041127205
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Basket Making",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            713.9999923110008,
+            2108.0000262260437
+          ],
+          [
+            1312.000007033348,
+            2108.0000262260437
+          ],
+          [
+            1312.000007033348,
+            2196.99993956089
+          ],
+          [
+            713.9999923110008,
+            2196.99993956089
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city_state": {
+        "value": "Graham, TX.",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            977.0000231266022,
+            1326.0000619888306
+          ],
+          [
+            1430.9999805688858,
+            1326.0000619888306
+          ],
+          [
+            1430.9999805688858,
+            1390.999987602234
+          ],
+          [
+            977.0000231266022,
+            1390.999987602234
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "76513",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            752.9999899864197,
+            1395.000009059906
+          ],
+          [
+            969.999965429306,
+            1395.000009059906
+          ],
+          [
+            969.999965429306,
+            1443.9999898672104
+          ],
+          [
+            752.9999899864197,
+            1443.9999898672104
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "student_type": {
+        "value": "Transfer Student",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1159.999977350235,
+            1776.9999428987503
+          ],
+          [
+            1407.0000129938126,
+            1776.9999428987503
+          ],
+          [
+            1407.0000129938126,
+            1802.9999413490295
+          ],
+          [
+            1159.999977350235,
+            1802.9999413490295
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "state": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_year": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "gender": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "mapped_major": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      }
+    }
+  },
+  {
+    "step": 16,
+    "timestamp": "2025-06-10T12:12:22.732557+00:00",
+    "step_name": "=== STEP 5: SYNC FIELDS WITH SCHOOL SETTINGS ===",
+    "data": null
+  },
+  {
+    "step": 17,
+    "timestamp": "2025-06-10T12:12:23.107676+00:00",
+    "step_name": "Updated Field Requirements",
+    "data": {
+      "name": {
+        "enabled": true,
+        "required": false
+      },
+      "email": {
+        "enabled": true,
+        "required": false
+      },
+      "cell": {
+        "enabled": true,
+        "required": false
+      },
+      "date_of_birth": {
+        "enabled": true,
+        "required": false
+      },
+      "address": {
+        "enabled": true,
+        "required": false
+      },
+      "city": {
+        "enabled": true,
+        "required": false
+      },
+      "state": {
+        "enabled": true,
+        "required": false
+      },
+      "zip_code": {
+        "enabled": true,
+        "required": false
+      },
+      "major": {
+        "enabled": true,
+        "required": false
+      },
+      "student_type": {
+        "enabled": true,
+        "required": false
+      },
+      "entry_term": {
+        "enabled": true,
+        "required": false
+      },
+      "entry_year": {
+        "enabled": true,
+        "required": false
+      },
+      "gender": {
+        "enabled": true,
+        "required": false
+      },
+      "mapped_major": {
+        "enabled": true,
+        "required": false
+      }
+    }
+  },
+  {
+    "step": 18,
+    "timestamp": "2025-06-10T12:12:23.108318+00:00",
+    "step_name": "=== STEP 6: APPLY FIELD REQUIREMENTS ===",
+    "data": null
+  },
+  {
+    "step": 19,
+    "timestamp": "2025-06-10T12:12:23.111528+00:00",
+    "step_name": "Fields After Applying Requirements",
+    "data": {
+      "date_of_birth": {
+        "value": "3/23/1998",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            919.9999994039536,
+            1571.9999713897705
+          ],
+          [
+            1275.9999549388885,
+            1571.9999713897705
+          ],
+          [
+            1275.9999549388885,
+            1631.0000058412552
+          ],
+          [
+            919.9999994039536,
+            1631.0000058412552
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "address": {
+        "value": "800 Brazos",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            865.0000065565109,
+            1210.0000038146973
+          ],
+          [
+            1242.9999995231628,
+            1210.0000038146973
+          ],
+          [
+            1242.9999995231628,
+            1256.9999738931656
+          ],
+          [
+            865.0000065565109,
+            1256.9999738931656
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "cell": {
+        "value": "800-564-1999",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            914.9999725818634,
+            1454.0000435113907
+          ],
+          [
+            1415.0000357627869,
+            1454.0000435113907
+          ],
+          [
+            1415.0000357627869,
+            1511.0000672340393
+          ],
+          [
+            914.9999725818634,
+            1511.0000672340393
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "name": {
+        "value": "Emma Stroup",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            840.9999886155128,
+            1139.999980866909
+          ],
+          [
+            1346.9999933242798,
+            1139.999980866909
+          ],
+          [
+            1346.9999933242798,
+            1220.0000574588776
+          ],
+          [
+            840.9999886155128,
+            1220.0000574588776
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_term": {
+        "value": "20277",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1285.0000435113907,
+            1918.9999995231628
+          ],
+          [
+            1459.9999749660492,
+            1918.9999995231628
+          ],
+          [
+            1459.9999749660492,
+            1981.0000500679016
+          ],
+          [
+            1285.0000435113907,
+            1981.0000500679016
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "email": {
+        "value": "estroup@me.com",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            839.0000081062317,
+            1507.0000457763672
+          ],
+          [
+            1424.9999886751175,
+            1507.0000457763672
+          ],
+          [
+            1424.9999886751175,
+            1585.000041127205
+          ],
+          [
+            839.0000081062317,
+            1585.000041127205
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "major": {
+        "value": "Basket Making",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            713.9999923110008,
+            2108.0000262260437
+          ],
+          [
+            1312.000007033348,
+            2108.0000262260437
+          ],
+          [
+            1312.000007033348,
+            2196.99993956089
+          ],
+          [
+            713.9999923110008,
+            2196.99993956089
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city_state": {
+        "value": "Graham, TX.",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            977.0000231266022,
+            1326.0000619888306
+          ],
+          [
+            1430.9999805688858,
+            1326.0000619888306
+          ],
+          [
+            1430.9999805688858,
+            1390.999987602234
+          ],
+          [
+            977.0000231266022,
+            1390.999987602234
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "zip_code": {
+        "value": "76513",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            752.9999899864197,
+            1395.000009059906
+          ],
+          [
+            969.999965429306,
+            1395.000009059906
+          ],
+          [
+            969.999965429306,
+            1443.9999898672104
+          ],
+          [
+            752.9999899864197,
+            1443.9999898672104
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "student_type": {
+        "value": "Transfer Student",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1159.999977350235,
+            1776.9999428987503
+          ],
+          [
+            1407.0000129938126,
+            1776.9999428987503
+          ],
+          [
+            1407.0000129938126,
+            1802.9999413490295
+          ],
+          [
+            1159.999977350235,
+            1802.9999413490295
+          ]
+        ],
+        "source": "docai",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "city": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "state": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "entry_year": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "gender": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      },
+      "mapped_major": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "missing_enabled",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.0
+      }
+    }
+  },
+  {
+    "step": 20,
+    "timestamp": "2025-06-10T12:12:23.112895+00:00",
+    "step_name": "=== STEP 7: FETCH VALID MAJORS ===",
+    "data": null
+  },
+  {
+    "step": 21,
+    "timestamp": "2025-06-10T12:12:23.289718+00:00",
+    "step_name": "Valid majors",
+    "data": [
+      "Undecided",
+      "Accounting",
+      "Art Education",
+      "Biochemistry",
+      "Biology",
+      "Biomedical Science",
+      "Business Administration",
+      "Chemistry",
+      "Chemistry Grades 7-12",
+      "Communication",
+      "Computer Science",
+      "Computer Science Grades 6-12",
+      "Criminology",
+      "Cybersecurity",
+      "Dual Credit/Concurrent",
+      "Early Childhood Education",
+      "Engineering Physics",
+      "English and Writing",
+      "English Language Arts/Reading Grades 4-8",
+      "English Language Arts/Reading Grades 7-12",
+      "Entrepreneurship",
+      "Environmental Science",
+      "Exercise Science & Human Performance",
+      "FasTrack Education -  Elementary",
+      "FasTrack Education -  Secondary",
+      "Finance",
+      "Graphic Design and Multimedia",
+      "History",
+      "History Grades 7-12",
+      "History w/ Social Studies Grades 7-12",
+      "Human Health Science",
+      "Information Technology",
+      "Interdisciplinary Studies",
+      "Life Science",
+      "Life Science Grades 7-12",
+      "Management",
+      "Marketing",
+      "Mathematics",
+      "Mathematics Grades 4-8",
+      "Mathematics Grades 7-12",
+      "MSN Education Track",
+      "MSN Family Nurse Practitioner Track",
+      "Music",
+      "Music Education/Choral",
+      "Music Education/Instrumental",
+      "Non Degree",
+      "Nursing",
+      "Nursing RN to BSN",
+      "Online Criminal Justice",
+      "Online General Business",
+      "Online General Business Associate",
+      "Physical Education",
+      "Physics",
+      "Political Science",
+      "Psychology",
+      "Public Health and Wellness",
+      "Religion",
+      "Sociology",
+      "Sports Industry",
+      "Sports Leadership & Management",
+      "Studio Art",
+      "Theatre",
+      "Theatre Education",
+      "Transient",
+      "Undecided"
+    ]
+  },
+  {
+    "step": 22,
+    "timestamp": "2025-06-10T12:12:23.291042+00:00",
+    "step_name": "=== STEP 8: GEMINI PROCESSING ===",
+    "data": null
+  },
+  {
+    "step": 23,
+    "timestamp": "2025-06-10T12:12:41.866717+00:00",
+    "step_name": "Gemini Output",
+    "data": {
+      "date_of_birth": {
+        "value": "03/23/1998",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            919.9999994039536,
+            1571.9999713897705
+          ],
+          [
+            1275.9999549388885,
+            1571.9999713897705
+          ],
+          [
+            1275.9999549388885,
+            1631.0000058412552
+          ],
+          [
+            919.9999994039536,
+            1631.0000058412552
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "3/23/1998",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Added leading zero to month for date format consistency."
+      },
+      "address": {
+        "value": "800 Brazos",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            865.0000065565109,
+            1210.0000038146973
+          ],
+          [
+            1242.9999995231628,
+            1210.0000038146973
+          ],
+          [
+            1242.9999995231628,
+            1256.9999738931656
+          ],
+          [
+            865.0000065565109,
+            1256.9999738931656
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "800 Brazos",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "cell": {
+        "value": "800-564-1999",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            914.9999725818634,
+            1454.0000435113907
+          ],
+          [
+            1415.0000357627869,
+            1454.0000435113907
+          ],
+          [
+            1415.0000357627869,
+            1511.0000672340393
+          ],
+          [
+            914.9999725818634,
+            1511.0000672340393
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "800-564-1999",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "name": {
+        "value": "Emma Stroup",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            840.9999886155128,
+            1139.999980866909
+          ],
+          [
+            1346.9999933242798,
+            1139.999980866909
+          ],
+          [
+            1346.9999933242798,
+            1220.0000574588776
+          ],
+          [
+            840.9999886155128,
+            1220.0000574588776
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Emma Stroup",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "entry_term": {
+        "value": "Spring 2027",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1285.0000435113907,
+            1918.9999995231628
+          ],
+          [
+            1459.9999749660492,
+            1918.9999995231628
+          ],
+          [
+            1459.9999749660492,
+            1981.0000500679016
+          ],
+          [
+            1285.0000435113907,
+            1981.0000500679016
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.9025,
+        "edit_made": true,
+        "edit_type": "ocr_correction",
+        "original_value": "20277",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Corrected OCR error in year and added Spring based on checkmark."
+      },
+      "email": {
+        "value": "estroup@me.com",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            839.0000081062317,
+            1507.0000457763672
+          ],
+          [
+            1424.9999886751175,
+            1507.0000457763672
+          ],
+          [
+            1424.9999886751175,
+            1585.000041127205
+          ],
+          [
+            839.0000081062317,
+            1585.000041127205
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "estroup@me.com",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "major": {
+        "value": "Basket Making",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            713.9999923110008,
+            2108.0000262260437
+          ],
+          [
+            1312.000007033348,
+            2108.0000262260437
+          ],
+          [
+            1312.000007033348,
+            2196.99993956089
+          ],
+          [
+            713.9999923110008,
+            2196.99993956089
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Basket Making",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "city_state": {
+        "value": "Graham, TX",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            977.0000231266022,
+            1326.0000619888306
+          ],
+          [
+            1430.9999805688858,
+            1326.0000619888306
+          ],
+          [
+            1430.9999805688858,
+            1390.999987602234
+          ],
+          [
+            977.0000231266022,
+            1390.999987602234
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "Graham, TX.",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Removed extra period."
+      },
+      "zip_code": {
+        "value": "76513",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            752.9999899864197,
+            1395.000009059906
+          ],
+          [
+            969.999965429306,
+            1395.000009059906
+          ],
+          [
+            969.999965429306,
+            1443.9999898672104
+          ],
+          [
+            752.9999899864197,
+            1443.9999898672104
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "76513",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "student_type": {
+        "value": "Transfer Student",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1159.999977350235,
+            1776.9999428987503
+          ],
+          [
+            1407.0000129938126,
+            1776.9999428987503
+          ],
+          [
+            1407.0000129938126,
+            1802.9999413490295
+          ],
+          [
+            1159.999977350235,
+            1802.9999413490295
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Transfer Student",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked."
+      },
+      "city": {
+        "value": "Morgan's Point Resort",
+        "confidence": 0.95,
+        "source": "zip_validation",
+        "notes": "City validated from zip code",
+        "requires_human_review": false,
+        "review_notes": "",
+        "enabled": true,
+        "required": false
+      },
+      "state": {
+        "value": "TX",
+        "confidence": 0.95,
+        "source": "zip_validation",
+        "notes": "State validated from zip code",
+        "requires_human_review": false,
+        "review_notes": "",
+        "enabled": true,
+        "required": false
+      },
+      "entry_year": {
+        "value": "2027",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.9025,
+        "edit_made": true,
+        "edit_type": "ocr_correction",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Extracted year from corrected entry_term."
+      },
+      "gender": {
+        "value": "Female",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Female checkbox selected."
+      },
+      "mapped_major": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "uncertain",
+        "notes": "No close match found in the list of valid majors."
+      }
+    }
+  },
+  {
+    "step": 24,
+    "timestamp": "2025-06-10T12:12:41.868337+00:00",
+    "step_name": "=== STEP 9: ADDRESS VALIDATION ===",
+    "data": null
+  },
+  {
+    "step": 25,
+    "timestamp": "2025-06-10T12:12:42.304566+00:00",
+    "step_name": "Fields After Address Validation",
+    "data": {
+      "date_of_birth": {
+        "value": "03/23/1998",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            919.9999994039536,
+            1571.9999713897705
+          ],
+          [
+            1275.9999549388885,
+            1571.9999713897705
+          ],
+          [
+            1275.9999549388885,
+            1631.0000058412552
+          ],
+          [
+            919.9999994039536,
+            1631.0000058412552
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "3/23/1998",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Added leading zero to month for date format consistency."
+      },
+      "address": {
+        "value": "800 Brazos",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            865.0000065565109,
+            1210.0000038146973
+          ],
+          [
+            1242.9999995231628,
+            1210.0000038146973
+          ],
+          [
+            1242.9999995231628,
+            1256.9999738931656
+          ],
+          [
+            865.0000065565109,
+            1256.9999738931656
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "800 Brazos",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "cell": {
+        "value": "800-564-1999",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            914.9999725818634,
+            1454.0000435113907
+          ],
+          [
+            1415.0000357627869,
+            1454.0000435113907
+          ],
+          [
+            1415.0000357627869,
+            1511.0000672340393
+          ],
+          [
+            914.9999725818634,
+            1511.0000672340393
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "800-564-1999",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "name": {
+        "value": "Emma Stroup",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            840.9999886155128,
+            1139.999980866909
+          ],
+          [
+            1346.9999933242798,
+            1139.999980866909
+          ],
+          [
+            1346.9999933242798,
+            1220.0000574588776
+          ],
+          [
+            840.9999886155128,
+            1220.0000574588776
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Emma Stroup",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "entry_term": {
+        "value": "Spring 2027",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1285.0000435113907,
+            1918.9999995231628
+          ],
+          [
+            1459.9999749660492,
+            1918.9999995231628
+          ],
+          [
+            1459.9999749660492,
+            1981.0000500679016
+          ],
+          [
+            1285.0000435113907,
+            1981.0000500679016
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.9025,
+        "edit_made": true,
+        "edit_type": "ocr_correction",
+        "original_value": "20277",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Corrected OCR error in year and added Spring based on checkmark."
+      },
+      "email": {
+        "value": "estroup@me.com",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            839.0000081062317,
+            1507.0000457763672
+          ],
+          [
+            1424.9999886751175,
+            1507.0000457763672
+          ],
+          [
+            1424.9999886751175,
+            1585.000041127205
+          ],
+          [
+            839.0000081062317,
+            1585.000041127205
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "estroup@me.com",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "major": {
+        "value": "Basket Making",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            713.9999923110008,
+            2108.0000262260437
+          ],
+          [
+            1312.000007033348,
+            2108.0000262260437
+          ],
+          [
+            1312.000007033348,
+            2196.99993956089
+          ],
+          [
+            713.9999923110008,
+            2196.99993956089
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Basket Making",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "city_state": {
+        "value": "Graham, TX",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            977.0000231266022,
+            1326.0000619888306
+          ],
+          [
+            1430.9999805688858,
+            1326.0000619888306
+          ],
+          [
+            1430.9999805688858,
+            1390.999987602234
+          ],
+          [
+            977.0000231266022,
+            1390.999987602234
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "Graham, TX.",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Removed extra period."
+      },
+      "zip_code": {
+        "value": "76513",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            752.9999899864197,
+            1395.000009059906
+          ],
+          [
+            969.999965429306,
+            1395.000009059906
+          ],
+          [
+            969.999965429306,
+            1443.9999898672104
+          ],
+          [
+            752.9999899864197,
+            1443.9999898672104
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "76513",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "student_type": {
+        "value": "Transfer Student",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1159.999977350235,
+            1776.9999428987503
+          ],
+          [
+            1407.0000129938126,
+            1776.9999428987503
+          ],
+          [
+            1407.0000129938126,
+            1802.9999413490295
+          ],
+          [
+            1159.999977350235,
+            1802.9999413490295
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Transfer Student",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked."
+      },
+      "city": {
+        "value": "Morgan's Point Resort",
+        "confidence": 0.95,
+        "source": "zip_validation",
+        "notes": "City validated from zip code",
+        "requires_human_review": false,
+        "review_notes": "",
+        "enabled": true,
+        "required": false
+      },
+      "state": {
+        "value": "TX",
+        "confidence": 0.95,
+        "source": "zip_validation",
+        "notes": "State validated from zip code",
+        "requires_human_review": false,
+        "review_notes": "",
+        "enabled": true,
+        "required": false
+      },
+      "entry_year": {
+        "value": "2027",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.9025,
+        "edit_made": true,
+        "edit_type": "ocr_correction",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Extracted year from corrected entry_term."
+      },
+      "gender": {
+        "value": "Female",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Female checkbox selected."
+      },
+      "mapped_major": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "uncertain",
+        "notes": "No close match found in the list of valid majors."
+      }
+    }
+  },
+  {
+    "step": 26,
+    "timestamp": "2025-06-10T12:12:42.307894+00:00",
+    "step_name": "=== STEP 10: FINAL VALIDATION ===",
+    "data": null
+  },
+  {
+    "step": 27,
+    "timestamp": "2025-06-10T12:12:42.310818+00:00",
+    "step_name": "Final Fields",
+    "data": {
+      "date_of_birth": {
+        "value": "03/23/1998",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            919.9999994039536,
+            1571.9999713897705
+          ],
+          [
+            1275.9999549388885,
+            1571.9999713897705
+          ],
+          [
+            1275.9999549388885,
+            1631.0000058412552
+          ],
+          [
+            919.9999994039536,
+            1631.0000058412552
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "3/23/1998",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Added leading zero to month for date format consistency."
+      },
+      "address": {
+        "value": "800 Brazos",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            865.0000065565109,
+            1210.0000038146973
+          ],
+          [
+            1242.9999995231628,
+            1210.0000038146973
+          ],
+          [
+            1242.9999995231628,
+            1256.9999738931656
+          ],
+          [
+            865.0000065565109,
+            1256.9999738931656
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "800 Brazos",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "cell": {
+        "value": "800-564-1999",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            914.9999725818634,
+            1454.0000435113907
+          ],
+          [
+            1415.0000357627869,
+            1454.0000435113907
+          ],
+          [
+            1415.0000357627869,
+            1511.0000672340393
+          ],
+          [
+            914.9999725818634,
+            1511.0000672340393
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "800-564-1999",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "name": {
+        "value": "Emma Stroup",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            840.9999886155128,
+            1139.999980866909
+          ],
+          [
+            1346.9999933242798,
+            1139.999980866909
+          ],
+          [
+            1346.9999933242798,
+            1220.0000574588776
+          ],
+          [
+            840.9999886155128,
+            1220.0000574588776
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Emma Stroup",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "entry_term": {
+        "value": "Spring 2027",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1285.0000435113907,
+            1918.9999995231628
+          ],
+          [
+            1459.9999749660492,
+            1918.9999995231628
+          ],
+          [
+            1459.9999749660492,
+            1981.0000500679016
+          ],
+          [
+            1285.0000435113907,
+            1981.0000500679016
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.9025,
+        "edit_made": true,
+        "edit_type": "ocr_correction",
+        "original_value": "20277",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Corrected OCR error in year and added Spring based on checkmark."
+      },
+      "email": {
+        "value": "estroup@me.com",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            839.0000081062317,
+            1507.0000457763672
+          ],
+          [
+            1424.9999886751175,
+            1507.0000457763672
+          ],
+          [
+            1424.9999886751175,
+            1585.000041127205
+          ],
+          [
+            839.0000081062317,
+            1585.000041127205
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "estroup@me.com",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "major": {
+        "value": "Basket Making",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            713.9999923110008,
+            2108.0000262260437
+          ],
+          [
+            1312.000007033348,
+            2108.0000262260437
+          ],
+          [
+            1312.000007033348,
+            2196.99993956089
+          ],
+          [
+            713.9999923110008,
+            2196.99993956089
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Basket Making",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "city_state": {
+        "value": "Graham, TX",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            977.0000231266022,
+            1326.0000619888306
+          ],
+          [
+            1430.9999805688858,
+            1326.0000619888306
+          ],
+          [
+            1430.9999805688858,
+            1390.999987602234
+          ],
+          [
+            977.0000231266022,
+            1390.999987602234
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": true,
+        "edit_type": "format_correction",
+        "original_value": "Graham, TX.",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Removed extra period."
+      },
+      "zip_code": {
+        "value": "76513",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            752.9999899864197,
+            1395.000009059906
+          ],
+          [
+            969.999965429306,
+            1395.000009059906
+          ],
+          [
+            969.999965429306,
+            1443.9999898672104
+          ],
+          [
+            752.9999899864197,
+            1443.9999898672104
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "76513",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": null
+      },
+      "student_type": {
+        "value": "Transfer Student",
+        "confidence": 1.0,
+        "bounding_box": [
+          [
+            1159.999977350235,
+            1776.9999428987503
+          ],
+          [
+            1407.0000129938126,
+            1776.9999428987503
+          ],
+          [
+            1407.0000129938126,
+            1802.9999413490295
+          ],
+          [
+            1159.999977350235,
+            1802.9999413490295
+          ]
+        ],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.95,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "Transfer Student",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Checkbox clearly marked."
+      },
+      "city": {
+        "value": "Morgan's Point Resort",
+        "confidence": 0.95,
+        "source": "zip_validation",
+        "notes": "City validated from zip code",
+        "requires_human_review": false,
+        "review_notes": "",
+        "enabled": true,
+        "required": false
+      },
+      "state": {
+        "value": "TX",
+        "confidence": 0.95,
+        "source": "zip_validation",
+        "notes": "State validated from zip code",
+        "requires_human_review": false,
+        "review_notes": "",
+        "enabled": true,
+        "required": false
+      },
+      "entry_year": {
+        "value": "2027",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.9025,
+        "edit_made": true,
+        "edit_type": "ocr_correction",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Extracted year from corrected entry_term."
+      },
+      "gender": {
+        "value": "Female",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.7124999999999999,
+        "edit_made": true,
+        "edit_type": "missing_data",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "certain",
+        "notes": "Female checkbox selected."
+      },
+      "mapped_major": {
+        "value": "",
+        "confidence": 0.0,
+        "bounding_box": [],
+        "source": "gemini",
+        "enabled": true,
+        "required": false,
+        "requires_human_review": false,
+        "review_notes": "",
+        "review_confidence": 0.1,
+        "edit_made": false,
+        "edit_type": "none",
+        "original_value": "",
+        "text_clarity": "clear",
+        "certainty": "uncertain",
+        "notes": "No close match found in the list of valid majors."
+      }
+    }
+  },
+  {
+    "step": 28,
+    "timestamp": "2025-06-10T12:12:42.312186+00:00",
+    "step_name": "Review Status",
+    "data": {
+      "status": "reviewed",
+      "fields_needing_review": [],
+      "ai_processing_failed": false
+    }
+  },
+  {
+    "step": 29,
+    "timestamp": "2025-06-10T12:12:42.312513+00:00",
+    "step_name": "=== STEP 11: TRIM AND UPLOAD IMAGE ===",
+    "data": null
+  },
+  {
+    "step": 30,
+    "timestamp": "2025-06-10T12:12:42.918735+00:00",
+    "step_name": "Trimmed image uploaded to Supabase: cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-10/d6f99682-d5df-451c-8656-e622c8f01841.pdf",
+    "data": null
+  },
+  {
+    "step": 31,
+    "timestamp": "2025-06-10T12:12:42.918950+00:00",
+    "step_name": "=== STEP 12: UPDATE JOB STATUS ===",
+    "data": null
+  },
+  {
+    "step": 32,
+    "timestamp": "2025-06-10T12:12:42.919007+00:00",
+    "step_name": "Filtering combined fields before saving",
+    "data": null
+  },
+  {
+    "step": 33,
+    "timestamp": "2025-06-10T12:12:42.919069+00:00",
+    "step_name": "Fields before filtering: 15, after filtering: 14",
+    "data": null
+  },
+  {
+    "step": 34,
+    "timestamp": "2025-06-10T12:12:42.919122+00:00",
+    "step_name": "Review Data to be Saved",
+    "data": {
+      "document_id": "dab4c1a5-dce2-4a77-a290-76168501b445",
+      "fields": {
+        "date_of_birth": {
+          "value": "03/23/1998",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              919.9999994039536,
+              1571.9999713897705
+            ],
+            [
+              1275.9999549388885,
+              1571.9999713897705
+            ],
+            [
+              1275.9999549388885,
+              1631.0000058412552
+            ],
+            [
+              919.9999994039536,
+              1631.0000058412552
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": true,
+          "edit_type": "format_correction",
+          "original_value": "3/23/1998",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Added leading zero to month for date format consistency."
+        },
+        "address": {
+          "value": "800 Brazos",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              865.0000065565109,
+              1210.0000038146973
+            ],
+            [
+              1242.9999995231628,
+              1210.0000038146973
+            ],
+            [
+              1242.9999995231628,
+              1256.9999738931656
+            ],
+            [
+              865.0000065565109,
+              1256.9999738931656
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "800 Brazos",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "cell": {
+          "value": "800-564-1999",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              914.9999725818634,
+              1454.0000435113907
+            ],
+            [
+              1415.0000357627869,
+              1454.0000435113907
+            ],
+            [
+              1415.0000357627869,
+              1511.0000672340393
+            ],
+            [
+              914.9999725818634,
+              1511.0000672340393
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "800-564-1999",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "name": {
+          "value": "Emma Stroup",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              840.9999886155128,
+              1139.999980866909
+            ],
+            [
+              1346.9999933242798,
+              1139.999980866909
+            ],
+            [
+              1346.9999933242798,
+              1220.0000574588776
+            ],
+            [
+              840.9999886155128,
+              1220.0000574588776
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Emma Stroup",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "entry_term": {
+          "value": "Spring 2027",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              1285.0000435113907,
+              1918.9999995231628
+            ],
+            [
+              1459.9999749660492,
+              1918.9999995231628
+            ],
+            [
+              1459.9999749660492,
+              1981.0000500679016
+            ],
+            [
+              1285.0000435113907,
+              1981.0000500679016
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.9025,
+          "edit_made": true,
+          "edit_type": "ocr_correction",
+          "original_value": "20277",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Corrected OCR error in year and added Spring based on checkmark."
+        },
+        "email": {
+          "value": "estroup@me.com",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              839.0000081062317,
+              1507.0000457763672
+            ],
+            [
+              1424.9999886751175,
+              1507.0000457763672
+            ],
+            [
+              1424.9999886751175,
+              1585.000041127205
+            ],
+            [
+              839.0000081062317,
+              1585.000041127205
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "estroup@me.com",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "major": {
+          "value": "Basket Making",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              713.9999923110008,
+              2108.0000262260437
+            ],
+            [
+              1312.000007033348,
+              2108.0000262260437
+            ],
+            [
+              1312.000007033348,
+              2196.99993956089
+            ],
+            [
+              713.9999923110008,
+              2196.99993956089
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Basket Making",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "zip_code": {
+          "value": "76513",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              752.9999899864197,
+              1395.000009059906
+            ],
+            [
+              969.999965429306,
+              1395.000009059906
+            ],
+            [
+              969.999965429306,
+              1443.9999898672104
+            ],
+            [
+              752.9999899864197,
+              1443.9999898672104
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "76513",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": null
+        },
+        "student_type": {
+          "value": "Transfer Student",
+          "confidence": 1.0,
+          "bounding_box": [
+            [
+              1159.999977350235,
+              1776.9999428987503
+            ],
+            [
+              1407.0000129938126,
+              1776.9999428987503
+            ],
+            [
+              1407.0000129938126,
+              1802.9999413490295
+            ],
+            [
+              1159.999977350235,
+              1802.9999413490295
+            ]
+          ],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.95,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "Transfer Student",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Checkbox clearly marked."
+        },
+        "city": {
+          "value": "Morgan's Point Resort",
+          "confidence": 0.95,
+          "source": "zip_validation",
+          "notes": "City validated from zip code",
+          "requires_human_review": false,
+          "review_notes": "",
+          "enabled": true,
+          "required": false
+        },
+        "state": {
+          "value": "TX",
+          "confidence": 0.95,
+          "source": "zip_validation",
+          "notes": "State validated from zip code",
+          "requires_human_review": false,
+          "review_notes": "",
+          "enabled": true,
+          "required": false
+        },
+        "entry_year": {
+          "value": "2027",
+          "confidence": 0.0,
+          "bounding_box": [],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.9025,
+          "edit_made": true,
+          "edit_type": "ocr_correction",
+          "original_value": "",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Extracted year from corrected entry_term."
+        },
+        "gender": {
+          "value": "Female",
+          "confidence": 0.0,
+          "bounding_box": [],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.7124999999999999,
+          "edit_made": true,
+          "edit_type": "missing_data",
+          "original_value": "",
+          "text_clarity": "clear",
+          "certainty": "certain",
+          "notes": "Female checkbox selected."
+        },
+        "mapped_major": {
+          "value": "",
+          "confidence": 0.0,
+          "bounding_box": [],
+          "source": "gemini",
+          "enabled": true,
+          "required": false,
+          "requires_human_review": false,
+          "review_notes": "",
+          "review_confidence": 0.1,
+          "edit_made": false,
+          "edit_type": "none",
+          "original_value": "",
+          "text_clarity": "clear",
+          "certainty": "uncertain",
+          "notes": "No close match found in the list of valid majors."
+        }
+      },
+      "school_id": "b1a2c3d4-e5f6-7890-1234-56789abcdef0",
+      "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+      "event_id": null,
+      "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-10/ac4b426f-1198-479c-89fb-1adb271e9e15.pdf",
+      "trimmed_image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-10/d6f99682-d5df-451c-8656-e622c8f01841.pdf",
+      "review_status": "reviewed",
+      "created_at": "2025-06-10T12:12:42.919118+00:00",
+      "updated_at": "2025-06-10T12:12:42.919118+00:00"
+    }
+  },
+  {
+    "step": 35,
+    "timestamp": "2025-06-10T12:12:43.320291+00:00",
+    "step_name": "\u2705 Job dab4c1a5-dce2-4a77-a290-76168501b445 completed successfully",
+    "data": null
+  },
+  {
+    "step": 36,
+    "timestamp": "2025-06-10T12:12:43.320508+00:00",
+    "step_name": "=== PROCESSING JOB V2 END ===\n",
+    "data": null
+  },
+  {
+    "step": 37,
+    "timestamp": "2025-06-10T12:12:43.321055+00:00",
+    "step_name": "Worker processing completed",
+    "data": {
+      "job_id": "dab4c1a5-dce2-4a77-a290-76168501b445"
+    }
+  },
+  {
+    "step": 38,
+    "timestamp": "2025-06-10T12:12:43.483084+00:00",
+    "step_name": "Final job status",
+    "data": {
+      "job_id": "dab4c1a5-dce2-4a77-a290-76168501b445",
+      "status": "complete",
+      "error_message": null
+    }
+  },
+  {
+    "step": 39,
+    "timestamp": "2025-06-10T12:12:43.625136+00:00",
+    "step_name": "Review data created",
+    "data": {
+      "document_id": "dab4c1a5-dce2-4a77-a290-76168501b445",
+      "review_status": "reviewed",
+      "field_count": 14,
+      "fields": [
+        "cell",
+        "city",
+        "name",
+        "email",
+        "major",
+        "state",
+        "gender",
+        "address",
+        "zip_code",
+        "entry_term",
+        "entry_year",
+        "mapped_major",
+        "student_type",
+        "date_of_birth"
+      ]
+    }
+  },
+  {
+    "step": 40,
+    "timestamp": "2025-06-10T12:12:43.625245+00:00",
+    "step_name": "\u274c Test failed: 'list' object has no attribute 'keys'",
+    "data": {
+      "error": "'list' object has no attribute 'keys'",
+      "job_id": "dab4c1a5-dce2-4a77-a290-76168501b445"
+    }
+  }
+]
