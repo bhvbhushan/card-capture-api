@@ -1781,3 +1781,115 @@
   "image_path": "cards-uploads/ec425aba-e372-4f07-95f2-f562cb213f64/2025-06-09/9dd01fb5-1625-4d9d-85dd-0a74f90c8b16.jpg",
   "page": 1
 }
+
+[2025-06-10T02:33:47.309961+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T02:34:19.828162+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T02:34:25.198640+00:00] Received upload request for file: card_10.pdf
+{
+  "size": "405.8KB",
+  "type": "application/pdf",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": null
+}
+
+[2025-06-10T02:34:25.200066+00:00] Entering PDF processing block for file: card_10.pdf
+{
+  "pdf_path": "/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmp8km7bzij.pdf",
+  "original_filename": "card_10.pdf"
+}
+
+[2025-06-10T02:34:25.369732+00:00] split_pdf_to_pngs returned 1 images: ['/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpl44_amix/page_1.png']
+
+[2025-06-10T02:34:25.369891+00:00] Processing page 1: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpl44_amix/page_1.png
+
+[2025-06-10T02:34:25.387955+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpl44_amix/page_1.jpg
+
+[2025-06-10T02:34:25.388137+00:00] Generated page filename: card_10 (Page 1).jpg
+
+[2025-06-10T02:34:25.949486+00:00] Storage upload completed. Storage path: cards-uploads/test-user-id/2025-06-09/540a7abc-4377-4cf8-8b96-db03b9148ad9.jpg
+
+[2025-06-10T02:34:25.949749+00:00] Created job data for page 1
+{
+  "job_data": {
+    "user_id": "test-user-id",
+    "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+    "file_url": "cards-uploads/test-user-id/2025-06-09/540a7abc-4377-4cf8-8b96-db03b9148ad9.jpg",
+    "status": "queued",
+    "event_id": null,
+    "image_path": "cards-uploads/test-user-id/2025-06-09/540a7abc-4377-4cf8-8b96-db03b9148ad9.jpg"
+  },
+  "file_url": "cards-uploads/test-user-id/2025-06-09/540a7abc-4377-4cf8-8b96-db03b9148ad9.jpg",
+  "image_path": "cards-uploads/test-user-id/2025-06-09/540a7abc-4377-4cf8-8b96-db03b9148ad9.jpg"
+}
+
+[2025-06-10T02:34:26.183541+00:00] Error splitting PDF /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmp8km7bzij.pdf: {'code': '22P02', 'details': None, 'hint': None, 'message': 'invalid input syntax for type uuid: "test-user-id"'}
+
+[2025-06-10T02:34:26.190367+00:00] Full traceback:
+Traceback (most recent call last):
+  File "/Users/kregboyd/Applications/card-capture-api/app/services/uploads_service.py", line 260, in handle_pdf_upload
+    result = insert_processing_job_db(supabase_client, job_data)
+  File "/Users/kregboyd/Applications/card-capture-api/app/utils/db_utils.py", line 72, in wrapper
+    result = func(supabase_client, *args, **kwargs)
+  File "/Users/kregboyd/Applications/card-capture-api/app/repositories/uploads_repository.py", line 15, in insert_processing_job_db
+    return supabase_client.table("processing_jobs").insert(job_data).execute()
+  File "/Users/kregboyd/Applications/card-capture-api/venv/lib/python3.9/site-packages/postgrest/_sync/request_builder.py", line 70, in execute
+    raise APIError(r.json())
+postgrest.exceptions.APIError: {'code': '22P02', 'details': None, 'hint': None, 'message': 'invalid input syntax for type uuid: "test-user-id"'}
+
+
+[2025-06-10T02:34:36.201451+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T02:34:39.958943+00:00] Received upload request for file: card_10.pdf
+{
+  "size": "405.8KB",
+  "type": "application/pdf",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": null
+}
+
+[2025-06-10T02:34:39.960257+00:00] Entering PDF processing block for file: card_10.pdf
+{
+  "pdf_path": "/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpa4w6wp6d.pdf",
+  "original_filename": "card_10.pdf"
+}
+
+[2025-06-10T02:34:40.094742+00:00] split_pdf_to_pngs returned 1 images: ['/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpw9_kuu3q/page_1.png']
+
+[2025-06-10T02:34:40.094901+00:00] Processing page 1: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpw9_kuu3q/page_1.png
+
+[2025-06-10T02:34:40.110721+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpw9_kuu3q/page_1.jpg
+
+[2025-06-10T02:34:40.110819+00:00] Generated page filename: card_10 (Page 1).jpg
+
+[2025-06-10T02:34:40.536534+00:00] Storage upload completed. Storage path: cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/ab5b7464-59d5-4e94-899e-17fdda03c274.jpg
+
+[2025-06-10T02:34:40.536784+00:00] Created job data for page 1
+{
+  "job_data": {
+    "user_id": "00000000-0000-0000-0000-000000000000",
+    "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+    "file_url": "cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/ab5b7464-59d5-4e94-899e-17fdda03c274.jpg",
+    "status": "queued",
+    "event_id": null,
+    "image_path": "cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/ab5b7464-59d5-4e94-899e-17fdda03c274.jpg"
+  },
+  "file_url": "cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/ab5b7464-59d5-4e94-899e-17fdda03c274.jpg",
+  "image_path": "cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/ab5b7464-59d5-4e94-899e-17fdda03c274.jpg"
+}
+
+[2025-06-10T02:34:40.812589+00:00] Error splitting PDF /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpa4w6wp6d.pdf: {'code': '23503', 'details': 'Key (user_id)=(00000000-0000-0000-0000-000000000000) is not present in table "users".', 'hint': None, 'message': 'insert or update on table "processing_jobs" violates foreign key constraint "processing_jobs_user_id_fkey"'}
+
+[2025-06-10T02:34:40.817980+00:00] Full traceback:
+Traceback (most recent call last):
+  File "/Users/kregboyd/Applications/card-capture-api/app/services/uploads_service.py", line 260, in handle_pdf_upload
+    result = insert_processing_job_db(supabase_client, job_data)
+  File "/Users/kregboyd/Applications/card-capture-api/app/utils/db_utils.py", line 72, in wrapper
+    result = func(supabase_client, *args, **kwargs)
+  File "/Users/kregboyd/Applications/card-capture-api/app/repositories/uploads_repository.py", line 15, in insert_processing_job_db
+    return supabase_client.table("processing_jobs").insert(job_data).execute()
+  File "/Users/kregboyd/Applications/card-capture-api/venv/lib/python3.9/site-packages/postgrest/_sync/request_builder.py", line 70, in execute
+    raise APIError(r.json())
+postgrest.exceptions.APIError: {'code': '23503', 'details': 'Key (user_id)=(00000000-0000-0000-0000-000000000000) is not present in table "users".', 'hint': None, 'message': 'insert or update on table "processing_jobs" violates foreign key constraint "processing_jobs_user_id_fkey"'}
+
