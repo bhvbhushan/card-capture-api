@@ -1,9 +1,9 @@
 import json
 from datetime import datetime, timezone
-from typing import Dict, Any
+from typing import Dict, Any, List
 from app.core.clients import supabase_client
 from app.utils.retry_utils import log_debug
-from app.utils.field_utils import get_combined_fields_to_exclude
+from app.utils.field_utils import get_combined_fields_to_exclude, generate_field_label, consolidate_field_keys
 
 def get_field_requirements(school_id: str) -> Dict[str, Dict[str, bool]]:
     """
@@ -38,7 +38,7 @@ def get_field_requirements(school_id: str) -> Dict[str, Dict[str, bool]]:
 
 def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dict[str, bool]]) -> Dict[str, Any]:
     """
-    Apply school requirements to field data and add missing required fields
+    Apply school requirements to field data and add missing enabled fields
     
     Args:
         fields: Field data from DocAI processing
@@ -67,19 +67,20 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
             field_data["required"] = False
             log_debug(f"Default settings for {field_name}", service="settings")
     
-    # Add missing required fields
+    # Add missing enabled fields (both required and optional)
     for field_name, field_settings in requirements.items():
-        if field_settings.get("required", False) and field_name not in fields:
-            log_debug(f"Adding missing required field: {field_name}", service="settings")
+        if field_settings.get("enabled", True) and field_name not in fields:
+            is_required = field_settings.get("required", False)
+            log_debug(f"Adding missing {'required' if is_required else 'enabled'} field: {field_name}", service="settings")
             fields[field_name] = {
                 "value": "",
                 "confidence": 0.0,
                 "bounding_box": [],
-                "source": "missing_required",
+                "source": "missing_required" if is_required else "missing_enabled",
                 "enabled": field_settings.get("enabled", True),
-                "required": True,
-                "requires_human_review": True,
-                "review_notes": "Required field not detected by DocAI",
+                "required": is_required,
+                "requires_human_review": is_required,  # Only required fields need review by default
+                "review_notes": "Required field not detected by DocAI" if is_required else "",
                 "review_confidence": 0.0
             }
     
@@ -98,8 +99,16 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
         # Get current school settings as array
         school_query = supabase_client.table("schools").select("card_fields").eq("id", school_id).maybe_single().execute()
         card_fields_array = school_query.data.get("card_fields") or []
+        
+        # 🔥 CONSOLIDATE DUPLICATE FIELDS FIRST
+        original_count = len(card_fields_array)
+        card_fields_array = consolidate_field_keys(card_fields_array)
+        if len(card_fields_array) != original_count:
+            updated = True
+            log_debug(f"Consolidated {original_count} fields into {len(card_fields_array)} fields", service="settings")
+        
         existing_keys = {f["key"] for f in card_fields_array}
-        updated = False
+        updated = updated or False
 
         # Filter detected fields to exclude combined fields
         combined_fields = get_combined_fields_to_exclude()
@@ -116,6 +125,7 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
                 
                 card_fields_array.append({
                     "key": field_name,
+                    "label": generate_field_label(field_name),
                     "enabled": defaults["enabled"],
                     "required": defaults["required"]
                 })
@@ -135,11 +145,33 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
             if field_name not in existing_keys and field_name not in [f["key"] for f in card_fields_array]:
                 card_fields_array.append({
                     "key": field_name,
+                    "label": generate_field_label(field_name),
                     "enabled": field_config["enabled"],
                     "required": field_config["required"]
                 })
                 updated = True
                 log_debug(f"Added essential field {field_name}", field_config, service="settings")
+
+        # Conditionally add mapped_major if school has majors configured
+        majors_query = supabase_client.table("schools").select("majors").eq("id", school_id).maybe_single().execute()
+        school_has_majors = bool(majors_query and majors_query.data and majors_query.data.get("majors"))
+        
+        mapped_major_exists = "mapped_major" in existing_keys or "mapped_major" in [f["key"] for f in card_fields_array]
+        
+        if school_has_majors and not mapped_major_exists:
+            card_fields_array.append({
+                "key": "mapped_major",
+                "label": generate_field_label("mapped_major"),
+                "enabled": True,
+                "required": False
+            })
+            updated = True
+            log_debug("Added mapped_major field since school has majors configured", service="settings")
+        elif not school_has_majors and mapped_major_exists:
+            # Remove mapped_major if school no longer has majors
+            card_fields_array = [f for f in card_fields_array if f["key"] != "mapped_major"]
+            updated = True
+            log_debug("Removed mapped_major field since school has no majors configured", service="settings")
 
         if updated:
             update_payload = {
@@ -221,7 +253,8 @@ def get_essential_fields() -> Dict[str, Dict[str, bool]]:
         'address': {"enabled": True, "required": False},
         'city': {"enabled": True, "required": False},
         'state': {"enabled": True, "required": False},
-        'zip_code': {"enabled": True, "required": False}
+        'zip_code': {"enabled": True, "required": False},
+        'gender': {"enabled": True, "required": False}
     }
 
 def get_canonical_field_list() -> list:
@@ -248,5 +281,6 @@ def get_canonical_field_list() -> list:
         'gpa',
         'student_type',
         'entry_term',
-        'major'
+        'major',
+        'gender'
     ] 
