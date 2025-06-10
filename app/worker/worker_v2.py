@@ -56,22 +56,12 @@ def log_worker_debug(message: str, data: Any = None, verbose: bool = False):
     """Write debug message and optional data to worker_v2_debug.log and stdout for Cloud Run."""
     timestamp = datetime.now(timezone.utc).isoformat()
     log_entry = f"\n[{timestamp}] {message}\n"
-    # Only print data if verbose is True or if it's a small summary
     if data is not None:
-        if verbose:
-            if isinstance(data, (dict, list)):
-                log_entry += json.dumps(data, indent=2)
-            else:
-                log_entry += str(data)
-            log_entry += "\n"
-        else:
-            # For dicts/lists, just print keys or summary
-            if isinstance(data, dict):
-                log_entry += f"Keys: {list(data.keys())}\n"
-            elif isinstance(data, list):
-                log_entry += f"List length: {len(data)}\n"
-            else:
-                log_entry += str(data) + "\n"
+        try:
+            import json
+            log_entry += json.dumps(data, indent=2, default=str) + "\n"
+        except Exception as e:
+            log_entry += f"[Could not serialize data: {e}]\n{str(data)}\n"
     # Write to file
     with open('worker_v2_debug.log', 'a') as f:
         f.write(log_entry)
