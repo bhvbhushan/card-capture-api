@@ -30,9 +30,9 @@ async def test_upload(
     event_id: str = Form(None),
     school_id: str = Form(...)
 ):
-    # Create a test user object with a valid UUID
+    # Create a test user object with the valid user ID
     test_user = {
-        "id": "00000000-0000-0000-0000-000000000000",
+        "id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
         "email": "test@example.com",
         "role": "admin"
     }

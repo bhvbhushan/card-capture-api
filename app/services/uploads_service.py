@@ -23,7 +23,6 @@ import json
 from app.utils.retry_utils import retry_with_exponential_backoff, log_debug
 from datetime import datetime, timezone
 from typing import Dict, Any
-from app.worker.worker_v2 import process_job_v2
 
 # Try to import SFTP utils, but gracefully handle if not available
 try:
@@ -542,58 +541,17 @@ async def export_to_slate_service(payload: dict):
 
 async def notify_worker_with_retry(job_id: str, job_data: dict):
     """
-    Notify worker about new job with retry mechanism
+    Simplified - just calls notify_worker since database trigger handles everything
     """
-    return retry_with_exponential_backoff(
-        func=lambda: notify_worker(job_id, job_data),
-        max_retries=3,
-        operation_name=f"Worker notification for job {job_id}",
-        service="uploads"
-    )
+    return await notify_worker(job_id, job_data)
 
 async def notify_worker(job_id: str, job_data: dict):
     """
-    Direct worker notification (to be retried by notify_worker_with_retry)
+    Database trigger will handle calling the CloudRun worker via edge function.
+    This function just logs that the job was created successfully.
     """
-    
-    # Update job status to processing
-    result = update_processing_job_db(supabase_client, job_id, {
-        "status": "processing", 
-        "updated_at": datetime.now(timezone.utc).isoformat()
-    })
-    if not result.data:
-        raise Exception("Failed to update job status")
-    
-    log_debug(f"Starting worker processing for job {job_id}", {"job_data": job_data}, service="uploads")
-    
-    # Actually call the worker to process the job
-    try:
-        # Fetch the complete job data from database
-        job_result = supabase_client.table("processing_jobs").select("*").eq("id", job_id).maybe_single().execute()
-        if not job_result.data:
-            raise Exception(f"Job {job_id} not found in database")
-        
-        job = job_result.data
-        log_debug(f"Retrieved job data for processing: {job_id}", service="uploads")
-        
-        # Call the worker processing function
-        process_job_v2(job)
-        
-        log_debug(f"Worker processing completed successfully for job {job_id}", service="uploads")
-        return True
-        
-    except Exception as worker_error:
-        log_debug(f"Worker processing failed for job {job_id}: {str(worker_error)}", service="uploads")
-        
-        # Update job status to failed
-        update_processing_job_db(supabase_client, job_id, {
-            "status": "failed",
-            "error_message": str(worker_error),
-            "updated_at": datetime.now(timezone.utc).isoformat()
-        })
-        
-        # Re-raise the error so retry mechanism can handle it
-        raise worker_error
+    log_debug(f"✅ Job {job_id} created - database trigger will call edge function → CloudRun worker", service="uploads")
+    return True
 
 async def notify_processing_complete_service(supabase_client, job_data: Dict[str, Any]):
     """

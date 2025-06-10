@@ -96,6 +96,9 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
     log_debug("Detected fields", detected_fields, service="settings")
 
     try:
+        # Initialize updated flag
+        updated = False
+        
         # Get current school settings as array
         school_query = supabase_client.table("schools").select("card_fields").eq("id", school_id).maybe_single().execute()
         card_fields_array = school_query.data.get("card_fields") or []
@@ -108,7 +111,6 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
             log_debug(f"Consolidated {original_count} fields into {len(card_fields_array)} fields", service="settings")
         
         existing_keys = {f["key"] for f in card_fields_array}
-        updated = updated or False
 
         # Filter detected fields to exclude combined fields
         combined_fields = get_combined_fields_to_exclude()

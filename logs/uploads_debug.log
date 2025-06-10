@@ -1893,3 +1893,291 @@ Traceback (most recent call last):
     raise APIError(r.json())
 postgrest.exceptions.APIError: {'code': '23503', 'details': 'Key (user_id)=(00000000-0000-0000-0000-000000000000) is not present in table "users".', 'hint': None, 'message': 'insert or update on table "processing_jobs" violates foreign key constraint "processing_jobs_user_id_fkey"'}
 
+
+[2025-06-10T03:23:42.395109+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:23:43.711066+00:00] 🚀 NOTIFY_WORKER CALLED - Job ID: bb11d30c-c442-421d-95be-6ef15fa04a47
+
+[2025-06-10T03:24:37.257709+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:24:38.393818+00:00] 🚀 NOTIFY_WORKER CALLED - Job ID: 95d60d7a-aea0-4999-a030-538bbe8eede1
+
+[2025-06-10T03:25:23.095393+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:25:38.115051+00:00] Received upload request for file: card_10.pdf
+{
+  "size": "405.8KB",
+  "type": "application/pdf",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": "test-event-123"
+}
+
+[2025-06-10T03:25:38.116443+00:00] Entering PDF processing block for file: card_10.pdf
+{
+  "pdf_path": "/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpb0imjpkc.pdf",
+  "original_filename": "card_10.pdf"
+}
+
+[2025-06-10T03:25:38.288438+00:00] split_pdf_to_pngs returned 1 images: ['/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpfd1fllmb/page_1.png']
+
+[2025-06-10T03:25:38.288705+00:00] Processing page 1: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpfd1fllmb/page_1.png
+
+[2025-06-10T03:25:38.307118+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpfd1fllmb/page_1.jpg
+
+[2025-06-10T03:25:38.307302+00:00] Generated page filename: card_10 (Page 1).jpg
+
+[2025-06-10T03:25:38.949835+00:00] Storage upload completed. Storage path: cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/69572022-6e9d-4881-9b74-59827d161d3b.jpg
+
+[2025-06-10T03:25:38.950065+00:00] Created job data for page 1
+{
+  "job_data": {
+    "user_id": "00000000-0000-0000-0000-000000000000",
+    "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+    "file_url": "cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/69572022-6e9d-4881-9b74-59827d161d3b.jpg",
+    "status": "queued",
+    "event_id": "test-event-123",
+    "image_path": "cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/69572022-6e9d-4881-9b74-59827d161d3b.jpg"
+  },
+  "file_url": "cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/69572022-6e9d-4881-9b74-59827d161d3b.jpg",
+  "image_path": "cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/69572022-6e9d-4881-9b74-59827d161d3b.jpg"
+}
+
+[2025-06-10T03:25:39.173838+00:00] Error splitting PDF /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpb0imjpkc.pdf: {'code': '22P02', 'details': None, 'hint': None, 'message': 'invalid input syntax for type uuid: "test-event-123"'}
+
+[2025-06-10T03:25:39.180510+00:00] Full traceback:
+Traceback (most recent call last):
+  File "/Users/kregboyd/Applications/card-capture-api/app/services/uploads_service.py", line 260, in handle_pdf_upload
+    result = insert_processing_job_db(supabase_client, job_data)
+  File "/Users/kregboyd/Applications/card-capture-api/app/utils/db_utils.py", line 72, in wrapper
+    result = func(supabase_client, *args, **kwargs)
+  File "/Users/kregboyd/Applications/card-capture-api/app/repositories/uploads_repository.py", line 15, in insert_processing_job_db
+    return supabase_client.table("processing_jobs").insert(job_data).execute()
+  File "/Users/kregboyd/Applications/card-capture-api/venv/lib/python3.9/site-packages/postgrest/_sync/request_builder.py", line 70, in execute
+    raise APIError(r.json())
+postgrest.exceptions.APIError: {'code': '22P02', 'details': None, 'hint': None, 'message': 'invalid input syntax for type uuid: "test-event-123"'}
+
+
+[2025-06-10T03:26:34.328474+00:00] Received upload request for file: card_10.pdf
+{
+  "size": "405.8KB",
+  "type": "application/pdf",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": "9001ed24-a7f4-4687-8f1c-f1d42e20a991"
+}
+
+[2025-06-10T03:26:34.329233+00:00] Entering PDF processing block for file: card_10.pdf
+{
+  "pdf_path": "/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmppekgkitg.pdf",
+  "original_filename": "card_10.pdf"
+}
+
+[2025-06-10T03:26:34.396775+00:00] split_pdf_to_pngs returned 1 images: ['/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpn8niugw_/page_1.png']
+
+[2025-06-10T03:26:34.396935+00:00] Processing page 1: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpn8niugw_/page_1.png
+
+[2025-06-10T03:26:34.406479+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpn8niugw_/page_1.jpg
+
+[2025-06-10T03:26:34.406592+00:00] Generated page filename: card_10 (Page 1).jpg
+
+[2025-06-10T03:26:34.858603+00:00] Storage upload completed. Storage path: cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/50c801b7-a087-4e98-9d28-234f36f28a05.jpg
+
+[2025-06-10T03:26:34.858793+00:00] Created job data for page 1
+{
+  "job_data": {
+    "user_id": "00000000-0000-0000-0000-000000000000",
+    "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+    "file_url": "cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/50c801b7-a087-4e98-9d28-234f36f28a05.jpg",
+    "status": "queued",
+    "event_id": "9001ed24-a7f4-4687-8f1c-f1d42e20a991",
+    "image_path": "cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/50c801b7-a087-4e98-9d28-234f36f28a05.jpg"
+  },
+  "file_url": "cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/50c801b7-a087-4e98-9d28-234f36f28a05.jpg",
+  "image_path": "cards-uploads/00000000-0000-0000-0000-000000000000/2025-06-09/50c801b7-a087-4e98-9d28-234f36f28a05.jpg"
+}
+
+[2025-06-10T03:26:35.043055+00:00] Error splitting PDF /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmppekgkitg.pdf: {'code': '23503', 'details': 'Key (user_id)=(00000000-0000-0000-0000-000000000000) is not present in table "users".', 'hint': None, 'message': 'insert or update on table "processing_jobs" violates foreign key constraint "processing_jobs_user_id_fkey"'}
+
+[2025-06-10T03:26:35.043331+00:00] Full traceback:
+Traceback (most recent call last):
+  File "/Users/kregboyd/Applications/card-capture-api/app/services/uploads_service.py", line 260, in handle_pdf_upload
+    result = insert_processing_job_db(supabase_client, job_data)
+  File "/Users/kregboyd/Applications/card-capture-api/app/utils/db_utils.py", line 72, in wrapper
+    result = func(supabase_client, *args, **kwargs)
+  File "/Users/kregboyd/Applications/card-capture-api/app/repositories/uploads_repository.py", line 15, in insert_processing_job_db
+    return supabase_client.table("processing_jobs").insert(job_data).execute()
+  File "/Users/kregboyd/Applications/card-capture-api/venv/lib/python3.9/site-packages/postgrest/_sync/request_builder.py", line 70, in execute
+    raise APIError(r.json())
+postgrest.exceptions.APIError: {'code': '23503', 'details': 'Key (user_id)=(00000000-0000-0000-0000-000000000000) is not present in table "users".', 'hint': None, 'message': 'insert or update on table "processing_jobs" violates foreign key constraint "processing_jobs_user_id_fkey"'}
+
+
+[2025-06-10T03:26:57.598865+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:27:32.373659+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:27:42.348798+00:00] Received upload request for file: card_10.pdf
+{
+  "size": "405.8KB",
+  "type": "application/pdf",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": "9001ed24-a7f4-4687-8f1c-f1d42e20a991"
+}
+
+[2025-06-10T03:27:42.349563+00:00] Entering PDF processing block for file: card_10.pdf
+{
+  "pdf_path": "/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpb5lxqjf6.pdf",
+  "original_filename": "card_10.pdf"
+}
+
+[2025-06-10T03:27:42.482048+00:00] split_pdf_to_pngs returned 1 images: ['/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmp0addvl2t/page_1.png']
+
+[2025-06-10T03:27:42.482260+00:00] Processing page 1: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmp0addvl2t/page_1.png
+
+[2025-06-10T03:27:42.498197+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmp0addvl2t/page_1.jpg
+
+[2025-06-10T03:27:42.498413+00:00] Generated page filename: card_10 (Page 1).jpg
+
+[2025-06-10T03:27:43.070909+00:00] Storage upload completed. Storage path: cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/1eeaee38-c7ec-4e2c-a382-6120e53d740c.jpg
+
+[2025-06-10T03:27:43.071112+00:00] Created job data for page 1
+{
+  "job_data": {
+    "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+    "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+    "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/1eeaee38-c7ec-4e2c-a382-6120e53d740c.jpg",
+    "status": "queued",
+    "event_id": "9001ed24-a7f4-4687-8f1c-f1d42e20a991",
+    "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/1eeaee38-c7ec-4e2c-a382-6120e53d740c.jpg"
+  },
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/1eeaee38-c7ec-4e2c-a382-6120e53d740c.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/1eeaee38-c7ec-4e2c-a382-6120e53d740c.jpg"
+}
+
+[2025-06-10T03:27:43.274776+00:00] Successfully created job 2d8622a8-43d2-404d-8fad-29b095bc7c3c for page 1 with paths
+{
+  "job_id": "2d8622a8-43d2-404d-8fad-29b095bc7c3c",
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/1eeaee38-c7ec-4e2c-a382-6120e53d740c.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/1eeaee38-c7ec-4e2c-a382-6120e53d740c.jpg",
+  "page": 1
+}
+
+[2025-06-10T03:27:43.275459+00:00] 🔄 NOTIFY_WORKER_WITH_RETRY CALLED - Job ID: 2d8622a8-43d2-404d-8fad-29b095bc7c3c
+
+[2025-06-10T03:27:43.275683+00:00] ✅ RETRY MECHANISM SUCCEEDED for job 2d8622a8-43d2-404d-8fad-29b095bc7c3c
+
+[2025-06-10T03:33:08.579544+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:33:26.102580+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:33:45.280158+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:39:55.497076+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:40:03.822036+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:40:13.642000+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:40:25.916970+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:41:00.720449+00:00] Received upload request for file: card_10.pdf
+{
+  "size": "405.8KB",
+  "type": "application/pdf",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": "9001ed24-a7f4-4687-8f1c-f1d42e20a991"
+}
+
+[2025-06-10T03:41:00.721359+00:00] Entering PDF processing block for file: card_10.pdf
+{
+  "pdf_path": "/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpm33h8l_9.pdf",
+  "original_filename": "card_10.pdf"
+}
+
+[2025-06-10T03:41:00.860924+00:00] split_pdf_to_pngs returned 1 images: ['/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmps1d4aqfr/page_1.png']
+
+[2025-06-10T03:41:00.861083+00:00] Processing page 1: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmps1d4aqfr/page_1.png
+
+[2025-06-10T03:41:00.878047+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmps1d4aqfr/page_1.jpg
+
+[2025-06-10T03:41:00.878168+00:00] Generated page filename: card_10 (Page 1).jpg
+
+[2025-06-10T03:41:02.055355+00:00] Storage upload completed. Storage path: cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/de5fd0f8-4f66-4a55-a813-de7bd9753f1d.jpg
+
+[2025-06-10T03:41:02.055555+00:00] Created job data for page 1
+{
+  "job_data": {
+    "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+    "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+    "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/de5fd0f8-4f66-4a55-a813-de7bd9753f1d.jpg",
+    "status": "queued",
+    "event_id": "9001ed24-a7f4-4687-8f1c-f1d42e20a991",
+    "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/de5fd0f8-4f66-4a55-a813-de7bd9753f1d.jpg"
+  },
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/de5fd0f8-4f66-4a55-a813-de7bd9753f1d.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/de5fd0f8-4f66-4a55-a813-de7bd9753f1d.jpg"
+}
+
+[2025-06-10T03:41:02.301334+00:00] Successfully created job 4f999f2e-c408-4e4e-bc6d-44d5cc7061c7 for page 1 with paths
+{
+  "job_id": "4f999f2e-c408-4e4e-bc6d-44d5cc7061c7",
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/de5fd0f8-4f66-4a55-a813-de7bd9753f1d.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/de5fd0f8-4f66-4a55-a813-de7bd9753f1d.jpg",
+  "page": 1
+}
+
+[2025-06-10T03:41:02.301814+00:00] ✅ Job 4f999f2e-c408-4e4e-bc6d-44d5cc7061c7 created - database trigger will call edge function → CloudRun worker
+
+[2025-06-10T03:42:30.941410+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:43:35.258274+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:44:26.215061+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T03:44:40.918754+00:00] Received upload request for file: card_10.pdf
+{
+  "size": "405.8KB",
+  "type": "application/pdf",
+  "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+  "event_id": "9001ed24-a7f4-4687-8f1c-f1d42e20a991"
+}
+
+[2025-06-10T03:44:40.920037+00:00] Entering PDF processing block for file: card_10.pdf
+{
+  "pdf_path": "/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmppy9595sc.pdf",
+  "original_filename": "card_10.pdf"
+}
+
+[2025-06-10T03:44:41.075231+00:00] split_pdf_to_pngs returned 1 images: ['/var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpnm6eini0/page_1.png']
+
+[2025-06-10T03:44:41.075415+00:00] Processing page 1: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpnm6eini0/page_1.png
+
+[2025-06-10T03:44:41.094158+00:00] Converted PNG to JPG: /var/folders/g_/nxdklr5n5dj5pp3plhrk4h2w0000gn/T/tmpnm6eini0/page_1.jpg
+
+[2025-06-10T03:44:41.094317+00:00] Generated page filename: card_10 (Page 1).jpg
+
+[2025-06-10T03:44:41.703753+00:00] Storage upload completed. Storage path: cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/149e5471-1fae-4594-b285-61858cfdfe68.jpg
+
+[2025-06-10T03:44:41.704039+00:00] Created job data for page 1
+{
+  "job_data": {
+    "user_id": "f8714b88-f5c7-404c-b4fa-2304e014a44b",
+    "school_id": "65671380-785c-4f2b-9454-6e03e1ef2f21",
+    "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/149e5471-1fae-4594-b285-61858cfdfe68.jpg",
+    "status": "queued",
+    "event_id": "9001ed24-a7f4-4687-8f1c-f1d42e20a991",
+    "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/149e5471-1fae-4594-b285-61858cfdfe68.jpg"
+  },
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/149e5471-1fae-4594-b285-61858cfdfe68.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/149e5471-1fae-4594-b285-61858cfdfe68.jpg"
+}
+
+[2025-06-10T03:44:41.961580+00:00] Successfully created job 338fad30-2322-438c-b086-e377bfc00e66 for page 1 with paths
+{
+  "job_id": "338fad30-2322-438c-b086-e377bfc00e66",
+  "file_url": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/149e5471-1fae-4594-b285-61858cfdfe68.jpg",
+  "image_path": "cards-uploads/f8714b88-f5c7-404c-b4fa-2304e014a44b/2025-06-09/149e5471-1fae-4594-b285-61858cfdfe68.jpg",
+  "page": 1
+}
+
+[2025-06-10T03:44:41.961974+00:00] ✅ Job 338fad30-2322-438c-b086-e377bfc00e66 created - database trigger will call edge function → CloudRun worker
+
+[2025-06-10T03:47:43.969460+00:00] SFTP functionality loaded successfully
