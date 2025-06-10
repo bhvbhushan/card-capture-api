@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from typing import Dict, Any, List
 from app.core.clients import supabase_client
 from app.utils.retry_utils import log_debug
-from app.utils.field_utils import get_combined_fields_to_exclude, generate_field_label
+from app.utils.field_utils import get_combined_fields_to_exclude, generate_field_label, consolidate_field_keys
 
 def get_field_requirements(school_id: str) -> Dict[str, Dict[str, bool]]:
     """
@@ -99,8 +99,16 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
         # Get current school settings as array
         school_query = supabase_client.table("schools").select("card_fields").eq("id", school_id).maybe_single().execute()
         card_fields_array = school_query.data.get("card_fields") or []
+        
+        # 🔥 CONSOLIDATE DUPLICATE FIELDS FIRST
+        original_count = len(card_fields_array)
+        card_fields_array = consolidate_field_keys(card_fields_array)
+        if len(card_fields_array) != original_count:
+            updated = True
+            log_debug(f"Consolidated {original_count} fields into {len(card_fields_array)} fields", service="settings")
+        
         existing_keys = {f["key"] for f in card_fields_array}
-        updated = False
+        updated = updated or False
 
         # Filter detected fields to exclude combined fields
         combined_fields = get_combined_fields_to_exclude()

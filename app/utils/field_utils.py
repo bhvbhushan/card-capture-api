@@ -102,4 +102,140 @@ def validate_field_key(field_key: str) -> bool:
     
     # Field keys should be lowercase, alphanumeric, with underscores
     import re
-    return bool(re.match(r'^[a-z][a-z0-9_]*$', field_key)) 
+    return bool(re.match(r'^[a-z][a-z0-9_]*$', field_key))
+
+
+def get_field_consolidation_mapping() -> dict:
+    """
+    Get mapping of legacy/variant field names to canonical field names
+    This helps consolidate duplicate fields with different names
+    
+    Returns:
+        Dictionary mapping old field names to canonical field names
+    """
+    return {
+        # Date of birth variations
+        'birthdate': 'date_of_birth',
+        'dob': 'date_of_birth',
+        'birth_date': 'date_of_birth',
+        'birthday': 'date_of_birth',
+        
+        # Phone number variations  
+        'cell_phone': 'cell',
+        'phone': 'cell',
+        'phone_number': 'cell',
+        'mobile': 'cell',
+        'mobile_phone': 'cell',
+        'cellphone': 'cell',
+        
+        # Email variations
+        'email_address': 'email',
+        'e_mail': 'email',
+        'emailaddress': 'email',
+        
+        # Address variations
+        'street_address': 'address',
+        'home_address': 'address',
+        'mailing_address': 'address',
+        
+        # Name variations
+        'student_name': 'name',
+        'full_name': 'name',
+        'fullname': 'name',
+        
+        # Major variations
+        'program': 'major',
+        'degree': 'major',
+        'field_of_study': 'major',
+        'major_program': 'major',
+        
+        # High school variations
+        'highschool': 'high_school',
+        'high_school_name': 'high_school',
+        'previous_school': 'high_school',
+        
+        # Entry term variations
+        'entryterm': 'entry_term',
+        'entry_semester': 'entry_term',
+        'start_term': 'entry_term',
+        
+        # Student type variations
+        'studenttype': 'student_type',
+        'student_category': 'student_type',
+        'enrollment_type': 'student_type'
+    }
+
+
+def consolidate_field_keys(fields: list) -> list:
+    """
+    Consolidate duplicate fields that represent the same logical field
+    
+    Args:
+        fields: List of field configurations with 'key', 'enabled', 'required', etc.
+        
+    Returns:
+        Consolidated list with duplicate fields merged
+    """
+    from app.utils.retry_utils import log_debug
+    
+    consolidation_map = get_field_consolidation_mapping()
+    canonical_fields = {}
+    
+    log_debug("Starting field consolidation", {
+        "input_fields": [f.get('key') for f in fields],
+        "consolidation_rules": len(consolidation_map)
+    }, service="field_consolidation")
+    
+    for field in fields:
+        if not isinstance(field, dict) or 'key' not in field:
+            continue
+            
+        field_key = field.get('key', '')
+        if not field_key:
+            continue
+        
+        # Get canonical field name
+        canonical_key = consolidation_map.get(field_key, field_key)
+        
+        if canonical_key in canonical_fields:
+            # Merge with existing canonical field
+            existing = canonical_fields[canonical_key]
+            
+            # Keep enabled if either is enabled
+            existing['enabled'] = existing.get('enabled', False) or field.get('enabled', False)
+            
+            # Keep required if either is required  
+            existing['required'] = existing.get('required', False) or field.get('required', False)
+            
+            # Keep the better label if available
+            if field.get('label') and not existing.get('label'):
+                existing['label'] = field['label']
+                
+            log_debug(f"Merged duplicate field {field_key} into {canonical_key}", {
+                "original_key": field_key,
+                "canonical_key": canonical_key,
+                "enabled": existing['enabled'],
+                "required": existing['required']
+            }, service="field_consolidation")
+            
+        else:
+            # Add as new canonical field
+            canonical_fields[canonical_key] = {
+                'key': canonical_key,
+                'label': field.get('label') or generate_field_label(canonical_key),
+                'enabled': field.get('enabled', True),
+                'required': field.get('required', False)
+            }
+            
+            if field_key != canonical_key:
+                log_debug(f"Normalized field {field_key} to {canonical_key}", service="field_consolidation")
+    
+    result = list(canonical_fields.values())
+    
+    log_debug("Field consolidation complete", {
+        "input_count": len(fields),
+        "output_count": len(result),
+        "consolidated_fields": [f['key'] for f in result]
+    }, service="field_consolidation")
+    
+    return result 
