@@ -2181,3 +2181,5 @@ postgrest.exceptions.APIError: {'code': '23503', 'details': 'Key (user_id)=(0000
 [2025-06-10T03:44:41.961974+00:00] ✅ Job 338fad30-2322-438c-b086-e377bfc00e66 created - database trigger will call edge function → CloudRun worker
 
 [2025-06-10T03:47:43.969460+00:00] SFTP functionality loaded successfully
+
+[2025-06-10T04:07:36.723608+00:00] SFTP functionality loaded successfully

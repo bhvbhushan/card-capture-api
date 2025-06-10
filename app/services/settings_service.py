@@ -110,17 +110,29 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
             updated = True
             log_debug(f"Consolidated {original_count} fields into {len(card_fields_array)} fields", service="settings")
         
+        # Rebuild existing_keys after consolidation
         existing_keys = {f["key"] for f in card_fields_array}
 
         # Filter detected fields to exclude combined fields
         combined_fields = get_combined_fields_to_exclude()
         filtered_detected_fields = [f for f in detected_fields if f not in combined_fields]
 
+        # 🔥 CONSOLIDATE DETECTED FIELDS to avoid adding duplicates
+        from app.utils.field_utils import get_field_consolidation_mapping
+        consolidation_map = get_field_consolidation_mapping()
+        canonical_detected_fields = []
+        for field_name in filtered_detected_fields:
+            canonical_name = consolidation_map.get(field_name, field_name)
+            if canonical_name not in canonical_detected_fields:
+                canonical_detected_fields.append(canonical_name)
+        
+        log_debug(f"Consolidated detected fields: {filtered_detected_fields} → {canonical_detected_fields}", service="settings")
+
         # Define intelligent defaults based on field types
         field_defaults = get_intelligent_field_defaults()
 
-        # Add any new fields at the end (excluding combined fields)
-        for field_name in filtered_detected_fields:
+        # Add any new canonical fields at the end (excluding combined fields)
+        for field_name in canonical_detected_fields:
             if field_name not in existing_keys:
                 # Get intelligent defaults for this field
                 defaults = field_defaults.get(field_name, {"enabled": True, "required": False})
