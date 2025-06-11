@@ -403,7 +403,8 @@ async def export_to_slate_service(payload: dict):
                     {"key": "city", "enabled": True, "required": False},
                     {"key": "state", "enabled": True, "required": False},
                     {"key": "zip_code", "enabled": True, "required": False},
-                    {"key": "major", "enabled": True, "required": False}
+                    {"key": "major", "enabled": True, "required": False},
+                    {"key": "mapped_major", "enabled": True, "required": False}
                 ]
                 
         except Exception as e:
@@ -453,7 +454,21 @@ async def export_to_slate_service(payload: dict):
             # Prepare row data for CSV using dynamic headers
             csv_row = {}
             for header in headers:
-                csv_row[header] = row.get(header, "")
+                # Check if this is a field that should come from the nested fields object
+                if header in ["event_name", "date_created", "document_id"]:
+                    # These are top-level fields
+                    csv_row[header] = row.get(header, "")
+                else:
+                    # These are card fields - extract from nested fields object
+                    fields_data = row.get("fields", {})
+                    if isinstance(fields_data, dict):
+                        field_data = fields_data.get(header, {})
+                        if isinstance(field_data, dict):
+                            csv_row[header] = field_data.get("value", "")
+                        else:
+                            csv_row[header] = str(field_data) if field_data else ""
+                    else:
+                        csv_row[header] = ""
             
             writer.writerow(csv_row)
         

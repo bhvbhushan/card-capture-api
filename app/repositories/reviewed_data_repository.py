@@ -21,7 +21,7 @@ def upsert_reviewed_data(supabase_client, data):
         print(f"  - required: {field_data.get('required')}")
     
     try:
-        result = supabase_client.table("reviewed_data").upsert(data).execute()
+        result = supabase_client.table("reviewed_data").upsert(data, on_conflict="document_id").execute()
         print(f"[REVIEWED DATA DEBUG] === UPSERT OPERATION COMPLETE ===")
         return result
     except Exception as e:

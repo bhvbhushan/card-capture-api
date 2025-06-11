@@ -101,7 +101,7 @@ def update_job_status_with_review(
     
     # Then upsert review data 
     print(f"[DATABASE DEBUG] About to upsert reviewed_data...")
-    review_response = supabase_client.table("reviewed_data").upsert(review_data).execute()
+    review_response = supabase_client.table("reviewed_data").upsert(review_data, on_conflict="document_id").execute()
     
     print(f"[DATABASE DEBUG] Database operations completed successfully")
     return {

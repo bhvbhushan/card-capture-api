@@ -176,18 +176,7 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
             updated = True
             log_debug(f"Removed {original_length - len(card_fields_array)} combined fields from school settings", service="settings")
 
-        # Ensure essential fields are present with proper defaults
-        essential_fields = get_essential_fields()
-        for field_name, field_config in essential_fields.items():
-            if field_name not in existing_keys and field_name not in [f["key"] for f in card_fields_array]:
-                card_fields_array.append({
-                    "key": field_name,
-                    "label": generate_field_label(field_name),
-                    "enabled": field_config["enabled"],
-                    "required": field_config["required"]
-                })
-                updated = True
-                log_debug(f"Added essential field {field_name}", field_config, service="settings")
+
 
         # Conditionally add mapped_major if school has majors configured
         majors_query = supabase_client.table("schools").select("majors").eq("id", school_id).maybe_single().execute()
@@ -276,23 +265,7 @@ def get_intelligent_field_defaults() -> Dict[str, Dict[str, bool]]:
         'default': {"enabled": True, "required": False}
     }
 
-def get_essential_fields() -> Dict[str, Dict[str, bool]]:
-    """
-    Get essential fields that should always be present in school configurations
-    
-    Returns:
-        Dictionary of essential fields with their settings
-    """
-    return {
-        'name': {"enabled": True, "required": True},
-        'email': {"enabled": True, "required": False},
-        'cell': {"enabled": True, "required": False},
-        'address': {"enabled": True, "required": False},
-        'city': {"enabled": True, "required": False},
-        'state': {"enabled": True, "required": False},
-        'zip_code': {"enabled": True, "required": False},
-        'gender': {"enabled": True, "required": False}
-    }
+
 
 # get_canonical_field_list function removed - DocAI determines field names now
 
