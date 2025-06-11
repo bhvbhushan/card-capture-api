@@ -2,14 +2,7 @@ import json
 from datetime import datetime, timezone
 from typing import Dict, Any, Tuple, List
 from app.utils.retry_utils import log_debug
-
-# Add at the top of the file
-CANONICAL_FIELD_MAP = {
-    "birthdate": "date_of_birth",
-    "cell_phone": "cell",
-    "city_state_zip": "city_state",
-    # Add more mappings as needed
-}
+from app.utils.field_utils import get_field_consolidation_mapping
 
 def determine_review_status(fields: Dict[str, Any]) -> Tuple[str, List[str]]:
     """
@@ -90,18 +83,21 @@ def determine_review_status(fields: Dict[str, Any]) -> Tuple[str, List[str]]:
 
 def canonicalize_fields(fields: dict) -> dict:
     """
-    Map alternate field names to canonical field names.
+    Map alternate field names to canonical field names using the comprehensive mapping.
     """
     log_debug("=== CANONICALIZING FIELDS ===", service="review")
     log_debug("Original field names", list(fields.keys()), service="review")
     
+    # Use the comprehensive field consolidation mapping
+    field_consolidation_map = get_field_consolidation_mapping()
+    
     # 🔍 TRACK CRITICAL FIELDS: Check if they're being transformed
-    critical_fields = ["cell", "date_of_birth", "cell_phone", "birthday", "birthdate"]
+    critical_fields = ["cell", "date_of_birth", "cell_phone", "birthday", "birthdate", "phone", "phone_number"]
     critical_mapping_info = {}
     
     new_fields = {}
     for key, value in fields.items():
-        canonical_key = CANONICAL_FIELD_MAP.get(key, key)
+        canonical_key = field_consolidation_map.get(key, key)
         new_fields[canonical_key] = value
         
         # Track critical field transformations
