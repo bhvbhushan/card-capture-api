@@ -128,28 +128,13 @@ def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
     log_debug("=== VALIDATING FIELD DATA ===", service="review")
     
     # 🔍 TRACK CRITICAL FIELDS: Log before validation
-    critical_fields = ["cell", "date_of_birth"]
+    critical_fields = ["cell", "date_of_birth", "birthdate", "cell_phone"]  # Track both original and canonical
     log_debug("🔍 CRITICAL FIELDS BEFORE VALIDATION", {
         field_name: {
             "value": fields.get(field_name, {}).get("value") if isinstance(fields.get(field_name), dict) else fields.get(field_name),
             "exists": field_name in fields,
             "type": str(type(fields.get(field_name))),
             "is_dict": isinstance(fields.get(field_name), dict)
-        }
-        for field_name in critical_fields
-    }, service="review")
-    
-    # Canonicalize field keys before validation
-    fields_before_canon = fields.copy()
-    fields = canonicalize_fields(fields)
-    
-    # 🔍 TRACK CRITICAL FIELDS: Log after canonicalization
-    log_debug("🔍 CRITICAL FIELDS AFTER CANONICALIZATION", {
-        field_name: {
-            "value": fields.get(field_name, {}).get("value") if isinstance(fields.get(field_name), dict) else fields.get(field_name),
-            "exists": field_name in fields,
-            "was_in_original": field_name in fields_before_canon,
-            "type": str(type(fields.get(field_name)))
         }
         for field_name in critical_fields
     }, service="review")
@@ -172,8 +157,8 @@ def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
                 if field_name in critical_fields:
                     log_debug(f"🔍 CRITICAL FIELD {field_name} CLEANED N/A: '{original_value}' -> ''", service="review")
                 
-            # Validate phone format
-            elif field_name == "cell" and field_value:
+            # Validate phone format (now handles both cell and cell_phone)
+            elif field_name in ["cell", "cell_phone"] and field_value:
                 cleaned_phone = _validate_phone_format(field_value)
                 if cleaned_phone != field_value:
                     field_data["value"] = cleaned_phone
@@ -182,8 +167,8 @@ def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
                 # 🔍 TRACK CRITICAL FIELDS: Log phone validation
                 log_debug(f"🔍 CRITICAL FIELD {field_name} PHONE VALIDATION: '{original_value}' -> '{field_data.get('value')}'", service="review")
                     
-            # Validate date format
-            elif field_name == "date_of_birth" and field_value:
+            # Validate date format (now handles both date_of_birth and birthdate) 
+            elif field_name in ["date_of_birth", "birthdate"] and field_value:
                 cleaned_date = _validate_date_format(field_value)
                 if cleaned_date != field_value:
                     field_data["value"] = cleaned_date
@@ -203,7 +188,7 @@ def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
         for field_name in critical_fields
     }, service="review")
     
-    log_debug("Field validation complete", service="review")
+    log_debug("Field validation complete (canonicalization REMOVED)", service="review")
     return fields
 
 def _validate_phone_format(phone: str) -> str:
