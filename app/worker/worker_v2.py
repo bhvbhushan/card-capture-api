@@ -13,7 +13,7 @@ import uvicorn
 
 # Import new services
 from app.services.docai_service import process_image_with_docai
-from app.services.settings_service import get_field_requirements, apply_field_requirements, sync_field_requirements
+from app.services.settings_service import get_field_requirements, apply_field_requirements, sync_field_requirements, sync_field_types_and_options
 from app.services.review_service import determine_review_status, validate_field_data
 from app.services.address_service import validate_and_enhance_address
 from app.services.gemini_service import process_card_with_gemini_v2
@@ -267,6 +267,15 @@ def process_job_v2(job: Dict[str, Any]) -> None:
                 valid_majors
             )
             log_worker_debug("Gemini Output", gemini_fields, verbose=True)
+            
+            # Sync field types and options detected by Gemini
+            log_worker_debug("=== STEP 8.1: SYNC FIELD TYPES AND OPTIONS ===")
+            try:
+                sync_field_types_and_options(school_id, gemini_fields)
+                log_worker_debug("Field types and options synced successfully")
+            except Exception as sync_error:
+                log_worker_debug(f"Warning: Failed to sync field types: {str(sync_error)}")
+                # Don't fail the whole job for this, just log and continue
             
         except Exception as gemini_error:
             log_worker_debug(f"⚠️ Gemini processing failed: {str(gemini_error)}")

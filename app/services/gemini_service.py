@@ -256,6 +256,8 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
                 "text_clarity": quality_info.get("text_clarity", "unclear"),
                 "certainty": quality_info.get("certainty", "uncertain"),
                 "notes": quality_info.get("notes", ""),
+                "field_type": quality_info.get("field_type", "text"),
+                "detected_options": quality_info.get("detected_options", []),
                 "review_confidence": calculate_confidence_from_quality(quality_info),
                 "requires_human_review": False,
                 "review_notes": ""

@@ -163,4 +163,94 @@ def get_canonical_field_list() -> list:
         'student_type',
         'entry_term',
         'major'
-    ] 
+    ]
+
+def sync_field_types_and_options(school_id: str, detected_field_info: Dict[str, Dict[str, Any]]) -> Dict[str, Dict[str, bool]]:
+    """
+    Sync detected field types and options with school settings
+    
+    Args:
+        school_id: School ID
+        detected_field_info: Field information from Gemini with field_type and detected_options
+        
+    Returns:
+        Updated field requirements dict
+    """
+    log_debug("=== SYNCING FIELD TYPES AND OPTIONS ===", service="settings")
+    log_debug(f"School ID: {school_id}", service="settings")
+    log_debug("Detected field info", {
+        field_name: {
+            "field_type": info.get("field_type", "text"),
+            "options_count": len(info.get("detected_options", []))
+        }
+        for field_name, info in detected_field_info.items()
+    }, service="settings")
+
+    try:
+        # Get current school settings as array
+        school_query = supabase_client.table("schools").select("card_fields").eq("id", school_id).maybe_single().execute()
+        card_fields_array = school_query.data.get("card_fields") or []
+        
+        updated = False
+        
+        # Update existing fields with type information and options
+        for field_config in card_fields_array:
+            field_key = field_config["key"]
+            if field_key in detected_field_info:
+                field_info = detected_field_info[field_key]
+                
+                # Update field type if not already set
+                detected_type = field_info.get("field_type", "text")
+                if not field_config.get("field_type") and detected_type != "text":
+                    field_config["field_type"] = detected_type
+                    updated = True
+                    log_debug(f"Updated field type for {field_key}: {detected_type}", service="settings")
+                
+                # Update options for select fields
+                detected_options = field_info.get("detected_options", [])
+                if detected_type in ["select", "checkbox"] and detected_options:
+                    current_options = field_config.get("options", [])
+                    # Merge new options with existing ones (preserve user customizations)
+                    merged_options = list(set(current_options + detected_options))
+                    if merged_options != current_options:
+                        field_config["options"] = sorted(merged_options)  # Sort for consistency
+                        updated = True
+                        log_debug(f"Updated options for {field_key}: {merged_options}", service="settings")
+        
+        # Add any new fields with their type information
+        existing_keys = {f["key"] for f in card_fields_array}
+        combined_fields = get_combined_fields_to_exclude()
+        
+        for field_name, field_info in detected_field_info.items():
+            if field_name not in existing_keys and field_name not in combined_fields:
+                new_field = {
+                    "key": field_name,
+                    "enabled": True,
+                    "required": False,
+                    "field_type": field_info.get("field_type", "text"),
+                }
+                
+                # Add options for select/checkbox fields
+                detected_options = field_info.get("detected_options", [])
+                if detected_options and field_info.get("field_type") in ["select", "checkbox"]:
+                    new_field["options"] = sorted(detected_options)
+                
+                card_fields_array.append(new_field)
+                updated = True
+                log_debug(f"Added new field {field_name} with type {new_field['field_type']}", service="settings")
+        
+        # Save if updated
+        if updated:
+            update_payload = {
+                "id": school_id,
+                "card_fields": card_fields_array
+            }
+            supabase_client.table("schools").update(update_payload).eq("id", school_id).execute()
+            log_debug("Updated school card_fields with type information", service="settings")
+        
+        # Return as dict for internal use
+        return {f["key"]: {"enabled": f.get("enabled", True), "required": f.get("required", False)} for f in card_fields_array}
+        
+    except Exception as e:
+        log_debug(f"ERROR syncing field types and options: {str(e)}", service="settings")
+        return {} 
