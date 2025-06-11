@@ -87,6 +87,20 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
             field_data["enabled"] = field_settings.get("enabled", True)
             field_data["required"] = field_settings.get("required", False)
             
+            # Smart review logic for mapped_major: only flag for review if required AND no value
+            if field_name == "mapped_major" and field_settings.get("required", False):
+                current_value = (field_data.get("value") or "").strip()
+                if current_value:
+                    # Gemini successfully mapped a major - no review needed
+                    field_data["requires_human_review"] = False
+                    field_data["review_notes"] = ""
+                    log_debug(f"mapped_major has value '{current_value}' - no review needed even though required", service="settings")
+                else:
+                    # Gemini couldn't map a major - needs review since it's required
+                    field_data["requires_human_review"] = True
+                    field_data["review_notes"] = "Required field: Gemini unable to map major from card"
+                    log_debug(f"mapped_major is empty but required - flagging for review", service="settings")
+            
             # Log if we're about to overwrite existing field values (this should not happen)
             if original_value and field_data.get("value", "") != original_value:
                 log_debug(f"WARNING: Field value changed during requirements application", {
@@ -110,6 +124,17 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
     for field_name, field_settings in requirements.items():
         if field_settings.get("enabled", True) and field_name not in fields:
             is_required = field_settings.get("required", False)
+            
+            # Smart review logic for mapped_major: only flag for review if required AND no value
+            needs_review = is_required
+            review_notes = "Required field not detected by DocAI" if is_required else ""
+            
+            if field_name == "mapped_major" and is_required:
+                # mapped_major only needs review if Gemini couldn't determine a mapping
+                # Since this is a missing field, it definitely needs review
+                needs_review = True
+                review_notes = "Required field: Gemini unable to map major from card"
+            
             log_debug(f"Adding missing {'required' if is_required else 'enabled'} field: {field_name}", service="settings")
             fields[field_name] = {
                 "value": "",
@@ -118,8 +143,8 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
                 "source": "missing_required" if is_required else "missing_enabled",
                 "enabled": field_settings.get("enabled", True),
                 "required": is_required,
-                "requires_human_review": is_required,  # Only required fields need review by default
-                "review_notes": "Required field not detected by DocAI" if is_required else "",
+                "requires_human_review": needs_review,
+                "review_notes": review_notes,
                 "review_confidence": 0.0
             }
     
@@ -151,23 +176,18 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
         
         log_debug(f"Detected fields (after filtering combined): {filtered_detected_fields}", service="settings")
 
-        # Define intelligent defaults based on field types
-        field_defaults = get_intelligent_field_defaults()
-
         # Add any new detected fields at the end (excluding combined fields)
+        # Use simple defaults for all DocAI-detected fields
         for field_name in filtered_detected_fields:
             if field_name not in existing_keys:
-                # Get intelligent defaults for this field
-                defaults = field_defaults.get(field_name, {"enabled": True, "required": False})
-                
                 card_fields_array.append({
                     "key": field_name,
                     "label": generate_field_label(field_name),
-                    "enabled": defaults["enabled"],
-                    "required": defaults["required"]
+                    "enabled": True,  # All detected fields enabled by default
+                    "required": False  # No fields required by default - let schools decide
                 })
                 updated = True
-                log_debug(f"Added new field {field_name} with intelligent defaults", defaults, service="settings")
+                log_debug(f"Added new DocAI-detected field {field_name} with default settings", service="settings")
 
         # Remove any combined fields from existing settings
         original_length = len(card_fields_array)
@@ -219,51 +239,7 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
         log_debug("Full sync error traceback:", traceback.format_exc(), service="settings")
         return {}
 
-def get_intelligent_field_defaults() -> Dict[str, Dict[str, bool]]:
-    """
-    Get intelligent defaults for field types based on importance and common usage patterns
-    
-    Returns:
-        Dictionary mapping field names to their default enabled/required settings
-    """
-    return {
-        # Core identity fields - typically required
-        'name': {"enabled": True, "required": True},
-        'email': {"enabled": True, "required": True},
-        
-        # Contact fields - important but not always required
-        'cell': {"enabled": True, "required": False},
-        'phone': {"enabled": True, "required": False},
-        'preferred_first_name': {"enabled": True, "required": False},
-        
-        # Address fields - important for most schools
-        'address': {"enabled": True, "required": False},
-        'city': {"enabled": True, "required": False},
-        'state': {"enabled": True, "required": False},
-        'zip_code': {"enabled": True, "required": False},
-        
-        # Personal information - commonly used
-        'date_of_birth': {"enabled": True, "required": False},
-        'birthdate': {"enabled": True, "required": False},
-        'dob': {"enabled": True, "required": False},
-        'gender': {"enabled": True, "required": False},
-        
-        # Academic fields - depends on institution type
-        'high_school': {"enabled": True, "required": False},
-        'gpa': {"enabled": True, "required": False},
-        'class_rank': {"enabled": True, "required": False},
-        'students_in_class': {"enabled": True, "required": False},
-        'major': {"enabled": True, "required": False},
-        'student_type': {"enabled": True, "required": False},
-        'entry_term': {"enabled": True, "required": False},
-        'entry_year': {"enabled": True, "required": False},
-        
-        # Permission/consent fields
-        'permission_to_text': {"enabled": True, "required": False},
-        
-        # Default for unknown fields
-        'default': {"enabled": True, "required": False}
-    }
+
 
 
 

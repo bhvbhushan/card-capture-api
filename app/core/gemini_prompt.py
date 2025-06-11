@@ -68,8 +68,8 @@ For every field in the input, return this exact structure:
 **Checkboxes / Select Fields** – CRITICAL: Always examine the image for checkbox groups or multiple choice options.
 - For permission_to_text: Look for Yes/No checkboxes. Field type: "select", detected_options: ["Yes", "No"]
 - For student_type: Look for Freshman/Sophomore/Junior/Senior checkboxes. Field type: "select", detected_options: ["Freshman", "Sophomore", "Junior", "Senior", "Graduate", "Transfer"]
-- For gender: Look for Male/Female/Other checkboxes. Field type: "select", detected_options: ["Male", "Female", "Other", "Prefer not to say"]
 - For any field with visible checkbox options on the form, set field_type: "select" and list all visible options in detected_options
+- Common checkbox patterns to detect: gender (Male/Female/Other), program type, enrollment status, demographic categories, yes/no questions
 - Notes: "Checkbox clearly marked [option]" or "Multiple choice field with X options detected"
 
 **Major Field** – CRITICAL: Never change the `major` field value. Always preserve the exact text written on the card. If the card shows "Sports Management", keep it as "Sports Management". Do not set it to null or change it to a mapped value. Field type: "text".
