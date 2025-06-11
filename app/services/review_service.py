@@ -2,7 +2,7 @@ import json
 from datetime import datetime, timezone
 from typing import Dict, Any, Tuple, List
 from app.utils.retry_utils import log_debug
-from app.utils.field_utils import get_field_consolidation_mapping
+# Removed import: get_field_consolidation_mapping - no longer using canonicalization
 
 def determine_review_status(fields: Dict[str, Any]) -> Tuple[str, List[str]]:
     """
@@ -81,39 +81,7 @@ def determine_review_status(fields: Dict[str, Any]) -> Tuple[str, List[str]]:
     
     return review_status, fields_needing_review
 
-def canonicalize_fields(fields: dict) -> dict:
-    """
-    Map alternate field names to canonical field names using the comprehensive mapping.
-    """
-    log_debug("=== CANONICALIZING FIELDS ===", service="review")
-    log_debug("Original field names", list(fields.keys()), service="review")
-    
-    # Use the comprehensive field consolidation mapping
-    field_consolidation_map = get_field_consolidation_mapping()
-    
-    # 🔍 TRACK CRITICAL FIELDS: Check if they're being transformed
-    critical_fields = ["cell", "date_of_birth", "cell_phone", "birthday", "birthdate", "phone", "phone_number"]
-    critical_mapping_info = {}
-    
-    new_fields = {}
-    for key, value in fields.items():
-        canonical_key = field_consolidation_map.get(key, key)
-        new_fields[canonical_key] = value
-        
-        # Track critical field transformations
-        if key in critical_fields or canonical_key in critical_fields:
-            critical_mapping_info[key] = {
-                "original_key": key,
-                "canonical_key": canonical_key,
-                "was_transformed": key != canonical_key,
-                "has_value": isinstance(value, dict) and bool(value.get("value")),
-                "original_value": value.get("value") if isinstance(value, dict) else str(value)
-            }
-    
-    log_debug("🔍 CRITICAL FIELD CANONICALIZATION", critical_mapping_info, service="review")
-    log_debug("Canonical field names", list(new_fields.keys()), service="review")
-    
-    return new_fields
+# canonicalize_fields function removed - DocAI field names now flow through unchanged
 
 def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
     """
@@ -157,25 +125,19 @@ def validate_field_data(fields: Dict[str, Any]) -> Dict[str, Any]:
                 if field_name in critical_fields:
                     log_debug(f"🔍 CRITICAL FIELD {field_name} CLEANED N/A: '{original_value}' -> ''", service="review")
                 
-            # Validate phone format (now handles both cell and cell_phone)
-            elif field_name in ["cell", "cell_phone"] and field_value:
+            # Validate phone format (handles all phone field variations)
+            elif field_name in ["cell", "cell_phone", "phone", "phone_number", "mobile", "mobile_phone", "cellphone"] and field_value:
                 cleaned_phone = _validate_phone_format(field_value)
                 if cleaned_phone != field_value:
                     field_data["value"] = cleaned_phone
                     log_debug(f"Formatted phone: {field_value} -> {cleaned_phone}", service="review")
                     
-                # 🔍 TRACK CRITICAL FIELDS: Log phone validation
-                log_debug(f"🔍 CRITICAL FIELD {field_name} PHONE VALIDATION: '{original_value}' -> '{field_data.get('value')}'", service="review")
-                    
-            # Validate date format (now handles both date_of_birth and birthdate) 
-            elif field_name in ["date_of_birth", "birthdate"] and field_value:
+            # Validate date format (handles all date field variations) 
+            elif field_name in ["date_of_birth", "birthdate", "dob", "birth_date", "birthday"] and field_value:
                 cleaned_date = _validate_date_format(field_value)
                 if cleaned_date != field_value:
                     field_data["value"] = cleaned_date
                     log_debug(f"Formatted date: {field_value} -> {cleaned_date}", service="review")
-                    
-                # 🔍 TRACK CRITICAL FIELDS: Log date validation
-                log_debug(f"🔍 CRITICAL FIELD {field_name} DATE VALIDATION: '{original_value}' -> '{field_data.get('value')}'", service="review")
     
     # 🔍 TRACK CRITICAL FIELDS: Log final state
     log_debug("🔍 CRITICAL FIELDS AFTER VALIDATION", {

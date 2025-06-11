@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from typing import Dict, Any, List
 from app.core.clients import supabase_client
 from app.utils.retry_utils import log_debug
-from app.utils.field_utils import get_combined_fields_to_exclude, generate_field_label, consolidate_field_keys
+from app.utils.field_utils import get_combined_fields_to_exclude, generate_field_label
 
 def get_field_requirements(school_id: str) -> Dict[str, Dict[str, bool]]:
     """
@@ -142,36 +142,20 @@ def sync_field_requirements(school_id: str, detected_fields: list) -> Dict[str, 
         school_query = supabase_client.table("schools").select("card_fields").eq("id", school_id).maybe_single().execute()
         card_fields_array = school_query.data.get("card_fields") or []
         
-        # 🔥 CONSOLIDATE DUPLICATE FIELDS FIRST
-        original_count = len(card_fields_array)
-        card_fields_array = consolidate_field_keys(card_fields_array)
-        if len(card_fields_array) != original_count:
-            updated = True
-            log_debug(f"Consolidated {original_count} fields into {len(card_fields_array)} fields", service="settings")
-        
-        # Rebuild existing_keys after consolidation
+        # Get existing field keys
         existing_keys = {f["key"] for f in card_fields_array}
 
         # Filter detected fields to exclude combined fields
         combined_fields = get_combined_fields_to_exclude()
         filtered_detected_fields = [f for f in detected_fields if f not in combined_fields]
-
-        # 🔥 CONSOLIDATE DETECTED FIELDS to avoid adding duplicates
-        from app.utils.field_utils import get_field_consolidation_mapping
-        consolidation_map = get_field_consolidation_mapping()
-        canonical_detected_fields = []
-        for field_name in filtered_detected_fields:
-            canonical_name = consolidation_map.get(field_name, field_name)
-            if canonical_name not in canonical_detected_fields:
-                canonical_detected_fields.append(canonical_name)
         
-        log_debug(f"Consolidated detected fields: {filtered_detected_fields} → {canonical_detected_fields}", service="settings")
+        log_debug(f"Detected fields (after filtering combined): {filtered_detected_fields}", service="settings")
 
         # Define intelligent defaults based on field types
         field_defaults = get_intelligent_field_defaults()
 
-        # Add any new canonical fields at the end (excluding combined fields)
-        for field_name in canonical_detected_fields:
+        # Add any new detected fields at the end (excluding combined fields)
+        for field_name in filtered_detected_fields:
             if field_name not in existing_keys:
                 # Get intelligent defaults for this field
                 defaults = field_defaults.get(field_name, {"enabled": True, "required": False})
@@ -310,33 +294,7 @@ def get_essential_fields() -> Dict[str, Dict[str, bool]]:
         'gender': {"enabled": True, "required": False}
     }
 
-def get_canonical_field_list() -> list:
-    """
-    Get the canonical list of fields that the system supports
-    
-    Returns:
-        List of canonical field names
-    """
-    return [
-        'name',
-        'preferred_first_name', 
-        'date_of_birth',
-        'email',
-        'cell',
-        'permission_to_text',
-        'address',
-        'city',
-        'state',
-        'zip_code',
-        'high_school',
-        'class_rank',
-        'students_in_class',
-        'gpa',
-        'student_type',
-        'entry_term',
-        'major',
-        'gender'
-    ]
+# get_canonical_field_list function removed - DocAI determines field names now
 
 def sync_field_types_and_options(school_id: str, detected_field_info: Dict[str, Dict[str, Any]]) -> Dict[str, Dict[str, bool]]:
     """
