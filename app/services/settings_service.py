@@ -1,6 +1,6 @@
 import json
 from datetime import datetime, timezone
-from typing import Dict, Any
+from typing import Dict, Any, List
 from app.core.clients import supabase_client
 from app.utils.retry_utils import log_debug
 from app.utils.field_utils import get_combined_fields_to_exclude
@@ -162,7 +162,8 @@ def get_canonical_field_list() -> list:
         'gpa',
         'student_type',
         'entry_term',
-        'major'
+        'major',
+        'gender'
     ]
 
 def sync_field_types_and_options(school_id: str, detected_field_info: Dict[str, Dict[str, Any]]) -> Dict[str, Dict[str, bool]]:
