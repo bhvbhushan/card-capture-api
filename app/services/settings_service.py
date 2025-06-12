@@ -87,19 +87,20 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
             field_data["enabled"] = field_settings.get("enabled", True)
             field_data["required"] = field_settings.get("required", False)
             
-            # Smart review logic for mapped_major: only flag for review if required AND no value
-            if field_name == "mapped_major" and field_settings.get("required", False):
+            # Smart review logic for mapped_major: only flag for review if no value (regardless of required status)
+            if field_name == "mapped_major":
                 current_value = (field_data.get("value") or "").strip()
                 if current_value:
                     # Gemini successfully mapped a major - no review needed
                     field_data["requires_human_review"] = False
                     field_data["review_notes"] = ""
-                    log_debug(f"mapped_major has value '{current_value}' - no review needed even though required", service="settings")
+                    log_debug(f"mapped_major has value '{current_value}' - no review needed", service="settings")
                 else:
-                    # Gemini couldn't map a major - needs review since it's required
-                    field_data["requires_human_review"] = True
-                    field_data["review_notes"] = "Required field: Gemini unable to map major from card"
-                    log_debug(f"mapped_major is empty but required - flagging for review", service="settings")
+                    # Gemini couldn't map a major - needs review if required
+                    is_required = field_settings.get("required", False)
+                    field_data["requires_human_review"] = is_required
+                    field_data["review_notes"] = "Required field: Gemini unable to map major from card" if is_required else ""
+                    log_debug(f"mapped_major is empty - flagging for review: {is_required} (required: {is_required})", service="settings")
             
             # Log if we're about to overwrite existing field values (this should not happen)
             if original_value and field_data.get("value", "") != original_value:
@@ -125,15 +126,15 @@ def apply_field_requirements(fields: Dict[str, Any], requirements: Dict[str, Dic
         if field_settings.get("enabled", True) and field_name not in fields:
             is_required = field_settings.get("required", False)
             
-            # Smart review logic for mapped_major: only flag for review if required AND no value
+            # Smart review logic for mapped_major: only flag for review if required (when missing)
             needs_review = is_required
             review_notes = "Required field not detected by DocAI" if is_required else ""
             
-            if field_name == "mapped_major" and is_required:
-                # mapped_major only needs review if Gemini couldn't determine a mapping
-                # Since this is a missing field, it definitely needs review
-                needs_review = True
-                review_notes = "Required field: Gemini unable to map major from card"
+            if field_name == "mapped_major":
+                # mapped_major only needs review if it's required and missing
+                # If not required, don't flag for review even if missing
+                needs_review = is_required
+                review_notes = "Required field: Gemini unable to map major from card" if is_required else ""
             
             log_debug(f"Adding missing {'required' if is_required else 'enabled'} field: {field_name}", service="settings")
             fields[field_name] = {

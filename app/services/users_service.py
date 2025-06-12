@@ -71,7 +71,7 @@ async def invite_user_service(payload, user):
         
         if not is_superadmin and "admin" not in user_roles:
             log_debug("Only admins and SuperAdmins can invite users", service="users")
-            return {"error": "Only admins can invite users"}, 403
+            raise HTTPException(status_code=403, detail="Only admins can invite users")
         
         if is_superadmin:
             log_debug("User is SuperAdmin - invitation allowed", service="users")
@@ -108,7 +108,7 @@ async def invite_user_service(payload, user):
             if not last_name: missing_fields.append("last_name")
             if not role: missing_fields.append("role")
             log_debug(f"Missing fields: {missing_fields}", service="users")
-            return {"error": f"Missing required fields: {', '.join(missing_fields)}"}, 400
+            raise HTTPException(status_code=400, detail=f"Missing required fields: {', '.join(missing_fields)}")
         
         # Validate role
         valid_roles = ["admin", "user", "recruiter", "reviewer"]
@@ -118,7 +118,7 @@ async def invite_user_service(payload, user):
         invalid_roles = [r for r in role if r not in valid_roles]
         if invalid_roles:
             log_debug(f"Invalid roles specified: {invalid_roles}", service="users")
-            return {"error": f"Invalid roles: {', '.join(invalid_roles)}"}, 400
+            raise HTTPException(status_code=400, detail=f"Invalid roles: {', '.join(invalid_roles)}")
         
         log_debug(f"Attempting to invite user: {email}", service="users")
         log_debug("User metadata being sent:", {
@@ -139,6 +139,9 @@ async def invite_user_service(payload, user):
         
         return {"success": True, "user": user_data}
         
+    except HTTPException:
+        # Re-raise HTTPExceptions as is
+        raise
     except Exception as e:
         log_debug("\n❌ ERROR IN INVITE USER SERVICE:", service="users")
         log_debug(f"Error type: {type(e)}", service="users")
@@ -154,7 +157,7 @@ async def invite_user_service(payload, user):
         log_debug(traceback.format_exc(), service="users")
         log_debug("=== INVITE USER SERVICE END WITH ERROR ===\n", service="users")
         
-        return {"error": str(e)}, 500
+        raise HTTPException(status_code=500, detail=str(e))
 
 async def update_user_service(user_id: str, payload):
     try:
@@ -199,21 +202,30 @@ async def delete_user_service(user_id: str, user):
         
         if not is_superadmin and "admin" not in user_roles:
             log_debug("Only admins and SuperAdmins can delete users", service="users")
-            return {"error": "Only admins can delete users"}, 403
+            raise HTTPException(status_code=403, detail="Only admins can delete users")
         
         # Prevent self-deletion
         if user.get("id") == user_id:
             log_debug("Users cannot delete themselves", service="users")
-            return {"error": "Users cannot delete themselves"}, 400
+            raise HTTPException(status_code=400, detail="Users cannot delete themselves")
         
         log_debug(f"Attempting to delete user: {user_id}", service="users")
-        # Delete user via Supabase Auth Admin API
-        result = supabase_client.auth.admin.delete_user(user_id)
+        # Use the proper delete_user_db function which handles profiles cleanup first
+        result = delete_user_db(supabase_auth, supabase_client, user_id)
         log_debug(f"Successfully deleted user: {user_id}", service="users")
         return {"success": True}
         
+    except HTTPException:
+        # Re-raise HTTPExceptions as is
+        raise
     except Exception as e:
         log_debug(f"Error deleting user {user_id}: {str(e)}", service="users")
         log_debug(f"Error type: {type(e)}", service="users")
         log_debug(f"Error details: {e.__dict__ if hasattr(e, '__dict__') else 'No details available'}", service="users")
-        return {"error": str(e)}, 500 
+        
+        # Check if it's a foreign key constraint error
+        error_str = str(e).lower()
+        if "foreign key" in error_str or "constraint" in error_str or "referenced" in error_str:
+            raise HTTPException(status_code=409, detail="Cannot delete user: user has associated data that must be removed first")
+        
+        raise HTTPException(status_code=500, detail=f"Database error deleting user: {str(e)}") 
