@@ -465,7 +465,8 @@ def calculate_confidence_from_quality(quality_info: Dict[str, Any]) -> float:
         "cross_validation_fix": 1.0,     # High confidence for fixes based on other fields
         "missing_data": 0.75,            # Medium confidence for new data
         "unclear_text": 0.3,            # Low confidence for unclear text
-        "none": 1.0                      # No penalty for no edits
+        "none": 1.0,                      # No penalty for no edits
+        "mapped_value": 0.9 
     }
     
     # Calculate base score
