@@ -35,13 +35,24 @@ async def create_event_service(payload):
         log_debug("Database client not available", service="events")
         return JSONResponse(status_code=503, content={"error": "Database client not available."})
     try:
+        # Debug logging
+        log_debug(f"CREATE EVENT DEBUG - Received payload: {payload}", service="events")
+        log_debug(f"CREATE EVENT DEBUG - slate_event_id from payload: {payload.slate_event_id}", service="events")
+        
         event_data = {
             "name": payload.name,
             "date": payload.date,
             "school_id": payload.school_id,
-            "status": "active"
+            "status": "active",
+            "slate_event_id": payload.slate_event_id
         }
+        
+        log_debug(f"CREATE EVENT DEBUG - Event data being sent to DB: {event_data}", service="events")
+        
         response = insert_event_db(supabase_client, event_data)
+        
+        log_debug(f"CREATE EVENT DEBUG - DB response: {response}", service="events")
+        
         if not response.data:
             log_debug("Failed to create event", service="events")
             return JSONResponse(status_code=500, content={"error": "Failed to create event."})

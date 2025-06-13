@@ -429,15 +429,43 @@ async def export_to_slate_service(payload: dict):
             if isinstance(field_config, dict) and field_config.get("enabled", False):
                 field_key = field_config.get("key")
                 if field_key:
-                    headers.append(field_key)
+                    # Replace 'name' with 'first_name' and 'last_name' for better Slate compatibility
+                    if field_key == "name":
+                        headers.extend(["first_name", "last_name"])
+                    else:
+                        headers.append(field_key)
         
         # Add common fields that might not be in card_fields but are useful for export
-        additional_fields = ["event_name", "date_created"]
+        additional_fields = ["event_name", "slate_event_id", "date_created"]
         for field in additional_fields:
             if field not in headers:
                 headers.append(field)
         
         log_debug(f"SLATE EXPORT: Using CSV headers: {headers}", service="uploads")
+        
+        def split_name(full_name):
+            """Split a full name into first name and last name"""
+            if not full_name or not isinstance(full_name, str):
+                return {"first_name": "", "last_name": ""}
+            
+            trimmed_name = full_name.strip()
+            if not trimmed_name:
+                return {"first_name": "", "last_name": ""}
+            
+            # Split by spaces and filter out empty strings
+            name_parts = [part for part in trimmed_name.split() if part]
+            
+            if len(name_parts) == 0:
+                return {"first_name": "", "last_name": ""}
+            elif len(name_parts) == 1:
+                # Only one name part - treat as first name
+                return {"first_name": name_parts[0], "last_name": ""}
+            elif len(name_parts) == 2:
+                # Two parts - first and last
+                return {"first_name": name_parts[0], "last_name": name_parts[1]}
+            else:
+                # Three or more parts - first name is first part, last name is everything else
+                return {"first_name": name_parts[0], "last_name": " ".join(name_parts[1:])}
         
         writer = csv.DictWriter(csv_content, fieldnames=headers)
         writer.writeheader()
@@ -455,9 +483,25 @@ async def export_to_slate_service(payload: dict):
             csv_row = {}
             for header in headers:
                 # Check if this is a field that should come from the nested fields object
-                if header in ["event_name", "date_created", "document_id"]:
+                if header in ["event_name", "slate_event_id", "date_created", "document_id"]:
                     # These are top-level fields
                     csv_row[header] = row.get(header, "")
+                elif header in ["first_name", "last_name"]:
+                    # Handle name splitting
+                    fields_data = row.get("fields", {})
+                    if isinstance(fields_data, dict):
+                        name_field_data = fields_data.get("name", {})
+                        full_name = ""
+                        
+                        if isinstance(name_field_data, dict):
+                            full_name = str(name_field_data.get("value", ""))
+                        else:
+                            full_name = str(name_field_data) if name_field_data else ""
+                        
+                        name_parts = split_name(full_name)
+                        csv_row[header] = name_parts.get(header, "")
+                    else:
+                        csv_row[header] = ""
                 else:
                     # These are card fields - extract from nested fields object
                     fields_data = row.get("fields", {})
