@@ -67,29 +67,82 @@ def get_combined_fields_to_exclude():
     ]
 
 def generate_field_label(field_key: str) -> str:
-    """Convert field keys to user-friendly display labels"""
+    """Convert field keys to user-friendly display labels for DocAI field names"""
     
-    # Special cases for common field mappings
-    special_mappings = {
+    # Comprehensive mapping for all possible DocAI field names
+    field_label_mapping = {
+        # Phone variations
         'cell': 'Phone Number',
-        'date_of_birth': 'Birthday', 
+        'cell_phone': 'Phone Number',
+        'phone': 'Phone Number', 
+        'phone_number': 'Phone Number',
+        'mobile': 'Phone Number',
+        'mobile_phone': 'Phone Number',
+        'cellphone': 'Phone Number',
+        
+        # Date/Birthday variations
+        'date_of_birth': 'Birthday',
+        'birthdate': 'Birthday',
+        'dob': 'Birthday',
+        'birth_date': 'Birthday',
+        'birthday': 'Birthday',
+        
+        # Email variations
+        'email': 'Email',
+        'email_address': 'Email',
+        'e_mail': 'Email',
+        'emailaddress': 'Email',
+        
+        # Address variations
+        'address': 'Address',
+        'street_address': 'Address',
+        'home_address': 'Address',
+        'mailing_address': 'Address',
+        
+        # Name variations
+        'name': 'Name',
+        'student_name': 'Name',
+        'full_name': 'Name',
+        'fullname': 'Name',
+        
+        # Common fields
         'zip_code': 'Zip Code',
         'high_school': 'High School',
+        'highschool': 'High School',
+        'high_school_name': 'High School',
         'entry_term': 'Entry Term',
+        'entryterm': 'Entry Term',
+        'entry_semester': 'Entry Term',
         'permission_to_text': 'Permission to Text',
         'preferred_first_name': 'Preferred Name',
         'students_in_class': 'Students in Class',
         'class_rank': 'Class Rank',
         'student_type': 'Student Type',
+        'studenttype': 'Student Type',
+        'student_category': 'Student Type',
         'mapped_major': 'Mapped Major',
-        'gpa': 'GPA'
+        'gpa': 'GPA',
+        
+        # Major variations
+        'major': 'Major',
+        'program': 'Major',
+        'degree': 'Major',
+        'field_of_study': 'Major',
+        'major_program': 'Major',
+        
+        # City/State
+        'city': 'City',
+        'state': 'State',
+        
+        # Gender
+        'gender': 'Gender'
     }
     
-    # Return special mapping if it exists
-    if field_key in special_mappings:
-        return special_mappings[field_key]
+    # Return specific mapping if it exists
+    if field_key in field_label_mapping:
+        return field_label_mapping[field_key]
     
-    # Convert snake_case to Title Case
+    # Convert snake_case to Title Case as fallback
     # Replace underscores with spaces and capitalize each word
     words = field_key.replace('_', ' ').split()
     return ' '.join(word.capitalize() for word in words)
@@ -105,137 +158,4 @@ def validate_field_key(field_key: str) -> bool:
     return bool(re.match(r'^[a-z][a-z0-9_]*$', field_key))
 
 
-def get_field_consolidation_mapping() -> dict:
-    """
-    Get mapping of legacy/variant field names to canonical field names
-    This helps consolidate duplicate fields with different names
-    
-    Returns:
-        Dictionary mapping old field names to canonical field names
-    """
-    return {
-        # Date of birth variations
-        'birthdate': 'date_of_birth',
-        'dob': 'date_of_birth',
-        'birth_date': 'date_of_birth',
-        'birthday': 'date_of_birth',
-        
-        # Phone number variations  
-        'cell_phone': 'cell',
-        'phone': 'cell',
-        'phone_number': 'cell',
-        'mobile': 'cell',
-        'mobile_phone': 'cell',
-        'cellphone': 'cell',
-        
-        # Email variations
-        'email_address': 'email',
-        'e_mail': 'email',
-        'emailaddress': 'email',
-        
-        # Address variations
-        'street_address': 'address',
-        'home_address': 'address',
-        'mailing_address': 'address',
-        
-        # Name variations
-        'student_name': 'name',
-        'full_name': 'name',
-        'fullname': 'name',
-        
-        # Major variations
-        'program': 'major',
-        'degree': 'major',
-        'field_of_study': 'major',
-        'major_program': 'major',
-        
-        # High school variations
-        'highschool': 'high_school',
-        'high_school_name': 'high_school',
-        'previous_school': 'high_school',
-        
-        # Entry term variations
-        'entryterm': 'entry_term',
-        'entry_semester': 'entry_term',
-        'start_term': 'entry_term',
-        
-        # Student type variations
-        'studenttype': 'student_type',
-        'student_category': 'student_type',
-        'enrollment_type': 'student_type'
-    }
-
-
-def consolidate_field_keys(fields: list) -> list:
-    """
-    Consolidate duplicate fields that represent the same logical field
-    
-    Args:
-        fields: List of field configurations with 'key', 'enabled', 'required', etc.
-        
-    Returns:
-        Consolidated list with duplicate fields merged
-    """
-    from app.utils.retry_utils import log_debug
-    
-    consolidation_map = get_field_consolidation_mapping()
-    canonical_fields = {}
-    
-    log_debug("Starting field consolidation", {
-        "input_fields": [f.get('key') for f in fields],
-        "consolidation_rules": len(consolidation_map)
-    }, service="field_consolidation")
-    
-    for field in fields:
-        if not isinstance(field, dict) or 'key' not in field:
-            continue
-            
-        field_key = field.get('key', '')
-        if not field_key:
-            continue
-        
-        # Get canonical field name
-        canonical_key = consolidation_map.get(field_key, field_key)
-        
-        if canonical_key in canonical_fields:
-            # Merge with existing canonical field
-            existing = canonical_fields[canonical_key]
-            
-            # Keep enabled if either is enabled
-            existing['enabled'] = existing.get('enabled', False) or field.get('enabled', False)
-            
-            # Keep required if either is required  
-            existing['required'] = existing.get('required', False) or field.get('required', False)
-            
-            # Keep the better label if available
-            if field.get('label') and not existing.get('label'):
-                existing['label'] = field['label']
-                
-            log_debug(f"Merged duplicate field {field_key} into {canonical_key}", {
-                "original_key": field_key,
-                "canonical_key": canonical_key,
-                "enabled": existing['enabled'],
-                "required": existing['required']
-            }, service="field_consolidation")
-            
-        else:
-            # Add as new canonical field
-            canonical_fields[canonical_key] = {
-                'key': canonical_key,
-                'label': field.get('label') or generate_field_label(canonical_key),
-                'enabled': field.get('enabled', True),
-                'required': field.get('required', False)
-            }
-            
-            if field_key != canonical_key:
-                log_debug(f"Normalized field {field_key} to {canonical_key}", service="field_consolidation")
-    
-    result = list(canonical_fields.values())
-    
-    log_debug("Field consolidation complete", {
-        "input_count": len(fields),
-        "output_count": len(result),
-        "consolidated_fields": [f['key'] for f in result]
-    }, service="field_consolidation")
-    
-    return result 
+# Canonicalization functions removed - DocAI field names now flow through unchanged 

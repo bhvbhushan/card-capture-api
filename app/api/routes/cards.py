@@ -16,7 +16,7 @@ from app.services.cards_service import (
 )
 from app.core.clients import supabase_client
 from app.repositories.reviewed_data_repository import upsert_reviewed_data
-from app.services.review_service import canonicalize_fields
+# Removed import: canonicalize_fields - no longer using canonicalization
 from app.utils.field_utils import filter_combined_fields
 
 router = APIRouter()
@@ -110,8 +110,7 @@ async def save_manual_review(document_id: str, payload: Dict[str, Any] = Body(..
         updated_fields = payload.get("fields", {})
         frontend_status = payload.get("status")
 
-        # Canonicalize updated_fields before merging
-        updated_fields = canonicalize_fields(updated_fields)
+        # Note: Canonicalization removed - field names from frontend are used directly
 
         # Update fields based on user input
         for key, field_data in updated_fields.items():

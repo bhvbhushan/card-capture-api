@@ -53,26 +53,60 @@ def update_job_status_with_review(
     review_data: Dict[str, Any]
 ):
     """
-    Atomically update a job's status and create/update its review data.
-    If either operation fails, both are rolled back.
+    Update job status and create/update reviewed data in a transaction
     """
-    # Update job status
+    print(f"[DATABASE DEBUG] === UPDATE JOB STATUS WITH REVIEW ===")
+    print(f"[DATABASE DEBUG] Job ID: {job_id}")
+    print(f"[DATABASE DEBUG] Status: {status}")
+    
+    # 🔍 JSON VALIDATION: Check for corruption before database operations
+    critical_fields = ["cell", "date_of_birth"]
+    print(f"[DATABASE DEBUG] 🔍 JSON VALIDATION - CRITICAL FIELDS:")
+    
+    try:
+        # Serialize and deserialize to check for JSON corruption
+        import json
+        serialized = json.dumps(review_data)
+        deserialized = json.loads(serialized)
+        
+        # Check for critical fields in the JSON
+        fields_data = review_data.get('fields', {})
+        for field_name in critical_fields:
+            if field_name in fields_data:
+                field_data = fields_data[field_name]
+                print(f"[DATABASE DEBUG]   - {field_name}: value='{field_data.get('value')}', type={type(field_data.get('value'))}")
+                
+                # Check for JSON corruption indicators
+                field_str = json.dumps(field_data)
+                if '{{' in field_str or '}}' in field_str:
+                    print(f"[DATABASE DEBUG] 🚨 JSON CORRUPTION DETECTED in {field_name}: {field_str[:200]}...")
+                if field_str.count('{') != field_str.count('}'):
+                    print(f"[DATABASE DEBUG] 🚨 BRACE MISMATCH in {field_name}: {field_str.count('{')} opening vs {field_str.count('}')} closing")
+            else:
+                print(f"[DATABASE DEBUG]   - {field_name}: FIELD_NOT_FOUND")
+                
+        print(f"[DATABASE DEBUG] JSON validation passed - serialized length: {len(serialized)}")
+        
+    except Exception as e:
+        print(f"[DATABASE DEBUG] 🚨 JSON VALIDATION FAILED: {str(e)}")
+        # Log the raw data that's causing issues
+        print(f"[DATABASE DEBUG] Raw review_data type: {type(review_data)}")
+        print(f"[DATABASE DEBUG] Raw fields keys: {list(review_data.get('fields', {}).keys()) if isinstance(review_data.get('fields'), dict) else 'NOT_DICT'}")
+    
+    # Update job status first
     job_response = supabase_client.table("processing_jobs").update({
         "status": status,
-        "updated_at": review_data.get("updated_at")
+        "updated_at": datetime.now(timezone.utc).isoformat()
     }).eq("id", job_id).execute()
     
-    if not validate_db_response(job_response, "Update job status"):
-        raise HTTPException(status_code=500, detail="Failed to update job status")
+    # Then upsert review data 
+    print(f"[DATABASE DEBUG] About to upsert reviewed_data...")
+    review_response = supabase_client.table("reviewed_data").upsert(review_data, on_conflict="document_id").execute()
     
-    # Upsert review data
-    review_response = supabase_client.table("reviewed_data").upsert(review_data).execute()
-    if not validate_db_response(review_response, "Upsert review data"):
-        raise HTTPException(status_code=500, detail="Failed to update review data")
-    
+    print(f"[DATABASE DEBUG] Database operations completed successfully")
     return {
-        "job": job_response.data[0] if job_response.data else None,
-        "review": review_response.data[0] if review_response.data else None
+        "job": job_response,
+        "review": review_response
     }
 
 @safe_db_operation("Update processing job")

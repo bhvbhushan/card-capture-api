@@ -13,7 +13,7 @@ import uvicorn
 
 # Import new services
 from app.services.docai_service import process_image_with_docai
-from app.services.settings_service import get_field_requirements, apply_field_requirements, sync_field_requirements
+from app.services.settings_service import get_field_requirements, apply_field_requirements, sync_field_requirements, sync_field_types_and_options
 from app.services.review_service import determine_review_status, validate_field_data
 from app.services.address_service import validate_and_enhance_address
 from app.services.gemini_service import process_card_with_gemini_v2
@@ -56,22 +56,12 @@ def log_worker_debug(message: str, data: Any = None, verbose: bool = False):
     """Write debug message and optional data to worker_v2_debug.log and stdout for Cloud Run."""
     timestamp = datetime.now(timezone.utc).isoformat()
     log_entry = f"\n[{timestamp}] {message}\n"
-    # Only print data if verbose is True or if it's a small summary
     if data is not None:
-        if verbose:
-            if isinstance(data, (dict, list)):
-                log_entry += json.dumps(data, indent=2)
-            else:
-                log_entry += str(data)
-            log_entry += "\n"
-        else:
-            # For dicts/lists, just print keys or summary
-            if isinstance(data, dict):
-                log_entry += f"Keys: {list(data.keys())}\n"
-            elif isinstance(data, list):
-                log_entry += f"List length: {len(data)}\n"
-            else:
-                log_entry += str(data) + "\n"
+        try:
+            import json
+            log_entry += json.dumps(data, indent=2, default=str) + "\n"
+        except Exception as e:
+            log_entry += f"[Could not serialize data: {e}]\n{str(data)}\n"
     # Write to file
     with open('worker_v2_debug.log', 'a') as f:
         f.write(log_entry)
@@ -122,8 +112,8 @@ def split_combined_address_fields(fields: dict, school_id: str = None) -> dict:
         if field and isinstance(field, dict) and field.get('value'):
             value = field['value'].replace('\n', ' ').replace('\r', ' ').strip()
             
-            # Pattern 1: City, State, Zip
-            match = re.match(r'^([^,]+),\s*([A-Z]{2})(?:,\s*|\s+)(\d{5}(?:-\d{4})?)$', value)
+            # Pattern 1: City, State, Zip (with optional trailing punctuation)
+            match = re.match(r'^([^,]+),\s*([A-Z]{2})(?:,\s*|\s+)(\d{5}(?:-\d{4})?)[.,;:]*?$', value)
             if match:
                 fields['city'] = {
                     'value': match.group(1).strip(),
@@ -150,8 +140,8 @@ def split_combined_address_fields(fields: dict, school_id: str = None) -> dict:
                 log_worker_debug(f"Split {key} into city/state/zip: {match.group(1).strip()}, {match.group(2).strip()}, {match.group(3).strip()}")
                 continue
 
-            # Pattern 2: City, State (no zip)
-            match = re.match(r'^([^,]+),\s*([A-Z]{2})$', value)
+            # Pattern 2: City, State (no zip, with optional trailing punctuation)
+            match = re.match(r'^([^,]+),\s*([A-Z]{2})[.,;:]*?$', value)
             if match:
                 fields['city'] = {
                     'value': match.group(1).strip(),
@@ -171,8 +161,8 @@ def split_combined_address_fields(fields: dict, school_id: str = None) -> dict:
                 log_worker_debug(f"Split {key} into city/state: {match.group(1).strip()}, {match.group(2).strip()}")
                 continue
 
-            # Pattern 3: City State Zip (no commas)
-            match = re.match(r'^([^,]+)\s+([A-Z]{2})\s+(\d{5}(?:-\d{4})?)$', value)
+            # Pattern 3: City State Zip (no commas, with optional trailing punctuation)
+            match = re.match(r'^([^,]+)\s+([A-Z]{2})\s+(\d{5}(?:-\d{4})?)[.,;:]*?$', value)
             if match:
                 fields['city'] = {
                     'value': match.group(1).strip(),
@@ -199,8 +189,8 @@ def split_combined_address_fields(fields: dict, school_id: str = None) -> dict:
                 log_worker_debug(f"Split {key} into city/state/zip: {match.group(1).strip()}, {match.group(2).strip()}, {match.group(3).strip()}")
                 continue
 
-            # Pattern 4: City State (no commas, no zip)
-            match = re.match(r'^([^,]+)\s+([A-Z]{2})$', value)
+            # Pattern 4: City State (no commas, no zip, with optional trailing punctuation)
+            match = re.match(r'^([^,]+)\s+([A-Z]{2})[.,;:]*?$', value)
             if match:
                 fields['city'] = {
                     'value': match.group(1).strip(),
@@ -226,9 +216,11 @@ def split_combined_address_fields(fields: dict, school_id: str = None) -> dict:
             if len(parts) >= 2:
                 # Look for a two-letter state code
                 for i in range(len(parts) - 1):
-                    if re.match(r'^[A-Z]{2}$', parts[i + 1]):
+                    # Remove punctuation from the potential state part for matching
+                    state_part = parts[i + 1].rstrip('.,;:')
+                    if re.match(r'^[A-Z]{2}$', state_part):
                         city = ' '.join(parts[:i + 1])
-                        state = parts[i + 1]
+                        state = state_part
                         fields['city'] = {
                             'value': city.strip(),
                             'confidence': field.get('confidence', 0.6),
@@ -246,9 +238,11 @@ def split_combined_address_fields(fields: dict, school_id: str = None) -> dict:
                         split_fields.update(['city', 'state'])
                         
                         # If there's a zip code after the state
-                        if i + 2 < len(parts) and re.match(r'^\d{5}(?:-\d{4})?$', parts[i + 2]):
-                            fields['zip_code'] = {
-                                'value': parts[i + 2].strip(),
+                        if i + 2 < len(parts):
+                            zip_part = parts[i + 2].rstrip('.,;:')
+                            if re.match(r'^\d{5}(?:-\d{4})?$', zip_part):
+                                fields['zip_code'] = {
+                                    'value': zip_part.strip(),
                                 'confidence': field.get('confidence', 0.6),
                                 'source': 'address_splitting_fallback',
                                 'enabled': True,
@@ -295,6 +289,55 @@ def prepare_docai_for_review(docai_fields: Dict[str, Any]) -> Dict[str, Any]:
     
     return prepared_fields
 
+def detect_field_value_discrepancies(before_fields: dict, after_fields: dict, step_name: str) -> None:
+    """
+    Helper function to detect and log field value discrepancies between processing steps
+    
+    Args:
+        before_fields: Field data before processing step
+        after_fields: Field data after processing step
+        step_name: Name of the processing step for logging
+    """
+    discrepancies = []
+    
+    # Check for value changes in existing fields
+    for field_name in before_fields.keys():
+        if field_name in after_fields:
+            before_value = before_fields[field_name].get("value", "") if isinstance(before_fields[field_name], dict) else ""
+            after_value = after_fields[field_name].get("value", "") if isinstance(after_fields[field_name], dict) else ""
+            
+            # Check if a non-empty value became empty
+            if before_value and not after_value:
+                discrepancies.append({
+                    "field": field_name,
+                    "issue": "value_lost",
+                    "before": before_value,
+                    "after": after_value
+                })
+            # Check if value changed unexpectedly
+            elif before_value != after_value and before_value and after_value:
+                discrepancies.append({
+                    "field": field_name,
+                    "issue": "value_changed",
+                    "before": before_value,
+                    "after": after_value
+                })
+        else:
+            # Field disappeared entirely
+            before_value = before_fields[field_name].get("value", "") if isinstance(before_fields[field_name], dict) else ""
+            if before_value:
+                discrepancies.append({
+                    "field": field_name,
+                    "issue": "field_removed",
+                    "before": before_value,
+                    "after": "FIELD_MISSING"
+                })
+    
+    if discrepancies:
+        log_worker_debug(f"⚠️  FIELD VALUE DISCREPANCIES DETECTED in {step_name}", discrepancies)
+    else:
+        log_worker_debug(f"✅ No field value discrepancies detected in {step_name}")
+
 def process_job_v2(job: Dict[str, Any]) -> None:
     """
     Simplified, reliable processing flow with atomic database operations
@@ -335,22 +378,59 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         log_worker_debug("=== STEP 3: DOCAI PROCESSING ===")
         docai_fields, cropped_image_path = process_image_with_docai(tmp_file, processor_id)
         log_worker_debug("Original DocAI Response", docai_fields, verbose=True)
+        log_worker_debug("DocAI field names extracted", list(docai_fields.keys()))
+        
+        # Track field values from DocAI
+        docai_field_values = {}
+        for field_name, field_data in docai_fields.items():
+            if isinstance(field_data, dict):
+                docai_field_values[field_name] = {
+                    "value": field_data.get("value", ""),
+                    "confidence": field_data.get("confidence", 0.0)
+                }
+        log_worker_debug("DocAI field values summary", docai_field_values)
         
         # Step 4: Split address fields
         log_worker_debug("=== STEP 4: SPLIT ADDRESS FIELDS ===")
+        pre_split_fields = docai_fields.copy()
         docai_fields = split_combined_address_fields(docai_fields, school_id)
+        detect_field_value_discrepancies(pre_split_fields, docai_fields, "Address Splitting")
         log_worker_debug("Fields After Address Splitting", docai_fields, verbose=True)
+        log_worker_debug("Field names after address splitting", list(docai_fields.keys()))
+        
+        # Track field values after address splitting
+        split_field_values = {}
+        for field_name, field_data in docai_fields.items():
+            if isinstance(field_data, dict):
+                split_field_values[field_name] = {
+                    "value": field_data.get("value", ""),
+                    "confidence": field_data.get("confidence", 0.0)
+                }
+        log_worker_debug("Field values after address splitting", split_field_values)
         
         # Step 5: Sync fields with school settings
-        log_worker_debug("=== STEP 5: SYNC FIELDS WITH SCHOOL SETTINGS ===")
-        all_field_names = list(docai_fields.keys())
-        updated_requirements = sync_field_requirements(school_id, all_field_names)
-        log_worker_debug("Updated Field Requirements", updated_requirements, verbose=True)
+        log_worker_debug("=== STEP 5: SYNC WITH SCHOOL SETTINGS ===")
+        field_requirements = sync_field_requirements(school_id, list(docai_fields.keys()))
+        log_worker_debug("Field Requirements", field_requirements, verbose=True)
         
         # Step 6: Apply requirements to fields
         log_worker_debug("=== STEP 6: APPLY FIELD REQUIREMENTS ===")
-        docai_fields = apply_field_requirements(docai_fields, updated_requirements)
-        log_worker_debug("Fields After Applying Requirements", docai_fields, verbose=True)
+        pre_requirements_fields = docai_fields.copy()
+        docai_fields = apply_field_requirements(docai_fields, field_requirements)
+        detect_field_value_discrepancies(pre_requirements_fields, docai_fields, "Field Requirements Application")
+        log_worker_debug("Fields After Requirements", docai_fields, verbose=True)
+        
+        # Track field values after requirements application
+        requirements_field_values = {}
+        for field_name, field_data in docai_fields.items():
+            if isinstance(field_data, dict):
+                requirements_field_values[field_name] = {
+                    "value": field_data.get("value", ""),
+                    "confidence": field_data.get("confidence", 0.0),
+                    "enabled": field_data.get("enabled", True),
+                    "required": field_data.get("required", False)
+                }
+        log_worker_debug("Field values after requirements applied", requirements_field_values)
         
         # Step 7: Fetch valid majors
         log_worker_debug("=== STEP 7: FETCH VALID MAJORS ===")
@@ -363,13 +443,51 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         ai_processing_failed = False
         ai_error_message = None
         
+        log_worker_debug("Fields being sent to Gemini", list(docai_fields.keys()))
+        
+        # Track field values being sent to Gemini
+        gemini_input_values = {}
+        for field_name, field_data in docai_fields.items():
+            if isinstance(field_data, dict):
+                gemini_input_values[field_name] = {
+                    "value": field_data.get("value", ""),
+                    "confidence": field_data.get("confidence", 0.0),
+                    "enabled": field_data.get("enabled", True),
+                    "required": field_data.get("required", False)
+                }
+        log_worker_debug("Field values sent to Gemini", gemini_input_values)
+        
         try:
+            pre_gemini_fields = docai_fields.copy()
             gemini_fields = process_card_with_gemini_v2(
                 cropped_image_path,
                 docai_fields,  # Pass DocAI fields directly (not pre-validated)
                 valid_majors
             )
+            detect_field_value_discrepancies(pre_gemini_fields, gemini_fields, "Gemini Processing")
             log_worker_debug("Gemini Output", gemini_fields, verbose=True)
+            log_worker_debug("Gemini output field names", list(gemini_fields.keys()))
+            
+            # Track field values from Gemini output
+            gemini_output_values = {}
+            for field_name, field_data in gemini_fields.items():
+                if isinstance(field_data, dict):
+                    gemini_output_values[field_name] = {
+                        "value": field_data.get("value", ""),
+                        "confidence": field_data.get("confidence", 0.0),
+                        "enabled": field_data.get("enabled", True),
+                        "required": field_data.get("required", False)
+                    }
+            log_worker_debug("Field values from Gemini output", gemini_output_values)
+            
+            # Sync field types and options detected by Gemini
+            log_worker_debug("=== STEP 8.1: SYNC FIELD TYPES AND OPTIONS ===")
+            try:
+                sync_field_types_and_options(school_id, gemini_fields)
+                log_worker_debug("Field types and options synced successfully")
+            except Exception as sync_error:
+                log_worker_debug(f"Warning: Failed to sync field types: {str(sync_error)}")
+                # Don't fail the whole job for this, just log and continue
             
         except Exception as gemini_error:
             log_worker_debug(f"⚠️ Gemini processing failed: {str(gemini_error)}")
@@ -432,15 +550,38 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         # Step 12: Update job status and create review data
         log_worker_debug("=== STEP 12: UPDATE JOB STATUS ===")
         
-        # Filter out combined fields before saving to reviewed_data
-        log_worker_debug("Filtering combined fields before saving")
-        filtered_fields = filter_combined_fields(final_fields)
-        log_worker_debug(f"Fields before filtering: {len(final_fields)}, after filtering: {len(filtered_fields)}")
+        # Track critical fields before database save
+        critical_fields = ["cell", "date_of_birth"]
+        log_worker_debug("🔍 CRITICAL FIELDS BEFORE DB SAVE", {
+            field: {
+                "value": final_fields.get(field, {}).get("value"),
+                "original_value": final_fields.get(field, {}).get("original_value"),
+                "source": final_fields.get(field, {}).get("source"),
+                "enabled": final_fields.get(field, {}).get("enabled"),
+                "required": final_fields.get(field, {}).get("required")
+            }
+            for field in critical_fields
+        })
+        
+        # Filter out combined fields before saving
+        final_fields = filter_combined_fields(final_fields)
+        
+        # Track critical fields after filtering
+        log_worker_debug("🔍 CRITICAL FIELDS AFTER FILTERING", {
+            field: {
+                "value": final_fields.get(field, {}).get("value"),
+                "original_value": final_fields.get(field, {}).get("original_value"),
+                "source": final_fields.get(field, {}).get("source"),
+                "enabled": final_fields.get(field, {}).get("enabled"),
+                "required": final_fields.get(field, {}).get("required")
+            }
+            for field in critical_fields
+        })
         
         now = datetime.now(timezone.utc).isoformat()
         review_data = {
             "document_id": job_id,
-            "fields": filtered_fields,  # Use filtered fields without combined address fields
+            "fields": final_fields,
             "school_id": school_id,
             "user_id": user_id,
             "event_id": event_id,
@@ -454,6 +595,13 @@ def process_job_v2(job: Dict[str, Any]) -> None:
         # Add AI error information if processing failed
         if ai_processing_failed:
             review_data["ai_error_message"] = ai_error_message
+            
+        # 🔍 TRACK CRITICAL FIELDS: Log what's about to be saved to database
+        log_worker_debug("🔍 CRITICAL FIELDS BEING SAVED TO DATABASE", {
+            field_name: review_data["fields"].get(field_name, "FIELD_NOT_FOUND")
+            for field_name in critical_fields
+        })
+        
         log_worker_debug("Review Data to be Saved", review_data, verbose=True)
         
         update_job_status_with_review(supabase_client, job_id, "complete", review_data)

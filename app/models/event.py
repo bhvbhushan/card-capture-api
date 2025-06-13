@@ -5,6 +5,7 @@ class EventCreatePayload(BaseModel):
     name: str
     date: str
     school_id: str
+    slate_event_id: Optional[str] = None
 
 class EventUpdatePayload(BaseModel):
     name: Optional[str] = None

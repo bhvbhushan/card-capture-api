@@ -37,6 +37,17 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
         for field_name, field_data in docai_fields.items()
     }, service="gemini")
     
+    # Track critical fields before processing
+    critical_fields = ["cell", "date_of_birth"]
+    log_debug("🔍 CRITICAL FIELDS BEFORE GEMINI", {
+        field: {
+            "value": docai_fields.get(field, {}).get("value"),
+            "original_value": docai_fields.get(field, {}).get("original_value"),
+            "source": docai_fields.get(field, {}).get("source")
+        }
+        for field in critical_fields
+    }, service="gemini")
+    
     if valid_majors is None:
         valid_majors = []
     try:
@@ -70,6 +81,13 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
         }
         
         log_debug("Gemini input prepared", gemini_input, service="gemini")
+        
+        # 🔍 TRACK CRITICAL FIELDS: Log what's being sent to Gemini
+        log_debug("🔍 CRITICAL FIELDS BEING SENT TO GEMINI", {
+            field_name: gemini_input["fields"].get(field_name)
+            for field_name in critical_fields
+            if field_name in gemini_input["fields"]
+        }, service="gemini")
         
         # Create prompt
         log_debug("Creating prompt for Gemini...", service="gemini")
@@ -158,11 +176,31 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
         
         log_debug("Raw Gemini response", response.text, service="gemini")
         
+        # 🔍 TRACK CRITICAL FIELDS: Log raw response for critical fields
+        log_debug("🔍 RAW GEMINI RESPONSE - SEARCHING FOR CRITICAL FIELDS", {
+            "cell_in_response": "cell" in response.text.lower(),
+            "date_of_birth_in_response": "date_of_birth" in response.text.lower(),
+            "birthday_in_response": "birthday" in response.text.lower(),
+            "phone_in_response": "phone" in response.text.lower(),
+            "response_length": len(response.text)
+        }, service="gemini")
+        
         # Parse response with quality indicators
         try:
             log_debug("Parsing Gemini response...", service="gemini")
             enhanced_fields = parse_gemini_quality_response(response.text, docai_fields)
             log_debug("Successfully parsed Gemini response", service="gemini")
+            
+            # Track critical fields after Gemini processing
+            log_debug("🔍 CRITICAL FIELDS AFTER GEMINI", {
+                field: {
+                    "value": enhanced_fields.get(field, {}).get("value"),
+                    "original_value": enhanced_fields.get(field, {}).get("original_value"),
+                    "source": enhanced_fields.get(field, {}).get("source")
+                }
+                for field in critical_fields
+            }, service="gemini")
+            
             # Backend safeguard: ensure mapped_major is present only if school has majors configured
             if valid_majors and 'mapped_major' not in enhanced_fields:
                 enhanced_fields['mapped_major'] = {
@@ -204,6 +242,12 @@ def process_card_with_gemini_v2(image_path: str, docai_fields: Dict[str, Any], v
             for field_name, field_data in enhanced_fields.items()
         }, service="gemini")
         
+        # 🔍 TRACK CRITICAL FIELDS: Final output summary
+        log_debug("🔍 CRITICAL FIELDS - FINAL GEMINI OUTPUT", {
+            field_name: enhanced_fields.get(field_name, "FIELD_NOT_FOUND")
+            for field_name in critical_fields
+        }, service="gemini")
+        
         log_debug("=== GEMINI PROCESSING V2 COMPLETE ===", service="gemini")
         return enhanced_fields
         
@@ -230,6 +274,17 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
     """
     log_debug("=== PARSING GEMINI QUALITY RESPONSE ===", service="gemini")
     log_debug("Raw Gemini response for parsing", response_text, service="gemini")
+    
+    # Track critical fields before parsing
+    critical_fields = ["cell", "date_of_birth"]
+    log_debug("🔍 CRITICAL FIELDS BEFORE PARSING", {
+        field: {
+            "value": docai_fields.get(field, {}).get("value"),
+            "original_value": docai_fields.get(field, {}).get("original_value")
+        }
+        for field in critical_fields
+    }, service="gemini")
+    
     try:
         # Clean the response text by removing markdown code block markers
         cleaned_text = response_text.strip()
@@ -243,13 +298,39 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
         
         log_debug("Cleaned response text for parsing", cleaned_text, service="gemini")
         
+        # 🔍 TRACK CRITICAL FIELDS: Check if fields exist in cleaned text
+        log_debug("🔍 PARSER - CRITICAL FIELDS IN CLEANED TEXT", {
+            "cell_in_cleaned": "cell" in cleaned_text.lower(),
+            "date_of_birth_in_cleaned": "date_of_birth" in cleaned_text.lower(),
+            "cleaned_text_length": len(cleaned_text),
+            "cleaned_text_preview": cleaned_text[:500] + "..." if len(cleaned_text) > 500 else cleaned_text
+        }, service="gemini")
+        
         # Parse the response text into a dictionary
         gemini_data = json.loads(cleaned_text)
         log_debug("Parsed Gemini response", gemini_data, service="gemini")
+        
+        # 🔍 TRACK CRITICAL FIELDS: Check if fields exist in parsed JSON
+        log_debug("🔍 PARSER - CRITICAL FIELDS IN PARSED JSON", {
+            field_name: {
+                "exists_in_json": field_name in gemini_data,
+                "json_value": gemini_data.get(field_name, "FIELD_NOT_FOUND")
+            }
+            for field_name in critical_fields
+        }, service="gemini")
+        
         enhanced_fields = {}
         
         # Process each field from Gemini response
         for field_name, quality_info in gemini_data.items():
+            # 🔍 TRACK CRITICAL FIELDS: Log processing of critical fields
+            if field_name in critical_fields:
+                log_debug(f"🔍 PARSER - PROCESSING CRITICAL FIELD: {field_name}", {
+                    "quality_info": quality_info,
+                    "docai_field_exists": field_name in docai_fields,
+                    "docai_field_data": docai_fields.get(field_name, "FIELD_NOT_IN_DOCAI")
+                }, service="gemini")
+            
             # Start with DocAI field data if it exists
             if field_name in docai_fields:
                 enhanced_field = docai_fields[field_name].copy()
@@ -274,10 +355,22 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
                 "text_clarity": quality_info.get("text_clarity", "unclear"),
                 "certainty": quality_info.get("certainty", "uncertain"),
                 "notes": quality_info.get("notes", ""),
+                "field_type": quality_info.get("field_type", "text"),
+                "detected_options": quality_info.get("detected_options", []),
                 "review_confidence": calculate_confidence_from_quality(quality_info),
                 "requires_human_review": False,
                 "review_notes": ""
             })
+            
+            # 🔍 TRACK CRITICAL FIELDS: Log the enhanced field for critical fields
+            if field_name in critical_fields:
+                log_debug(f"🔍 PARSER - ENHANCED CRITICAL FIELD: {field_name}", {
+                    "final_value": enhanced_field.get("value"),
+                    "final_original_value": enhanced_field.get("original_value"),
+                    "final_edit_made": enhanced_field.get("edit_made"),
+                    "final_source": enhanced_field.get("source"),
+                    "review_confidence": enhanced_field.get("review_confidence")
+                }, service="gemini")
             
             # Only determine review status for required fields
             if enhanced_field.get("required", False):
@@ -289,11 +382,38 @@ def parse_gemini_quality_response(response_text: str, docai_fields: Dict[str, An
             
             enhanced_fields[field_name] = enhanced_field
 
+        # 🔍 TRACK CRITICAL FIELDS: Final summary of critical fields from parser
+        log_debug("🔍 PARSER - FINAL CRITICAL FIELDS OUTPUT", {
+            field_name: {
+                "found_in_output": field_name in enhanced_fields,
+                "final_value": enhanced_fields.get(field_name, {}).get("value", "FIELD_NOT_FOUND"),
+                "final_original_value": enhanced_fields.get(field_name, {}).get("original_value", "FIELD_NOT_FOUND")
+            }
+            for field_name in critical_fields
+        }, service="gemini")
+
         log_debug("Enhanced fields after parsing Gemini response", enhanced_fields, service="gemini")
+        
+        # Track critical fields after parsing
+        log_debug("🔍 CRITICAL FIELDS AFTER PARSING", {
+            field: {
+                "value": enhanced_fields.get(field, {}).get("value"),
+                "original_value": enhanced_fields.get(field, {}).get("original_value")
+            }
+            for field in critical_fields
+        }, service="gemini")
+        
         return enhanced_fields
     except Exception as e:
         log_debug(f"Error parsing Gemini response: {str(e)}", service="gemini")
         log_debug("Response that caused error:", response_text, service="gemini")
+        
+        # 🔍 TRACK CRITICAL FIELDS: Log fallback for critical fields
+        log_debug("🔍 PARSER - ERROR FALLBACK - CRITICAL FIELDS", {
+            field_name: docai_fields.get(field_name, "FIELD_NOT_FOUND")
+            for field_name in critical_fields
+        }, service="gemini")
+        
         # Fallback: return docai_fields with required keys
         for field_name, field_data in docai_fields.items():
             field_data["review_confidence"] = 0.0
@@ -345,7 +465,8 @@ def calculate_confidence_from_quality(quality_info: Dict[str, Any]) -> float:
         "cross_validation_fix": 1.0,     # High confidence for fixes based on other fields
         "missing_data": 0.75,            # Medium confidence for new data
         "unclear_text": 0.3,            # Low confidence for unclear text
-        "none": 1.0                      # No penalty for no edits
+        "none": 1.0,                      # No penalty for no edits
+        "mapped_value": 0.9 
     }
     
     # Calculate base score

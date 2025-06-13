@@ -45,13 +45,25 @@ uploads/trimmed/
 
 cc/
 
-# Ignore debug logs
+# Log files - comprehensive patterns
+*.log
+*.log.*
+logs/
+logs/*
+log/
+log/*
+# Specific debug logs
 address_debug.log
 archive_debug.log
 docai_debug.log
 gemini_debug.log
 review_debug.log
 settings_debug.log
+worker_debug.log
+# Test logs
+test_*.log
+*_debug.log
+*_test.log
 
 # Ignore trimmed images
 app/uploads/trimmed/
@@ -72,4 +84,3 @@ UMHB/
 pdf_trim.py
 
 *.sql
-logs/*
