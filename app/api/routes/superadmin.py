@@ -78,15 +78,15 @@ async def create_school(school: SchoolCreate, current_user: Dict[str, Any] = Dep
     try:
         log(f"🏫 Creating new school: {school.name} by {current_user['email']}")
         
-        # Create the school record
+        # Create the school record (with trimmed values)
         school_data = {
-            "name": school.name,
+            "name": school.name.strip(),
             "created_at": datetime.now(timezone.utc).isoformat()
         }
         
         # Add docai_processor_id if provided
         if school.docai_processor_id:
-            school_data["docai_processor_id"] = school.docai_processor_id
+            school_data["docai_processor_id"] = school.docai_processor_id.strip()
         
         result = supabase_client.table("schools").insert(school_data).execute()
         
@@ -148,11 +148,11 @@ async def invite_school_admin(
         
         school_name = school_result.data[0]["name"]
         
-        # Prepare payload for existing invite_user endpoint
+        # Prepare payload for existing invite_user endpoint (with trimmed values)
         invite_payload = {
-            "email": invite_request.email,
-            "first_name": invite_request.first_name,
-            "last_name": invite_request.last_name,
+            "email": invite_request.email.strip(),
+            "first_name": invite_request.first_name.strip(),
+            "last_name": invite_request.last_name.strip(),
             "role": ["admin"],  # Always admin role for school administrators
             "school_id": school_id
         }

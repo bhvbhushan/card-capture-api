@@ -42,10 +42,22 @@ def invite_user_db(email: str, first_name: str, last_name: str, role: List[str],
     }
     
     try:
-        # Get the frontend URL from environment or use default
-        frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+        # Get the frontend URL from environment with better defaults
+        frontend_url = os.getenv('FRONTEND_URL')
+        if not frontend_url:
+            # Environment-specific defaults
+            if os.getenv('ENVIRONMENT') == 'production':
+                frontend_url = 'https://cardcapture.io'
+            elif os.getenv('ENVIRONMENT') == 'staging':
+                frontend_url = 'https://staging.cardcapture.io'
+            else:
+                frontend_url = 'http://localhost:3000'
+        
+        print(f"🔗 Using frontend URL: {frontend_url}")
+        
         # Include necessary query parameters that the frontend expects
         redirect_url = f"{frontend_url}/accept-invite?email={email}&school_id={school_id}"
+        print(f"🔗 Redirect URL: {redirect_url}")
         
         # Use invite_user_by_email to send the invitation email
         response = supabase_client.auth.admin.invite_user_by_email(
