@@ -24,12 +24,25 @@ async def invite_user(user=Depends(get_current_user), payload: dict = Body(...))
     try:
         print(f"👤 Invite user request from: {user.get('email')}")
         
+        # Trim whitespace from string fields (defensive programming)
+        if "email" in payload and isinstance(payload["email"], str):
+            payload["email"] = payload["email"].strip()
+        if "first_name" in payload and isinstance(payload["first_name"], str):
+            payload["first_name"] = payload["first_name"].strip()
+        if "last_name" in payload and isinstance(payload["last_name"], str):
+            payload["last_name"] = payload["last_name"].strip()
+        
         # Validate required fields
         required_fields = ["email", "first_name", "last_name", "role", "school_id"]
         for field in required_fields:
             if field not in payload:
                 print(f"❌ Missing required field: {field}")
                 raise HTTPException(status_code=400, detail=f"Missing required field: {field}")
+        
+        # Check for empty strings after trimming
+        if not payload["email"] or not payload["first_name"] or not payload["last_name"]:
+            print(f"❌ Required fields cannot be empty after trimming whitespace")
+            raise HTTPException(status_code=400, detail="Email, first name, and last name cannot be empty")
 
         # Validate roles array
         roles = payload["role"] if isinstance(payload["role"], list) else [payload["role"]]

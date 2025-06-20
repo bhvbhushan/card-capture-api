@@ -251,7 +251,7 @@
                         </p>
                         
                         <div class="cta-container">
-                            <a href="https://staging.cardcapture.io/accept-invite" class="cta-button">Accept Invitation</a>
+                            <a href="{{ .ConfirmationURL }}" class="cta-button">Accept Invitation</a>
                         </div>
                         
                         <p class="body-text" style="margin-top: 32px; font-size: 14px; color: #64748b; text-align: center;">
@@ -263,8 +263,8 @@
                     <div class="footer">
                         <p class="footer-text">© 2024 Card Capture. All rights reserved.</p>
                         <p class="footer-text">
-                            <a href="https://staging.cardcapture.io/privacy" class="footer-link">Privacy Policy</a> | 
-                            <a href="https://staging.cardcapture.io/terms" class="footer-link">Terms of Service</a>
+                            <a href="{{ .SiteURL }}/privacy" class="footer-link">Privacy Policy</a> | 
+                            <a href="{{ .SiteURL }}/terms" class="footer-link">Terms of Service</a>
                         </p>
                         <p class="footer-text" style="margin-top: 16px;">
                             If you didn't expect this invitation, you can safely ignore this email.
