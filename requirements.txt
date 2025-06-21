@@ -62,7 +62,7 @@ starlette==0.35.1
 storage3==0.6.1
 StrEnum==0.4.15
 stripe==12.1.0
-supabase==1.2.0
+supabase>=2.0.0
 supafunc==0.2.3
 tqdm==4.67.1
 typing_extensions==4.9.0

@@ -2,7 +2,7 @@ from fastapi import Request, HTTPException
 from app.core.clients import supabase_auth, supabase_client
 import os
 from jose import jwt, JWTError
-from app.repositories.auth_repository import login_db, get_user_profile_db
+from app.repositories.auth_repository import login_db, get_user_profile_db, reset_password_db
 from app.utils.retry_utils import log_debug
 
 async def login_service(credentials: dict):
@@ -45,4 +45,20 @@ async def read_current_user_service(request: Request):
         raise
     except Exception as e:
         log_debug(f"Error fetching user profile: {e}", service="auth")
-        raise HTTPException(status_code=500, detail="Internal server error") 
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+async def reset_password_service(payload: dict):
+    try:
+        email = payload.get("email")
+        if not email:
+            raise HTTPException(status_code=400, detail="Email is required")
+        
+        log_debug(f"Password reset request for: {email}", service="auth")
+        response = reset_password_db(supabase_client, email)
+        log_debug(f"Password reset email sent to: {email}", service="auth")
+        return {"message": "Password reset email sent successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        log_debug(f"Password reset error: {str(e)}", service="auth")
+        raise HTTPException(status_code=500, detail="Failed to send password reset email") 
