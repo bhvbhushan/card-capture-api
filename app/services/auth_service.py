@@ -146,7 +146,7 @@ async def consume_magic_link_service(token: str, link_type: str):
         raise HTTPException(status_code=500, detail="Failed to process magic link")
 
 async def create_user_service(payload: dict):
-    """Create a new user account for invite flow"""
+    """Create or update user account for invite flow"""
     try:
         email = payload.get("email")
         password = payload.get("password")
@@ -158,27 +158,75 @@ async def create_user_service(payload: dict):
         if not email or not password:
             raise HTTPException(status_code=400, detail="Email and password are required")
         
-        log_debug(f"Creating user account for: {email}", service="auth")
+        log_debug(f"Creating/updating user account for: {email}", service="auth")
         
-        # Create user with their actual password (simplified approach)
+        # Check if user already exists
+        existing_user = None
         try:
-            create_response = supabase_client.auth.admin.create_user({
-                "email": email,
-                "password": password,
-                "email_confirm": True  # Auto-confirm since they came from magic link
-            })
-            
-            if not create_response.user:
-                raise HTTPException(status_code=500, detail="Failed to create user account")
-            
-            user_id = create_response.user.id
-            log_debug(f"User created successfully: {user_id}", service="auth")
-            
-        except Exception as create_error:
-            log_debug(f"User creation error: {str(create_error)}", service="auth")
-            raise HTTPException(status_code=500, detail=f"Failed to create user: {str(create_error)}")
+            auth_users = supabase_client.auth.admin.list_users()
+            for user in auth_users:
+                if user.email == email:
+                    existing_user = user
+                    break
+        except Exception as list_error:
+            log_debug(f"Error checking existing users: {str(list_error)}", service="auth")
         
-        # Try to create profile record (non-critical)
+        user_id = None
+        
+        if existing_user:
+            # User exists - update their password and info
+            log_debug(f"User {email} already exists, updating password and profile", service="auth")
+            try:
+                update_response = supabase_client.auth.admin.update_user_by_id(
+                    existing_user.id,
+                    {
+                        "password": password,
+                        "email_confirm": True
+                    }
+                )
+                
+                user_id = existing_user.id
+                log_debug(f"User password updated successfully: {user_id}", service="auth")
+                
+            except Exception as update_error:
+                log_debug(f"User password update error: {str(update_error)}", service="auth")
+                raise HTTPException(status_code=500, detail=f"Failed to update user password: {str(update_error)}")
+        else:
+            # User doesn't exist - create new user
+            log_debug(f"Creating new user: {email}", service="auth")
+            try:
+                create_response = supabase_client.auth.admin.create_user({
+                    "email": email,
+                    "password": password,
+                    "email_confirm": True  # Auto-confirm since they came from magic link
+                })
+                
+                if not create_response.user:
+                    raise HTTPException(status_code=500, detail="Failed to create user account")
+                
+                user_id = create_response.user.id
+                log_debug(f"New user created successfully: {user_id}", service="auth")
+                
+            except Exception as create_error:
+                log_debug(f"User creation error: {str(create_error)}", service="auth")
+                # Check if the error is about existing user (race condition)
+                if "already been registered" in str(create_error):
+                    log_debug("User was created by another process, trying to find them", service="auth")
+                    # Try to find the user that was just created
+                    try:
+                        auth_users = supabase_client.auth.admin.list_users()
+                        for user in auth_users:
+                            if user.email == email:
+                                user_id = user.id
+                                log_debug(f"Found newly created user: {user_id}", service="auth")
+                                break
+                    except:
+                        pass
+                
+                if not user_id:
+                    raise HTTPException(status_code=500, detail=f"Failed to create or find user: {str(create_error)}")
+        
+        # Create/update profile record
         try:
             profile_data = {
                 "id": user_id,
@@ -190,21 +238,22 @@ async def create_user_service(payload: dict):
             }
             
             supabase_client.table("profiles").upsert(profile_data).execute()
-            log_debug(f"Profile created for: {email}", service="auth")
+            log_debug(f"Profile created/updated for: {email}", service="auth")
         except Exception as profile_error:
             log_debug(f"Profile creation error (non-fatal): {str(profile_error)}", service="auth")
             # Don't fail the whole process for profile errors
         
-        log_debug(f"User account created successfully for: {email}", service="auth")
+        action = "updated" if existing_user else "created"
+        log_debug(f"User account {action} successfully for: {email}", service="auth")
         return {
             "success": True,
             "user_id": user_id,
             "email": email,
-            "message": "User account created successfully"
+            "message": f"User account {action} successfully"
         }
         
     except HTTPException:
         raise
     except Exception as e:
-        log_debug(f"User creation error: {str(e)}", service="auth")
-        raise HTTPException(status_code=500, detail="Failed to create user account") 
+        log_debug(f"User creation/update error: {str(e)}", service="auth")
+        raise HTTPException(status_code=500, detail="Failed to create or update user account") 
