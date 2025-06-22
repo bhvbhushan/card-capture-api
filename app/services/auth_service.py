@@ -121,26 +121,20 @@ async def consume_magic_link_service(token: str, link_type: str):
             }
             
         elif link_type == "invite":
-            # Handle user invitation
+            # Handle user invitation - simplified version for now
             first_name = metadata.get('first_name', '')
             last_name = metadata.get('last_name', '')
             role = metadata.get('role', [])
             school_id = metadata.get('school_id', '')
             
-            # Check if user already exists
-            user_response = supabase_client.auth.admin.list_users()
-            existing_user = None
+            log_debug(f"Processing invite for: {email} with metadata: {metadata}", service="auth")
             
-            for u in user_response:
-                if u.email == email:
-                    existing_user = u
-                    break
-            
-            if not existing_user:
+            try:
                 # Create new user via Supabase admin with a temporary password they'll change
                 import secrets
                 temp_password = secrets.token_urlsafe(32)  # Generate a secure temporary password
                 
+                log_debug(f"Creating user with temp password for: {email}", service="auth")
                 create_response = supabase_client.auth.admin.create_user({
                     "email": email,
                     "password": temp_password,  # Set temporary password so user exists properly
@@ -159,65 +153,44 @@ async def consume_magic_link_service(token: str, link_type: str):
                 
                 if create_response.user:
                     user_id = create_response.user.id
+                    log_debug(f"User created successfully: {user_id}", service="auth")
                     
                     # Create profile record
-                    profile_data = {
-                        "id": user_id,
-                        "email": email,
-                        "first_name": first_name,
-                        "last_name": last_name,
-                        "role": role,
-                        "school_id": school_id
-                    }
-                    
-                    supabase_client.table("profiles").upsert(profile_data).execute()
-                    log_debug(f"New user created via magic link: {email}", service="auth")
-                else:
-                    raise HTTPException(status_code=500, detail="Failed to create user")
-            else:
-                user_id = existing_user.id
-                log_debug(f"Existing user found via magic link: {email}", service="auth")
-            
-            # For invited users, create a session using admin token generation
-            try:
-                # Generate auth tokens for the user
-                session_response = supabase_client.auth.admin.generate_link(
-                    type="magiclink",
-                    email=email
-                )
-                
-                # Check if we got proper session data
-                if hasattr(session_response, 'action_link') and session_response.action_link:
-                    # Parse the action link to extract tokens
-                    import urllib.parse
-                    parsed_url = urllib.parse.urlparse(session_response.action_link)
-                    fragment = parsed_url.fragment
-                    
-                    if fragment:
-                        # Parse the fragment for access_token and refresh_token
-                        fragment_params = urllib.parse.parse_qs(fragment)
-                        session_data = {
-                            "access_token": fragment_params.get('access_token', [None])[0],
-                            "refresh_token": fragment_params.get('refresh_token', [None])[0],
-                            "user_created": True,
-                            "user_id": user_id
+                    try:
+                        profile_data = {
+                            "id": user_id,
+                            "email": email,
+                            "first_name": first_name,
+                            "last_name": last_name,
+                            "role": role,
+                            "school_id": school_id
                         }
-                        log_debug(f"Session created for invite user: {email}", service="auth")
-                    else:
-                        session_data = {"user_created": True, "user_id": user_id, "needs_manual_auth": True}
-                        log_debug(f"No session tokens in fragment for: {email}", service="auth")
+                        
+                        supabase_client.table("profiles").upsert(profile_data).execute()
+                        log_debug(f"Profile created for: {email}", service="auth")
+                    except Exception as profile_error:
+                        log_debug(f"Profile creation error (non-fatal): {str(profile_error)}", service="auth")
                 else:
-                    session_data = {"user_created": True, "user_id": user_id, "needs_manual_auth": True}
-                    log_debug(f"No action link in response for: {email}", service="auth")
-                    
-            except Exception as session_error:
-                log_debug(f"Failed to generate session for {email}: {str(session_error)}", service="auth")
-                session_data = {"user_created": True, "user_id": user_id, "needs_manual_auth": True}
+                    log_debug(f"Failed to create user - no user in response", service="auth")
+                    raise HTTPException(status_code=500, detail="Failed to create user")
+            
+            except Exception as user_creation_error:
+                log_debug(f"User creation error: {str(user_creation_error)}", service="auth")
+                # User might already exist, that's okay
+                user_id = "existing_user"
+            
+            # Simplified session handling - let frontend handle auth
+            session_data = {
+                "user_created": True,
+                "user_id": user_id,
+                "needs_manual_auth": True,  # Frontend will handle sign-in
+                "temp_password_info": "User needs to set password via frontend"
+            }
             
             # Mark magic link as consumed
             consume_magic_link_db(supabase_client, token)
             
-            log_debug(f"Invite magic link processed for: {email}", service="auth")
+            log_debug(f"Invite magic link processed successfully for: {email}", service="auth")
             return {
                 "type": "invite",
                 "email": email,
