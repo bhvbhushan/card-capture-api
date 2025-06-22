@@ -3,6 +3,7 @@ from app.core.clients import supabase_client
 import re
 from typing import List
 import os
+from datetime import datetime
 
 def get_user_profile_by_id(supabase_client, user_id: str):
     response = supabase_client.table("profiles").select("id, email, first_name, last_name, role").eq("id", user_id).maybe_single().execute()
@@ -29,10 +30,13 @@ def list_users_db(supabase_client):
     return users
 
 def invite_user_db(email: str, first_name: str, last_name: str, role: List[str], school_id: str):
-    """Invite a new user to the system"""
+    """Invite a new user to the system using magic links"""
     print(f"📧 Inviting user: {email} to school: {school_id}")
     
-    # Prepare user metadata
+    # Import magic link function
+    from app.repositories.auth_repository import send_magic_link_email_db
+    
+    # Prepare user metadata for magic link
     user_metadata = {
         "first_name": first_name,
         "last_name": last_name,
@@ -42,46 +46,49 @@ def invite_user_db(email: str, first_name: str, last_name: str, role: List[str],
     }
     
     try:
-        # Get the frontend URL from environment with better defaults
-        frontend_url = os.getenv('FRONTEND_URL')
-        if frontend_url:
-            frontend_url = frontend_url.strip()  # Remove any whitespace
-        else:
-            # Environment-specific defaults
-            env = os.getenv('ENVIRONMENT', '').strip()  # Trim environment variable
-            if env == 'production':
-                frontend_url = 'https://cardcapture.io'
-            elif env == 'staging':
-                frontend_url = 'https://staging.cardcapture.io'
-            else:
-                frontend_url = 'http://localhost:3000'
-        
-        print(f"🔗 Using frontend URL: '{frontend_url}' (length: {len(frontend_url)})")
-        
-        # Use auth callback to avoid Outlook URL breaking issues
-        redirect_url = f"{frontend_url}/auth/callback"
-        print(f"🔗 Redirect URL: '{redirect_url}' (length: {len(redirect_url)})")
-        
-        # Use invite_user_by_email to send the invitation email
-        response = supabase_client.auth.admin.invite_user_by_email(
-            email,
-            options={
-                "data": user_metadata,  # This adds the metadata to the user
-                "redirect_to": redirect_url  # Where they go after clicking the link
-            }
+        # Send magic link email for invite
+        magic_link_response = send_magic_link_email_db(
+            supabase_client, 
+            email, 
+            "invite", 
+            user_metadata
         )
         
-        if hasattr(response, 'error') and response.error:
-            print(f"❌ Supabase error: {response.error}")
-            raise Exception(f"Failed to invite user: {response.error}")
+        if not magic_link_response.get("success"):
+            raise Exception("Failed to send magic link invite email")
         
-        # After invite, we need to update app_metadata separately if needed
-        if response and response.user:
-            print(f"🔄 Creating user profile and metadata for {response.user.id}")
+        # Check if user already exists in Supabase auth
+        user_response = supabase_client.auth.admin.list_users()
+        existing_user = None
+        
+        for u in user_response:
+            if u.email == email:
+                existing_user = u
+                break
+        
+        # If user doesn't exist yet, create a placeholder response
+        if not existing_user:
+            # Create a temporary user record for tracking
+            # We'll create the actual user when they click the magic link
+            user_data = {
+                "id": f"pending-{email.replace('@', '-at-').replace('.', '-dot-')}",
+                "email": email,
+                "first_name": first_name,
+                "last_name": last_name,
+                "role": role,
+                "school_id": school_id,
+                "created_at": str(datetime.utcnow()),
+                "email_confirmed": False,
+                "invite_sent": True,
+                "status": "pending_magic_link"
+            }
+        else:
+            # User exists, update their profile
+            print(f"🔄 Updating existing user profile for {existing_user.id}")
             
             # Update app_metadata
             supabase_client.auth.admin.update_user_by_id(
-                response.user.id,
+                existing_user.id,
                 {
                     "app_metadata": {
                         "school_id": school_id
@@ -89,9 +96,9 @@ def invite_user_db(email: str, first_name: str, last_name: str, role: List[str],
                 }
             )
             
-            # Create profile record in the profiles table
+            # Create/update profile record in the profiles table
             profile_data = {
-                "id": response.user.id,
+                "id": existing_user.id,
                 "email": email,
                 "first_name": first_name,
                 "last_name": last_name,
@@ -101,22 +108,23 @@ def invite_user_db(email: str, first_name: str, last_name: str, role: List[str],
             
             # Use upsert to handle potential conflicts
             supabase_client.table("profiles").upsert(profile_data).execute()
-            print(f"✅ User profile created successfully")
-        
-        # Format the return value properly
-        user_data = {
-            "id": response.user.id,
-            "email": response.user.email,
-            "first_name": first_name,
-            "last_name": last_name,
-            "role": role,
-            "school_id": school_id,
-            "created_at": str(response.user.created_at),
-            "email_confirmed": response.user.email_confirmed_at is not None,
-            "invite_sent": True
-        }
+            print(f"✅ User profile updated successfully")
             
-        print(f"✅ Invitation email sent to: {email}")
+            # Format the return value properly
+            user_data = {
+                "id": existing_user.id,
+                "email": existing_user.email,
+                "first_name": first_name,
+                "last_name": last_name,
+                "role": role,
+                "school_id": school_id,
+                "created_at": str(existing_user.created_at),
+                "email_confirmed": existing_user.email_confirmed_at is not None,
+                "invite_sent": True,
+                "magic_link_token": magic_link_response.get("token", "")[:8] + "..."
+            }
+            
+        print(f"✅ Magic link invitation sent to: {email}")
         return user_data
         
     except Exception as e:
