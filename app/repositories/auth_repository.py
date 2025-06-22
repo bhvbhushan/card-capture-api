@@ -19,6 +19,7 @@ def get_user_profile_db(supabase_client, user_id: str):
 
 def reset_password_db(supabase_client, email: str):
     """Send password reset email using Supabase"""
+    print(f"🚨 RESET_PASSWORD_DB FUNCTION CALLED - Version 2.0 - Email: {email}")
     print(f"📧 Sending password reset email to: {email}")
     
     # Get the frontend URL from environment with better defaults
