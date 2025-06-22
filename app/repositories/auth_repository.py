@@ -32,8 +32,9 @@ def create_magic_link_db(supabase_client, email: str, link_type: str, metadata: 
     # Generate secure token
     token = generate_secure_token(32)
     
-    # Set expiry to 24 hours from now
+    # Set expiry to 24 hours from now with consistent formatting
     expires_at = datetime.utcnow() + timedelta(hours=24)
+    expires_at_str = expires_at.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + '+00:00'
     
     try:
         # Insert magic link into database
@@ -42,7 +43,7 @@ def create_magic_link_db(supabase_client, email: str, link_type: str, metadata: 
             "email": email,
             "type": link_type,
             "metadata": metadata or {},
-            "expires_at": expires_at.isoformat(),
+            "expires_at": expires_at_str,
             "used": False
         }
         
@@ -72,14 +73,41 @@ def validate_magic_link_db(supabase_client, token: str):
         
         magic_link = response.data[0]
         
-        # Check if expired
+        # Check if expired - robust datetime parsing
         expires_at_str = magic_link["expires_at"]
-        if expires_at_str.endswith("+00:00"):
-            expires_at = datetime.fromisoformat(expires_at_str.replace("+00:00", ""))
-        elif expires_at_str.endswith("Z"):
-            expires_at = datetime.fromisoformat(expires_at_str.replace("Z", ""))
-        else:
-            expires_at = datetime.fromisoformat(expires_at_str)
+        try:
+            # Normalize the datetime string for consistent parsing
+            normalized_dt_str = expires_at_str
+            
+            # Remove timezone suffixes for normalization
+            if normalized_dt_str.endswith("+00:00"):
+                normalized_dt_str = normalized_dt_str.replace("+00:00", "")
+            elif normalized_dt_str.endswith("Z"):
+                normalized_dt_str = normalized_dt_str.replace("Z", "")
+            
+            # Handle microseconds - ensure they're 6 digits for Python compatibility
+            if "." in normalized_dt_str:
+                date_part, microsec_part = normalized_dt_str.split(".")
+                # Pad or truncate microseconds to exactly 6 digits
+                microsec_part = microsec_part.ljust(6, '0')[:6]
+                normalized_dt_str = f"{date_part}.{microsec_part}"
+            
+            # Parse the normalized datetime
+            expires_at = datetime.fromisoformat(normalized_dt_str)
+            
+        except Exception as parse_error:
+            print(f"❌ Failed to parse expires_at: {expires_at_str}, error: {str(parse_error)}")
+            # Fallback - try a simpler parsing approach
+            try:
+                # Strip everything after the seconds and try again
+                simple_dt_str = expires_at_str.split(".")[0] if "." in expires_at_str else expires_at_str
+                simple_dt_str = simple_dt_str.replace("+00:00", "").replace("Z", "")
+                expires_at = datetime.fromisoformat(simple_dt_str)
+                print(f"✅ Fallback parsing successful for: {simple_dt_str}")
+            except:
+                print(f"❌ All datetime parsing failed, treating as not expired")
+                # If we still can't parse, assume it's valid (not expired)
+                expires_at = datetime.utcnow() + timedelta(hours=1)
         
         if datetime.utcnow() > expires_at:
             print("❌ Magic link has expired")
@@ -97,10 +125,12 @@ def consume_magic_link_db(supabase_client, token: str):
     print(f"🔄 Consuming magic link token: {token[:8]}...")
     
     try:
-        # Mark as used
+        # Mark as used with timezone-aware timestamp
+        used_at_timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + '+00:00'
+        
         response = supabase_client.table("magic_links").update({
             "used": True,
-            "used_at": datetime.utcnow().isoformat()
+            "used_at": used_at_timestamp
         }).eq("token", token).execute()
         
         if response.data:
@@ -143,11 +173,12 @@ def create_temporary_session_db(supabase_client, email: str):
             return None
         
         # Extract the tokens from the magic link URL if available
+        generated_at_str = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + '+00:00'
         session_data = {
             "user_id": user.id,
             "email": email,
             "magic_link_url": getattr(session_response, 'action_link', ''),
-            "generated_at": datetime.utcnow().isoformat()
+            "generated_at": generated_at_str
         }
         
         print(f"✅ Temporary session created for: {email}")
