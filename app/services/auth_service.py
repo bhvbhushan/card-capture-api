@@ -8,7 +8,8 @@ from app.repositories.auth_repository import (
     reset_password_db,
     validate_magic_link_db,
     consume_magic_link_db,
-    create_temporary_session_db
+    create_temporary_session_db,
+    get_frontend_url
 )
 from app.utils.retry_utils import log_debug
 
@@ -108,17 +109,47 @@ async def consume_magic_link_service(token: str, link_type: str):
         
         # Process based on link type
         if link_type == "password_reset":
-            # For password reset, we'll let the frontend handle the authentication
-            # Mark magic link as consumed
-            consume_magic_link_db(supabase_client, token)
-            
-            log_debug(f"Password reset magic link processed for: {email}", service="auth")
-            return {
-                "type": "password_reset",
-                "email": email,
-                "redirect_url": "/reset-password",
-                "success": True
-            }
+            # For password reset, create a temporary session using Supabase admin
+            try:
+                # Generate a temporary access token using admin API
+                session_response = supabase_client.auth.admin.generate_link({
+                    "type": "recovery",
+                    "email": email
+                })
+                
+                if hasattr(session_response, 'error') and session_response.error:
+                    log_debug(f"Session generation error: {session_response.error}", service="auth")
+                    raise HTTPException(status_code=500, detail="Failed to create reset session")
+                
+                # Mark magic link as consumed
+                consume_magic_link_db(supabase_client, token)
+                
+                log_debug(f"Password reset session created for: {email}", service="auth")
+                return {
+                    "type": "password_reset",
+                    "email": email,
+                    "session": {
+                        "access_token": getattr(session_response, 'access_token', None),
+                        "refresh_token": getattr(session_response, 'refresh_token', None),
+                        "action_link": getattr(session_response, 'action_link', ''),
+                        "user_id": getattr(session_response, 'user', {}).get('id') if hasattr(session_response, 'user') else None
+                    },
+                    "redirect_url": "/reset-password",
+                    "success": True
+                }
+                
+            except Exception as session_error:
+                log_debug(f"Error creating password reset session: {str(session_error)}", service="auth")
+                # Fallback - mark as consumed and let frontend handle without session
+                consume_magic_link_db(supabase_client, token)
+                
+                return {
+                    "type": "password_reset",
+                    "email": email,
+                    "redirect_url": "/reset-password",
+                    "success": True,
+                    "requires_signin": True  # Flag to indicate frontend should handle signin
+                }
             
         elif link_type == "invite":
             # Simple invite handling - just validate and return metadata
