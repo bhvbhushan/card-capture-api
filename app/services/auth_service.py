@@ -137,15 +137,20 @@ async def consume_magic_link_service(token: str, link_type: str):
                     break
             
             if not existing_user:
-                # Create new user via Supabase admin
+                # Create new user via Supabase admin with a temporary password they'll change
+                import secrets
+                temp_password = secrets.token_urlsafe(32)  # Generate a secure temporary password
+                
                 create_response = supabase_client.auth.admin.create_user({
                     "email": email,
+                    "password": temp_password,  # Set temporary password so user exists properly
                     "email_confirm": True,  # Auto-confirm since they clicked the magic link
                     "user_metadata": {
                         "first_name": first_name,
                         "last_name": last_name,
                         "role": role,
-                        "school_id": school_id
+                        "school_id": school_id,
+                        "temp_password": True  # Flag that this is a temporary password
                     },
                     "app_metadata": {
                         "school_id": school_id
@@ -173,6 +178,42 @@ async def consume_magic_link_service(token: str, link_type: str):
                 user_id = existing_user.id
                 log_debug(f"Existing user found via magic link: {email}", service="auth")
             
+            # For invited users, create a session using admin token generation
+            try:
+                # Generate auth tokens for the user
+                session_response = supabase_client.auth.admin.generate_link(
+                    type="magiclink",
+                    email=email
+                )
+                
+                # Check if we got proper session data
+                if hasattr(session_response, 'action_link') and session_response.action_link:
+                    # Parse the action link to extract tokens
+                    import urllib.parse
+                    parsed_url = urllib.parse.urlparse(session_response.action_link)
+                    fragment = parsed_url.fragment
+                    
+                    if fragment:
+                        # Parse the fragment for access_token and refresh_token
+                        fragment_params = urllib.parse.parse_qs(fragment)
+                        session_data = {
+                            "access_token": fragment_params.get('access_token', [None])[0],
+                            "refresh_token": fragment_params.get('refresh_token', [None])[0],
+                            "user_created": True,
+                            "user_id": user_id
+                        }
+                        log_debug(f"Session created for invite user: {email}", service="auth")
+                    else:
+                        session_data = {"user_created": True, "user_id": user_id, "needs_manual_auth": True}
+                        log_debug(f"No session tokens in fragment for: {email}", service="auth")
+                else:
+                    session_data = {"user_created": True, "user_id": user_id, "needs_manual_auth": True}
+                    log_debug(f"No action link in response for: {email}", service="auth")
+                    
+            except Exception as session_error:
+                log_debug(f"Failed to generate session for {email}: {str(session_error)}", service="auth")
+                session_data = {"user_created": True, "user_id": user_id, "needs_manual_auth": True}
+            
             # Mark magic link as consumed
             consume_magic_link_db(supabase_client, token)
             
@@ -183,6 +224,7 @@ async def consume_magic_link_service(token: str, link_type: str):
                 "user_id": user_id,
                 "redirect_url": "/accept-invite",
                 "metadata": metadata,
+                "session": session_data,
                 "success": True
             }
         
