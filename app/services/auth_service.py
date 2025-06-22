@@ -121,83 +121,18 @@ async def consume_magic_link_service(token: str, link_type: str):
             }
             
         elif link_type == "invite":
-            # Handle user invitation - simplified version for now
-            first_name = metadata.get('first_name', '')
-            last_name = metadata.get('last_name', '')
-            role = metadata.get('role', [])
-            school_id = metadata.get('school_id', '')
-            
-            log_debug(f"Processing invite for: {email} with metadata: {metadata}", service="auth")
-            
-            try:
-                # Create new user via Supabase admin with a temporary password they'll change
-                import secrets
-                temp_password = secrets.token_urlsafe(32)  # Generate a secure temporary password
-                
-                log_debug(f"Creating user with temp password for: {email}", service="auth")
-                create_response = supabase_client.auth.admin.create_user({
-                    "email": email,
-                    "password": temp_password,  # Set temporary password so user exists properly
-                    "email_confirm": True,  # Auto-confirm since they clicked the magic link
-                    "user_metadata": {
-                        "first_name": first_name,
-                        "last_name": last_name,
-                        "role": role,
-                        "school_id": school_id,
-                        "temp_password": True  # Flag that this is a temporary password
-                    },
-                    "app_metadata": {
-                        "school_id": school_id
-                    }
-                })
-                
-                if create_response.user:
-                    user_id = create_response.user.id
-                    log_debug(f"User created successfully: {user_id}", service="auth")
-                    
-                    # Create profile record
-                    try:
-                        profile_data = {
-                            "id": user_id,
-                            "email": email,
-                            "first_name": first_name,
-                            "last_name": last_name,
-                            "role": role,
-                            "school_id": school_id
-                        }
-                        
-                        supabase_client.table("profiles").upsert(profile_data).execute()
-                        log_debug(f"Profile created for: {email}", service="auth")
-                    except Exception as profile_error:
-                        log_debug(f"Profile creation error (non-fatal): {str(profile_error)}", service="auth")
-                else:
-                    log_debug(f"Failed to create user - no user in response", service="auth")
-                    raise HTTPException(status_code=500, detail="Failed to create user")
-            
-            except Exception as user_creation_error:
-                log_debug(f"User creation error: {str(user_creation_error)}", service="auth")
-                # User might already exist, that's okay
-                user_id = "existing_user"
-            
-            # Simplified session handling - let frontend handle auth
-            session_data = {
-                "user_created": True,
-                "user_id": user_id,
-                "needs_manual_auth": True,  # Frontend will handle sign-in
-                "temp_password_info": "User needs to set password via frontend"
-            }
+            # Simple invite handling - just validate and return metadata
+            log_debug(f"Processing invite magic link for: {email}", service="auth")
             
             # Mark magic link as consumed
             consume_magic_link_db(supabase_client, token)
             
-            log_debug(f"Invite magic link processed successfully for: {email}", service="auth")
+            log_debug(f"Invite magic link processed for: {email}", service="auth")
             return {
                 "type": "invite",
                 "email": email,
-                "user_id": user_id,
                 "redirect_url": "/accept-invite",
                 "metadata": metadata,
-                "session": session_data,
                 "success": True
             }
         
@@ -208,4 +143,68 @@ async def consume_magic_link_service(token: str, link_type: str):
         raise
     except Exception as e:
         log_debug(f"Magic link processing error: {str(e)}", service="auth")
-        raise HTTPException(status_code=500, detail="Failed to process magic link") 
+        raise HTTPException(status_code=500, detail="Failed to process magic link")
+
+async def create_user_service(payload: dict):
+    """Create a new user account for invite flow"""
+    try:
+        email = payload.get("email")
+        password = payload.get("password")
+        first_name = payload.get("first_name", "")
+        last_name = payload.get("last_name", "")
+        role = payload.get("role", [])
+        school_id = payload.get("school_id", "")
+        
+        if not email or not password:
+            raise HTTPException(status_code=400, detail="Email and password are required")
+        
+        log_debug(f"Creating user account for: {email}", service="auth")
+        
+        # Create user with their actual password (simplified approach)
+        try:
+            create_response = supabase_client.auth.admin.create_user({
+                "email": email,
+                "password": password,
+                "email_confirm": True  # Auto-confirm since they came from magic link
+            })
+            
+            if not create_response.user:
+                raise HTTPException(status_code=500, detail="Failed to create user account")
+            
+            user_id = create_response.user.id
+            log_debug(f"User created successfully: {user_id}", service="auth")
+            
+        except Exception as create_error:
+            log_debug(f"User creation error: {str(create_error)}", service="auth")
+            raise HTTPException(status_code=500, detail=f"Failed to create user: {str(create_error)}")
+        
+        # Try to create profile record (non-critical)
+        try:
+            profile_data = {
+                "id": user_id,
+                "email": email,
+                "first_name": first_name,
+                "last_name": last_name,
+                "role": role,
+                "school_id": school_id
+            }
+            
+            supabase_client.table("profiles").upsert(profile_data).execute()
+            log_debug(f"Profile created for: {email}", service="auth")
+        except Exception as profile_error:
+            log_debug(f"Profile creation error (non-fatal): {str(profile_error)}", service="auth")
+            # Don't fail the whole process for profile errors
+        
+        log_debug(f"User account created successfully for: {email}", service="auth")
+        return {
+            "success": True,
+            "user_id": user_id,
+            "email": email,
+            "message": "User account created successfully"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        log_debug(f"User creation error: {str(e)}", service="auth")
+        raise HTTPException(status_code=500, detail="Failed to create user account") 

@@ -5,7 +5,8 @@ from app.controllers.auth_controller import (
     read_current_user_controller,
     reset_password_controller,
     validate_magic_link_controller,
-    consume_magic_link_controller
+    consume_magic_link_controller,
+    create_user_controller
 )
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -33,4 +34,9 @@ async def consume_magic_link(
     link_type: str = Query(...)
 ):
     """Process a magic link after validation"""
-    return await consume_magic_link_controller(token, link_type) 
+    return await consume_magic_link_controller(token, link_type)
+
+@router.post("/create-user")
+async def create_user(payload: dict = Body(...)):
+    """Create a new user account for invite flow"""
+    return await create_user_controller(payload) 

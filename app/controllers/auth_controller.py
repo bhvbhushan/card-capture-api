@@ -3,7 +3,8 @@ from app.services.auth_service import (
     read_current_user_service,
     reset_password_service,
     validate_magic_link_service,
-    consume_magic_link_service
+    consume_magic_link_service,
+    create_user_service
 )
 
 async def login_controller(credentials: dict):
@@ -19,4 +20,8 @@ async def validate_magic_link_controller(token: str):
     return await validate_magic_link_service(token)
 
 async def consume_magic_link_controller(token: str, link_type: str):
-    return await consume_magic_link_service(token, link_type) 
+    return await consume_magic_link_service(token, link_type)
+
+async def create_user_controller(payload: dict):
+    """Create a new user account for invite flow"""
+    return await create_user_service(payload) 
